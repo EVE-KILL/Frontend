@@ -1,32 +1,12 @@
 <script>
-	function toggle(ids) {
-		var ele = document.getElementById(ids);
-		if (ele.style.display == "block") {
-			ele.style.display = "none";
-			//text.innerHTML = "show";
-		} else {
-			ele.style.display = "block";
-			ele.style.display = "none";
-			//text.innerHTML = "hide";
-		}
-	}
 
-	function Toggle() {
-		var el = document.getElementById("ToggleTarget");
-		if (el.style.display == "block") {
-			el.style.display = "none";
-		}
-		else {
-			el.style.display = "block";
-		}
-	}
 </script>
 <div id="main_menu">
 	<ul>
 		<div class="navigation-section">
 			<li><a class="link" href="/">Home</a></li>
-			<li class="dropdown" onclick="toggle('dropdown-content')">Kills
-				<div id="dropdown-content" class="dropdown-content">
+			<li class="dropdown">Kills
+				<div class="dropdown-content">
 					<table>
 						<tr>
 							<th><a class="link" href="/latest/">Latest</a></th>
