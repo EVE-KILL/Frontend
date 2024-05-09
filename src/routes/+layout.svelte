@@ -79,6 +79,3 @@
 		</section>
 	</div>
 </div>
-<slot></slot>
-
-<style></style>
