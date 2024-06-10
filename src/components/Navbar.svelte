@@ -27,7 +27,7 @@
     }
 </script>
 
-<nav class="bg-gray-800 p-4">
+<nav class="bg-transparent p-4">
     <div class="flex justify-between items-center">
         <div class="flex items-left">
             <ul class="flex items-center space-x-4">
@@ -134,7 +134,7 @@
             </ul>
         </div>
         <div class="flex items-center justify-center w-80">
-            <form class="max-w-full">
+            <!--<form class="max-w-full">
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -147,7 +147,7 @@
                            class="block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Search..." />
                 </div>
-            </form>
+            </form>-->
         </div>
         <div class="flex items-right">
             <ul class="flex items-center space-x-4">

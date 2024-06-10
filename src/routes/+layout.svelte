@@ -7,8 +7,22 @@
     <div id="inner-content" class="inner-content">
         <Navbar />
 
-        <div class="container mx-auto mt-10">
+        <div class="container mx-auto -mt-2">
+            <div id="page-title" class="page-title">
+                <div class="text-white text-2xl font-bold">Frontpage</div>
+                <!-- underline across the entire width -->
+                <div class="border-b-2 border-gray-800 w-full mt-2"/>
+            </div>
             <slot />
         </div>
     </div>
 </div>
+
+<style>
+    .container {
+        background-color: #151515;
+        padding: 15px;
+        border: 2px solid #252525;
+        border-radius: 10px;
+    }
+</style>
