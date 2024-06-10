@@ -13,7 +13,7 @@
     let currentDate;
 
     function formatDate(dateString) {
-        const options = { weekday: 'long', month: 'long', day: 'numeric' };
+        const options = { weekday: 'long', month: 'long', day: '2-digit' };
         let formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
         return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
     }
@@ -23,8 +23,6 @@
         loading = true;
         const newKills = await fetchKillList(url, page);
         if (currentDate && new Date(newKills[0].kill_time_str).getTime() < currentDate.getTime()) {
-            // Stop loading more killmails, print the date, and start a new killlist
-            console.log(formatDate(newKills[0].kill_time_str));
             kills = newKills;
         } else {
             kills = [...kills, ...newKills];
