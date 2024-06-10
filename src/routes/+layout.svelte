@@ -7,7 +7,7 @@
     <div id="inner-content" class="inner-content">
         <Navbar />
 
-        <div class="container mx-auto -mt-2">
+        <div class="container mx-auto">
             <div id="page-title" class="page-title">
                 <div class="text-white text-2xl font-bold">Frontpage</div>
                 <!-- underline across the entire width -->

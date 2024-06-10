@@ -27,7 +27,7 @@
     }
 </script>
 
-<nav class="bg-transparent p-4">
+<nav class="bg-transparent p-2">
     <div class="flex justify-between items-center">
         <div class="flex items-left">
             <ul class="flex items-center space-x-4">
