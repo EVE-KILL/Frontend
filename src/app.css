@@ -4,7 +4,7 @@
 
 /* Make the background black and add the src/images/bg.jpg as background */
 html, body {
-    background: url('./images/bg.jpg') no-repeat black top center;
+    background: url('./images/bg.jpg') no-repeat  black top center fixed;
     text-shadow: 1px 1px 1px #0e0e0e;
 }
 
