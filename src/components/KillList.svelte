@@ -3,18 +3,33 @@
 
     import { onMount, afterUpdate } from 'svelte';
     import { fetchKillList } from '$lib/fetchKillList.js';
+    import dayImage from '../images/day.png';
 
     let kills = [];
     let page = 1;
     let loading = false;
     let sentinel;
     let observer;
+    let currentDate;
+
+    function formatDate(dateString) {
+        const options = { weekday: 'long', month: 'long', day: 'numeric' };
+        let formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
+        return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    }
 
     async function loadMore() {
         if (loading) return;
         loading = true;
         const newKills = await fetchKillList(url, page);
-        kills = [...kills, ...newKills];
+        if (currentDate && new Date(newKills[0].kill_time_str).getTime() < currentDate.getTime()) {
+            // Stop loading more killmails, print the date, and start a new killlist
+            console.log(formatDate(newKills[0].kill_time_str));
+            kills = newKills;
+        } else {
+            kills = [...kills, ...newKills];
+        }
+        currentDate = new Date(newKills[0].kill_time_str);
         page++;
         loading = false;
     }
@@ -45,6 +60,13 @@
         return formatter.format(value);
     }
 </script>
+
+<div class="flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+        <img src="{dayImage}"/>
+        <h2 class="text-white">{formatDate(currentDate)}</h2>
+    </div>
+</div>
 
 <div class="overflow-x-auto">
     <table class="table-auto w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
