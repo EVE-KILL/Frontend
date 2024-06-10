@@ -4,22 +4,22 @@
 
 /* Make the background black and add the src/images/bg.jpg as background */
 html, body {
-  background: url('./images/bg.jpg') no-repeat black top center;
-  text-shadow: 1px 1px 1px #0e0e0e;
+    background: url('./images/bg.jpg') no-repeat black top center;
+    text-shadow: 1px 1px 1px #0e0e0e;
 }
 
 #content {
-  position: relative;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 7px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 7px;
 }
 
-#content > #inner-content {
-  position: relative;
-  display: block;
-  border: 5px solid rgba(0, 0, 0, 0.5);
-  padding: 0px 20px 20px 20px;
-  background: rgba(0, 0, 0, 0.8);
-  margin-bottom: 5px;
+#content > #inner-contentß {
+    position: relative;
+    display: block;
+    border: 5px solid rgba(0, 0, 0, 0.5);
+    padding: 0px 20px 20px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    margin-bottom: 5px;
 
 }
