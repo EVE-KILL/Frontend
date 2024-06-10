@@ -1,7 +1,40 @@
 <script>
-    import involvedImage from '../images/involved.png';
+    export let url;
 
-    export let kills = [];
+    import { onMount, afterUpdate } from 'svelte';
+    import { fetchKillList } from '$lib/fetchKillList.js';
+
+    let kills = [];
+    let page = 1;
+    let loading = false;
+    let sentinel;
+    let observer;
+
+    async function loadMore() {
+        if (loading) return;
+        loading = true;
+        const newKills = await fetchKillList(url, page);
+        kills = [...kills, ...newKills];
+        page++;
+        loading = false;
+    }
+
+    onMount(async () => {
+        loadMore();
+        observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                loadMore();
+            }
+        }, { threshold: 1 });
+    });
+
+    afterUpdate(() => {
+        if (sentinel) {
+            observer.observe(sentinel);
+        }
+    });
+
+    import involvedImage from '../images/involved.png';
 
     function formatNumber(value) {
         const formatter = new Intl.NumberFormat('en-US', {
@@ -66,3 +99,6 @@
         </tbody>
     </table>
 </div>
+
+<!-- Add a sentinel element at the bottom of your page -->
+<div bind:this={sentinel}></div>
