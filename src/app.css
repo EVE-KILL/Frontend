@@ -14,7 +14,7 @@ html, body {
     padding: 7px;
 }
 
-#content > #inner-contentß {
+#content > #inner-content {
     position: relative;
     display: block;
     border: 5px solid rgba(0, 0, 0, 0.5);

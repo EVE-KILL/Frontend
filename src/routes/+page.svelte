@@ -1,16 +1,40 @@
 <script>
+    import { onMount, afterUpdate } from 'svelte';
     import KillList from '../components/KillList.svelte';
-    import { onMount } from 'svelte';
     import { fetchKillList } from '$lib/fetchKillList.js';
 
-    // Define the killlist data
     let kills = [];
+    let page = 1;
+    let loading = false;
+    let sentinel;
+    let observer;
 
-    // Fetch the killlist data
+    async function loadMore() {
+        if (loading) return;
+        loading = true;
+        const newKills = await fetchKillList(page);
+        kills = [...kills, ...newKills];
+        page++;
+        loading = false;
+    }
+
     onMount(async () => {
-        kills = await fetchKillList();
+        loadMore();
+        observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                loadMore();
+            }
+        }, { threshold: 1 });
     });
 
+    afterUpdate(() => {
+        if (sentinel) {
+            observer.observe(sentinel);
+        }
+    });
 </script>
-ß
+
 <KillList {kills} />
+
+<!-- Add a sentinel element at the bottom of your page -->
+<div bind:this={sentinel}></div>
