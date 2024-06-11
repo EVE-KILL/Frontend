@@ -18,8 +18,9 @@
         if (loading) return;
         loading = true;
         const newKills = await fetchKillList(url, page);
-        newKills.forEach(kill => killmailIds.add(kill.killmail_id)); // Add each killmail_id to the Set
-        kills = [...kills, ...newKills];
+        const uniqueKills = newKills.filter(kill => !killmailIds.has(kill.killmail_id));
+        uniqueKills.forEach(kill => killmailIds.add(kill.killmail_id));
+        kills = [...kills, ...uniqueKills];
         page++;
         loading = false;
     }
@@ -49,7 +50,7 @@
             // Check if the killmail_id is already in the Set
             if (!killmailIds.has(newKill.killmail_id)) {
                 // If it's not, add it to the kills array and the Set
-                kills = [newKill, ...kills];
+                kills = [{...newKill}, ...kills];
                 killmailIds.add(newKill.killmail_id);
             }
         });
