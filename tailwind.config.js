@@ -5,6 +5,7 @@ export default {
     ],
     theme: {
         extend: {
+            display: ['responsive'],
             fontFamily: {
                 sans: ['Shentox', 'sans-serif']
             },

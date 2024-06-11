@@ -49,9 +49,14 @@
 
             // Check if the killmail_id is already in the Set
             if (!killmailIds.has(newKill.killmail_id)) {
-                // If it's not, add it to the kills array and the Set
-                kills = [{...newKill}, ...kills];
-                killmailIds.add(newKill.killmail_id);
+                // Only add the kill if it has a date newer than the latest kill in the list
+                let newKillKillTime = new Date(newKill.kill_time_str);
+                let killsKillTime = new Date(kills[0].kill_time_str);
+                if (newKillKillTime.getTime() > killsKillTime.getTime()) {
+                    // Add the new kill to the kills array
+                    kills = [{...newKill}, ...kills];
+                    killmailIds.add(newKill.killmail_id);
+                }
             }
         });
     });
@@ -75,16 +80,16 @@
 </script>
 
 <div class="overflow-x-auto">
-    <table class="table-auto w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+    <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
         <thead>
-        <tr class="bg-darker text-white uppercase text-xs leading-normal">
-            <th class="px-2 py-1"></th>
-            <th class="px-2 py-1" scope="col">Ship</th>
-            <th class="px-2 py-1"></th>
-            <th class="px-2 py-1" scope="col">Victim</th>
-            <th class="px-2 py-1" scope="col">Final Blow</th>
-            <th class="px-2 py-1" scope="col">Location</th>
-        </tr>
+            <tr class="bg-darker text-white uppercase text-xs leading-normal">
+                <th class="px-2 py-1" scope="col"></th>
+                <th class="px-2 py-1" scope="col">Ship</th>
+                <th class="px-2 py-1" scope="col"></th>
+                <th class="px-2 py-1" scope="col">Victim</th>
+                <th class="px-2 py-1" scope="col">Final Blow</th>
+                <th class="px-2 py-1" scope="col">Location</th>
+            </tr>
         </thead>
 
         <tbody class="text-gray-300 text-sm">
