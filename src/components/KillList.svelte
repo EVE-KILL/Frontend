@@ -1,33 +1,25 @@
-<script>
-    export let url;
+<script lang="ts">
+    import type { Killmail } from '../types/Killmail';
+
+    export let url: string;
+    export let wsSubscription: Array = ['all'];
 
     import { onMount, afterUpdate } from 'svelte';
     import { fetchKillList } from '$lib/fetchKillList.js';
-    import dayImage from '../images/day.png';
 
-    let kills = [];
-    let page = 1;
-    let loading = false;
-    let sentinel;
-    let observer;
-    let currentDate;
-
-    function formatDate(dateString) {
-        const options = { weekday: 'long', month: 'long', day: '2-digit' };
-        let formattedDate = new Date(dateString).toLocaleDateString(undefined, options);
-        return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-    }
+    let kills: Killmail[] = [];
+    let page: number = 1;
+    let loading: boolean = false;
+    let sentinel: HTMLDivElement;
+    let observer: IntersectionObserver;
+    let killmailIds = new Set();
 
     async function loadMore() {
         if (loading) return;
         loading = true;
         const newKills = await fetchKillList(url, page);
-        if (currentDate && new Date(newKills[0].kill_time_str).getTime() < currentDate.getTime()) {
-            kills = newKills;
-        } else {
-            kills = [...kills, ...newKills];
-        }
-        currentDate = new Date(newKills[0].kill_time_str);
+        newKills.forEach(kill => killmailIds.add(kill.killmail_id)); // Add each killmail_id to the Set
+        kills = [...kills, ...newKills];
         page++;
         loading = false;
     }
@@ -39,6 +31,28 @@
                 loadMore();
             }
         }, { threshold: 1 });
+
+        // Create a new WebSocket connection
+        const socket = new WebSocket('wss://eve-kill.com/kills');
+
+        // Set up an event listener for the 'open' event
+        socket.addEventListener('open', () => {
+            // Send the subscription message when the connection is open
+            socket.send(JSON.stringify({ type: 'subscribe', data: wsSubscription }));
+        });
+
+        // Set up an event listener for the 'message' event
+        socket.addEventListener('message', event => {
+            // Parse the message data as JSON
+            const newKill = JSON.parse(event.data);
+
+            // Check if the killmail_id is already in the Set
+            if (!killmailIds.has(newKill.killmail_id)) {
+                // If it's not, add it to the kills array and the Set
+                kills = [newKill, ...kills];
+                killmailIds.add(newKill.killmail_id);
+            }
+        });
     });
 
     afterUpdate(() => {
@@ -49,7 +63,7 @@
 
     import involvedImage from '../images/involved.png';
 
-    function formatNumber(value) {
+    function formatNumber(value: number) {
         const formatter = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -58,13 +72,6 @@
         return formatter.format(value);
     }
 </script>
-
-<div class="flex justify-between items-center">
-    <div class="flex items-center space-x-2">
-        <img src="{dayImage}"/>
-        <h2 class="text-white">{formatDate(currentDate)}</h2>
-    </div>
-</div>
 
 <div class="overflow-x-auto">
     <table class="table-auto w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">

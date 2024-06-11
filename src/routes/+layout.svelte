@@ -20,7 +20,7 @@
 
 <style>
     .container {
-        background-color: #151515;
+        background-color: rgba(21, 21, 21, 0.7);
         padding: 15px;
         border: 2px solid #252525;
         border-radius: 10px;
