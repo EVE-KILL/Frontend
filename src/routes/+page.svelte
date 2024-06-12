@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
     import KillList from '../components/KillList.svelte';
     import Characters from '../components/Top10Boxes/Characters.svelte';
     import Corporations from '../components/Top10Boxes/Corporations.svelte';
     import Alliances from '../components/Top10Boxes/Alliances.svelte';
     import Systems from '../components/Top10Boxes/Systems.svelte';
     import Regions from '../components/Top10Boxes/Regions.svelte';
+    import { pageTitle } from '../stores/pageTitleStore';
+    pageTitle.set("Frontpage");
+
     const url = "https://eve-kill.com/api/killlist/latest";
 </script>
 

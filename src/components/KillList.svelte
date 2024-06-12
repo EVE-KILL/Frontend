@@ -76,18 +76,25 @@
 
         return formatter.format(value);
     }
+
+    function truncateString(str: string, num: number) {
+        if (str.length <= num) {
+            return str;
+        }
+        return str.slice(0, num) + '...';
+    }
 </script>
 
 <div class="overflow-x-auto" role="table">
     <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
         <thead>
             <tr class="bg-darker text-white uppercase text-xs leading-normal">
-                <th class="px-2 py-1 w-[32px]" scope="col"></th>
-                <th class="px-2 py-1 w-4" scope="col">Ship</th>
-                <th class="px-2 py-1 w-[32px]" scope="col"></th>
-                <th class="px-2 py-1 w-4" scope="col">Victim</th>
-                <th class="px-2 py-1 w-4" scope="col">Final Blow</th>
-                <th class="px-2 py-1 w-10" scope="col">Location</th>
+                <th class="px-2 py-1 w-[64px]" scope="col"></th>
+                <th class="px-2 py-1" scope="col">Ship</th>
+                <th class="px-2 py-1 w-[64px]" scope="col"></th>
+                <th class="px-2 py-1" scope="col">Victim</th>
+                <th class="px-2 py-1" scope="col">Final Blow</th>
+                <th class="px-2 py-1" scope="col">Location</th>
             </tr>
         </thead>
 
@@ -95,23 +102,25 @@
             {#each kills as kill (kill.killmail_id)}
                 <tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={window.location.href = `/kill/${kill.killmail_id}`}>
                     <td class="px-2 py-1">
-                        <img src="{kill.victim.ship_image_url}?size=32" alt="Ship: {kill.victim.ship_name}" class="w-10 rounded">
+                        <img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="w-10 rounded">
                     </td>
                     <td class="px-2 py-1">
-                        {kill.victim.ship_name}<br><span class="text-gray-400">{formatNumber(kill.total_value)} ISK</span>
+                        {truncateString(kill.victim.ship_name, 20)}<br/>
+                        <span class="text-gray-400">{formatNumber(kill.total_value)} ISK</span>
                     </td>
                     <td class="px-2 py-1">
-                        <img src="{kill.victim.character_image_url}?size=32" alt="Character: {kill.victim.character_name}" class="w-10 rounded">
+                        <img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="w-10 rounded">
                     </td>
                     <td class="px-2 py-1">
-                        {kill.victim.character_name}<br><span class="text-gray-400">{kill.victim.corporation_name}</span>
+                        {kill.victim.character_name}<br/>
+                        <span class="text-gray-400">{truncateString(kill.victim.corporation_name, 22)}</span>
                     </td>
                     <td class="px-2 py-1">
                         {#if Array.isArray(kill.attackers)}
                             {#each kill.attackers as attacker}
                                 {#if attacker.final_blow === true}
-                                    {attacker.character_name}<br><span
-                                    class="text-gray-400">{attacker.corporation_name}</span>
+                                    {attacker.character_name}<br/>
+                                    <span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
                                 {/if}
                             {/each}
                         {/if}
