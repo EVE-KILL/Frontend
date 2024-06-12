@@ -7,14 +7,12 @@
     <div id="inner-content" class="inner-content">
         <Navbar />
 
-        <div class="container mx-auto">
-            <div id="page-title" class="page-title">
-                <div class="text-white text-2xl font-bold">Frontpage</div>
-                <!-- underline across the entire width -->
-                <div class="border-b-2 border-gray-800 w-full mt-2"/>
-            </div>
-            <slot />
+        <div id="page-title" class="page-title">
+            <div class="text-white text-2xl font-bold">Frontpage</div>
+            <!-- underline across the entire width -->
+            <div class="border-b-2 border-gray-800 w-full mt-2"/>
         </div>
+        <slot />
     </div>
 </div>
 
