@@ -12,16 +12,10 @@
 </script>
 
 <div class="overflow-x-auto" role="table">
-    <div class="text-white font-bold text-sm">
-        <div>Top 10 Characters</div>
-    </div>
-
     <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
         <thead>
         <tr class="bg-darker text-white uppercase text-xs leading-normal">
-            <th class="px-2 py-1" scope="col"></th>
-            <th class="px-2 py-1" scope="col"></th>
-            <th class="px-2 py-1" scope="col"></th>
+            <th class="px-2 py-1" scope="col" colspan="3">Top 10 Characters</th>
         </tr>
         </thead>
         <tbody class="text-gray-300 text-sm">

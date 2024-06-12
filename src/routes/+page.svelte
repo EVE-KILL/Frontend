@@ -4,11 +4,19 @@
     const url = "https://eve-kill.com/api/killlist/latest";
 </script>
 
-<div class="container flex h-screen">
-    <div class="w-1/4 p-4">
+<div class="container flex h-screen p-2 pt-4 gap-2">
+    <div class="w-1/4">
         <Characters url="https://eve-kill.com/api/stats/top10characters" />
     </div>
     <div class="w-full">
         <KillList {url} />
     </div>
 </div>
+
+<style>
+    .container {
+        background-color: rgba(21, 21, 21, 0.7);
+        border: 2px solid #252525;
+        border-radius: 10px;
+    }
+</style>

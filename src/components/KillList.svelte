@@ -78,7 +78,7 @@
     }
 </script>
 
-<div class="killlist overflow-x-auto" role="table">
+<div class="overflow-x-auto" role="table">
     <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
         <thead>
             <tr class="bg-darker text-white uppercase text-xs leading-normal">
@@ -134,9 +134,3 @@
 
 <!-- Add a sentinel element at the bottom of your page -->
 <div bind:this={sentinel}></div>
-
-<style>
-    .killlist {
-        padding-top: 15px;
-    }
-</style>
