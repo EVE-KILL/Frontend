@@ -7,10 +7,8 @@
     <div id="inner-content" class="inner-content">
         <Navbar />
 
-        <div id="page-title" class="page-title">
+        <div id="page-title" class="page-title pb-2 ml-5">
             <div class="text-white text-2xl font-bold">Frontpage</div>
-            <!-- underline across the entire width -->
-            <div class="border-b-2 border-gray-800 w-full mt-2"/>
         </div>
         <slot />
     </div>
