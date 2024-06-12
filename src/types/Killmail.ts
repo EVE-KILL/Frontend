@@ -1,6 +1,6 @@
-import type { Attacker } from 'Killmail/Attacker';
-import type { Item } from 'Killmail/Item';
-import type { Victim } from 'Killmail/Victim';
+import type { Attacker } from './Killmail/Attacker';
+import type { Item } from './Killmail/Item';
+import type { Victim } from './Killmail/Victim';
 
 export interface Killmail {
 	attackers: Attacker[];
@@ -9,7 +9,8 @@ export interface Killmail {
 	killmail_id: number;
 	hash: string;
 	dna: string;
-	fitting_value: Number;
+	fitting_value: number;
+	total_value: number;
 	is_npc: boolean;
 	is_solo: boolean;
 	kill_time: string;
