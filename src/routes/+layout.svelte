@@ -17,9 +17,7 @@
             <div class="text-white text-2xl font-bold">{title}</div>
         </div>
 
-        <div class="container flex p-2 pt-4 gap-2">
-            <slot />
-        </div>
+        <slot />
     </div>
 </div>
 

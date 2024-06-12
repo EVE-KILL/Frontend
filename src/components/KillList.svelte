@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { Killmail } from '../types/Killmail';
     import { onMount, afterUpdate } from 'svelte';
-    import { fetchKillList } from '$lib/fetchKillList.js';
+    import { fetchKillList } from '$lib/fetchKillList.ts';
+    import { formatNumber } from '$lib/Helpers.ts';
 
     export let url: string;
     export let wsSubscription: string[] = ['all'];
@@ -67,15 +68,6 @@
     });
 
     import involvedImage from '../images/involved.png';
-
-    function formatNumber(value: number) {
-        const formatter = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-
-        return formatter.format(value);
-    }
 
     function truncateString(str: string, num: number) {
         if (str.length <= num) {
