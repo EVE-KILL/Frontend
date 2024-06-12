@@ -6,9 +6,6 @@
 	import Alliances from '../components/Top10Boxes/Alliances.svelte';
 	import Systems from '../components/Top10Boxes/Systems.svelte';
 	import Regions from '../components/Top10Boxes/Regions.svelte';
-	import { pageTitle } from '../stores/pageTitleStore';
-	pageTitle.set('Frontpage');
-
 	const url = 'https://eve-kill.com/api/killlist/latest';
 </script>
 
