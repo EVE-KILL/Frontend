@@ -72,12 +72,13 @@
 
 	import involvedImage from '../images/involved.png';
 
-	function truncateString(str: string, num: number) {
-		if (str.length <= num) {
-			return str;
-		}
-		return str.slice(0, num) + '...';
-	}
+    function truncateString(str: any, num: number) {
+        let stringifiedStr = String(str);
+        if (stringifiedStr.length <= num) {
+            return stringifiedStr;
+        }
+        return stringifiedStr.slice(0, num) + '...';
+    }
 </script>
 
 <div class="overflow-x-auto" role="table">
