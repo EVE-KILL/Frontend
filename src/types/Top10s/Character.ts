@@ -1,4 +1,4 @@
-export interface Characters {
+export interface Character {
     alliance_id: number;
     alliance_name: string;
     birthday: string;
