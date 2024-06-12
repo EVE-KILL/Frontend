@@ -119,8 +119,13 @@
                         {#if Array.isArray(kill.attackers)}
                             {#each kill.attackers as attacker}
                                 {#if attacker.final_blow === true}
-                                    {attacker.character_name}<br/>
-                                    <span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
+                                    {#if kill.is_npc === true }
+                                        {attacker.faction_name}<br/>
+                                        <span class="text-gray-400">{truncateString(attacker.ship_group_name, 22)}</span>
+                                    {:else}
+                                        {attacker.character_name}<br/>
+                                        <span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
+                                    {/if}
                                 {/if}
                             {/each}
                         {/if}
