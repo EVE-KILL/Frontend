@@ -3,26 +3,24 @@
 @tailwind utilities;
 
 /* Make the background black and add the src/images/bg.jpg as background */
-html, body {
-    background: url('./images/bg.jpg') no-repeat  black top center fixed;
-    text-shadow: 1px 1px 1px #0e0e0e;
-    margin-top: 10px;
-    font-family: 'Shentox', sans-serif;
-    font-size: 1.1em;
+html,
+body {
+	background: url('./images/bg.jpg') no-repeat black top center fixed;
+	text-shadow: 1px 1px 1px #0e0e0e;
+	margin-top: 10px;
+	font-family: 'Shentox', sans-serif;
+	font-size: 1.1em;
 }
 
 #content {
-
-    background: rgba(255, 255, 255, 0.08);
-    padding: 7px;
+	background: rgba(255, 255, 255, 0.08);
+	padding: 7px;
 }
 
 #content > #inner-content {
-
-    display: block;
-    border: 5px solid rgba(0, 0, 0, 0.5);
-    padding: 0px 20px 20px 20px;
-    background: rgba(0, 0, 0, 0.8);
-    margin-bottom: 5px;
-
+	display: block;
+	border: 5px solid rgba(0, 0, 0, 0.5);
+	padding: 0px 20px 20px 20px;
+	background: rgba(0, 0, 0, 0.8);
+	margin-bottom: 5px;
 }
