@@ -37,7 +37,7 @@
 		);
 
 		// Create a new WebSocket connection
-		const socket = new WebSocket('wss://eve-kill.com/kills');
+		const socket = new WebSocket('wss://ws.eve-kill.com/kills');
 
 		// Set up an event listener for the 'open' event
 		socket.addEventListener('open', () => {
