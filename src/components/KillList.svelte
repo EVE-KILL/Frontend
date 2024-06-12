@@ -106,7 +106,9 @@
                     </td>
                     <td class="px-2 py-1">
                         {truncateString(kill.victim.ship_name, 20)}<br/>
-                        <span class="text-gray-400">{formatNumber(kill.total_value)} ISK</span>
+                        {#if kill.total_value > 50}
+                            <span class="text-gray-400">{formatNumber(kill.total_value)} ISK</span>
+                        {/if}
                     </td>
                     <td class="px-2 py-1">
                         <img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="w-10 rounded">
