@@ -3,6 +3,7 @@
     import { onMount } from 'svelte';
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
+    import Corporations from './corporations.svelte';
     import Members from './members.svelte';
 
     export let data;
@@ -78,6 +79,7 @@
                 <ul class="flex space-x-4">
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Kills)}>Kills</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Losses)}>Losses</li>
+                    <li class="hover:underline" on:click|preventDefault={() => loadComponent(Corporations)}>Corporations</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Members)}>Members</li>
                 </ul>
             </nav>
