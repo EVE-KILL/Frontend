@@ -77,7 +77,7 @@
                         </tr>
                         <tr>
                             <td class="font-bold text-right p-2">Sec. Status:</td>
-                            <td>{character.security_status}</td>
+                            <td>{character.security_status.toFixed(3)}</td>
                         </tr>
                         </tbody>
                     </table>
