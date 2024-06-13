@@ -4,6 +4,7 @@
     import Information from './information.svelte';
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
+    import Members from './members.svelte';
 
     export let data;
     let corporation: Corporation
@@ -88,6 +89,7 @@
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Information)}>Info</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Kills)}>Kills</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Losses)}>Losses</li>
+                    <li class="hover:underline" on:click|preventDefault={() => loadComponent(Members)}>Members</li>
                 </ul>
             </nav>
         </div>

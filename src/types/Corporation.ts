@@ -1,4 +1,4 @@
-export interface Character {
+export interface Corporation {
     alliance_id: number
     alliance_name: string
     ceo_id: number
