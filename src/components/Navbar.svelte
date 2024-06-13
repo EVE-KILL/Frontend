@@ -32,14 +32,10 @@
     async function handleSearch(event) {
         searchTerm = event.target.value;
         if (searchTerm.length > 2) {
-            try {
-                const response = await fetch(`https://eve-kill.com/api/search/${searchTerm}`);
-                let results = await response.json();
-                searchResults = results.hits;
-                isSearchDropdownOpen = true;
-            } catch (error) {
-                console.error('Error fetching search results:', error);
-            }
+            const response = await fetch(`https://eve-kill.com/api/search/${searchTerm}`);
+            let results = await response.json();
+            searchResults = results.hits;
+            isSearchDropdownOpen = true;
         } else {
             isSearchDropdownOpen = false;
             searchResults = [];
@@ -266,10 +262,8 @@
                     <ul class="absolute left-0 mt-2 w-full bg-gray-800 rounded-md shadow-lg z-10"
                         on:mouseleave={closeSearchDropdown}>
                         {#each searchResults as result}
-                            <li>
-                                <a href="/{result.type}/{result.id}" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">
-                                    {result.name}
-                                </a>
+                            <li class="block px-4 py-2 text-sm text-white hover:bg-gray-700" on:click={window.location.href=`/${result.type}/${result.id}`}>
+                                {result.name}
                             </li>
                         {/each}
                     </ul>
