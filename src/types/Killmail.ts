@@ -14,7 +14,6 @@ export interface Killmail {
 	is_npc: boolean;
 	is_solo: boolean;
 	kill_time: string;
-	kill_time_str: string;
 	last_modified: string;
 	near: string;
 	point_value: number;

@@ -5,7 +5,7 @@
 	import { formatNumber } from '$lib/Helpers.ts';
 
 	export let url: string;
-	export let wsSubscription: string[] = ['all'];
+	export let wsFilter = ['all'];
 
 	let kills: Killmail[] = [];
 	let page: number = 1;
@@ -42,7 +42,7 @@
 		// Set up an event listener for the 'open' event
 		socket.addEventListener('open', () => {
 			// Send the subscription message when the connection is open
-			socket.send(JSON.stringify({ type: 'subscribe', data: wsSubscription }));
+			socket.send(JSON.stringify({ type: 'subscribe', data: wsFilter }));
 		});
 
 		// Set up an event listener for the 'message' event
@@ -53,8 +53,8 @@
 			// Check if the killmail_id is already in the Set
 			if (!killmailIds.has(newKill.killmail_id)) {
 				// Only add the kill if it has a date newer than the latest kill in the list
-				let newKillKillTime = new Date(newKill.kill_time_str);
-				let killsKillTime = new Date(kills[0].kill_time_str);
+				let newKillKillTime = new Date(newKill.kill_time);
+				let killsKillTime = new Date(kills[0].kill_time);
 				if (newKillKillTime.getTime() > killsKillTime.getTime()) {
 					// Add the new kill to the kills array
 					kills = [{ ...newKill }, ...kills];
@@ -152,7 +152,7 @@
 								<span class="text-gray-400">{kill.attackers.length}</span>
 								<img src={involvedImage} alt="{kill.attackers.length} Involved" />
 							</div>
-							<div class="text-right text-gray-500">{kill.kill_time_str}</div>
+							<div class="text-right text-gray-500">{kill.kill_time}</div>
 						</div>
 					</td>
 				</tr>
