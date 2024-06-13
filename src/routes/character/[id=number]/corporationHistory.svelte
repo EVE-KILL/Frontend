@@ -18,8 +18,8 @@
             <thead>
             <tr class="bg-darker text-white uppercase text-xs leading-normal">
                 <th class="px-2 py-1" scope="col">Corporation</th>
-                <th class="px-2 py-1" scope="col">Start Date</th>
-                <th class="px-2 py-1" scope="col">End Date</th>
+                <th class="px-2 py-1" scope="col">Join Date</th>
+                <th class="px-2 py-1" scope="col">Leave Date</th>
             </tr>
             </thead>
             <tbody class="text-gray-300 text-sm">
@@ -30,9 +30,7 @@
                     <td class="px-2 py-1">{history.join_date}</td>
                     <td class="px-2 py-1">
                         {#if history.leave_date}
-                            {history.leave_date}
-                        {:else}
-                            Present
+                        {history.leave_date}
                         {/if}
                     </td>
                 </tr>
