@@ -4,6 +4,7 @@
     import Information from './information.svelte';
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
+    import CorporationHistory from './corporationHistory.svelte';
 
     export let data;
     let character: Character
@@ -96,11 +97,12 @@
 
         <!-- Navbar -->
         <div class="mt-4">
-            <nav class="bg-gray-800 text-white py-2 px-4 rounded">
+            <nav class="bg-semi-transparent text-white py-2 px-4 rounded">
                 <ul class="flex space-x-4">
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Information)}>Info</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Kills)}>Kills</li>
                     <li class="hover:underline" on:click|preventDefault={() => loadComponent(Losses)}>Losses</li>
+                    <li class="hover:underline" on:click|preventDefault={() => loadComponent(CorporationHistory)}>Corporation History</li>
                 </ul>
             </nav>
         </div>
