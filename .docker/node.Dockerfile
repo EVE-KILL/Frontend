@@ -14,12 +14,12 @@ RUN \
     apt update && \
     apt upgrade -y && \
     install_packages \
-        curl \
-        gpg \
-        software-properties-common \
-        gettext-base \
-        patch \
-        wget \
+    curl \
+    gpg \
+    software-properties-common \
+    gettext-base \
+    patch \
+    wget \
     && \
     curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarnkey.gpg && \
     sh -c 'echo deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main > /etc/apt/sources.list.d/yarn.list' && \
@@ -31,8 +31,8 @@ RUN \
     echo 'Pin-Priority: 900' >> /etc/apt/preferences.d/nodesource && \
     apt update && \
     install_packages \
-        nodejs \
-        yarn \
+    nodejs \
+    yarn \
     && \
     # Shrink binaries
     (find /usr/local/bin -type f -print0 | xargs -n1 -0 strip --strip-all -p 2>/dev/null || true) && \
@@ -48,8 +48,9 @@ COPY . /app
 
 # Install dependencies and build application
 RUN \
-    npm install && \
-    npm run build
+    yarn global add vite && \
+    yarn install && \
+    yarn run build
 
 # Expose the port
 EXPOSE 3000
