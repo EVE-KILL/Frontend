@@ -22,9 +22,10 @@ WORKDIR /app
 
 # Copy the build folder from the first stage
 COPY --from=build /app/build /app
+COPY --from=build /app/package.json /app
+COPY --from=build /app/yarn.lock /app
 
-# Create a package.json that sets the type to module
-RUN echo "{ \"type\": \"module\" }" > /app/package.json
+RUN yarn install --production
 
 # Expose the port
 EXPOSE 3000

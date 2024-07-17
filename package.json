@@ -12,7 +12,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},
-	"dependencies": {
+	"devDependencies": {
 		"@sveltejs/adapter-auto": "*",
 		"@sveltejs/adapter-node": "*",
 		"@sveltejs/kit": "*",
@@ -20,7 +20,6 @@
 		"@types/dompurify": "*",
 		"@types/eslint": "*",
 		"autoprefixer": "*",
-		"dompurify": "*",
 		"eslint": "*",
 		"eslint-config-prettier": "*",
 		"eslint-plugin-svelte": "*",
@@ -36,5 +35,8 @@
 		"typescript-eslint": "*",
 		"vite": "*"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"dompurify": "*"
+	}
 }
