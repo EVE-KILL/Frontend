@@ -14,7 +14,7 @@
 
 	export let data;
 	let killmail: Killmail;
-	let fit = {};
+	let fit;
 
 	onMount(async () => {
 		const response = await fetch(`https://eve-kill.com/api/killmail/${data.id}`);
@@ -25,7 +25,7 @@
 	});
 </script>
 
-{#if killmail}
+{#if killmail && fit}
 	<div class="container flex p-2 pt-4 gap-2">
 		<!-- Left Container -->
 		<div class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg">
@@ -39,7 +39,7 @@
 						<react:CurrentFitProvider initialFit={fit}>
 							<react:DefaultCharactersProvider>
 								<react:StatisticsProvider>
-									<react:ShipFit isPreview withStats />
+									<react:ShipFit />
 								</react:StatisticsProvider>
 							</react:DefaultCharactersProvider>
 						</react:CurrentFitProvider>

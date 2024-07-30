@@ -37,8 +37,9 @@
 		"tslib": "*",
 		"typescript": "*",
 		"typescript-eslint": "*",
-		"vite": "*",
-		"vite-plugin-wasm": "^3.3.0"
+		"vite": "^5.3.5",
+		"vite-plugin-wasm": "^3.3.0",
+		"vite-plugin-wasm-pack": "^0.1.12"
 	},
 	"type": "module",
 	"dependencies": {
