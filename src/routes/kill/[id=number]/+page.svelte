@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { Killmail } from '../../../types/Killmail.ts';
-	import ReactDOMServer from 'react-dom/server';
-	import ReactDOMClient from 'react-dom/client';
-	import { hooks, sveltify } from 'svelte-preprocess-react';
+	import { generateEveShipFit } from '$lib/Killmail.ts';
 	import {
 		ShipFit,
 		DefaultCharactersProvider,
@@ -16,21 +14,14 @@
 
 	export let data;
 	let killmail: Killmail;
-	const fit = hooks(() => useImportEveShipFit(), ReactDOMClient, ReactDOMServer.renderToString);
-
-	fit.subscribe((fit) => {
-		console.log('fit changed');
-		console.log(fit);
-	});
+	let fit = {};
 
 	onMount(async () => {
 		const response = await fetch(`https://eve-kill.com/api/killmail/${data.id}`);
 		killmail = await response.json();
 
-		fit.currentFit(killmail.killmail_id + '/' + killmail.hash);
-
-		//console.log(killmail);
-		//console.log(fit);
+		// Generate the ESF for the killmail
+		fit = await generateEveShipFit(killmail.killmail_id);
 	});
 </script>
 
@@ -45,7 +36,7 @@
 			>
 				<react:EveDataProvider>
 					<react:DogmaEngineProvider>
-						<react:CurrentFitProvider setFit={fit}>
+						<react:CurrentFitProvider initialFit={fit}>
 							<react:DefaultCharactersProvider>
 								<react:StatisticsProvider>
 									<react:ShipFit isPreview withStats />
@@ -58,7 +49,7 @@
 
 			<!-- Kill Information -->
 
-			<!-- Items Dropped/Destroyed -->:>
+			<!-- Items Dropped/Destroyed -->
 		</div>
 
 		<!-- Right Container -->
