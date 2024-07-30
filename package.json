@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"dompurify": "*"
+		"dompurify": "*",
+		"svelte-preprocess-react": "^0.17.1"
 	}
 }
