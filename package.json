@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --port 3000",
 		"build": "vite build",
 		"preview": "vite preview",
 		"production": "node build/index.js",
@@ -13,6 +13,8 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@eveshipfit/data": "^10.1.20240718",
+		"@eveshipfit/dogma-engine": "^6.0.0",
 		"@sveltejs/adapter-auto": "*",
 		"@sveltejs/adapter-node": "*",
 		"@sveltejs/kit": "*",
@@ -27,16 +29,20 @@
 		"postcss": "*",
 		"prettier": "*",
 		"prettier-plugin-svelte": "*",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
 		"svelte": "*",
 		"svelte-check": "*",
 		"tailwindcss": "*",
 		"tslib": "*",
 		"typescript": "*",
 		"typescript-eslint": "*",
-		"vite": "*"
+		"vite": "*",
+		"vite-plugin-wasm": "^3.3.0"
 	},
 	"type": "module",
 	"dependencies": {
+		"@eveshipfit/react": "^4.5.4",
 		"dompurify": "*",
 		"svelte-preprocess-react": "^0.17.1"
 	}
