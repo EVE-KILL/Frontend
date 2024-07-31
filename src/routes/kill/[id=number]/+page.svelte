@@ -44,6 +44,26 @@
 		totalDamage = calculateTotalDamage(killmail.attackers);
 	});
 
+	function itemDroppedIsk(items) {
+		let total = 0;
+		items.forEach((item) => {
+			if (item.qty_dropped > 0) {
+				total += item.value * item.qty_dropped;
+			}
+		});
+		return total;
+	}
+
+	function itemDestroyedIsk(items) {
+		let total = 0;
+		items.forEach((item) => {
+			if (item.qty_destroyed > 0) {
+				total += item.value * item.qty_destroyed;
+			}
+		});
+		return total;
+	}
+
 	function calculateTotalDamage(attackers) {
 		return attackers.reduce((total, attacker) => total + attacker.damage_done, 0);
 	}
@@ -82,18 +102,18 @@
 
 				<!-- Kill Details -->
 				<div>
-					<div class="w-full flex flex-col items-center mb-4">
-						<div class="flex justify-center items-start mb-2">
+					<div class="w-full flex flex-col items-start mb-4">
+						<div class="flex justify-start items-start mb-2">
 							<!-- Character and Corporation Info -->
 							<a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
 								<img
 									src={`https://images.evetech.net/characters/${killmail.victim.character_id}/portrait?size=128`}
 									alt={killmail.victim.character_name}
-									class="h-32 w-32 rounded-full"
+									class="h-32 w-32 rounded-md"
 								/>
 							</a>
-							<div class="flex flex-col justify-center ml-2">
-								<a href={`/corporation/${killmail.victim.corporation_id}/`} class="mb-2">
+							<div class="flex flex-col justify-center">
+								<a href={`/corporation/${killmail.victim.corporation_id}/`}>
 									<img
 										src={`https://images.evetech.net/corporations/${killmail.victim.corporation_id}/logo?size=64`}
 										alt={killmail.victim.corporation_name}
@@ -101,7 +121,7 @@
 									/>
 								</a>
 								{#if killmail.victim.alliance_id > 0}
-									<a href={`/alliance/${killmail.victim.alliance_id}/`} class="mb-2">
+									<a href={`/alliance/${killmail.victim.alliance_id}/`}>
 										<img
 											src={`https://images.evetech.net/alliances/${killmail.victim.alliance_id}/logo?size=64`}
 											alt={killmail.victim.alliance_name}
@@ -120,33 +140,48 @@
 								{/if}
 							</div>
 						</div>
-						<div class="text-center">
-							<a href={`/character/${killmail.victim.character_id}/`} class="text-lg font-bold">
-								{killmail.victim.character_name}
-							</a>
-							<br />
-							<a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm">
-								{killmail.victim.corporation_name}
-							</a>
-							<br />
-							{#if killmail.victim.alliance_id > 0}
-								<a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm">
-									{killmail.victim.alliance_name}
-								</a>
-								<br />
-							{/if}
-							{#if killmail.victim.faction_id > 0}
-								<a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm">
-									{killmail.victim.faction_name}
-								</a>
-							{/if}
-						</div>
 					</div>
 					<table class="table-auto w-full text-left mt-4">
 						<tbody>
 							<tr>
-								<th class="p-2">Ship:</th>
-								<td class="p-2">
+								<th class="p-1">Character:</th>
+								<td class="p-1">
+									<a href={`/character/${killmail.victim.character_id}/`} class="text-lg font-bold">
+										{killmail.victim.character_name}
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th class="p-1">Corporation:</th>
+								<td class="p-1">
+									<a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm">
+										{killmail.victim.corporation_name}
+									</a>
+								</td>
+							</tr>
+							{#if killmail.victim.alliance_id > 0}
+								<tr>
+									<th class="p-1">Alliance:</th>
+									<td class="p-1">
+										<a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm">
+											{killmail.victim.alliance_name}
+										</a>
+									</td>
+								</tr>
+							{/if}
+							{#if killmail.victim.faction_id > 0}
+								<tr>
+									<th class="p-1">Faction:</th>
+									<td class="p-1">
+										<a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm">
+											{killmail.victim.faction_name}
+										</a>
+									</td>
+								</tr>
+							{/if}
+							<tr>
+								<th class="p-1">Ship:</th>
+								<td class="p-1">
 									<a href={`/ship/${killmail.victim.ship_id}/`} class="text-blue-500">
 										{killmail.victim.ship_name}
 									</a>
@@ -160,8 +195,8 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="p-2">System:</th>
-								<td class="p-2">
+								<th class="p-1">System:</th>
+								<td class="p-1">
 									<a href={`/system/${killmail.system_id}/`} class="text-blue-500">
 										{killmail.system_name}
 									</a>
@@ -173,8 +208,8 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="p-2">Region:</th>
-								<td class="p-2">
+								<th class="p-1">Region:</th>
+								<td class="p-1">
 									<a href={`/region/${killmail.region_id}/`} class="text-blue-500">
 										{killmail.region_name}
 									</a>
@@ -182,25 +217,25 @@
 							</tr>
 							{#if killmail.near != ''}
 								<tr>
-									<th class="p-2">Location:</th>
-									<td class="p-2">{killmail.near}</td>
+									<th class="p-1">Location:</th>
+									<td class="p-1">{killmail.near}</td>
 								</tr>
 							{/if}
 							<tr>
-								<th class="p-2">Time:</th>
-								<td class="p-2">{killmail.kill_time_str}</td>
+								<th class="p-1">Time:</th>
+								<td class="p-1">{killmail.kill_time_str}</td>
 							</tr>
 							<tr>
-								<th class="p-2">Points:</th>
-								<td class="p-2">{killmail.point_value}</td>
+								<th class="p-1">Points:</th>
+								<td class="p-1">{killmail.point_value}</td>
 							</tr>
 							<tr>
-								<th class="p-2">Damage:</th>
-								<td class="p-2">{formatNumber(killmail.victim.damage_taken)}</td>
+								<th class="p-1">Damage:</th>
+								<td class="p-1">{formatNumber(killmail.victim.damage_taken)}</td>
 							</tr>
 							<tr>
-								<th class="p-2">Total:</th>
-								<td class="p-2 font-bold">{formatNumber(killmail.total_value)} ISK</td>
+								<th class="p-1">Total:</th>
+								<td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
 							</tr>
 						</tbody>
 					</table>
@@ -245,10 +280,31 @@
 										<td class="px-2 py-1">{item.type_name}</td>
 										<td class="px-2 py-1">{item.qty_destroyed}</td>
 										<td class="px-2 py-1">{item.qty_dropped}</td>
-										<td class="px-2 py-1">{formatNumber(item.value)}</td>
+										<td class="px-2 py-1">
+											{formatNumber(item.value * (item.qty_destroyed + item.qty_dropped))}
+										</td>
 									</tr>
 								{/each}
 							{/each}
+							<tr class="bg-gray-700 text-white">
+								<td colspan="5" class="px-2 py-1 font-bold">ISK</td>
+							</tr>
+							<tr>
+								<th class="p-1" colspan="2">Dropped</th>
+								<td class="p-1 font-bold" colspan="3"
+									>{formatNumber(itemDroppedIsk(killmail.items))} ISK</td
+								>
+							</tr>
+							<tr>
+								<th class="p-1" colspan="2">Destroyed</th>
+								<td class="p-1 font-bold" colspan="3"
+									>{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td
+								>
+							</tr>
+							<tr>
+								<th class="p-1" colspan="2">Ship</th>
+								<td class="p-1 font-bold" colspan="3">{formatNumber(killmail.ship_value)} ISK</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
