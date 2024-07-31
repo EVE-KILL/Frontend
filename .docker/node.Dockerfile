@@ -34,4 +34,8 @@ RUN yarn install --production && \
 
 # Expose the port
 EXPOSE 3000
+
+# Set the default BASE_URL
+ENV VITE_BASE_URL=https://eve-kill.com
+
 CMD [ "node", "server.js" ]

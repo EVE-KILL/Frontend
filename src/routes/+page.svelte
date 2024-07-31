@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getUpstreamUrl } from '$lib/Config';
 	import KillList from '../components/KillList.svelte';
 	import MostValuableKills from '../components/MostValuableKills.svelte';
 	import Characters from '../components/Top10Boxes/Characters.svelte';
@@ -6,31 +7,40 @@
 	import Alliances from '../components/Top10Boxes/Alliances.svelte';
 	import Systems from '../components/Top10Boxes/Systems.svelte';
 	import Regions from '../components/Top10Boxes/Regions.svelte';
-	const url = 'https://eve-kill.com/api/killlist/latest';
+
+	const upstreamUrl = getUpstreamUrl();
+
+	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/mostvaluablekillslast7days/6`;
+	const killListUrl = `${upstreamUrl}/api/killlist/latest`;
+	const top10CharactersUrl = `${upstreamUrl}/api/stats/top10characters`;
+	const top10CorporationsUrl = `${upstreamUrl}/api/stats/top10corporations`;
+	const top10AlliancesUrl = `${upstreamUrl}/api/stats/top10alliances`;
+	const top10SystemsUrl = `${upstreamUrl}/api/stats/top10solarsystems`;
+	const top10RegionsUrl = `${upstreamUrl}/api/stats/top10regions`;
 </script>
 
 <div class="container flex w-full">
-	<MostValuableKills url="https://eve-kill.com/api/stats/mostvaluablekillslast7days/6" />
+	<MostValuableKills url={mostValuableKillsUrl} />
 </div>
 <div class="container flex p-2 pt-4 gap-2">
 	<div class="w-1/4">
 		<div class="pb-5">
-			<Characters url="https://eve-kill.com/api/stats/top10characters" />
+			<Characters url={top10CharactersUrl} />
 		</div>
 		<div class="pb-5">
-			<Corporations url="https://eve-kill.com/api/stats/top10corporations" />
+			<Corporations url={top10CorporationsUrl} />
 		</div>
 		<div class="pb-5">
-			<Alliances url="https://eve-kill.com/api/stats/top10alliances" />
+			<Alliances url={top10AlliancesUrl} />
 		</div>
 		<div class="pb-5">
-			<Systems url="https://eve-kill.com/api/stats/top10solarsystems" />
+			<Systems url={top10SystemsUrl} />
 		</div>
 		<div class="pb-5">
-			<Regions url="https://eve-kill.com/api/stats/top10regions" />
+			<Regions url={top10RegionsUrl} />
 		</div>
 	</div>
 	<div class="w-full">
-		<KillList {url} />
+		<KillList url={killListUrl} />
 	</div>
 </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getUpstreamUrl } from '$lib/Config';
 	import type { Killmail } from '../../../types/Killmail.ts';
 	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
 	import { formatNumber } from '$lib/Helpers.ts';
@@ -18,9 +19,10 @@
 	export let data;
 	let killmail: Killmail;
 	let fit: Fitting;
+	const upstreamUrl = getUpstreamUrl();
 
 	onMount(async () => {
-		const response = await fetch(`https://eve-kill.com/api/killmail/${data.id}`);
+		const response = await fetch(`${upstreamUrl}/api/killmail/${data.id}`);
 		killmail = await response.json();
 		console.log(killmail);
 
@@ -187,7 +189,8 @@
 		</div>
 	</div>
 	<div class="container flex text-white p-4 justify-between">
-		<div class="w-2/4 flex rounded-lg shadow-lg">involved and items down here</div>
+		<div class="w-full flex rounded-lg shadow-lg">left</div>
+		<div class="w-2/4 flex rounded-lg shadow-lg">right</div>
 	</div>
 {/if}
 
