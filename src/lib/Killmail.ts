@@ -1,6 +1,37 @@
 import { esiFlagToEsfSlot } from '@eveshipfit/react';
 import type { Killmail } from '../types/Killmail';
 
+export function itemSlotTypes() {
+	return {
+		'High Slot': [27, 28, 29, 30, 31, 32, 33, 34],
+		'Medium Slot': [19, 20, 21, 22, 23, 24, 25, 26],
+		'Low Slot': [11, 12, 13, 14, 15, 16, 17, 18],
+		'Rig Slot': [92, 93, 94, 95, 96, 97, 98, 99],
+		Subsystem: [125, 126, 127, 128, 129, 130, 131, 132],
+		'Drone Bay': [87],
+		'Cargo Bay': [5],
+		'Fuel Bay': [133],
+		'Fleet Hangar': [155],
+		'Fighter Bay': [158],
+		'Fighter Launch Tubes': [159, 160, 161, 162, 163],
+		'Ship Hangar': [90],
+		'Ore Hold': [134],
+		'Gas hold': [135],
+		'Mineral hold': [136],
+		'Salvage Hold': [137],
+		'Ship Hold': [138],
+		'Small Ship Hold': [139],
+		'Medium Ship Hold': [140],
+		'Large Ship Hold': [141],
+		'Industrial Ship Hold': [142],
+		'Ammo Hold': [143],
+		'Quafe Bay': [154],
+		'Structure Services': [164, 165, 166, 167, 168, 169, 170, 171],
+		'Structure Fuel': [172],
+		Implants: [89]
+	};
+}
+
 export async function generateEveShipFit(killmail: Killmail) {
 	type KillMailItem = {
 		flag: number;
