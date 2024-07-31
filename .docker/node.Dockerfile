@@ -21,11 +21,15 @@ LABEL org.opencontainers.image.source = "https://github.com/EVE-KILL/Frontend"
 WORKDIR /app
 
 # Copy the build folder from the first stage
+COPY --from=build /app/.npmrc /app
+COPY --from=build /app/copyESFDataToStatic.sh /app
+COPY --from=build /app/static /app
 COPY --from=build /app/build /app
 COPY --from=build /app/package.json /app
 COPY --from=build /app/yarn.lock /app
 
-RUN yarn install --production
+RUN yarn install --production && \
+    rm -f .npmrc
 
 # Expose the port
 EXPOSE 3000
