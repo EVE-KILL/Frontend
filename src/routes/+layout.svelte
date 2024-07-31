@@ -3,7 +3,7 @@
 	import Navbar from '../components/Navbar.svelte';
 </script>
 
-<div id="content" class="content flex flex-col mx-auto max-w-7xl">
+<div id="content" class="content flex flex-col mx-auto">
 	<div id="inner-content" class="inner-content">
 		<Navbar />
 		<slot />
@@ -12,6 +12,7 @@
 
 <style>
 	.content {
+		max-width: 90rem;
 		background-color: rgba(21, 21, 21, 0.4);
 		border: 2px solid #252525;
 		padding: 5px;

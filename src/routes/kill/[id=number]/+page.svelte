@@ -80,11 +80,12 @@
 </script>
 
 {#if killmail && fit}
-	<div class="container flex flex-col text-white p-4 items-center">
-		<div class="w-full flex justify-center items-start mb-4">
-			<div class="flex mr-5">
+	<div class="container flex p-2 pt-4 gap-2">
+		<!-- Left Container -->
+		<div class="w-full text-white p-4 rounded-lg shadow-lg">
+			<div class="flex">
 				<!-- Fitting Wheel -->
-				<div class="fitting-wheel top-0 right-0 mr-8">
+				<div class="fitting-wheel mr-4">
 					<react:CurrentFitProvider initialFit={fit}>
 						<react:EveDataProvider dataUrl="https://eve-kill.com/sde/">
 							<react:DogmaEngineProvider>
@@ -100,7 +101,7 @@
 					</react:CurrentFitProvider>
 				</div>
 
-				<!-- Kill Details -->
+				<!-- Kill Information -->
 				<div>
 					<div class="w-full flex flex-col items-start mb-4">
 						<div class="flex justify-start items-start mb-2">
@@ -141,7 +142,7 @@
 							</div>
 						</div>
 					</div>
-					<table class="table-auto w-full text-left mt-4">
+					<table class="table-auto w-full text-left mt-4 text-sm">
 						<tbody>
 							<tr>
 								<th class="p-1">Character:</th>
@@ -223,7 +224,7 @@
 							{/if}
 							<tr>
 								<th class="p-1">Time:</th>
-								<td class="p-1">{killmail.kill_time_str}</td>
+								<td class="p-1">{killmail.kill_time}</td>
 							</tr>
 							<tr>
 								<th class="p-1">Points:</th>
@@ -234,6 +235,14 @@
 								<td class="p-1">{formatNumber(killmail.victim.damage_taken)}</td>
 							</tr>
 							<tr>
+								<th class="p-1">Total Dropped ISK:</th>
+								<td class="p-1 font-bold">{formatNumber(itemDroppedIsk(killmail.items))} ISK</td>
+							</tr>
+							<tr>
+								<th class="p-1">Total Destroyed ISK:</th>
+								<td class="p-1 font-bold">{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td>
+							</tr>
+							<tr>
 								<th class="p-1">Total:</th>
 								<td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
 							</tr>
@@ -241,13 +250,9 @@
 					</table>
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<!-- Lower half -->
-	<div class="container mx-auto flex flex-col items-center text-white p-4">
-		<div class="w-full flex justify-between">
-			<div class="w-1/2 rounded-lg shadow-lg custom-space-x">
+			<!-- Items -->
+			<div class="w-full rounded-lg shadow-lg custom-space-x mt-4">
 				<div class="overflow-x-auto" role="table">
 					<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
 						<thead>
@@ -291,97 +296,104 @@
 							</tr>
 							<tr>
 								<th class="p-1" colspan="2">Dropped</th>
-								<td class="p-1 font-bold" colspan="3"
-									>{formatNumber(itemDroppedIsk(killmail.items))} ISK</td
-								>
+								<td class="p-1 font-bold" colspan="3">
+									{formatNumber(itemDroppedIsk(killmail.items))} ISK
+								</td>
 							</tr>
 							<tr>
 								<th class="p-1" colspan="2">Destroyed</th>
-								<td class="p-1 font-bold" colspan="3"
-									>{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td
-								>
+								<td class="p-1 font-bold" colspan="3">
+									{formatNumber(itemDestroyedIsk(killmail.items))} ISK
+								</td>
 							</tr>
 							<tr>
 								<th class="p-1" colspan="2">Ship</th>
-								<td class="p-1 font-bold" colspan="3">{formatNumber(killmail.ship_value)} ISK</td>
+								<td class="p-1 font-bold" colspan="3">
+									{formatNumber(killmail.ship_value)} ISK
+								</td>
+							</tr>
+							<tr>
+								<th class="p-1" colspan="2">Total</th>
+								<td class="p-1 font-bold" colspan="3">
+									{formatNumber(killmail.total_value)} ISK
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<div class="w-1/2 rounded-lg shadow-lg">
-				<!-- Attackers -->
-				<div class="overflow-x-auto" role="table">
-					<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
-						<thead>
-							<tr class="bg-darker text-white uppercase text-xs leading-normal">
-								<th class="px-2 py-1" scope="col"></th>
-								<th class="px-2 py-1" scope="col"></th>
-								<th class="px-2 py-1" scope="col">Info</th>
-								<th class="px-2 py-1" scope="col">Damage</th>
-							</tr>
-						</thead>
-						<tbody class="text-gray-300 text-sm">
-							{#each killmail.attackers as attacker}
-								<tr
-									class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-								>
-									<td class="px-2 py-1">
-										<a href={`/character/${attacker.character_id}`}>
-											<img
-												src={`${attacker.character_image_url}?size=128`}
-												alt={attacker.character_name}
-												class="h-16 w-16 rounded-md"
-											/>
+		</div>
+
+		<!-- Right Container -->
+		<div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
+			<div class="overflow-x-auto" role="table">
+				<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+					<thead>
+						<tr class="bg-darker text-white uppercase text-xs leading-normal">
+							<th class="px-2 py-1" scope="col"></th>
+							<th class="px-2 py-1" scope="col"></th>
+							<th class="px-2 py-1" scope="col"></th>
+							<th class="px-2 py-1" scope="col">Damage</th>
+						</tr>
+					</thead>
+					<tbody class="text-gray-300 text-sm">
+						{#each killmail.attackers as attacker}
+							<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+								<td class="px-2 py-1">
+									<a href={`/character/${attacker.character_id}`}>
+										<img
+											src={`${attacker.character_image_url}?size=128`}
+											alt={attacker.character_name}
+											class="h-16 w-16 rounded-md"
+										/>
+									</a>
+								</td>
+								<td class="px-2 py-1">
+									<img
+										src={attacker.ship_image_url}
+										alt={attacker.ship_name}
+										class="h-8 w-8 rounded-md"
+									/>
+									<img
+										src={`https://images.evetech.net/types/${attacker.weapon_type_id}/icon?size=64`}
+										alt={attacker.weapon_type_name}
+										class="h-8 w-8 rounded-md"
+									/>
+								</td>
+								<td class="px-2 py-1">
+									<div>
+										<a
+											href={`/character/${attacker.character_id}`}
+											class="text-blue-400 hover:underline"
+										>
+											{attacker.character_name}
 										</a>
-									</td>
-									<td class="px-2 py-1">
-										<img
-											src={attacker.ship_image_url}
-											alt={attacker.ship_name}
-											class="h-8 w-8 rounded-md"
-										/>
-										<img
-											src={`https://images.evetech.net/types/${attacker.weapon_type_id}/icon?size=64`}
-											alt={attacker.weapon_type_name}
-											class="h-8 w-8 rounded-md"
-										/>
-									</td>
-									<td class="px-2 py-1">
-										<div>
-											<a
-												href={`/character/${attacker.character_id}`}
-												class="text-blue-400 hover:underline"
-											>
-												{attacker.character_name}
-											</a>
-										</div>
-										<div>
-											<a
-												href={`/corporation/${attacker.corporation_id}`}
-												class="text-blue-400 hover:underline"
-											>
-												{attacker.corporation_name}
-											</a>
-										</div>
-										<div>
-											<a
-												href={`/alliance/${attacker.alliance_id}`}
-												class="text-blue-400 hover:underline"
-											>
-												{attacker.alliance_name}
-											</a>
-										</div>
-									</td>
-									<td class="px-2 py-1">
-										<div>{attacker.damage_done}</div>
-										<div>{((attacker.damage_done / totalDamage) * 100).toFixed(1)}%</div>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+									</div>
+									<div>
+										<a
+											href={`/corporation/${attacker.corporation_id}`}
+											class="text-blue-400 hover:underline"
+										>
+											{attacker.corporation_name}
+										</a>
+									</div>
+									<div>
+										<a
+											href={`/alliance/${attacker.alliance_id}`}
+											class="text-blue-400 hover:underline"
+										>
+											{attacker.alliance_name}
+										</a>
+									</div>
+								</td>
+								<td class="px-2 py-1">
+									<div>{attacker.damage_done}</div>
+									<div>{((attacker.damage_done / totalDamage) * 100).toFixed(1)}%</div>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -394,8 +406,8 @@
 		right: 0;
 		width: 600px;
 		height: 600px;
-		min-width: 500px;
-		min-height: 500px;
+		min-width: 600px;
+		min-height: 600px;
 	}
 
 	.custom-space-x {
