@@ -1,29 +1,7 @@
 import { esiFlagToEsfSlot } from '@eveshipfit/react';
+import type { Killmail } from '../types/Killmail';
 
-export async function fetchEsiKillmail(killmail_id: number) {
-	const fetchUrl = `https://eve-kill.com/api/killmail/esi/${killmail_id}`;
-
-	try {
-		const response = await fetch(fetchUrl);
-		return await response.json();
-	} catch (error) {
-		console.error('Error fetching killmail:', error);
-	}
-}
-
-export async function fetchKillmail(killmail_id: number) {
-	const fetchUrl = `https://eve-kill.com/api/killmail/${killmail_id}`;
-
-	try {
-		const response = await fetch(fetchUrl);
-		return await response.json();
-	} catch (error) {
-		console.error('Error fetching killmail:', error);
-	}
-}
-
-export async function generateEveShipFit(killmail_id: number) {
-	const killmail = await fetchKillmail(killmail_id);
+export async function generateEveShipFit(killmail: Killmail) {
 	type KillMailItem = {
 		flag: number;
 		type_id: number;
@@ -93,7 +71,7 @@ export async function generateEveShipFit(killmail_id: number) {
 
 	return {
 		shipTypeId: killmail.victim.ship_id,
-		name: `Killmail ${killmail_id}`,
+		name: `Killmail ${killmail.killmail_id}`,
 		description: '',
 		modules,
 		drones,

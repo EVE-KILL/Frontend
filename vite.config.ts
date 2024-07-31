@@ -4,6 +4,13 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [sveltekit(), wasm()],
+	server: {
+		cors: {
+			origin: '*',
+			methods: ['GET'],
+			allowedHeaders: ['Content-Type', 'Authorization']
+		}
+	},
 	build: {
 		target: 'esnext'
 	},

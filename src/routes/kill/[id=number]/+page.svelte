@@ -23,7 +23,7 @@
 		killmail = await response.json();
 
 		// Generate the ESF for the killmail
-		fit = await generateEveShipFit(killmail.killmail_id);
+		fit = await generateEveShipFit(killmail);
 	});
 </script>
 
