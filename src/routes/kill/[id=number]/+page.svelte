@@ -42,7 +42,7 @@
 							<react:DefaultCharactersProvider>
 								<react:CurrentCharacterProvider>
 									<react:StatisticsProvider>
-										<react:ShipFit withStats isPreview />
+										<react:ShipFit withStats />
 									</react:StatisticsProvider>
 								</react:CurrentCharacterProvider>
 							</react:DefaultCharactersProvider>

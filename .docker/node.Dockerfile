@@ -27,10 +27,11 @@ COPY --from=build /app/static /app
 COPY --from=build /app/build /app
 COPY --from=build /app/package.json /app
 COPY --from=build /app/yarn.lock /app
+COPY --from=build /app/server.js /app
 
 RUN yarn install --production && \
     rm -f .npmrc
 
 # Expose the port
 EXPOSE 3000
-CMD [ "node", "index.js" ]
+CMD [ "node", "server.js" ]
