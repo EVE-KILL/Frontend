@@ -12,8 +12,17 @@
 
 <style>
 	.content {
-		background-color: rgba(21, 21, 21, 0.7);
+		background-color: rgba(21, 21, 21, 0.4);
 		border: 2px solid #252525;
+		padding: 5px;
 		border-radius: 10px;
+	}
+
+	#content > #inner-content {
+		display: block;
+		border: 5px solid rgba(0, 0, 0, 0.5);
+		padding: 0px 20px 20px 20px;
+		background: rgba(0, 0, 0, 0.8);
+		margin-bottom: 5px;
 	}
 </style>

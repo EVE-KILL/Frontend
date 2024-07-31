@@ -13,21 +13,32 @@ export async function generateEveShipFit(killmail: Killmail) {
 	let drones = [];
 	let cargo = [];
 
-	items = killmail.items.map(
-		(item: {
-			flag: number;
-			item_type_id: number;
-			qty_destroyed?: number;
-			qty_dropped?: number;
-		}) => {
-			return {
-				flag: item.flag,
-				type_id: item.type_id,
-				quantity: (item.qty_dropped ?? 0) + (item.qty_destroyed ?? 0)
-			};
-		}
-	);
-
+	items = killmail.items
+		.filter(
+			(item: {
+				flag: number;
+				item_type_id: number;
+				type_name: string;
+				qty_destroyed?: number;
+				qty_dropped?: number;
+			}) => !item.type_name.includes('Abyssal')
+		)
+		.map(
+			(item: {
+				flag: number;
+				item_type_id: number;
+				type_name: string;
+				qty_destroyed?: number;
+				qty_dropped?: number;
+			}) => {
+				return {
+					flag: item.flag,
+					type_id: item.type_id,
+					category_id: item.category_id,
+					quantity: (item.qty_dropped ?? 0) + (item.qty_destroyed ?? 0)
+				};
+			}
+		);
 	/* Find the modules from the item-list. */
 	modules = items
 		.map((item) => {
@@ -36,6 +47,7 @@ export async function generateEveShipFit(killmail: Killmail) {
 			return {
 				slot: esiFlagToEsfSlot[item.flag],
 				typeId: item.type_id,
+				categoryId: item.category_id,
 				charge: undefined,
 				state: 'Active'
 			};
@@ -66,6 +78,25 @@ export async function generateEveShipFit(killmail: Killmail) {
 				typeId: item.type_id,
 				quantity: item.quantity
 			};
+		})
+		.filter((item) => item !== undefined);
+
+	modules = modules
+		.map((moduleOrCharge) => {
+			if (moduleOrCharge.categoryId !== 8) return moduleOrCharge;
+
+			const module = modules.find(
+				(itemModule) =>
+					itemModule.slot === moduleOrCharge.slot && itemModule.typeId !== moduleOrCharge.typeId
+			);
+
+			if (module !== undefined) {
+				module.charge = {
+					typeId: moduleOrCharge.typeId
+				};
+			}
+
+			return undefined;
 		})
 		.filter((item) => item !== undefined);
 
