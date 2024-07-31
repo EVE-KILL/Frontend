@@ -10,7 +10,7 @@
 
 	const upstreamUrl = getUpstreamUrl();
 
-	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/mostvaluablekillslast7days/6`;
+	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/mostvaluablekillslast7days/7`;
 	const killListUrl = `${upstreamUrl}/api/killlist/latest`;
 	const top10CharactersUrl = `${upstreamUrl}/api/stats/top10characters`;
 	const top10CorporationsUrl = `${upstreamUrl}/api/stats/top10corporations`;
