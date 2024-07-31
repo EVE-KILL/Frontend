@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { Killmail } from '../../../types/Killmail.ts';
+	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
 	import { generateEveShipFit } from '$lib/Killmail.ts';
 	import {
 		ShipFit,
+		CurrentCharacterProvider,
 		DefaultCharactersProvider,
 		EveDataProvider,
 		DogmaEngineProvider,
@@ -14,7 +16,7 @@
 
 	export let data;
 	let killmail: Killmail;
-	let fit;
+	let fit: Fitting;
 
 	onMount(async () => {
 		const response = await fetch(`https://eve-kill.com/api/killmail/${data.id}`);
@@ -34,17 +36,19 @@
 				class="relative top-0 right-0 p-2"
 				style="position: relative; width: 480px; height: 480px;"
 			>
-				<react:EveDataProvider>
-					<react:DogmaEngineProvider>
-						<react:CurrentFitProvider initialFit={fit}>
+				<react:CurrentFitProvider initialFit={fit}>
+					<react:EveDataProvider dataUrl="https://eve-kill.com/sde/">
+						<react:DogmaEngineProvider>
 							<react:DefaultCharactersProvider>
-								<react:StatisticsProvider>
-									<react:ShipFit />
-								</react:StatisticsProvider>
+								<react:CurrentCharacterProvider>
+									<react:StatisticsProvider>
+										<react:ShipFit withStats isPreview />
+									</react:StatisticsProvider>
+								</react:CurrentCharacterProvider>
 							</react:DefaultCharactersProvider>
-						</react:CurrentFitProvider>
-					</react:DogmaEngineProvider>
-				</react:EveDataProvider>
+						</react:DogmaEngineProvider>
+					</react:EveDataProvider>
+				</react:CurrentFitProvider>
 			</div>
 
 			<!-- Kill Information -->
