@@ -235,11 +235,11 @@
 								<td class="p-1">{formatNumber(killmail.victim.damage_taken)}</td>
 							</tr>
 							<tr>
-								<th class="p-1">Total Dropped ISK:</th>
+								<th class="p-1">Dropped:</th>
 								<td class="p-1 font-bold">{formatNumber(itemDroppedIsk(killmail.items))} ISK</td>
 							</tr>
 							<tr>
-								<th class="p-1">Total Destroyed ISK:</th>
+								<th class="p-1">Destroyed:</th>
 								<td class="p-1 font-bold">{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td>
 							</tr>
 							<tr>
@@ -291,33 +291,6 @@
 									</tr>
 								{/each}
 							{/each}
-							<tr class="bg-gray-700 text-white">
-								<td colspan="5" class="px-2 py-1 font-bold">ISK</td>
-							</tr>
-							<tr>
-								<th class="p-1" colspan="2">Dropped</th>
-								<td class="p-1 font-bold" colspan="3">
-									{formatNumber(itemDroppedIsk(killmail.items))} ISK
-								</td>
-							</tr>
-							<tr>
-								<th class="p-1" colspan="2">Destroyed</th>
-								<td class="p-1 font-bold" colspan="3">
-									{formatNumber(itemDestroyedIsk(killmail.items))} ISK
-								</td>
-							</tr>
-							<tr>
-								<th class="p-1" colspan="2">Ship</th>
-								<td class="p-1 font-bold" colspan="3">
-									{formatNumber(killmail.ship_value)} ISK
-								</td>
-							</tr>
-							<tr>
-								<th class="p-1" colspan="2">Total</th>
-								<td class="p-1 font-bold" colspan="3">
-									{formatNumber(killmail.total_value)} ISK
-								</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
