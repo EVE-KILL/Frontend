@@ -1,52 +1,110 @@
 <script>
-    let isKillsDropdownOpen = false;
-    let isInformationDropdownOpen = false;
-    let closeKillsDropdownTimeout = 0;
-    let closeInformationDropdownTimeout = 0;
-    let searchTerm = '';
-    let searchResults = [];
-    let isSearchDropdownOpen = false;
+	import { onMount } from 'svelte';
+	import HelpBox from './HelpBox.svelte';
 
-    function openKillsDropdown() {
-        clearTimeout(closeKillsDropdownTimeout);
-        isKillsDropdownOpen = true;
-    }
+	let isKillsDropdownOpen = false;
+	let isInformationDropdownOpen = false;
+	let closeKillsDropdownTimeout = 0;
+	let closeInformationDropdownTimeout = 0;
+	let searchTerm = '';
+	let searchResults = [];
+	let isSearchDropdownOpen = false;
+	let selectedIndex = -1;
+	let isSearchBoxFocused = false;
+	let isShortcutPanelOpen = false;
 
-    function closeKillsDropdown() {
-        closeKillsDropdownTimeout = setTimeout(() => {
-            isKillsDropdownOpen = false;
-        }, 200); // Adjust the delay as needed
-    }
+	function openKillsDropdown() {
+		clearTimeout(closeKillsDropdownTimeout);
+		isKillsDropdownOpen = true;
+	}
 
-    function openInformationDropdown() {
-        clearTimeout(closeInformationDropdownTimeout);
-        isInformationDropdownOpen = true;
-    }
+	function closeKillsDropdown() {
+		closeKillsDropdownTimeout = setTimeout(() => {
+			isKillsDropdownOpen = false;
+		}, 200); // Adjust the delay as needed
+	}
 
-    function closeInformationDropdown() {
-        closeInformationDropdownTimeout = setTimeout(() => {
-            isInformationDropdownOpen = false;
-        }, 200); // Adjust the delay as needed
-    }
+	function openInformationDropdown() {
+		clearTimeout(closeInformationDropdownTimeout);
+		isInformationDropdownOpen = true;
+	}
 
-    async function handleSearch(event) {
-        searchTerm = event.target.value;
-        if (searchTerm.length > 2) {
-            const response = await fetch(`https://eve-kill.com/api/search/${searchTerm}`);
-            let results = await response.json();
-            searchResults = results.hits;
-            isSearchDropdownOpen = true;
-        } else {
-            isSearchDropdownOpen = false;
-            searchResults = [];
-        }
-    }
+	function closeInformationDropdown() {
+		closeInformationDropdownTimeout = setTimeout(() => {
+			isInformationDropdownOpen = false;
+		}, 200); // Adjust the delay as needed
+	}
 
-    function closeSearchDropdown() {
-        setTimeout(() => {
-            isSearchDropdownOpen = false;
-        }, 200);
-    }
+	async function handleSearch(event) {
+		searchTerm = event.target.value;
+		if (searchTerm.length > 2) {
+			const response = await fetch(`https://eve-kill.com/api/search/${searchTerm}`);
+			let results = await response.json();
+			searchResults = results.hits;
+			isSearchDropdownOpen = searchResults.length > 0;
+			selectedIndex = -1;
+		} else {
+			isSearchDropdownOpen = false;
+			searchResults = [];
+		}
+	}
+
+	function closeSearchDropdown() {
+		setTimeout(() => {
+			isSearchDropdownOpen = false;
+		}, 200);
+	}
+
+	function handleKeydown(event) {
+		if (event.key === 's' && !isSearchBoxFocused) {
+			event.preventDefault();
+			document.getElementById('default-search').focus();
+		}
+
+		if (event.key === '?') {
+			event.preventDefault();
+			toggleShortcutPanel();
+		}
+
+		if (isSearchDropdownOpen) {
+			if (event.key === 'ArrowDown') {
+				event.preventDefault();
+				selectedIndex = (selectedIndex + 1) % searchResults.length;
+			} else if (event.key === 'ArrowUp') {
+				event.preventDefault();
+				selectedIndex = (selectedIndex - 1 + searchResults.length) % searchResults.length;
+			} else if (event.key === 'Enter') {
+				if (selectedIndex >= 0) {
+					window.location.href = `/${searchResults[selectedIndex].type}/${searchResults[selectedIndex].id}`;
+				} else if (searchResults.length > 0) {
+					window.location.href = `/${searchResults[0].type}/${searchResults[0].id}`;
+				}
+			}
+		}
+	}
+
+	function toggleShortcutPanel() {
+		isShortcutPanelOpen = !isShortcutPanelOpen;
+	}
+
+	function closeShortcutPanel() {
+		isShortcutPanelOpen = false;
+	}
+
+	onMount(() => {
+		document.addEventListener('keydown', handleKeydown);
+		return () => {
+			document.removeEventListener('keydown', handleKeydown);
+		};
+	});
+
+	function handleFocus() {
+		isSearchBoxFocused = true;
+	}
+
+	function handleBlur() {
+		isSearchBoxFocused = false;
+	}
 </script>
 
 <nav class="bg-transparent p-2">
@@ -246,31 +304,82 @@
 				</li>
 			</ul>
 		</div>
-        <div class="flex items-center justify-center w-80">
-            <form class="max-w-full relative">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </div>
-                    <input type="search" id="default-search" bind:value={searchTerm} on:input={handleSearch}
-                           class="block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Search..." />
-                </div>
-                {#if isSearchDropdownOpen}
-                    <ul class="absolute left-0 mt-2 w-full bg-gray-800 rounded-md shadow-lg z-10"
-                        on:mouseleave={closeSearchDropdown}>
-                        {#each searchResults as result}
-                            <li class="block px-4 py-2 text-sm text-white hover:bg-gray-700" on:click={window.location.href=`/${result.type}/${result.id}`}>
-                                {result.name}
-                            </li>
-                        {/each}
-                    </ul>
-                {/if}
-            </form>
-        </div>
-		<div class="flex items-right">
+		<div class="flex items-center justify-center w-80">
+			<form class="max-w-full relative">
+				<div class="relative">
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+						<svg
+							class="w-4 h-4 text-gray-500 dark:text-gray-400"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 20 20"
+						>
+							<path
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+							/>
+						</svg>
+					</div>
+					<input
+						type="search"
+						id="default-search"
+						bind:value={searchTerm}
+						on:input={handleSearch}
+						on:focus={handleFocus}
+						on:blur={handleBlur}
+						class="block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						placeholder="Search..."
+					/>
+				</div>
+				{#if isSearchDropdownOpen}
+					<div class="absolute bg-gray-800 rounded-lg shadow-lg mt-2 w-full">
+						<div class="overflow-y-auto max-h-64">
+							<table class="table-auto w-full">
+								<tbody class="text-gray-300 text-sm">
+									{#each searchResults as result, index}
+										<tr
+											class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex ===
+											index
+												? 'bg-gray-600'
+												: ''}"
+											on:click={() => (window.location.href = `/${result.type}/${result.id}`)}
+										>
+											<td class="h-16 w-16 rounded-md">
+												{#if result.type === 'character'}
+													<img
+														src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`}
+														alt={result.name}
+														class="h-16 w-16 rounded-md"
+													/>
+												{:else if result.type === 'corporation'}
+													<img
+														src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`}
+														alt={result.name}
+														class="h-16 w-16 rounded-md"
+													/>
+												{:else if result.type === 'alliance'}
+													<img
+														src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`}
+														alt={result.name}
+														class="h-16 w-16 rounded-md"
+													/>
+												{/if}
+											</td>
+											<td class="px-2 py-2">{result.name}</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				{/if}
+			</form>
+		</div>
+		<div class="flex items-right -ml-5">
 			<ul class="flex items-center space-x-4">
 				<li>
 					<div class="relative">
@@ -290,22 +399,16 @@
 								<li>
 									<a
 										href="/information"
-										class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-										>Information</a
+										class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Information</a
 									>
 								</li>
 								<li>
-									<a
-										href="/stats"
-										class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+									<a href="/stats" class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
 										>Stats</a
 									>
 								</li>
 								<li>
-									<a
-										href="/faq"
-										class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-										>FAQ</a
+									<a href="/faq" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">FAQ</a
 									>
 								</li>
 							</ul>
@@ -313,6 +416,28 @@
 					</div>
 				</li>
 			</ul>
+			<div class="ml-5 relative">
+				<span
+					class="text-gray-500 text-xs mt-2 text-right cursor-pointer"
+					on:click={toggleShortcutPanel}
+					aria-keyshortcuts="?">?</span
+				>
+			</div>
 		</div>
 	</div>
+	<HelpBox {isShortcutPanelOpen} {toggleShortcutPanel} {closeShortcutPanel} />
 </nav>
+
+<style>
+	.hover\:bg-gray-600:hover {
+		background-color: #4a4a4a;
+	}
+
+	.table-auto {
+		table-layout: auto;
+	}
+
+	.bg-gray-600 {
+		background-color: #4a4a4a;
+	}
+</style>
