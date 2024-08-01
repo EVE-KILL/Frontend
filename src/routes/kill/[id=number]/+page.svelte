@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Killmail } from '../../../types/Killmail.ts';
-	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { generateEveShipFit, itemSlotTypes } from '$lib/Killmail.ts';
+	import { onMount } from 'svelte';
+	import type { Killmail } from '../../../types/Killmail.ts';
+	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
 	import {
 		ShipFit,
 		CurrentCharacterProvider,
@@ -14,8 +16,6 @@
 		StatisticsProvider,
 		useImportEveShipFit
 	} from '@eveshipfit/react';
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 
 	export let data;
 	let killmail: Killmail;
@@ -87,7 +87,7 @@
 		groupedItems = Object.keys(slotTypes).map((slotType) => {
 			return {
 				slotType,
-				items: killmail.items.filter((item) => slotTypes[slotType].includes(item.flag))
+				items: groupByQty(killmail.items.filter((item) => slotTypes[slotType].includes(item.flag)))
 			};
 		});
 
@@ -99,6 +99,20 @@
 
 		console.log(comments);
 	});
+
+	function groupByQty(items) {
+		const grouped = items.reduce((acc, item) => {
+			const key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
+			if (!acc[key]) {
+				acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0 };
+			}
+			acc[key].qty_dropped += item.qty_dropped || 0;
+			acc[key].qty_destroyed += item.qty_destroyed || 0;
+			return acc;
+		}, {});
+
+		return Object.values(grouped);
+	}
 
 	function itemDroppedIsk(items) {
 		let total = 0;
@@ -446,7 +460,9 @@
 										</div>
 
 										<div class="mt-2">{comment.body}</div>
-										<div class="text-gray-500 text-xs mt-2 text-right">{comment.date}</div>
+										<div class="text-gray-500 text-xs mt-2 text-right">
+											{comment.date}
+										</div>
 									</td>
 								</tr>
 							{/each}
@@ -536,7 +552,9 @@
 								</td>
 								<td class="px-2 py-1">
 									<div>{attacker.damage_done}</div>
-									<div>{((attacker.damage_done / totalDamage) * 100).toFixed(1)}%</div>
+									<div>
+										{((attacker.damage_done / totalDamage) * 100).toFixed(1)}%
+									</div>
 								</td>
 							</tr>
 						{/each}
