@@ -1,7 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import HelpBox from './HelpBox.svelte';
+	import { getUpstreamUrl } from '$lib/Config';
 
+	const upstreamUrl = getUpstreamUrl();
 	let isKillsDropdownOpen = false;
 	let isInformationDropdownOpen = false;
 	let closeKillsDropdownTimeout = 0;
@@ -38,7 +40,7 @@
 	async function handleSearch(event) {
 		searchTerm = event.target.value;
 		if (searchTerm.length > 2) {
-			const response = await fetch(`https://eve-kill.com/api/search/${searchTerm}`);
+			const response = await fetch(`${upstreamUrl}/api/search/${searchTerm}`);
 			let results = await response.json();
 			searchResults = results.hits;
 			isSearchDropdownOpen = searchResults.length > 0;
@@ -307,9 +309,7 @@
 		<div class="flex items-center justify-center">
 			<form class="max-w-full relative">
 				<div class="relative">
-					<div
-						class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-					>
+					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 						<svg
 							class="w-4 h-4 text-gray-500 dark:text-gray-400"
 							aria-hidden="true"
@@ -348,8 +348,7 @@
 											index
 												? 'bg-gray-600'
 												: ''}"
-											on:click={() =>
-												(window.location.href = `/${result.type}/${result.id}`)}
+											on:click={() => (window.location.href = `/${result.type}/${result.id}`)}
 										>
 											<td class="h-16 w-16 rounded-md">
 												{#if result.type === 'character'}
@@ -410,15 +409,13 @@
 								<li>
 									<a
 										href="/information/stats"
-										class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-										>Stats</a
+										class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Stats</a
 									>
 								</li>
 								<li>
 									<a
 										href="/information/faq"
-										class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
-										>FAQ</a
+										class="block px-4 py-2 text-sm text-white hover:bg-gray-700">FAQ</a
 									>
 								</li>
 							</ul>
