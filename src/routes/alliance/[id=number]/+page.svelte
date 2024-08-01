@@ -52,11 +52,15 @@
 					<table class="table-auto">
 						<tbody>
 							<tr>
-								<td class="font-bold text-right p-2">Alliance:</td>
+								<td class="font-bold text-right p-1">Alliance:</td>
 								<td>{alliance.name}</td>
 							</tr>
+							<tr>
+								<td class="font-bold text-right p-1">Ticker:</td>
+								<td>{alliance.ticker}</td>
+							</tr>
 							<tr on:click={(window.location.href = `/faction/${alliance.faction_id}`)}>
-								<td class="font-bold text-right p-2">Faction:</td>
+								<td class="font-bold text-right p-1">Faction:</td>
 								<td>{alliance.faction_name}</td>
 							</tr>
 						</tbody>

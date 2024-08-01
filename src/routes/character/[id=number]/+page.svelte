@@ -62,23 +62,23 @@
 					<table class="table-auto">
 						<tbody>
 							<tr>
-								<td class="font-bold text-right p-2">Character:</td>
+								<td class="font-bold text-right p-1">Character:</td>
 								<td>{character.name}</td>
 							</tr>
 							<tr on:click={(window.location.href = `/corporation/${character.corporation_id}`)}>
-								<td class="font-bold text-right p-2">Corporation:</td>
+								<td class="font-bold text-right p-1">Corporation:</td>
 								<td>{character.corporation_name}</td>
 							</tr>
 							<tr on:click={(window.location.href = `/alliance/${character.alliance_id}`)}>
-								<td class="font-bold text-right p-2">Alliance:</td>
+								<td class="font-bold text-right p-1">Alliance:</td>
 								<td>{character.alliance_name}</td>
 							</tr>
 							<tr on:click={(window.location.href = `/faction/${character.faction_id}`)}>
-								<td class="font-bold text-right p-2">Faction:</td>
+								<td class="font-bold text-right p-1">Faction:</td>
 								<td>{character.faction_name}</td>
 							</tr>
 							<tr>
-								<td class="font-bold text-right p-2">Sec. Status:</td>
+								<td class="font-bold text-right p-1">Sec. Status:</td>
 								<td>{character.security_status.toFixed(3)}</td>
 							</tr>
 						</tbody>
