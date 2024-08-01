@@ -15,6 +15,7 @@
 		useImportEveShipFit
 	} from '@eveshipfit/react';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	export let data;
 	let killmail: Killmail;
@@ -22,6 +23,13 @@
 	let totalDamage: number;
 	let sortedComments = [];
 	let newComment = '';
+	// Make it so users can pass ?comments=true to the URL to enable comments, but default is false
+	let commentsEnabled = false;
+	page.subscribe(($page) => {
+		if ($page.url.searchParams.get('comments') === 'true') {
+			commentsEnabled = true;
+		}
+	});
 	// This is a placeholder, and should be populated by the onMount and an API in the background
 	// Remember to add websocket to it as well so newly posted comments are automatically populated and shown
 	let comments = [
@@ -383,84 +391,88 @@
 
 		<!-- Right Container -->
 		<div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
-			<!-- Comments Section -->
-			<div class="overflow-x-auto" role="table">
-				<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg w-full">
-					<thead>
-						<tr class="bg-darker text-white uppercase text-xs leading-normal">
-							<th scope="col"></th>
-							<th scope="col">Sorting</th>
-							<th scope="col">
-								<button class="sort-button" on:click={() => sortComments('rating')}>Rating</button>
-							</th>
-							<th scope="col">
-								<button class="sort-button" on:click={() => sortComments('id')}>Posted</button>
-							</th>
-							<th scope="col">
-								<button class="sort-button" on:click={() => sortComments('date')}>Date</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody class="text-gray-300 text-sm">
-						{#each sortedComments as comment}
-							<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
-								<td class="px-1 py-1">
-									<div class="comment-actions flex flex-col items-center">
-										<button class="upvote flex items-center justify-center">
-											<i class="fas fa-arrow-up"></i>
-										</button>
-										<div class="votes my-2" style="color: {getColorFromRating(comment.rating)}">
-											{comment.rating}
-										</div>
-										<button class="downvote flex items-center justify-center">
-											<i class="fas fa-arrow-down"></i>
-										</button>
-									</div>
-								</td>
-
-								<td class="px-1 py-1">
-									<img
-										src={comment.character.image_url}
-										alt={comment.character.name}
-										class="h-16 w-16 rounded-md"
-									/>
-								</td>
-								<td class="px-1 py-1" colspan="3">
-									<div class="text-left text-xs">
-										{comment.character.name} <br />
-										<div class="text-gray-500">
-											{comment.character.corporation_name} / {comment.character.alliance_name}
-										</div>
-									</div>
-
-									<div class="mt-2">{comment.body}</div>
-									<div class="text-gray-500 text-xs mt-2 text-right">{comment.date}</div>
-								</td>
+			{#if commentsEnabled === true}
+				<!-- Comments Section -->
+				<div class="overflow-x-auto" role="table">
+					<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg w-full">
+						<thead>
+							<tr class="bg-darker text-white uppercase text-xs leading-normal">
+								<th scope="col"></th>
+								<th scope="col">Sorting</th>
+								<th scope="col">
+									<button class="sort-button" on:click={() => sortComments('rating')}>Rating</button
+									>
+								</th>
+								<th scope="col">
+									<button class="sort-button" on:click={() => sortComments('id')}>Posted</button>
+								</th>
+								<th scope="col">
+									<button class="sort-button" on:click={() => sortComments('date')}>Date</button>
+								</th>
 							</tr>
-						{/each}
-					</tbody>
-				</table>
-				<!-- Comment Input Box -->
-				<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
-					<div class="flex items-start">
-						<img
-							src="https://via.placeholder.com/128"
-							alt="Current User"
-							class="h-16 w-16 rounded-md mr-4"
-						/>
-						<textarea
-							class="w-full bg-gray-700 text-white rounded-md p-2"
-							rows="4"
-							placeholder="Write a comment..."
-							bind:value={newComment}
-						></textarea>
-					</div>
-					<div class="flex justify-end mt-2">
-						<button class="post-button" on:click={postComment}>Post Comment</button>
+						</thead>
+						<tbody class="text-gray-300 text-sm">
+							{#each sortedComments as comment}
+								<tr
+									class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
+								>
+									<td class="px-1 py-1">
+										<div class="comment-actions flex flex-col items-center">
+											<button class="upvote flex items-center justify-center">
+												<i class="fas fa-arrow-up"></i>
+											</button>
+											<div class="votes my-2" style="color: {getColorFromRating(comment.rating)}">
+												{comment.rating}
+											</div>
+											<button class="downvote flex items-center justify-center">
+												<i class="fas fa-arrow-down"></i>
+											</button>
+										</div>
+									</td>
+
+									<td class="px-1 py-1">
+										<img
+											src={comment.character.image_url}
+											alt={comment.character.name}
+											class="h-16 w-16 rounded-md"
+										/>
+									</td>
+									<td class="px-1 py-1" colspan="3">
+										<div class="text-left text-xs">
+											{comment.character.name} <br />
+											<div class="text-gray-500">
+												{comment.character.corporation_name} / {comment.character.alliance_name}
+											</div>
+										</div>
+
+										<div class="mt-2">{comment.body}</div>
+										<div class="text-gray-500 text-xs mt-2 text-right">{comment.date}</div>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+					<!-- Comment Input Box -->
+					<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
+						<div class="flex items-start">
+							<img
+								src="https://via.placeholder.com/128"
+								alt="Current User"
+								class="h-16 w-16 rounded-md mr-4"
+							/>
+							<textarea
+								class="w-full bg-gray-700 text-white rounded-md p-2"
+								rows="4"
+								placeholder="Write a comment..."
+								bind:value={newComment}
+							></textarea>
+						</div>
+						<div class="flex justify-end mt-2">
+							<button class="post-button" on:click={postComment}>Post Comment</button>
+						</div>
 					</div>
 				</div>
-			</div>
-
+			{/if}
 			<!-- Attackers -->
 			<div class="overflow-x-auto" role="table">
 				<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
