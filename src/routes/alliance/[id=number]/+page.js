@@ -1,7 +1,7 @@
-export async function load({params}) {
-    const { id } = params;
+export async function load({ params }) {
+	const { id } = params;
 
-    return {
-        id
-    }
+	return {
+		id
+	};
 }

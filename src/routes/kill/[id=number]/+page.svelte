@@ -87,7 +87,9 @@
 		groupedItems = Object.keys(slotTypes).map((slotType) => {
 			return {
 				slotType,
-				items: groupByQty(killmail.items.filter((item) => slotTypes[slotType].includes(item.flag)))
+				items: groupByQty(
+					killmail.items.filter((item) => slotTypes[slotType].includes(item.flag))
+				)
 			};
 		});
 
@@ -253,7 +255,10 @@
 							<tr>
 								<th class="p-1">Character:</th>
 								<td class="p-1">
-									<a href={`/character/${killmail.victim.character_id}/`} class="text-lg font-bold">
+									<a
+										href={`/character/${killmail.victim.character_id}/`}
+										class="text-lg font-bold"
+									>
 										{killmail.victim.character_name}
 									</a>
 								</td>
@@ -261,7 +266,10 @@
 							<tr>
 								<th class="p-1">Corporation:</th>
 								<td class="p-1">
-									<a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm">
+									<a
+										href={`/corporation/${killmail.victim.corporation_id}/`}
+										class="text-sm"
+									>
 										{killmail.victim.corporation_name}
 									</a>
 								</td>
@@ -270,7 +278,10 @@
 								<tr>
 									<th class="p-1">Alliance:</th>
 									<td class="p-1">
-										<a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm">
+										<a
+											href={`/alliance/${killmail.victim.alliance_id}/`}
+											class="text-sm"
+										>
 											{killmail.victim.alliance_name}
 										</a>
 									</td>
@@ -280,7 +291,10 @@
 								<tr>
 									<th class="p-1">Faction:</th>
 									<td class="p-1">
-										<a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm">
+										<a
+											href={`/faction/${killmail.victim.faction_id}/`}
+											class="text-sm"
+										>
 											{killmail.victim.faction_name}
 										</a>
 									</td>
@@ -289,12 +303,18 @@
 							<tr>
 								<th class="p-1">Ship:</th>
 								<td class="p-1">
-									<a href={`/ship/${killmail.victim.ship_id}/`} class="text-blue-500">
+									<a
+										href={`/ship/${killmail.victim.ship_id}/`}
+										class="text-blue-500"
+									>
 										{killmail.victim.ship_name}
 									</a>
 									<small class="text-gray-500">
 										(
-										<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-blue-500">
+										<a
+											href={`/group/${killmail.victim.ship_group_id}/`}
+											class="text-blue-500"
+										>
 											{killmail.victim.ship_group_name}
 										</a>
 										)
@@ -304,11 +324,16 @@
 							<tr>
 								<th class="p-1">System:</th>
 								<td class="p-1">
-									<a href={`/system/${killmail.system_id}/`} class="text-blue-500">
+									<a
+										href={`/system/${killmail.system_id}/`}
+										class="text-blue-500"
+									>
 										{killmail.system_name}
 									</a>
 									<span class="text-gray-500">
-										(<span style={`color: ${getSecurityColor(killmail.system_security)}`}>
+										(<span
+											style={`color: ${getSecurityColor(killmail.system_security)}`}
+										>
 											{formatNumber(killmail.system_security)}
 										</span>)
 									</span>
@@ -317,7 +342,10 @@
 							<tr>
 								<th class="p-1">Region:</th>
 								<td class="p-1">
-									<a href={`/region/${killmail.region_id}/`} class="text-blue-500">
+									<a
+										href={`/region/${killmail.region_id}/`}
+										class="text-blue-500"
+									>
 										{killmail.region_name}
 									</a>
 								</td>
@@ -342,15 +370,21 @@
 							</tr>
 							<tr>
 								<th class="p-1">Dropped:</th>
-								<td class="p-1 font-bold">{formatNumber(itemDroppedIsk(killmail.items))} ISK</td>
+								<td class="p-1 font-bold"
+									>{formatNumber(itemDroppedIsk(killmail.items))} ISK</td
+								>
 							</tr>
 							<tr>
 								<th class="p-1">Destroyed:</th>
-								<td class="p-1 font-bold">{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td>
+								<td class="p-1 font-bold"
+									>{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td
+								>
 							</tr>
 							<tr>
 								<th class="p-1">Total:</th>
-								<td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
+								<td class="p-1 font-bold"
+									>{formatNumber(killmail.total_value)} ISK</td
+								>
 							</tr>
 						</tbody>
 					</table>
@@ -360,7 +394,9 @@
 			<!-- Items -->
 			<div class="w-full rounded-lg shadow-lg custom-space-x mt-4">
 				<div class="overflow-x-auto" role="table">
-					<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+					<table
+						class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg"
+					>
 						<thead>
 							<tr class="bg-darker text-white uppercase text-xs leading-normal">
 								<th class="px-2 py-1" scope="col"></th>
@@ -374,7 +410,9 @@
 							{#each groupedItems as group}
 								{#if group.items.length > 0}
 									<tr class="bg-gray-700 text-white">
-										<td colspan="5" class="px-2 py-1 font-bold">{group.slotType}</td>
+										<td colspan="5" class="px-2 py-1 font-bold"
+											>{group.slotType}</td
+										>
 									</tr>
 								{/if}
 								{#each group.items as item}
@@ -392,7 +430,9 @@
 										<td class="px-2 py-1">{item.qty_destroyed}</td>
 										<td class="px-2 py-1">{item.qty_dropped}</td>
 										<td class="px-2 py-1">
-											{formatNumber(item.value * (item.qty_destroyed + item.qty_dropped))}
+											{formatNumber(
+												item.value * (item.qty_destroyed + item.qty_dropped)
+											)}
 										</td>
 									</tr>
 								{/each}
@@ -408,20 +448,29 @@
 			{#if commentsEnabled === true}
 				<!-- Comments Section -->
 				<div class="overflow-x-auto" role="table">
-					<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg w-full">
+					<table
+						class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg w-full"
+					>
 						<thead>
 							<tr class="bg-darker text-white uppercase text-xs leading-normal">
 								<th scope="col"></th>
 								<th scope="col">Sorting</th>
 								<th scope="col">
-									<button class="sort-button" on:click={() => sortComments('rating')}>Rating</button
+									<button
+										class="sort-button"
+										on:click={() => sortComments('rating')}>Rating</button
 									>
 								</th>
 								<th scope="col">
-									<button class="sort-button" on:click={() => sortComments('id')}>Posted</button>
+									<button class="sort-button" on:click={() => sortComments('id')}
+										>Posted</button
+									>
 								</th>
 								<th scope="col">
-									<button class="sort-button" on:click={() => sortComments('date')}>Date</button>
+									<button
+										class="sort-button"
+										on:click={() => sortComments('date')}>Date</button
+									>
 								</th>
 							</tr>
 						</thead>
@@ -435,10 +484,15 @@
 											<button class="upvote flex items-center justify-center">
 												<i class="fas fa-arrow-up"></i>
 											</button>
-											<div class="votes my-2" style="color: {getColorFromRating(comment.rating)}">
+											<div
+												class="votes my-2"
+												style="color: {getColorFromRating(comment.rating)}"
+											>
 												{comment.rating}
 											</div>
-											<button class="downvote flex items-center justify-center">
+											<button
+												class="downvote flex items-center justify-center"
+											>
 												<i class="fas fa-arrow-down"></i>
 											</button>
 										</div>
@@ -455,7 +509,8 @@
 										<div class="text-left text-xs">
 											{comment.character.name} <br />
 											<div class="text-gray-500">
-												{comment.character.corporation_name} / {comment.character.alliance_name}
+												{comment.character.corporation_name} / {comment
+													.character.alliance_name}
 											</div>
 										</div>
 
@@ -502,7 +557,9 @@
 					</thead>
 					<tbody class="text-gray-300 text-sm">
 						{#each killmail.attackers as attacker}
-							<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+							<tr
+								class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
+							>
 								<td class="px-2 py-1">
 									<a href={`/character/${attacker.character_id}`}>
 										<img

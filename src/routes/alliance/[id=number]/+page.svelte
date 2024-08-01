@@ -59,7 +59,9 @@
 								<td class="font-bold text-right p-1">Ticker:</td>
 								<td>{alliance.ticker}</td>
 							</tr>
-							<tr on:click={(window.location.href = `/faction/${alliance.faction_id}`)}>
+							<tr
+								on:click={(window.location.href = `/faction/${alliance.faction_id}`)}
+							>
 								<td class="font-bold text-right p-1">Faction:</td>
 								<td>{alliance.faction_name}</td>
 							</tr>
@@ -83,16 +85,28 @@
 		<div class="mt-4">
 			<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 				<ul class="flex space-x-4">
-					<li class="hover:underline" on:click|preventDefault={() => loadComponent(Kills)}>
+					<li
+						class="hover:underline"
+						on:click|preventDefault={() => loadComponent(Kills)}
+					>
 						Kills
 					</li>
-					<li class="hover:underline" on:click|preventDefault={() => loadComponent(Losses)}>
+					<li
+						class="hover:underline"
+						on:click|preventDefault={() => loadComponent(Losses)}
+					>
 						Losses
 					</li>
-					<li class="hover:underline" on:click|preventDefault={() => loadComponent(Corporations)}>
+					<li
+						class="hover:underline"
+						on:click|preventDefault={() => loadComponent(Corporations)}
+					>
 						Corporations
 					</li>
-					<li class="hover:underline" on:click|preventDefault={() => loadComponent(Members)}>
+					<li
+						class="hover:underline"
+						on:click|preventDefault={() => loadComponent(Members)}
+					>
 						Members
 					</li>
 				</ul>

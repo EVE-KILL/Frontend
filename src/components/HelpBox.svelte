@@ -43,8 +43,9 @@
 			<ul class="list-disc pl-5">
 				<li><strong>c</strong>: Focus on the comment box</li>
 			</ul>
-			<button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded" on:click={closeShortcutPanel}
-				>Close</button
+			<button
+				class="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+				on:click={closeShortcutPanel}>Close</button
 			>
 		</div>
 	</div>

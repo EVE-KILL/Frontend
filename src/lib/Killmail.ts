@@ -118,7 +118,8 @@ export async function generateEveShipFit(killmail: Killmail) {
 
 			const module = modules.find(
 				(itemModule) =>
-					itemModule.slot === moduleOrCharge.slot && itemModule.typeId !== moduleOrCharge.typeId
+					itemModule.slot === moduleOrCharge.slot &&
+					itemModule.typeId !== moduleOrCharge.typeId
 			);
 
 			if (module !== undefined) {
