@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	export let isShortcutPanelOpen = false;
-	export let toggleShortcutPanel;
 	export let closeShortcutPanel;
 
 	function handleKeydown(event) {
@@ -32,12 +31,17 @@
 			aria-hidden="true"
 		>
 			<h2 class="text-lg font-bold mb-4">Keyboard Shortcuts</h2>
+			<h2>Global</h2>
 			<ul class="list-disc pl-5">
 				<li><strong>s</strong>: Focus on the search box</li>
 				<li><strong>?</strong>: Open this shortcuts panel</li>
 				<li><strong>Arrow Up/Down</strong>: Navigate search results</li>
 				<li><strong>Enter</strong>: Select search result</li>
 				<li><strong>Esc</strong>: Close this panel</li>
+			</ul>
+			<h2>Killmail</h2>
+			<ul class="list-disc pl-5">
+				<li><strong>c</strong>: Focus on the comment box</li>
 			</ul>
 			<button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded" on:click={closeShortcutPanel}
 				>Close</button

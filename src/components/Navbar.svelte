@@ -58,7 +58,7 @@
 	function handleKeydown(event) {
 		if (event.key === 's' && !isSearchBoxFocused) {
 			event.preventDefault();
-			document.getElementById('default-search').focus();
+			document.getElementById('search').focus();
 		}
 
 		if (event.key === '?') {
@@ -304,7 +304,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="flex items-center justify-center w-80">
+		<div class="flex items-center justify-center">
 			<form class="max-w-full relative">
 				<div class="relative">
 					<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -326,12 +326,12 @@
 					</div>
 					<input
 						type="search"
-						id="default-search"
+						id="search"
 						bind:value={searchTerm}
 						on:input={handleSearch}
 						on:focus={handleFocus}
 						on:blur={handleBlur}
-						class="block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+						class="search block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="Search..."
 					/>
 				</div>
@@ -429,6 +429,10 @@
 </nav>
 
 <style>
+	.search {
+		min-width: 30rem;
+	}
+
 	.hover\:bg-gray-600:hover {
 		background-color: #4a4a4a;
 	}
