@@ -8,6 +8,7 @@
 	import bg3 from '../../images/bg3.png';
 	import bg4 from '../../images/bg4.png';
 	import bg5 from '../../images/bg5.png';
+	import bg6 from '../../images/bg6.png';
 
 	// Store the selected background image
 	const selectedBackground = writable(bg1);
@@ -19,6 +20,7 @@
 		{ src: bg3, name: 'bg3.png' },
 		{ src: bg4, name: 'bg4.png' },
 		{ src: bg5, name: 'bg5.png' },
+		{ src: bg6, name: 'bg6.png' },
 	];
 
 	// Local state for dropdown visibility
