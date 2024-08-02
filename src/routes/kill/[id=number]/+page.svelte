@@ -186,6 +186,14 @@
 			newComment = '';
 		}
 	}
+
+	function countMissing(attacker) {
+		let count = 0;
+		if (!attacker.character_id) count++;
+		if (!attacker.corporation_id) count++;
+		if (!attacker.alliance_id) count++;
+		return count;
+	}
 </script>
 
 {#if killmail && fit}
@@ -591,29 +599,28 @@
 									/>
 								</td>
 								<td class="px-2 py-1">
-									{#if attacker.character_id || attacker.corporation_id || attacker.alliance_id}
-										{#if attacker.character_id}
-											<div>
-												<a href={`/character/${attacker.character_id}`} class="text-blue-400 hover:underline">
-													{attacker.character_name}
-												</a>
-											</div>
-										{/if}
-										{#if attacker.corporation_id}
-											<div>
-												<a href={`/corporation/${attacker.corporation_id}`} class="text-blue-400 hover:underline">
-													{attacker.corporation_name}
-												</a>
-											</div>
-										{/if}
-										{#if attacker.alliance_id}
-											<div>
-												<a href={`/alliance/${attacker.alliance_id}`} class="text-blue-400 hover:underline">
-													{attacker.alliance_name}
-												</a>
-											</div>
-										{/if}
-									{:else}
+									{#if attacker.character_id}
+										<div>
+											<a href={`/character/${attacker.character_id}`} class="text-blue-400 hover:underline">
+												{attacker.character_name}
+											</a>
+										</div>
+									{/if}
+									{#if attacker.corporation_id}
+										<div>
+											<a href={`/corporation/${attacker.corporation_id}`} class="text-blue-400 hover:underline">
+												{attacker.corporation_name}
+											</a>
+										</div>
+									{/if}
+									{#if attacker.alliance_id}
+										<div>
+											<a href={`/alliance/${attacker.alliance_id}`} class="text-blue-400 hover:underline">
+												{attacker.alliance_name}
+											</a>
+										</div>
+									{/if}
+									{#if countMissing(attacker) >= 2}
 										<div>{attacker.ship_name}</div>
 										<div>{attacker.ship_group_name}</div>
 									{/if}
