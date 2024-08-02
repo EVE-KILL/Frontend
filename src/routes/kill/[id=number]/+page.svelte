@@ -417,7 +417,13 @@
 								{/if}
 								{#each group.items as item}
 									<tr
-										class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
+										class={`border-b border-gray-700 hover:bg-gray-600 transition-colors duration-30 ${
+											item.qty_dropped > 0
+												? 'dropped-items'
+												: item.qty_destroyed > 0
+													? 'destroyed-items'
+													: ''
+										}`}
 									>
 										<td class="px-2 py-1">
 											<img
@@ -623,6 +629,14 @@
 {/if}
 
 <style>
+	.dropped-items {
+		background-color: rgba(21, 255, 0, 0.1);
+	}
+
+	.destroyed-items {
+		background-color: rgba(255, 0, 0, 0.117);
+	}
+
 	.fitting-wheel {
 		position: relative;
 		top: 0;
