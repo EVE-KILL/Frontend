@@ -14,7 +14,7 @@ export function truncateString(str: string, num: number): string {
 /**
  * Converts EVE HTML blobs to properly formatted HTML.
  * - Converts color codes to proper HTML colors.
- * - Updates `showinfo` links to a new format.
+ * - Updates `showinfo` and `killreport` links to a new format.
  * - Converts newlines to `<br>` tags.
  * - Handles escaped single quotes.
  *
@@ -35,6 +35,9 @@ export function convertEveHtml(html: string): string {
 
     // Replace showinfo links
     html = html.replace(/<a href=showinfo:(\d+)>/g, '<a href="/item/$1">');
+
+    // Replace killreport links and retain the original text
+    html = html.replace(/<a href="killReport:(\d+):[A-Fa-f0-9]+">([^<]+)<\/a>/g, '<a href="/kill/$1">$2</a>');
 
     // Close span tags properly
     html = html.replace(/<\/color>/g, '</span>');
