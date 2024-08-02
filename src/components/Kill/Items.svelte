@@ -58,7 +58,11 @@
                                     class="h-8 w-8 rounded-md"
                                 />
                             </td>
-                            <td class="px-2 py-1">{item.type_name}</td>
+                            <td class="px-2 py-1">
+                                <a href={`/item/${item.type_id}`} class="hover:underline">
+                                    {item.type_name}
+                                </a>
+                            </td>
                             <td class="px-2 py-1">{item.qty_destroyed}</td>
                             <td class="px-2 py-1">{item.qty_dropped}</td>
                             <td class="px-2 py-1">

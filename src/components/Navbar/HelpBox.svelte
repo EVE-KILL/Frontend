@@ -1,28 +1,44 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
-	export let isShortcutPanelOpen = false;
-	export let closeShortcutPanel;
 
-	function handleKeydown(event) {
-		if (isShortcutPanelOpen && event.key === 'Escape') {
-			event.preventDefault();
+	let isShortcutPanelOpen = false;
+
+	// Function to toggle the visibility of the shortcut panel
+	function toggleShortcutPanel() {
+		isShortcutPanelOpen = !isShortcutPanelOpen;
+	}
+
+	// Function to close the shortcut panel
+	function closeShortcutPanel() {
+		isShortcutPanelOpen = false;
+	}
+
+	// Handle keydown events
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
 			closeShortcutPanel();
+		}
+		if (event.key === '?') {
+			toggleShortcutPanel();
 		}
 	}
 
-	onMount(async () => {
+	onMount(() => {
 		document.addEventListener('keydown', handleKeydown);
-		return () => {
-			document.removeEventListener('keydown', handleKeydown);
-		};
 	});
 </script>
 
+<!-- Button to toggle the shortcut panel -->
+<button class="text-gray-500 text-xs mt-2 text-right cursor-pointer" on:click={toggleShortcutPanel}>
+	?
+</button>
+
+<!-- Shortcut panel -->
 {#if isShortcutPanelOpen}
 	<div
 		class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-		on:click={closeShortcutPanel}
 		aria-hidden="true"
+		on:click={closeShortcutPanel}
 	>
 		<div
 			name="helpbox"
@@ -43,13 +59,6 @@
 			<ul class="list-disc pl-5">
 				<li><strong>c</strong>: Focus on the comment box</li>
 			</ul>
-			<button
-				class="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-				on:click={closeShortcutPanel}>Close</button
-			>
 		</div>
 	</div>
 {/if}
-
-<style>
-</style>

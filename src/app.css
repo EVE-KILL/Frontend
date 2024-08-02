@@ -5,7 +5,7 @@
 /* Make the background black and add the src/images/bg.jpg as background */
 html,
 body {
-	background: url('./images/bg.jpg') no-repeat black top center fixed;
+	background-color: black;
 	text-shadow: 1px 1px 1px #0e0e0e;
 	margin-top: 10px;
 	font-family: 'Shentox', sans-serif;
