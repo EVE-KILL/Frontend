@@ -47,7 +47,6 @@
 		"@eveshipfit/react": "^4.5.4",
 		"@fortawesome/fontawesome-free": "^6.6.0",
 		"cors": "^2.8.5",
-		"dompurify": "*",
 		"express": "^4.19.2",
 		"svelte-preprocess-react": "^0.17.1"
 	}

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getUpstreamUrl } from '$lib/Config';
-    import { formatNumber } from '$lib/Helpers.js';
+    import { formatNumber, truncateString, convertEveHtml } from '$lib/Helpers.js';
     import type { Killmail } from '../../../types/Killmail.js';
 
     export let data;
@@ -47,46 +47,89 @@
                 <li class="text-blue-300">Description</li>
             </ul>
         </div>
-        <div>{item.description}</div>
+        <div>{@html convertEveHtml(item.description)}</div>
     </div>
 
     <div class="flex space-x-4">
-        <div class="w-1/2 p-4 rounded bg-opacity-75">
+        <div class="w-1/2 p-4 rounded bg-gray-800 bg-opacity-75">
             <h2 class="text-xl font-bold mb-4">Latest Kills</h2>
-            <div>
-                {#each killmails as killmail}
-                <a href="/kill/{killmail.killmail_id}" rel="tooltip" title="Detail for {killmail.killmail_id}" class="block mb-4 cursor-pointer no-underline text-white">
-                    <div class="flex items-center">
-                        <img src="{killmail.victim.ship_image_url}" style="height: 64px; width: 64px;" class="rounded mr-2" alt="{killmail.victim.ship_name}">
-                        <div class="mr-2">
-                            <a href="/character/{killmail.victim.character_id}" rel="tooltip" title="{killmail.victim.character_name}">
-                                <img src="{killmail.victim.character_image_url}" style="height: 64px; width: 64px;" class="rounded" alt="{killmail.victim.character_name}">
-                            </a>
-                        </div>
-                        <div class="mr-2">
-                            <a href="/corporation/{killmail.victim.corporation_id}" rel="tooltip" title="{killmail.victim.corporation_name}">
-                                <img src="{killmail.victim.corporation_image_url}" style="height: 64px; width: 64px;" class="rounded" alt="{killmail.victim.corporation_name}">
-                            </a>
-                        </div>
-                        <div class="mr-2">
-                            <a href="/alliance/{killmail.victim.alliance_id}" rel="tooltip" title="{killmail.victim.alliance_name}">
-                                <img src="{killmail.victim.alliance_image_url}" style="height: 64px; width: 64px;" class="rounded" alt="{killmail.victim.alliance_name}">
-                            </a>
-                        </div>
-                        <div>
-                            {killmail.victim.character_name} ({killmail.victim.ship_name})<br>
-                            {killmail.victim.corporation_name}<br>
-                            {killmail.victim.alliance_name}
-                        </div>
-                    </div>
-                </a>
-                {/each}
+            <div class="overflow-x-auto" role="table">
+                <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+                    <thead>
+                        <tr class="bg-darker text-white uppercase text-xs leading-normal">
+                            <th class="px-2 py-1 w-[64px]" scope="col"></th>
+                            <th class="px-2 py-1" scope="col">Ship</th>
+                            <th class="px-2 py-1 w-[64px]" scope="col"></th>
+                            <th class="px-2 py-1" scope="col">Victim</th>
+                            <th class="px-2 py-1" scope="col">Final Blow</th>
+                            <th class="px-2 py-1" scope="col">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300 text-sm">
+                        {#each killmails as kill (kill.killmail_id)}
+                            <tr
+                                class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+                                on:click={() => { window.location.href = `/kill/${kill.killmail_id}`; }}
+                            >
+                                <td class="px-2 py-1">
+                                    <img
+                                        src="{kill.victim.ship_image_url}?size=64"
+                                        alt="Ship: {kill.victim.ship_name}"
+                                        class="w-10 rounded"
+                                    />
+                                </td>
+                                <td class="px-2 py-1">
+                                    {truncateString(kill.victim.ship_name, 20)}<br />
+                                    {#if kill.total_value > 50}
+                                        <span class="text-gray-400">{formatNumber(kill.total_value)} ISK</span>
+                                    {/if}
+                                </td>
+                                <td class="px-2 py-1">
+                                    <img
+                                        src="{kill.victim.character_image_url}?size=64"
+                                        alt="Character: {kill.victim.character_name}"
+                                        class="w-10 rounded"
+                                    />
+                                </td>
+                                <td class="px-2 py-1">
+                                    {kill.victim.character_name}<br />
+                                    <span class="text-gray-400">{truncateString(kill.victim.corporation_name, 22)}</span>
+                                </td>
+                                <td class="px-2 py-1">
+                                    {#if Array.isArray(kill.attackers)}
+                                        {#each kill.attackers as attacker}
+                                            {#if attacker.final_blow}
+                                                {#if kill.is_npc}
+                                                    {attacker.faction_name}<br />
+                                                    <span class="text-gray-400">{truncateString(attacker.ship_group_name, 22)}</span>
+                                                {:else}
+                                                    {attacker.character_name}<br />
+                                                    <span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
+                                                {/if}
+                                            {/if}
+                                        {/each}
+                                    {/if}
+                                </td>
+                                <td class="px-2 py-1">
+                                    {kill.region_name} / {kill.system_name}<br />
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <span class="text-gray-400">{kill.attackers.length}</span>
+                                            <img src="https://images.evetech.net/involved.png" alt="{kill.attackers.length} Involved" />
+                                        </div>
+                                        <div class="text-right text-gray-500">{kill.kill_time}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="w-1/2 p-4 rounded bg-opacity-75">
+        <div class="w-1/2 p-4 rounded bg-gray-800 bg-opacity-75">
             <h2 class="text-xl font-bold mb-4">Market Prices - The Forge</h2>
             <div>
-                <table class="table-auto w-full text-left text-sm bg-semi-transparent rounded-lg shadow-lg">
+                <table class="table-auto w-full text-left text-sm bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
                     <thead>
                         <tr class="bg-darker text-white uppercase text-xs leading-normal">
                             <th class="px-2 py-1">Date</th>

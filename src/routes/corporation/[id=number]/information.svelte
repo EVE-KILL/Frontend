@@ -1,26 +1,21 @@
 <script lang="ts">
 	import type { Corporation } from '../../../types/Corporation.ts';
 	import { onMount } from 'svelte';
-	import DOMPurify from 'dompurify';
+	import { convertEveHtml } from '$lib/Helpers.js';
 
 	export let corporation: Corporation;
 	let sanitizedDescription: string;
 
 	onMount(async () => {
-		let description = corporation.description;
+		let description = convertEveHtml(corporation.description);
 
 		// Remove Python-style string representation prefix if it exists
 		if (description.startsWith("u'") || description.startsWith('u"')) {
 			description = description.slice(2, -1);
 		}
 
-		// Sanitize the description
-		sanitizedDescription = DOMPurify.sanitize(description, {
-			FORBID_ATTR: ['size']
-		});
-
 		// Decode Unicode characters
-		sanitizedDescription = decodeUnicode(sanitizedDescription);
+		sanitizedDescription = decodeUnicode(description);
 	});
 
 	function decodeUnicode(str: string): string {
