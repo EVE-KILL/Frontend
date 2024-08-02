@@ -69,7 +69,7 @@
 	});
 </script>
 
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center -mt-1">
 	<form class="max-w-full relative">
 		<div class="relative">
 			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

@@ -14,7 +14,7 @@
 <style>
 	.content {
 		max-width: 90rem;
-		background-color: rgba(21, 21, 21, 0.4);
+		background-color: rgba(21, 21, 21, 0.5);
 		border: 2px solid #252525;
 		padding: 5px;
 		border-radius: 10px;
@@ -24,7 +24,7 @@
 		display: block;
 		border: 5px solid rgba(0, 0, 0, 0.5);
 		padding: 0px 20px 20px 20px;
-		background: rgba(0, 0, 0, 0.8);
+		background: rgba(0, 0, 0, 0.65);
 		margin-bottom: 5px;
 	}
 </style>

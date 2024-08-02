@@ -1,4 +1,3 @@
-<!-- src/lib/components/NavBar.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -7,6 +6,7 @@
 	import Menu from './Navbar/Menu.svelte';
 	import Search from './Navbar/Search.svelte';
 	import UserMenu from './Navbar/UserMenu.svelte';
+	import BackgroundSelector from './Navbar/BackgroundSelector.svelte';
 </script>
 
 <nav class="bg-transparent p-2">
@@ -17,7 +17,7 @@
 		<div class="flex items-center justify-center">
 			<Search />
 		</div>
-		<div class="flex items-right -ml-20">
+		<div class="flex items-right -ml-24">
 			<ul class="flex items-center space-x-4">
 				<li>
 					<Information />
@@ -25,10 +25,19 @@
 				<li>
 					<UserMenu />
 				</li>
-				<li class="ml-5 relative">
+				<li>
+					<BackgroundSelector />
+				</li>
+				<li>
 					<HelpBox />
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
+
+<style>
+	.hover\:bg-gray-700:hover {
+		background-color: #4a4a4a;
+	}
+</style>

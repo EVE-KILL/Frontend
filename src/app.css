@@ -2,12 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Make the background black and add the src/images/bg.jpg as background */
-html,
-body {
-	background-color: black;
-	text-shadow: 1px 1px 1px #0e0e0e;
-	margin-top: 10px;
+html, body {
+	height: 100%;
+	margin: 0;
 	font-family: 'Shentox', sans-serif;
 	font-size: 1.1em;
+}
+
+html {
+	background-color: black;
+	text-shadow: 1px 1px 1px #0e0e0e;
+}
+
+/* Vignette effect */
+html::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: radial-gradient(circle, transparent, black 90%);
+	pointer-events: none;
+	z-index: -1;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
 }
