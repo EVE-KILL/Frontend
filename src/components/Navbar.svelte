@@ -503,7 +503,7 @@
 										? `https://images.evetech.net/characters/${user.character_id}/portrait?size=32`
 										: 'https://images.evetech.net/characters/1/portrait?size=32'}
 									alt="User avatar"
-									class="rounded-full"
+									class="rounded"
 								/>
 							</button>
 							{#if isAccountDropdownOpen}

@@ -16,6 +16,7 @@
 		StatisticsProvider,
 		useImportEveShipFit
 	} from '@eveshipfit/react';
+	import { logout } from '$lib/stores/Session.ts';
 
 	export let data;
 	let killmail: Killmail;
@@ -582,36 +583,40 @@
 										class="h-8 w-8 rounded-md"
 									/>
 									<img
-										src={`https://images.evetech.net/types/${attacker.weapon_type_id}/icon?size=64`}
+										src={attacker.weapon_type_id === 0
+											? `https://images.evetech.net/types/${attacker.ship_id}/icon?size=64`
+											: `https://images.evetech.net/types/${attacker.weapon_type_id}/icon?size=64`}
 										alt={attacker.weapon_type_name}
 										class="h-8 w-8 rounded-md"
 									/>
 								</td>
 								<td class="px-2 py-1">
-									<div>
-										<a
-											href={`/character/${attacker.character_id}`}
-											class="text-blue-400 hover:underline"
-										>
-											{attacker.character_name}
-										</a>
-									</div>
-									<div>
-										<a
-											href={`/corporation/${attacker.corporation_id}`}
-											class="text-blue-400 hover:underline"
-										>
-											{attacker.corporation_name}
-										</a>
-									</div>
-									<div>
-										<a
-											href={`/alliance/${attacker.alliance_id}`}
-											class="text-blue-400 hover:underline"
-										>
-											{attacker.alliance_name}
-										</a>
-									</div>
+									{#if attacker.character_id || attacker.corporation_id || attacker.alliance_id}
+										{#if attacker.character_id}
+											<div>
+												<a href={`/character/${attacker.character_id}`} class="text-blue-400 hover:underline">
+													{attacker.character_name}
+												</a>
+											</div>
+										{/if}
+										{#if attacker.corporation_id}
+											<div>
+												<a href={`/corporation/${attacker.corporation_id}`} class="text-blue-400 hover:underline">
+													{attacker.corporation_name}
+												</a>
+											</div>
+										{/if}
+										{#if attacker.alliance_id}
+											<div>
+												<a href={`/alliance/${attacker.alliance_id}`} class="text-blue-400 hover:underline">
+													{attacker.alliance_name}
+												</a>
+											</div>
+										{/if}
+									{:else}
+										<div>{attacker.ship_name}</div>
+										<div>{attacker.ship_group_name}</div>
+									{/if}
 								</td>
 								<td class="px-2 py-1">
 									<div>{attacker.damage_done}</div>
