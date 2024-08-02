@@ -1,10 +1,10 @@
 <!-- src/lib/components/NavBar.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { session, logout } from '$lib/stores/session';
+	import { session, logout } from '$lib/stores/Session.ts';
 	import { page } from '$app/stores';
 	import { getEVEAuthLoginUrl } from '$lib/Auth.ts';
-	import { getUpstreamUrl } from '$lib/Config';
+	import { getUpstreamUrl } from '$lib/Config.ts';
 	import HelpBox from './HelpBox.svelte';
 	import ssoLightSmall from '../images/sso-light-small.png';
 	import ssoDarkSmall from '../images/sso-dark-small.png';

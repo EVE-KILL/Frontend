@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
-    import { session, logout } from '$lib/stores/session';
-    import { getUpstreamUrl } from '$lib/Config';
+    import { session, logout } from '$lib/stores/Session.ts';
+    import { getUpstreamUrl } from '$lib/Config.ts';
     import { goto } from '$app/navigation';
 
     let hash: string | null = null;
