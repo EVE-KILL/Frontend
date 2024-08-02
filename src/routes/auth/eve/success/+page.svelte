@@ -38,32 +38,6 @@
             });
         }
     });
-
-    async function handleReauth() {
-        if (user) {
-            try {
-                const response = await fetch(`${upstreamUrl}/api/auth/reauth/${user.identifier}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    user = {
-                        character_name: data.character_name,
-                        character_id: data.character_id,
-                        expiration: data.expiration,
-                        identifier: data.identifier
-                    };
-                    session.set({ user });
-                } else if (response.status === 401) {
-                    console.warn('Reauthentication failed, logging out.');
-                    logout();
-                } else {
-                    console.error('Failed to reauthenticate');
-                }
-            } catch (error) {
-                console.error('Error reauthenticating:', error);
-                logout();
-            }
-        }
-    }
 </script>
 
 <div class="text-white">

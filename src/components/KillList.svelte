@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Killmail } from '../types/Killmail';
-    import { onMount, afterUpdate } from 'svelte';
+    import { onMount, onDestroy, afterUpdate } from 'svelte';
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
 
@@ -14,6 +14,7 @@
     let sentinel: HTMLDivElement;
     let observer: IntersectionObserver;
     let killmailIds = new Set<string>();
+    let socket: WebSocket;
 
     async function loadMore() {
         if (loading) return;
@@ -39,7 +40,7 @@
 
     $: url, resetAndLoad();
 
-    onMount(() => {
+    onMount(async () => {
         observer = new IntersectionObserver(
             entries => {
                 if (entries[0].isIntersecting) {
@@ -49,7 +50,7 @@
             { threshold: 1 }
         );
 
-        const socket = new WebSocket('wss://ws.eve-kill.com/kills');
+        socket = new WebSocket('wss://ws.eve-kill.com/kills');
 
         socket.addEventListener('open', () => {
             socket.send(JSON.stringify({ type: 'subscribe', data: wsFilter }));
@@ -68,6 +69,11 @@
                 }
             }
         });
+    });
+
+    onDestroy(async () => {
+        // Close the websocket connection
+        socket && socket.close();
     });
 
     afterUpdate(() => {
