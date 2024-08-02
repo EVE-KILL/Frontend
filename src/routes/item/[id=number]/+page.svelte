@@ -17,13 +17,13 @@
 
     onMount(async () => {
         const response = await fetch(itemUrl);
+        const responsePrice = await fetch(itemPriceUrl);
         item = await response.json();
-        console.log(item);
-
-        const responseKillmails = await fetch(itemKillmailsUrl);
-        let killmailsIds = await responseKillmails.json();
+        prices = await responsePrice.json();
 
         // Use the POST api to send the list of killmail_ids from killmailsIds to the killmails endpoint, to retrieve the full killmails
+        const responseKillmails = await fetch(itemKillmailsUrl);
+        let killmailsIds = await responseKillmails.json();
         const postKillmails = await fetch(killmailsUrl, {
             method: 'POST',
             headers: {
@@ -32,11 +32,6 @@
             body: JSON.stringify(killmailsIds.map(killmail => killmail.killmail_id))
         });
         killmails = await postKillmails.json();
-        console.log(killmails);
-
-        const responsePrice = await fetch(itemPriceUrl);
-        prices = await responsePrice.json();
-        console.log(prices);
     });
 </script>
 
