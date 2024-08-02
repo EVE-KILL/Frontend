@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Corporation } from '../../../types/Corporation.ts';
-	import { onMount } from 'svelte';
 	import Information from './information.svelte';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';
@@ -12,18 +13,50 @@
 	let activeComponent = Information;
 	const upstreamUrl = getUpstreamUrl();
 
+	// Function to map hash to component
+	const hashToComponent = {
+		'#info': Information,
+		'#kills': Kills,
+		'#losses': Losses,
+		'#members': Members
+	};
+
+	// Load the appropriate component based on the URL hash
+	function loadComponentFromHash(hash) {
+		if (!hash || hash === '#') {
+			activeComponent = Information; // Load Information by default if no hash or empty hash is present
+		} else {
+			const component = hashToComponent[hash];
+			activeComponent = component || Information;
+		}
+	}
+
 	onMount(async () => {
 		const response = await fetch(`${upstreamUrl}/api/corporations/${data.id}`);
 		corporation = await response.json();
-		console.log(corporation);
 		if (corporation.error) {
 			window.location.href = '/';
+		} else {
+			// Check if the URL has a hash, if not, add #info and replace history
+			if (!window.location.hash || window.location.hash === '#') {
+				history.replaceState(null, '', `${window.location.pathname}#info`);
+				loadComponentFromHash('#info');
+			} else {
+				// Load the component based on the current hash
+				loadComponentFromHash(window.location.hash);
+			}
 		}
 	});
 
-	function loadComponent(component: any) {
+	function loadComponent(component, hash) {
 		activeComponent = component;
+		window.location.hash = hash;
 	}
+
+	// Watch for URL changes to update the active component
+	page.subscribe(($page) => {
+		loadComponentFromHash($page.url.hash);
+	});
 </script>
 
 {#if corporation}
@@ -66,13 +99,15 @@
 								<td>{corporation.ticker}</td>
 							</tr>
 							<tr
-								on:click={(window.location.href = `/alliance/${corporation.alliance_id}`)}
+								on:click={() =>
+									(window.location.href = `/alliance/${corporation.alliance_id}`)}
 							>
 								<td class="font-bold text-right p-1">Alliance:</td>
 								<td>{corporation.alliance_name}</td>
 							</tr>
 							<tr
-								on:click={(window.location.href = `/faction/${corporation.faction_id}`)}
+								on:click={() =>
+									(window.location.href = `/faction/${corporation.faction_id}`)}
 							>
 								<td class="font-bold text-right p-1">Faction:</td>
 								<td>{corporation.faction_name}</td>
@@ -97,29 +132,41 @@
 		<div class="mt-4">
 			<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 				<ul class="flex space-x-4">
-					<li
-						class="hover:underline"
-						on:click|preventDefault={() => loadComponent(Information)}
-					>
-						Info
+					<li>
+						<a
+							href="#info"
+							class="hover:underline"
+							on:click|preventDefault={() => loadComponent(Information, '#info')}
+						>
+							Info
+						</a>
 					</li>
-					<li
-						class="hover:underline"
-						on:click|preventDefault={() => loadComponent(Kills)}
-					>
-						Kills
+					<li>
+						<a
+							href="#kills"
+							class="hover:underline"
+							on:click|preventDefault={() => loadComponent(Kills, '#kills')}
+						>
+							Kills
+						</a>
 					</li>
-					<li
-						class="hover:underline"
-						on:click|preventDefault={() => loadComponent(Losses)}
-					>
-						Losses
+					<li>
+						<a
+							href="#losses"
+							class="hover:underline"
+							on:click|preventDefault={() => loadComponent(Losses, '#losses')}
+						>
+							Losses
+						</a>
 					</li>
-					<li
-						class="hover:underline"
-						on:click|preventDefault={() => loadComponent(Members)}
-					>
-						Members
+					<li>
+						<a
+							href="#members"
+							class="hover:underline"
+							on:click|preventDefault={() => loadComponent(Members, '#members')}
+						>
+							Members
+						</a>
 					</li>
 				</ul>
 			</nav>

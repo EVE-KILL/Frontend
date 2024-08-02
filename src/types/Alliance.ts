@@ -8,6 +8,7 @@ export interface Alliance {
 	creator_name: string;
 	date_founded: string;
 	description: string;
+	faction_id: number;
 	faction_name: string;
 	home_station_id: number;
 	home_station_name: string;
