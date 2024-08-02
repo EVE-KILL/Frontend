@@ -60,15 +60,6 @@
                         />
                     </a>
                 {/if}
-                {#if killmail.victim.faction_id > 0}
-                    <a href={`/faction/${killmail.victim.faction_id}/`}>
-                        <img
-                            src={`https://images.evetech.net/corporations/${killmail.victim.faction_id}/logo?size=64`}
-                            alt={killmail.victim.faction_name}
-                            class="h-16 w-16 rounded-md"
-                        />
-                    </a>
-                {/if}
             </div>
         </div>
     </div>
