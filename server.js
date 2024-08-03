@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { handler } from './handler.js';
+import { handler } from './build/handler.js';
 import { LRUCache } from 'lru-cache';
 import crypto from 'crypto';
 
@@ -9,6 +8,8 @@ import crypto from 'crypto';
 const cache = new LRUCache({
     maxSize: 2 * 1024 * 1024 * 1024, // 2GB in bytes
     sizeCalculation: (value, key) => value.body.length,
+    ttl: 60 * 60 * 24 * 7, // 1 week
+    allowStale: true,
 });
 
 // Function to create a hash of the cache key
@@ -28,56 +29,55 @@ app.get('/favicon', (req, res) => {
     res.sendFile('favicon.ico', { root: 'static' });
 });
 
+// Helper function to proxy requests
+const proxyRequest = async (req, res, targetUrl) => {
+    const cacheKey = hashKey(req.path);
+
+    if (cache.has(cacheKey)) {
+        // Serve from cache
+        const cachedResponse = cache.get(cacheKey);
+        console.log(`Cache hit for ${req.path}`);
+        res.set(cachedResponse.headers);
+        res.status(cachedResponse.statusCode).send(cachedResponse.body);
+        return;
+    }
+
+    console.log(`Cache miss for ${req.path}`);
+
+    try {
+        const proxyRes = await fetch(targetUrl + req.path, {
+            method: req.method,
+            headers: req.headers
+        });
+
+        const body = await proxyRes.arrayBuffer();
+        const headers = {};
+        proxyRes.headers.forEach((value, name) => {
+            headers[name] = value;
+        });
+
+        const cachedResponse = {
+            statusCode: proxyRes.status,
+            headers: headers,
+            body: Buffer.from(body),
+            length: body.byteLength
+        };
+
+        // Store in cache
+        cache.set(cacheKey, cachedResponse);
+
+        res.set(headers);
+        res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year
+        res.status(proxyRes.status).send(Buffer.from(body));
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
 // Proxy configuration for images.eve-kill.com
 app.use(async (req, res, next) => {
     if (req.hostname === 'images.eve-kill.com') {
-        const cacheKey = hashKey(req.path);
-
-        if (cache.has(cacheKey)) {
-            // Serve from cache
-            const cachedResponse = cache.get(cacheKey);
-            console.log(`Cache hit for ${req.path}`);
-            res.set(cachedResponse.headers);
-            res.status(cachedResponse.statusCode).send(cachedResponse.body);
-        } else {
-            console.log(`Cache miss for ${req.path}`);
-            const proxy = createProxyMiddleware({
-                target: 'https://images.evetech.net',
-                changeOrigin: true,
-                pathRewrite: (path, req) => path, // Keep the path as is
-                onProxyReq: (proxyReq, req, res) => {
-                    // Preserve headers
-                    Object.keys(req.headers).forEach(key => {
-                        proxyReq.setHeader(key, req.headers[key]);
-                    });
-                },
-                onProxyRes: (proxyRes, req, res) => {
-                    // Extend cache headers
-                    res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 year
-
-                    let body = [];
-                    proxyRes.on('data', chunk => {
-                        body.push(chunk);
-                    });
-
-                    proxyRes.on('end', () => {
-                        body = Buffer.concat(body);
-                        const cachedResponse = {
-                            statusCode: proxyRes.statusCode,
-                            headers: proxyRes.headers,
-                            body: body
-                        };
-
-                        // Store in cache
-                        cache.set(cacheKey, cachedResponse);
-
-                        res.set(cachedResponse.headers);
-                        res.status(cachedResponse.statusCode).send(cachedResponse.body);
-                    });
-                }
-            });
-            proxy(req, res, next);
-        }
+        await proxyRequest(req, res, 'https://images.evetech.net');
     } else {
         next();
     }
