@@ -56,10 +56,10 @@
         </div>
 
         <div class="flex space-x-4">
-            <div class="w-1/2 p-4 rounded bg-gray-800 bg-opacity-75">
+            <div class="w-1/2 p-4 rounded bg-opacity-75">
                 <h2 class="text-xl font-bold mb-4">Latest Kills</h2>
                 <div class="overflow-x-auto" role="table">
-                    <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+                    <table class="table-auto min-w-full bg-semi-transparent rounded-lg shadow-lg">
                         <tbody class="text-gray-300 text-sm">
                             {#each killmails as kill (kill.killmail_id)}
                                 <tr class="hover:bg-gray-600 transition-colors duration-300 cursor-pointer" on:click={() => handleKillmailClick(kill.killmail_id)}>
@@ -94,10 +94,10 @@
                     </table>
                 </div>
             </div>
-            <div class="w-1/2 p-4 rounded bg-gray-800 bg-opacity-75">
+            <div class="w-1/2 p-4 rounded bg-opacity-75">
                 <h2 class="text-xl font-bold mb-4">Market Prices - The Forge</h2>
                 <div>
-                    <table class="table-auto w-full text-left text-sm bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+                    <table class="table-auto w-full text-left text-sm bg-semi-transparent rounded-lg shadow-lg">
                         <thead>
                             <tr class="bg-darker text-white uppercase text-xs leading-normal">
                                 <th class="px-2 py-1">Date</th>
