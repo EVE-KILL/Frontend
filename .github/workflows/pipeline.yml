@@ -1,71 +1,52 @@
-name: Build & Push Docker Image
+name: Update the deployment repository
 
 on:
   push:
-    branches: ['main']
-    tags: ['v*.*.*']
-
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+    branches:
+      - main
 
 jobs:
-  build-push-container:
+  update-deployment-repository:
     runs-on: ubuntu-latest
-    environment: main
-    concurrency:
-      group: ${{ github.ref }}
-      cancel-in-progress: true
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
     steps:
-      - name: Get short commit hash
-        id: short_commit
-        run: echo "::set-output name=hash::$(echo ${GITHUB_SHA::8})"
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create .npmrc
+      - name: Update the repository in the deployment repository
         run: |
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_TOKEN }}" > .npmrc
-          echo "@eveshipfit:registry=https://npm.pkg.github.com/" >> .npmrc
+          # Define the repository we are pushing to
+          repo_owner="EVE-KILL"
+          repo_name="Deployment"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db # v3.6.1
+          # Define the event type
+          event_type="update-submodule"
 
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          # Define the branch we are pushing to
+          branch="main"
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            latest
-            ${{ steps.short_commit.outputs.hash }}
+          # Define the commit hash we just pushed
+          commit_hash=${{ github.sha }}
 
-      - name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@5176d81f87c23d6fc96624dfdbcd9f3830bbe445 # v6.5.0
-        with:
-          context: .
-          file: .docker/node.Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          #platforms: linux/amd64,linux/arm64
-          platforms: linux/amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Echo out the variables
+          echo "Commit Hash: $commit_hash"
+          echo "Platform Environment: $branch"
+          echo "Push to repository: $repo_owner/$repo_name"
+          echo "Event Type: $event_type"
+
+          # Create the json payload we will send to the repository dispatch event
+          payload='{
+            "event_type": "'$event_type'",
+            "client_payload":
+              {
+                "submodule": "frontend",
+                "environment": "'$branch'",
+                "commit": "'$commit_hash'"
+              }
+            }'
+          payload=$(echo $payload | jq -c .)
+
+          # Trigger the repository dispatch event
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
+            -d "$payload"
