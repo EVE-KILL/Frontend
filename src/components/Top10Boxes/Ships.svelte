@@ -22,7 +22,7 @@
 			{#each ships as ship (ship.type_id)}
 				<tr
 					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-					on:click={() => (window.location.href = `/ship/${ship.type_id}`)}
+					on:click={() => (window.location.href = `/item/${ship.type_id}`)}
 				>
 					<td class="px2 py-1">
 						<img
