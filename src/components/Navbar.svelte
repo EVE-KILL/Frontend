@@ -9,15 +9,15 @@
 	import BackgroundSelector from './Navbar/BackgroundSelector.svelte';
 </script>
 
-<nav class="bg-transparent p-2">
-	<div class="flex justify-between items-center">
+<nav class="bg-transparent p-2 relative">
+	<div class="flex justify-between items-center relative">
 		<div class="flex items-left">
 			<Menu />
 		</div>
-		<div class="flex items-center justify-center">
+		<div class="absolute left-1/2 transform -translate-x-1/2">
 			<Search />
 		</div>
-		<div class="flex items-right -ml-24">
+		<div class="flex items-right justify-center">
 			<ul class="flex items-center space-x-4">
 				<li class="mt-1">
 					<UserMenu />
@@ -39,5 +39,12 @@
 <style>
 	.hover\:bg-gray-700:hover {
 		background-color: #4a4a4a;
+	}
+	nav {
+		position: relative;
+	}
+	nav > div > .absolute {
+		left: 50%;
+		transform: translateX(-50%);
 	}
 </style>
