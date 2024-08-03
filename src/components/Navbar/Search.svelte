@@ -1,4 +1,3 @@
-<!-- src/lib/components/Search.svelte -->
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config.ts';
@@ -94,7 +93,7 @@
 									{:else if result.type === 'alliance'}
 										<img src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
 									{:else if result.type === 'item'}
-										<img src={`https://images.evetech.net/types/${result.id}/icon`} alt={result.name} class="h-16 w-16 rounded-md"/>
+										<img src={`https://images.evetech.net/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`} alt={result.name} class="h-16 w-16 rounded-md"/>
 									{:else if result.type === 'system' || result.type === 'region'}
 										<img src="https://eve-kill.com/map.png" alt={result.name} class="h-16 w-16 rounded-md"/>
 									{/if}
