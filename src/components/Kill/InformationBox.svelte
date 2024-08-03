@@ -50,7 +50,7 @@
     const shipPrice = killmail.total_value - (droppedIsk + destroyedIsk);
 </script>
 
-<div>
+<div class="ml-5">
     <div class="w-full flex flex-col items-start">
         <div class="flex justify-start items-start">
             <!-- Character and Corporation Info -->
