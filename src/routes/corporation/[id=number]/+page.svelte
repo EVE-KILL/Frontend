@@ -7,6 +7,7 @@
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
     import Members from './members.svelte';
+    import Stats from './Stats.svelte';
 
     export let data;
     let corporation: Corporation;
@@ -19,7 +20,8 @@
         '#info': Information,
         '#kills': Kills,
         '#losses': Losses,
-        '#members': Members
+        '#members': Members,
+        '#stats': Stats
     };
 
     // Load the appropriate component based on the URL hash
@@ -171,6 +173,15 @@
                             on:click|preventDefault={() => loadComponent(Members, '#members')}
                         >
                             Members
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#stats"
+                            class="hover:underline {currentHash === '#stats' ? 'active' : ''}"
+                            on:click|preventDefault={() => loadComponent(Stats, '#stats')}
+                        >
+                            Stats
                         </a>
                     </li>
                 </ul>

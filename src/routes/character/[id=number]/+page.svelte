@@ -7,6 +7,7 @@
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
     import CorporationHistory from './corporationHistory.svelte';
+    import Stats from './Stats.svelte';
 
     export let data;
     let character: Character;
@@ -19,7 +20,8 @@
         '#info': Information,
         '#kills': Kills,
         '#losses': Losses,
-        '#corporation-history': CorporationHistory
+        '#corporation-history': CorporationHistory,
+        '#stats': Stats,
     };
 
     // Load the appropriate component based on the URL hash
@@ -190,6 +192,16 @@
                                 loadComponent(CorporationHistory, '#corporation-history')}
                         >
                             Corporation History
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#stats"
+                            class="hover:underline {currentHash === '#stats' ? 'active' : ''}"
+                            on:click|preventDefault={() =>
+                                loadComponent(Stats, '#stats')}
+                        >
+                            Stats
                         </a>
                     </li>
                 </ul>
