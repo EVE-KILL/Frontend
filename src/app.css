@@ -2,21 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
 	height: 100%;
 	margin: 0;
 	margin-top: 10px;
 	font-family: 'Shentox', sans-serif;
 	font-size: 1.1em;
 }
- body{
- background:
-        /* top, transparent black, faked with gradient */
-        linear-gradient(
-          rgba(0, 0, 0, 0.5),
-          rgba(0, 0, 0, 0.5)
-        )
-    }
+
+html {
+	background:
+        /* top, transparent black, faked with gradient */ linear-gradient(
+		rgba(0, 0, 0, 0.5),
+		rgba(0, 0, 0, 0.5)
+	);
+}
 
 html {
 	background-color: black;
