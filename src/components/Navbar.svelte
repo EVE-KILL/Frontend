@@ -19,11 +19,11 @@
 		</div>
 		<div class="flex items-right -ml-24">
 			<ul class="flex items-center space-x-4">
-				<li>
-					<Information />
+				<li class="mt-1">
+					<UserMenu />
 				</li>
 				<li>
-					<UserMenu />
+					<Information />
 				</li>
 				<li>
 					<BackgroundSelector />

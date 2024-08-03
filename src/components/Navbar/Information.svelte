@@ -17,7 +17,7 @@
 
 <div class="relative">
 	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openInformationDropdown} on:mouseleave={closeInformationDropdown}>
-		Information
+		<i class="fas fa-circle-info text-gray-500 hover:text-gray-400" style="font-size: 32px;"></i>
 	</button>
 	{#if isInformationDropdownOpen}
 		<ul class="absolute right-0 mt-2 w-40 bg-gray-800 rounded-md shadow-lg z-10" on:mouseenter={openInformationDropdown} on:mouseleave={closeInformationDropdown}>
