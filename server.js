@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { handler } from './build/handler.js';
+import { handler } from './handler.js';
 
 const app = express();
 
