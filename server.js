@@ -3,12 +3,18 @@ import cors from 'cors';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { handler } from './handler.js';
 import { LRUCache } from 'lru-cache';
+import crypto from 'crypto';
 
 // Initialize cache with a maximum size of 2GB
 const cache = new LRUCache({
     maxSize: 2 * 1024 * 1024 * 1024, // 2GB in bytes
     sizeCalculation: (value, key) => value.body.length,
 });
+
+// Function to create a hash of the cache key
+const hashKey = (key) => {
+    return crypto.createHash('sha256').update(key).digest('hex');
+};
 
 const app = express();
 
@@ -25,14 +31,16 @@ app.get('/favicon', (req, res) => {
 // Proxy configuration for images.eve-kill.com
 app.use(async (req, res, next) => {
     if (req.hostname === 'images.eve-kill.com') {
-        const cacheKey = req.originalUrl;
+        const cacheKey = hashKey(req.path);
 
         if (cache.has(cacheKey)) {
             // Serve from cache
             const cachedResponse = cache.get(cacheKey);
+            console.log(`Cache hit for ${req.path}`);
             res.set(cachedResponse.headers);
             res.status(cachedResponse.statusCode).send(cachedResponse.body);
         } else {
+            console.log(`Cache miss for ${req.path}`);
             const proxy = createProxyMiddleware({
                 target: 'https://images.evetech.net',
                 changeOrigin: true,
