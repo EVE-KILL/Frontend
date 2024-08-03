@@ -12,7 +12,15 @@
 
         // Extract all items including items in containers
         killmail.items.forEach(item => {
-            allItems.push({ ...item, isContainer: !!item.container_items, container_items: item.container_items || [] });
+            const containerItemsValue = item.container_items
+                ? item.container_items.reduce((sum, containerItem) => sum + containerItem.value * (containerItem.qty_dropped + containerItem.qty_destroyed), 0)
+                : 0;
+            allItems.push({
+                ...item,
+                isContainer: !!item.container_items,
+                container_items: item.container_items || [],
+                containerItemsValue
+            });
         });
 
         groupedItems = Object.keys(slotTypes).map((slotType) => {
@@ -27,12 +35,13 @@
         const grouped = items.reduce((acc, item) => {
             const key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
             if (!acc[key]) {
-                acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0, container_items: [] };
+                acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0, container_items: [], containerItemsValue: 0 };
             }
             acc[key].qty_dropped += item.qty_dropped || 0;
             acc[key].qty_destroyed += item.qty_destroyed || 0;
             if (item.isContainer) {
                 acc[key].container_items = item.container_items;
+                acc[key].containerItemsValue = item.containerItemsValue;
             }
             return acc;
         }, {});
@@ -76,7 +85,11 @@
                             <td class="px-2 py-1">{item.qty_destroyed}</td>
                             <td class="px-2 py-1">{item.qty_dropped}</td>
                             <td class="px-2 py-1">
-                                {formatNumber(item.value * (item.qty_destroyed + item.qty_dropped))}
+                                {#if item.isContainer && item.containerItemsValue > 0}
+                                    {formatNumber((item.value * (item.qty_destroyed + item.qty_dropped)) + item.containerItemsValue)}
+                                {:else}
+                                    {formatNumber(item.value * (item.qty_destroyed + item.qty_dropped))}
+                                {/if}
                             </td>
                         </tr>
                         {#if item.isContainer && item.container_items.length > 0}

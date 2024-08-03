@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatNumber } from '$lib/Helpers.ts';
-	import type { Item } from '../../types/Killmail/Item';
+    import type { Item } from '../../types/Killmail/Item';
 
     export let killmail;
 
@@ -9,6 +9,13 @@
         items.forEach((item) => {
             if (item.qty_dropped > 0) {
                 total += item.value * item.qty_dropped;
+            }
+            if (item.container_items && item.container_items.length > 0) {
+                item.container_items.forEach((containerItem) => {
+                    if (containerItem.qty_dropped > 0) {
+                        total += containerItem.value * containerItem.qty_dropped;
+                    }
+                });
             }
         });
         return total;
@@ -20,6 +27,13 @@
             if (item.qty_destroyed > 0) {
                 total += item.value * item.qty_destroyed;
             }
+            if (item.container_items && item.container_items.length > 0) {
+                item.container_items.forEach((containerItem) => {
+                    if (containerItem.qty_destroyed > 0) {
+                        total += containerItem.value * containerItem.qty_destroyed;
+                    }
+                });
+            }
         });
         return total;
     }
@@ -30,11 +44,15 @@
         const green = Math.round(255 * normalizedStatus);
         return `rgb(${red}, ${green}, 0)`;
     }
+
+    const droppedIsk = itemDroppedIsk(killmail.items);
+    const destroyedIsk = itemDestroyedIsk(killmail.items);
+    const shipPrice = killmail.total_value - (droppedIsk + destroyedIsk);
 </script>
 
 <div>
-    <div class="w-full flex flex-col items-start mb-4">
-        <div class="flex justify-start items-start mb-2">
+    <div class="w-full flex flex-col items-start">
+        <div class="flex justify-start items-start">
             <!-- Character and Corporation Info -->
             <a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
                 <img
@@ -155,11 +173,15 @@
             </tr>
             <tr>
                 <th class="p-1">Dropped:</th>
-                <td class="p-1 font-bold">{formatNumber(itemDroppedIsk(killmail.items))} ISK</td>
+                <td class="p-1 font-bold">{formatNumber(droppedIsk)} ISK</td>
             </tr>
             <tr>
                 <th class="p-1">Destroyed:</th>
-                <td class="p-1 font-bold">{formatNumber(itemDestroyedIsk(killmail.items))} ISK</td>
+                <td class="p-1 font-bold">{formatNumber(destroyedIsk)} ISK</td>
+            </tr>
+            <tr>
+                <th class="p-1">Ship:</th>
+                <td class="p-1 font-bold">{formatNumber(shipPrice)} ISK</td>
             </tr>
             <tr>
                 <th class="p-1">Total:</th>
