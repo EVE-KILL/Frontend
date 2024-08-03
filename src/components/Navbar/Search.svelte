@@ -84,20 +84,24 @@
 				<div class="overflow-y-auto max-h-64">
 					<table class="table-auto w-full">
 						<tbody class="text-gray-300 text-sm">
-							{#each searchResults as result, index}
-								<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex === index ? 'bg-gray-600' : ''}" on:click={() => (window.location.href = `/${result.type}/${result.id}`)}>
-									<td class="h-16 w-16 rounded-md">
-										{#if result.type === 'character'}
-											<img src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
-										{:else if result.type === 'corporation'}
-											<img src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
-										{:else if result.type === 'alliance'}
-											<img src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
-										{/if}
-									</td>
-									<td class="px-2 py-2">{result.name}</td>
-								</tr>
-							{/each}
+						{#each searchResults as result, index}
+							<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex === index ? 'bg-gray-600' : ''}" on:click={() => (window.location.href = `/${result.type}/${result.id}`)}>
+								<td class="h-16 w-16 rounded-md">
+									{#if result.type === 'character'}
+										<img src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
+									{:else if result.type === 'corporation'}
+										<img src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
+									{:else if result.type === 'alliance'}
+										<img src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md"/>
+									{:else if result.type === 'item'}
+										<img src={`https://images.evetech.net/types/${result.id}/icon`} alt={result.name} class="h-16 w-16 rounded-md"/>
+									{:else if result.type === 'system' || result.type === 'region'}
+										<img src="https://eve-kill.com/map.png" alt={result.name} class="h-16 w-16 rounded-md"/>
+									{/if}
+								</td>
+								<td class="px-2 py-2">{result.name}</td>
+							</tr>
+						{/each}
 						</tbody>
 					</table>
 				</div>

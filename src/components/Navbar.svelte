@@ -42,6 +42,7 @@
 	}
 	nav {
 		position: relative;
+		z-index: 10;
 	}
 	nav > div > .absolute {
 		left: 50%;
