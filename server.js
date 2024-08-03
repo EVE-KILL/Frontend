@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { handler } from './build/handler.js';
+import { handler } from './handler.js';
 import { LRUCache } from 'lru-cache';
 import crypto from 'crypto';
 
@@ -36,13 +36,10 @@ const proxyRequest = async (req, res, targetUrl) => {
     if (cache.has(cacheKey)) {
         // Serve from cache
         const cachedResponse = cache.get(cacheKey);
-        console.log(`Cache hit for ${req.path}`);
         res.set(cachedResponse.headers);
         res.status(cachedResponse.statusCode).send(cachedResponse.body);
         return;
     }
-
-    console.log(`Cache miss for ${req.path}`);
 
     try {
         const proxyRes = await fetch(targetUrl + req.path, {
