@@ -22,13 +22,13 @@
         prices = await responsePrice.json();
 
         const responseKillmails = await fetch(itemKillmailsUrl);
-        let killmailsIds = await responseKillmails.json();
+        let killmailsIds: number[] = await responseKillmails.json();
         const postKillmails = await fetch(killmailsUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(killmailsIds.map(killmail => killmail.killmail_id))
+            body: JSON.stringify(killmailsIds)
         });
         killmails = await postKillmails.json();
     });
