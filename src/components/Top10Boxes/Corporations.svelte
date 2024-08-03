@@ -26,7 +26,7 @@
 				>
 					<td class="px2 py-1">
 						<img
-							src="https://imageserver.eveonline.com/Corporation/{corporation.corporation_id}_32.jpg"
+							src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=32"
 							alt="Corporation: {corporation.name}"
 						/>
 					</td>

@@ -26,7 +26,7 @@
 				>
 					<td class="px2 py-1">
 						<img
-							src="https://imageserver.eveonline.com/Character/{character.character_id}_32.jpg"
+							src="https://images.evetech.net/characters/{character.character_id}/portrait?size=32"
 							alt="Character: {character.name}"
 						/>
 					</td>

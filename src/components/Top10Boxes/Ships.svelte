@@ -22,8 +22,14 @@
 			{#each ships as ship (ship.type_id)}
 				<tr
 					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-					on:click={() => (window.location.href = `/item/${ship.type_id}`)}
+					on:click={() => (window.location.href = `/ship/${ship.type_id}`)}
 				>
+					<td class="px2 py-1">
+						<img
+							src={`https://images.evetech.net/types/${ship.type_id}/render?size=32`}
+							alt="Ship: {ship.name}"
+						/>
+					</td>
 					<td class="px-2 py-1">
 						<div class="flex items-center">
 							<div>

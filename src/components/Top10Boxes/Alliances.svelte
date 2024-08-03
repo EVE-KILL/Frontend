@@ -26,7 +26,7 @@
 				>
 					<td class="px2 py-1">
 						<img
-							src="https://imageserver.eveonline.com/Alliance/{alliance.alliance_id}_32.jpg"
+							src="https://images.evetech.net/alliances/{alliance.alliance_id}/logo?size=32"
 							alt="Alliance: {alliance.name}"
 						/>
 					</td>
