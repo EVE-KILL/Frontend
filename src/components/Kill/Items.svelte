@@ -8,10 +8,17 @@
 
     onMount(async () => {
         const slotTypes = itemSlotTypes();
+        let allItems = [];
+
+        // Extract all items including items in containers
+        killmail.items.forEach(item => {
+            allItems.push({ ...item, isContainer: !!item.container_items, container_items: item.container_items || [] });
+        });
+
         groupedItems = Object.keys(slotTypes).map((slotType) => {
             return {
                 slotType,
-                items: groupByQty(killmail.items.filter((item) => slotTypes[slotType].includes(item.flag)))
+                items: groupByQty(allItems.filter((item) => slotTypes[slotType].includes(item.flag)))
             };
         });
     });
@@ -20,10 +27,13 @@
         const grouped = items.reduce((acc, item) => {
             const key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
             if (!acc[key]) {
-                acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0 };
+                acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0, container_items: [] };
             }
             acc[key].qty_dropped += item.qty_dropped || 0;
             acc[key].qty_destroyed += item.qty_destroyed || 0;
+            if (item.isContainer) {
+                acc[key].container_items = item.container_items;
+            }
             return acc;
         }, {});
         return Object.values(grouped);
@@ -69,6 +79,29 @@
                                 {formatNumber(item.value * (item.qty_destroyed + item.qty_dropped))}
                             </td>
                         </tr>
+                        {#if item.isContainer && item.container_items.length > 0}
+                            {#each item.container_items as containerItem}
+                                <tr class={`border-b border-gray-700 hover:bg-gray-600 transition-colors duration-30 pl-6 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}>
+                                    <td class="px-2 py-1">
+                                        <img
+                                            src={`https://images.evetech.net/types/${containerItem.type_id}/icon?size=32`}
+                                            alt={containerItem.type_name}
+                                            class="h-8 w-8 rounded-md"
+                                        />
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <a href={`/item/${containerItem.type_id}`} class="hover:underline">
+                                            {containerItem.type_name}
+                                        </a>
+                                    </td>
+                                    <td class="px-2 py-1">{containerItem.qty_destroyed}</td>
+                                    <td class="px-2 py-1">{containerItem.qty_dropped}</td>
+                                    <td class="px-2 py-1">
+                                        {formatNumber(containerItem.value * (containerItem.qty_destroyed + containerItem.qty_dropped))}
+                                    </td>
+                                </tr>
+                            {/each}
+                        {/if}
                     {/each}
                 {/each}
             </tbody>
@@ -83,5 +116,8 @@
 
     .destroyed-items {
         background-color: rgba(255, 0, 0, 0.117);
+    }
+    tr.pl-6 td {
+        padding-left: 2rem;
     }
 </style>
