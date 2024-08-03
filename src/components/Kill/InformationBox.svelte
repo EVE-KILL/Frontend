@@ -122,7 +122,7 @@
             <tr>
                 <th class="p-1">Ship:</th>
                 <td class="p-1">
-                    <a href={`/ship/${killmail.victim.ship_id}/`} class="text-blue-500">
+                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-blue-500">
                         {killmail.victim.ship_name}
                     </a>
                     <small class="text-gray-500">
