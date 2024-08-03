@@ -5,6 +5,7 @@
 	import Characters from '../components/Top10Boxes/Characters.svelte';
 	import Corporations from '../components/Top10Boxes/Corporations.svelte';
 	import Alliances from '../components/Top10Boxes/Alliances.svelte';
+	import Ships from '../components/Top10Boxes/Ships.svelte';
 	import Systems from '../components/Top10Boxes/Systems.svelte';
 	import Regions from '../components/Top10Boxes/Regions.svelte';
 
@@ -15,6 +16,7 @@
 	const top10CharactersUrl = `${upstreamUrl}/api/stats/top10characters`;
 	const top10CorporationsUrl = `${upstreamUrl}/api/stats/top10corporations`;
 	const top10AlliancesUrl = `${upstreamUrl}/api/stats/top10alliances`;
+	const top10ShipsUrl = `${upstreamUrl}/api/stats/top10ships`;
 	const top10SystemsUrl = `${upstreamUrl}/api/stats/top10solarsystems`;
 	const top10RegionsUrl = `${upstreamUrl}/api/stats/top10regions`;
 </script>
@@ -32,6 +34,9 @@
 		</div>
 		<div class="pb-5">
 			<Alliances url={top10AlliancesUrl} />
+		</div>
+		<div class="pb-5">
+			<Ships url={top10ShipsUrl} />
 		</div>
 		<div class="pb-5">
 			<Systems url={top10SystemsUrl} />
