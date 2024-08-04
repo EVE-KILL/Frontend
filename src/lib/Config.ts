@@ -7,6 +7,14 @@ export function getUpstreamUrl(): string {
     }
 }
 
+export function getPublicDomain(): string {
+    if (typeof window === 'undefined') {
+        return process.env.VITE_PUBLIC_DOMAIN || 'https://eve-kill.com';
+    } else {
+        return import.meta.env.VITE_PUBLIC_DOMAIN || 'https://eve-kill.com';
+    }
+}
+
 export function getSiteName(): string {
     if (typeof window === 'undefined') {
         return process.env.VITE_SITE_NAME || 'EVE-KILL';

@@ -1,8 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { getUpstreamUrl } from '$lib/Config';
+import { getUpstreamUrl, getPublicDomain } from '$lib/Config';
 
 export const GET: RequestHandler = async () => {
     const upstreamUrl = getUpstreamUrl();
+    const publicDomain = getPublicDomain();
     let sitemapUrl = `${upstreamUrl}/api/sitemap`;
     const response = await fetch(sitemapUrl);
     const data = await response.json();
@@ -11,7 +12,7 @@ export const GET: RequestHandler = async () => {
     <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${data.links.map((link: string) => `
             <sitemap>
-                <loc>${`${upstreamUrl}${link}.xml`}</loc>
+                <loc>${`${publicDomain}${link}.xml`}</loc>
             </sitemap>`).join('')}
     </sitemapindex>`;
 
