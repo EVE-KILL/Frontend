@@ -1,7 +1,7 @@
-export function formatNumber(value: number) {
+export function formatNumber(value: number, decimals = 2): string {
     const formatter = new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
     });
 
     return formatter.format(value);

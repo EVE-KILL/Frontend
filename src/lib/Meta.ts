@@ -10,7 +10,7 @@ const defaultMeta = {
     siteName: 'EVE-KILL',
     creator: '@eve_kill',
     site: '@eve_kill',
-    image: '/logo.png',
+    image: '/icon.png',
     hasCustomMeta: false
 };
 
@@ -28,10 +28,27 @@ export function setMeta(newMeta: Partial<typeof defaultMeta>, options: { prepend
             updatedTitle = currentMeta.title;
         }
 
+        const updatedDescription = newMeta.description || currentMeta.description;
+        const updatedKeywords = newMeta.keywords || currentMeta.keywords;
+        const updatedRobots = newMeta.robots || currentMeta.robots;
+        const updatedUpstreamUrl = newMeta.upstreamUrl || currentMeta.upstreamUrl;
+        const updatedSiteName = newMeta.siteName || currentMeta.siteName;
+        const updatedCreator = newMeta.creator || currentMeta.creator;
+        const updatedSite = newMeta.site || currentMeta.site;
+        const updatedImage = newMeta.image || currentMeta.image;
+
         return {
             ...currentMeta,
             ...newMeta,
             title: updatedTitle,
+            description: updatedDescription,
+            keywords: updatedKeywords,
+            robots: updatedRobots,
+            upstreamUrl: updatedUpstreamUrl,
+            siteName: updatedSiteName,
+            creator: updatedCreator,
+            site: updatedSite,
+            image: updatedImage,
             hasCustomMeta: true
         };
     });
