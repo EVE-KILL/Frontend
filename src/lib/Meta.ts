@@ -10,7 +10,7 @@ const defaultMeta = {
     siteName: 'EVE-KILL',
     creator: '@eve_kill',
     site: '@eve_kill',
-    image: '%sveltekit.assets%/logo.png',
+    image: '/logo.png',
     hasCustomMeta: false
 };
 
