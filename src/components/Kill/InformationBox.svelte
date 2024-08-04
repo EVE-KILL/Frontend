@@ -81,12 +81,12 @@
             </div>
         </div>
     </div>
-    <table class="table-auto w-full text-left mt-4 text-sm">
+    <table class="table-auto w-full text-left mt-2 text-sm">
         <tbody>
             <tr>
                 <th class="p-1">Character:</th>
                 <td class="p-1">
-                    <a href={`/character/${killmail.victim.character_id}/`} class="text-lg font-bold">
+                    <a href={`/character/${killmail.victim.character_id}/`} class="text-lg text-lime-400">
                         {killmail.victim.character_name}
                     </a>
                 </td>
@@ -94,7 +94,7 @@
             <tr>
                 <th class="p-1">Corporation:</th>
                 <td class="p-1">
-                    <a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm">
+                    <a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-lime-400">
                         {killmail.victim.corporation_name}
                     </a>
                 </td>
@@ -103,7 +103,7 @@
                 <tr>
                     <th class="p-1">Alliance:</th>
                     <td class="p-1">
-                        <a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm">
+                        <a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm text-lime-400">
                             {killmail.victim.alliance_name}
                         </a>
                     </td>
@@ -113,7 +113,7 @@
                 <tr>
                     <th class="p-1">Faction:</th>
                     <td class="p-1">
-                        <a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm">
+                        <a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm text-lime-400">
                             {killmail.victim.faction_name}
                         </a>
                     </td>
@@ -122,11 +122,11 @@
             <tr>
                 <th class="p-1">Ship:</th>
                 <td class="p-1">
-                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-blue-500">
+                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
                         {killmail.victim.ship_name}
                     </a>
                     <small class="text-gray-500">
-                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-blue-500">
+                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
                             {killmail.victim.ship_group_name}
                         </a>)
                     </small>
@@ -135,7 +135,7 @@
             <tr>
                 <th class="p-1">System:</th>
                 <td class="p-1">
-                    <a href={`/system/${killmail.system_id}/`} class="text-blue-500">
+                    <a href={`/system/${killmail.system_id}/`} class="text-lime-400">
                         {killmail.system_name}
                     </a>
                     <span class="text-gray-500">
@@ -148,7 +148,7 @@
             <tr>
                 <th class="p-1">Region:</th>
                 <td class="p-1">
-                    <a href={`/region/${killmail.region_id}/`} class="text-blue-500">
+                    <a href={`/region/${killmail.region_id}/`} class="text-lime-400">
                         {killmail.region_name}
                     </a>
                 </td>
@@ -169,15 +169,15 @@
             </tr>
             <tr>
                 <th class="p-1">Damage:</th>
-                <td class="p-1">{formatNumber(killmail.victim.damage_taken)}</td>
+                <td class="p-1">{formatNumber(killmail.victim.damage_taken, 0)}</td>
             </tr>
             <tr>
                 <th class="p-1">Dropped:</th>
-                <td class="p-1 font-bold">{formatNumber(droppedIsk)} ISK</td>
+                <td class="p-1 font-bold text-green-500">{formatNumber(droppedIsk)} ISK</td>
             </tr>
             <tr>
                 <th class="p-1">Destroyed:</th>
-                <td class="p-1 font-bold">{formatNumber(destroyedIsk)} ISK</td>
+                <td class="p-1 font-bold text-red-500">{formatNumber(destroyedIsk)} ISK</td>
             </tr>
             <tr>
                 <th class="p-1">Ship:</th>
