@@ -1,42 +1,8 @@
 <script lang="ts">
     import { formatNumber } from '$lib/Helpers.ts';
-    import type { Item } from '../../types/Killmail/Item';
+    import { itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
 
     export let killmail;
-
-    function itemDroppedIsk(items: Item[]) {
-        let total = 0;
-        items.forEach((item) => {
-            if (item.qty_dropped > 0) {
-                total += item.value * item.qty_dropped;
-            }
-            if (item.container_items && item.container_items.length > 0) {
-                item.container_items.forEach((containerItem) => {
-                    if (containerItem.qty_dropped > 0) {
-                        total += containerItem.value * containerItem.qty_dropped;
-                    }
-                });
-            }
-        });
-        return total;
-    }
-
-    function itemDestroyedIsk(items: Item[]) {
-        let total = 0;
-        items.forEach((item) => {
-            if (item.qty_destroyed > 0) {
-                total += item.value * item.qty_destroyed;
-            }
-            if (item.container_items && item.container_items.length > 0) {
-                item.container_items.forEach((containerItem) => {
-                    if (containerItem.qty_destroyed > 0) {
-                        total += containerItem.value * containerItem.qty_destroyed;
-                    }
-                });
-            }
-        });
-        return total;
-    }
 
     function getSecurityColor(status: number) {
         const normalizedStatus = (status + 1) / 2;
@@ -44,14 +10,10 @@
         const green = Math.round(255 * normalizedStatus);
         return `rgb(${red}, ${green}, 0)`;
     }
-
-    const droppedIsk = itemDroppedIsk(killmail.items);
-    const destroyedIsk = itemDestroyedIsk(killmail.items);
-    const shipPrice = killmail.total_value - (droppedIsk + destroyedIsk);
 </script>
 
 <div class="ml-5">
-    <div class="w-full flex flex-col items-start">
+    <div class="w-full flex flex-col items-start rounded-lg shadow-lg custom-space-x mt-4">
         <div class="flex justify-start items-start">
             <!-- Character and Corporation Info -->
             <a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
@@ -174,35 +136,18 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Hull:</th>
-                <td class="p-1 font-bold">{formatNumber(shipPrice)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Destroyed:</th>
-                <td class="p-1 font-bold text-red-500">{formatNumber(destroyedIsk)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Dropped:</th>
-                <td class="p-1 font-bold text-green-500">{formatNumber(droppedIsk)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Total:</th>
-                <td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
-            </tr>
-            <tr>
                 <td colspan="2">
                     <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Points:</th>
-                <td class="p-1">{killmail.point_value}</td>
-            </tr>
-            <tr>
                 <th class="p-1">Damage:</th>
                 <td class="p-1">{formatNumber(killmail.victim.damage_taken, 0)}</td>
             </tr>
-
+            <tr>
+                <th class="p-1">Points:</th>
+                <td class="p-1">{killmail.point_value}</td>
+            </tr>
         </tbody>
     </table>
 </div>

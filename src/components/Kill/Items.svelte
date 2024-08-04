@@ -1,14 +1,15 @@
 <script lang="ts">
     import { formatNumber } from '$lib/Helpers.ts';
-    import { itemSlotTypes } from '$lib/Killmail.ts';
+    import { itemSlotTypes, itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
     import { onMount } from 'svelte';
+	import type { Item } from '../../types/Killmail/Item';
 
     export let killmail;
     let groupedItems = [];
 
     onMount(async () => {
         const slotTypes = itemSlotTypes();
-        let allItems = [];
+        let allItems: Item[] = [];
 
         // Extract all items including items in containers
         killmail.items.forEach(item => {
@@ -31,7 +32,7 @@
         });
     });
 
-    function groupByQty(items) {
+    function groupByQty(items: Item[]) {
         const grouped = items.reduce((acc, item) => {
             const key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
             if (!acc[key]) {
@@ -62,6 +63,32 @@
                 </tr>
             </thead>
             <tbody class="text-gray-300 text-sm">
+                <tr class="bg-gray-700 text-white bg-semi-transparent">
+                    <td colspan="2" class="px-2 py-1"></td>
+                    <td colspan="1" class="px-2 py-1">{formatNumber(itemDestroyedIsk(killmail.items), 0)} ISK</td>
+                    <td colspan="1" class="px-2 py-1">{formatNumber(itemDroppedIsk(killmail.items), 0)} ISK</td>
+                    <td colspan="1" class="px-2 py-1">{formatNumber(killmail.total_value, 0)} ISK</td>
+                </tr>
+                <tr class="bg-gray-700 text-white">
+                    <td colspan="5" class="px-2 py-1 font-bold">Hull</td>
+                </tr>
+                <tr class="destroyed-items">
+                    <td class="px-2 py-1">
+                        <img
+                            src={`https://images.evetech.net/types/${killmail.victim.ship_id}/icon?size=32`}
+                            alt={killmail.victim.ship_name}
+                            class="h-8 w-8 rounded-md"
+                        />
+                    </td>
+                    <td class="px-2 py-1">
+                        <a href={`/item/${killmail.victim.ship_id}`} class="hover:underline">
+                            {killmail.victim.ship_name}
+                        </a>
+                    </td>
+                    <td class="px-2 py-1">1</td>
+                    <td class="px-2 py-1">0</td>
+                    <td class="px-2 py-1">{formatNumber(killmail.total_value - (itemDroppedIsk(killmail.items) + itemDestroyedIsk(killmail.items)))}</td>
+                </tr>
                 {#each groupedItems as group}
                     {#if group.items.length > 0}
                         <tr class="bg-gray-700 text-white">
@@ -95,7 +122,7 @@
                         {#if item.isContainer && item.container_items.length > 0}
                             {#each item.container_items as containerItem}
                                 <tr class={`border-b border-gray-700 hover:bg-gray-600 transition-colors duration-30 pl-6 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}>
-                                    <td class="px-2 py-1">
+                                    <td class="px-2 py-1 pl-5">
                                         <img
                                             src={`https://images.evetech.net/types/${containerItem.type_id}/icon?size=32`}
                                             alt={containerItem.type_name}
@@ -129,8 +156,5 @@
 
     .destroyed-items {
         background-color: rgba(255, 0, 0, 0.117);
-    }
-    tr.pl-6 td {
-        padding-left: 2rem;
     }
 </style>

@@ -1,5 +1,6 @@
 import { esiFlagToEsfSlot } from '@eveshipfit/react';
 import type { Killmail } from '../types/Killmail';
+import type { Item } from '../types/Killmail/Item';
 
 export function itemSlotTypes() {
 	return {
@@ -140,4 +141,38 @@ export async function generateEveShipFit(killmail: Killmail) {
 		drones,
 		cargo
 	};
+}
+
+export function itemDroppedIsk(items: Item[]) {
+	let total = 0;
+	items.forEach((item) => {
+		if (item.qty_dropped > 0) {
+			total += item.value * item.qty_dropped;
+		}
+		if (item.container_items && item.container_items.length > 0) {
+			item.container_items.forEach((containerItem) => {
+				if (containerItem.qty_dropped > 0) {
+					total += containerItem.value * containerItem.qty_dropped;
+				}
+			});
+		}
+	});
+	return total;
+}
+
+export function itemDestroyedIsk(items: Item[]) {
+	let total = 0;
+	items.forEach((item) => {
+		if (item.qty_destroyed > 0) {
+			total += item.value * item.qty_destroyed;
+		}
+		if (item.container_items && item.container_items.length > 0) {
+			item.container_items.forEach((containerItem) => {
+				if (containerItem.qty_destroyed > 0) {
+					total += containerItem.value * containerItem.qty_destroyed;
+				}
+			});
+		}
+	});
+	return total;
 }

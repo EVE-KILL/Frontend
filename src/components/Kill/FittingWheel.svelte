@@ -29,6 +29,7 @@
 					<react:CurrentCharacterProvider>
 						<react:StatisticsProvider>
 							<react:ShipFit withStats />
+
 						</react:StatisticsProvider>
 					</react:CurrentCharacterProvider>
 				</react:DefaultCharactersProvider>
