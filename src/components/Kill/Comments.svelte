@@ -34,7 +34,7 @@
         }
     }
 
-    async function postComment(url)(url: string) {
+    async function postComment(url: string) {
         if (newComment.trim() !== '') {
             const comment = {
                 body: newComment,
