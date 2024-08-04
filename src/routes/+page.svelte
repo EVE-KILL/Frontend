@@ -8,6 +8,7 @@
 	import Ships from '../components/Top10Boxes/Ships.svelte';
 	import Systems from '../components/Top10Boxes/Systems.svelte';
 	import Regions from '../components/Top10Boxes/Regions.svelte';
+	import { setMeta } from '$lib/Meta.ts';
 
 	const upstreamUrl = getUpstreamUrl();
 
@@ -19,6 +20,11 @@
 	const top10ShipsUrl = `${upstreamUrl}/api/stats/top10ships`;
 	const top10SystemsUrl = `${upstreamUrl}/api/stats/top10solarsystems`;
 	const top10RegionsUrl = `${upstreamUrl}/api/stats/top10regions`;
+
+    // Set custom meta tags for this page
+    setMeta({
+        title: `EVE-KILL`,
+    });
 </script>
 
 <div class="container flex w-full">

@@ -2,6 +2,7 @@
     import { getUpstreamUrl } from '$lib/Config';
     import { onMount } from 'svelte';
     import type { Killmail } from '../../../types/Killmail.ts';
+    import { setMeta } from '$lib/Meta.ts';
 
     import Attackers from '../../../components/Kill/Attackers.svelte';
     import Comments from '../../../components/Kill/Comments.svelte';
@@ -17,6 +18,13 @@
         const response = await fetch(`${upstreamUrl}/api/killmail/${data.id}`);
         killmail = await response.json();
     });
+
+    // Set custom meta tags for this page
+    setMeta({
+        title: `Killmail ${data.id}`,
+        description: `Details for Killmail ${data.id}`,
+        hasCustomMeta: true
+    }, { append: true });
 </script>
 
 {#if killmail}
