@@ -120,16 +120,8 @@
                 </tr>
             {/if}
             <tr>
-                <th class="p-1">Ship:</th>
-                <td class="p-1">
-                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
-                        {killmail.victim.ship_name}
-                    </a>
-                    <small class="text-gray-500">
-                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
-                            {killmail.victim.ship_group_name}
-                        </a>)
-                    </small>
+                <td colspan="2">
+                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
                 </td>
             </tr>
             <tr>
@@ -164,6 +156,45 @@
                 <td class="p-1">{killmail.kill_time}</td>
             </tr>
             <tr>
+                <td colspan="2">
+                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
+                </td>
+            </tr>
+            <tr>
+                <th class="p-1">Ship:</th>
+                <td class="p-1">
+                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
+                        {killmail.victim.ship_name}
+                    </a>
+                    <small class="text-gray-500">
+                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
+                            {killmail.victim.ship_group_name}
+                        </a>)
+                    </small>
+                </td>
+            </tr>
+            <tr>
+                <th class="p-1">Hull:</th>
+                <td class="p-1 font-bold">{formatNumber(shipPrice)} ISK</td>
+            </tr>
+            <tr>
+                <th class="p-1">Destroyed:</th>
+                <td class="p-1 font-bold text-red-500">{formatNumber(destroyedIsk)} ISK</td>
+            </tr>
+            <tr>
+                <th class="p-1">Dropped:</th>
+                <td class="p-1 font-bold text-green-500">{formatNumber(droppedIsk)} ISK</td>
+            </tr>
+            <tr>
+                <th class="p-1">Total:</th>
+                <td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
+                </td>
+            </tr>
+            <tr>
                 <th class="p-1">Points:</th>
                 <td class="p-1">{killmail.point_value}</td>
             </tr>
@@ -171,22 +202,7 @@
                 <th class="p-1">Damage:</th>
                 <td class="p-1">{formatNumber(killmail.victim.damage_taken, 0)}</td>
             </tr>
-            <tr>
-                <th class="p-1">Dropped:</th>
-                <td class="p-1 font-bold text-green-500">{formatNumber(droppedIsk)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Destroyed:</th>
-                <td class="p-1 font-bold text-red-500">{formatNumber(destroyedIsk)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Ship:</th>
-                <td class="p-1 font-bold">{formatNumber(shipPrice)} ISK</td>
-            </tr>
-            <tr>
-                <th class="p-1">Total:</th>
-                <td class="p-1 font-bold">{formatNumber(killmail.total_value)} ISK</td>
-            </tr>
+
         </tbody>
     </table>
 </div>
