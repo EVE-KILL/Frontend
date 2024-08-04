@@ -12,7 +12,7 @@
     }
 </script>
 
-<div class="ml-5">
+<div>
     <div class="w-full flex flex-col items-start rounded-lg shadow-lg custom-space-x mt-4">
         <div class="flex justify-start items-start">
             <!-- Character and Corporation Info -->

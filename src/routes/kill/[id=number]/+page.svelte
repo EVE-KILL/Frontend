@@ -8,6 +8,7 @@
     import FittingWheel from '../../../components/Kill/FittingWheel.svelte';
     import Items from '../../../components/Kill/Items.svelte';
     import InformationBox from '../../../components/Kill/InformationBox.svelte';
+    import Navbar from '../../../components/Kill/Navbar.svelte';
 
     export let data;
     let killmail: Killmail;
@@ -25,11 +26,14 @@
     });
 </script>
 
+<!-- Navbar -->
+<!--<Navbar />-->
+
 {#if killmail}
     <div class="container flex p-2 pt-4 gap-2">
         <!-- Left Container -->
         <div class="w-full text-white p-4 rounded-lg shadow-lg">
-            <div id="information-area" class="flex">
+            <div id="information-area" class="flex justify-around">
                 <!-- Fitting Wheel -->
                 <FittingWheel {killmail} />
 
