@@ -26,7 +26,7 @@ app.get('/healthcheck', (req, res) => {
 });
 
 app.get('/favicon', (req, res) => {
-    res.sendFile('./static/favicon.png', { root: 'static' });
+    res.sendFile('favicon.png', { root: 'static' });
 });
 
 // Helper function to proxy requests
