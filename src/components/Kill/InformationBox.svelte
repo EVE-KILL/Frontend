@@ -46,7 +46,7 @@
     <table class="table-auto w-full text-left mt-2 text-sm">
         <tbody>
             <tr>
-                <th class="p-1">Character:</th>
+                <th class="p-1 text-right">Character:</th>
                 <td class="p-1">
                     <a href={`/character/${killmail.victim.character_id}/`} class="text-lg text-lime-400">
                         {killmail.victim.character_name}
@@ -54,7 +54,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Corporation:</th>
+                <th class="p-1 text-right">Corporation:</th>
                 <td class="p-1">
                     <a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-lime-400">
                         {killmail.victim.corporation_name}
@@ -63,7 +63,7 @@
             </tr>
             {#if killmail.victim.alliance_id > 0}
                 <tr>
-                    <th class="p-1">Alliance:</th>
+                    <th class="p-1 text-right">Alliance:</th>
                     <td class="p-1">
                         <a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm text-lime-400">
                             {killmail.victim.alliance_name}
@@ -73,7 +73,7 @@
             {/if}
             {#if killmail.victim.faction_id > 0}
                 <tr>
-                    <th class="p-1">Faction:</th>
+                    <th class="p-1 text-right">Faction:</th>
                     <td class="p-1">
                         <a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm text-lime-400">
                             {killmail.victim.faction_name}
@@ -87,7 +87,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">System:</th>
+                <th class="p-1 text-right">System:</th>
                 <td class="p-1">
                     <a href={`/system/${killmail.system_id}/`} class="text-lime-400">
                         {killmail.system_name}
@@ -100,7 +100,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Region:</th>
+                <th class="p-1 text-right">Region:</th>
                 <td class="p-1">
                     <a href={`/region/${killmail.region_id}/`} class="text-lime-400">
                         {killmail.region_name}
@@ -109,12 +109,12 @@
             </tr>
             {#if killmail.near != ''}
                 <tr>
-                    <th class="p-1">Location:</th>
+                    <th class="p-1 text-right">Location:</th>
                     <td class="p-1">{killmail.near}</td>
                 </tr>
             {/if}
             <tr>
-                <th class="p-1">Time:</th>
+                <th class="p-1 text-right">Time:</th>
                 <td class="p-1">{killmail.kill_time}</td>
             </tr>
             <tr>
@@ -123,7 +123,7 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Ship:</th>
+                <th class="p-1 text-right">Ship:</th>
                 <td class="p-1">
                     <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
                         {killmail.victim.ship_name}
@@ -141,11 +141,11 @@
                 </td>
             </tr>
             <tr>
-                <th class="p-1">Damage:</th>
+                <th class="p-1 text-right">Damage:</th>
                 <td class="p-1">{formatNumber(killmail.victim.damage_taken, 0)}</td>
             </tr>
             <tr>
-                <th class="p-1">Points:</th>
+                <th class="p-1 text-right">Points:</th>
                 <td class="p-1">{killmail.point_value}</td>
             </tr>
         </tbody>
