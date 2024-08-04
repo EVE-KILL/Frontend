@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ params }) => {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${data.map((item: any) => `
             <url>
-                <loc>${`https://yourdomain.com${item.loc}`}</loc>
+                <loc>${`${upstreamUrl}${item.loc}`}</loc>
                 <changefreq>${item.changefreq}</changefreq>
                 <priority>${item.priority}</priority>
                 <lastmod>${item.lastmod}</lastmod>

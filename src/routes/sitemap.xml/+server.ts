@@ -11,7 +11,7 @@ export const GET: RequestHandler = async () => {
     <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${data.links.map((link: string) => `
             <sitemap>
-                <loc>${`https://yourdomain.com${link}.xml`}</loc>
+                <loc>${`${upstreamUrl}${link}.xml`}</loc>
             </sitemap>`).join('')}
     </sitemapindex>`;
 
