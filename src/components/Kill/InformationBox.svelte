@@ -132,7 +132,7 @@
             </tr>
             <tr>
                 <th class="p-1 text-right">Points:</th>
-                <td class="p-1">{killmail.point_value}</td>
+                <td class="p-1">{formatNumber(killmail.point_value)}</td>
             </tr>
             <tr>
                 <th class="p-1 text-right">Damage:</th>
