@@ -16,7 +16,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        width: 30%;
-        height: 30%;
+        width: 50%;
+        height: 45%;
     }
 </style>
