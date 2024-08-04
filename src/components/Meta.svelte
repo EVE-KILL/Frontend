@@ -12,6 +12,7 @@
     let siteName: string;
     let creator: string;
     let site: string;
+    let image: string;
 
     // Initialize with current meta
     const currentMeta = get(meta);
@@ -23,6 +24,7 @@
     siteName = currentMeta.siteName;
     creator = currentMeta.creator;
     site = currentMeta.site;
+    image = currentMeta.image;
 
     onMount(() => {
         // Subscribe to meta changes
@@ -35,6 +37,7 @@
             siteName = updatedMeta.siteName;
             creator = updatedMeta.creator;
             site = updatedMeta.site;
+            image = updatedMeta.image;
 
             // Update document title dynamically
             document.title = title;
@@ -58,7 +61,7 @@
     <meta property="og:title" content={title} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={upstreamUrl} />
-    <meta property="og:image" content="%sveltekit.assets%/logo.png" />
+    <meta property="og:image" content={image} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_US" />
@@ -69,5 +72,5 @@
     <meta name="twitter:creator" content={creator} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="%sveltekit.assets%/logo.png" />
+    <meta name="twitter:image" content={image} />
 </svelte:head>

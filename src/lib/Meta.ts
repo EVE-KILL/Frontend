@@ -10,6 +10,7 @@ const defaultMeta = {
     siteName: 'EVE-KILL',
     creator: '@eve_kill',
     site: '@eve_kill',
+    image: '%sveltekit.assets%/logo.png',
     hasCustomMeta: false
 };
 
@@ -37,7 +38,7 @@ export function setMeta(newMeta: Partial<typeof defaultMeta>, options: { prepend
 }
 
 export function resetMeta() {
-    meta.update(currentMeta => ({
+    meta.update(() => ({
         ...defaultMeta,
         hasCustomMeta: false
     }));
