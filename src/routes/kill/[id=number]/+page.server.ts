@@ -31,7 +31,7 @@ export async function load({ params }) {
         id,
         killmail,
         upstreamUrl,
-        siteName: `EVE-KILL | Killmail ${id}`,
+        siteName: `Killmail ${id}`,
         description,
         keywords: getKeywords(),
         robots: getRobots(),
