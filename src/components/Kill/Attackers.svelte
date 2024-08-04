@@ -54,7 +54,7 @@
                                     class="h-8 w-8 rounded-md"
                                 />
                             </a>
-                            <a href={`/weapon/${attacker.weapon_type_id}`}>
+                            <a href={`/item/${attacker.weapon_type_id}`}>
                                 <img
                                     src={attacker.weapon_type_id === 0
                                         ? `https://images.evetech.net/types/${attacker.ship_id}/icon?size=64`

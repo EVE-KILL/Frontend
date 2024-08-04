@@ -48,7 +48,7 @@
             <tr>
                 <th class="p-1 text-right">Character:</th>
                 <td class="p-1">
-                    <a href={`/character/${killmail.victim.character_id}/`} class="text-lg text-lime-400">
+                    <a href={`/character/${killmail.victim.character_id}/`} class="text-lime-400" style="font-weight: 500; font-size:larger">
                         {killmail.victim.character_name}
                     </a>
                 </td>
@@ -56,7 +56,7 @@
             <tr>
                 <th class="p-1 text-right">Corporation:</th>
                 <td class="p-1">
-                    <a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-lime-400">
+                    <a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-gray-400">
                         {killmail.victim.corporation_name}
                     </a>
                 </td>
@@ -65,7 +65,7 @@
                 <tr>
                     <th class="p-1 text-right">Alliance:</th>
                     <td class="p-1">
-                        <a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm text-lime-400">
+                        <a href={`/alliance/${killmail.victim.alliance_id}/`} class="text-sm text-white-400">
                             {killmail.victim.alliance_name}
                         </a>
                     </td>
@@ -75,7 +75,7 @@
                 <tr>
                     <th class="p-1 text-right">Faction:</th>
                     <td class="p-1">
-                        <a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm text-lime-400">
+                        <a href={`/faction/${killmail.victim.faction_id}/`} class="text-sm">
                             {killmail.victim.faction_name}
                         </a>
                     </td>
@@ -89,7 +89,7 @@
             <tr>
                 <th class="p-1 text-right">Ship:</th>
                 <td class="p-1">
-                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
+                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400" style="font-weight: 500; font-size:larger">
                         {killmail.victim.ship_name}
                     </a>
                     <small class="text-gray-500">
@@ -99,11 +99,10 @@
                     </small>
                 </td>
             </tr>
-
             <tr>
                 <th class="p-1 text-right">System:</th>
                 <td class="p-1">
-                    <a href={`/system/${killmail.system_id}/`} class="text-lime-400">
+                    <a href={`/system/${killmail.system_id}/`}>
                         {killmail.system_name}
                     </a>
                     <span class="text-gray-500">
@@ -116,7 +115,7 @@
             <tr>
                 <th class="p-1 text-right">Region:</th>
                 <td class="p-1">
-                    <a href={`/region/${killmail.region_id}/`} class="text-lime-400">
+                    <a href={`/region/${killmail.region_id}/`}>
                         {killmail.region_name}
                     </a>
                 </td>
