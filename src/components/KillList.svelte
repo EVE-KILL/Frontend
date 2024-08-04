@@ -19,15 +19,11 @@
     async function loadMore() {
         if (loading) return;
         loading = true;
-        try {
-            const newKills: Killmail[] = await fetchKillList(url, page);
-            const uniqueKills = newKills.filter(kill => !killmailIds.has(kill.killmail_id));
-            uniqueKills.forEach(kill => killmailIds.add(kill.killmail_id));
-            kills = [...kills, ...uniqueKills];
-            page++;
-        } catch (error) {
-            console.error('Error fetching kill list:', error);
-        }
+        const newKills: Killmail[] = await fetchKillList(url, page);
+        const uniqueKills = newKills.filter(kill => !killmailIds.has(kill.killmail_id));
+        uniqueKills.forEach(kill => killmailIds.add(kill.killmail_id));
+        kills = [...kills, ...uniqueKills];
+        page++;
         loading = false;
     }
 
