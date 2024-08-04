@@ -1,5 +1,6 @@
 // src/routes/kill/[id]/+page.server.ts
 import { getUpstreamUrl, getKeywords, getRobots, getCreator, getSite } from '$lib/Config';
+import { formatNumber } from '$lib/Helpers.js';
 import type { Killmail } from '../../../types/Killmail.js';
 
 export async function load({ params }) {
@@ -21,7 +22,7 @@ export async function load({ params }) {
                 break;
             }
         }
-        description += `Total Value: ${killmail.total_value} ISK`;
+        description += `Total Value: ${formatNumber(killmail.total_value, 0)} ISK`;
         return description;
     };
 
