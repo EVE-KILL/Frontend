@@ -87,6 +87,20 @@
                 </td>
             </tr>
             <tr>
+                <th class="p-1 text-right">Ship:</th>
+                <td class="p-1">
+                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
+                        {killmail.victim.ship_name}
+                    </a>
+                    <small class="text-gray-500">
+                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
+                            {killmail.victim.ship_group_name}
+                        </a>)
+                    </small>
+                </td>
+            </tr>
+
+            <tr>
                 <th class="p-1 text-right">System:</th>
                 <td class="p-1">
                     <a href={`/system/${killmail.system_id}/`} class="text-lime-400">
@@ -118,35 +132,12 @@
                 <td class="p-1">{killmail.kill_time}</td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
-                </td>
-            </tr>
-            <tr>
-                <th class="p-1 text-right">Ship:</th>
-                <td class="p-1">
-                    <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400">
-                        {killmail.victim.ship_name}
-                    </a>
-                    <small class="text-gray-500">
-                        (<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
-                            {killmail.victim.ship_group_name}
-                        </a>)
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
-                </td>
+                <th class="p-1 text-right">Points:</th>
+                <td class="p-1">{killmail.point_value}</td>
             </tr>
             <tr>
                 <th class="p-1 text-right">Damage:</th>
                 <td class="p-1">{formatNumber(killmail.victim.damage_taken, 0)}</td>
-            </tr>
-            <tr>
-                <th class="p-1 text-right">Points:</th>
-                <td class="p-1">{killmail.point_value}</td>
             </tr>
         </tbody>
     </table>
