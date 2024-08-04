@@ -22,23 +22,7 @@
 
     onMount(() => {
         killmail = data.killmail;
-        // Additional client-side logic if needed
     });
-
-    function generateDescription(killmail) {
-        let description = `${killmail.victim.character_name} (${killmail.victim.corporation_name}) lost their ${killmail.victim.ship_name} in ${killmail.system_name} (${killmail.region_name}). `;
-        description += `Final Blow by `;
-        // Loop through attackers to find the one with final_blow: true
-        for (let i = 0; i < killmail.attackers.length; i++) {
-            if (killmail.attackers[i].final_blow) {
-                description += `${killmail.attackers[i].character_name} (${killmail.attackers[i].corporation_name}) flying in a ${killmail.attackers[i].ship_name}. `;
-                break;
-            }
-        }
-        description += `Total Value: ${killmail.total_value} ISK`;
-
-        return description;
-    }
 </script>
 
 

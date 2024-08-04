@@ -23,7 +23,7 @@ export function setMeta(newMeta: Partial<typeof defaultMeta>, options: { prepend
         if (options.prepend && updatedTitle) {
             updatedTitle = `${updatedTitle} | ${currentMeta.title}`;
         } else if (options.append && updatedTitle) {
-            updatedTitle = `${currentMeta.title} | ${updatedTitle}`;
+            updatedTitle = `${currentMeta.title.split('|')[0].trim()} | ${updatedTitle}`;
         } else if (!updatedTitle) {
             updatedTitle = currentMeta.title;
         }
@@ -38,8 +38,5 @@ export function setMeta(newMeta: Partial<typeof defaultMeta>, options: { prepend
 }
 
 export function resetMeta() {
-    meta.update(() => ({
-        ...defaultMeta,
-        hasCustomMeta: false
-    }));
+    meta.set({ ...defaultMeta });
 }

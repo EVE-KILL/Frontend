@@ -1,5 +1,6 @@
 // src/routes/kill/[id]/+page.server.ts
 import { getUpstreamUrl, getKeywords, getRobots, getCreator, getSite } from '$lib/Config';
+import type { Killmail } from '../../../types/Killmail.js';
 
 export async function load({ params }) {
     const { id } = params;
@@ -10,7 +11,7 @@ export async function load({ params }) {
     const killmail = await response.json();
 
     // Generate custom description
-    const generateDescription = (killmail) => {
+    const generateDescription = (killmail: Killmail) => {
         let description = `${killmail.victim.character_name} (${killmail.victim.corporation_name}) lost their ${killmail.victim.ship_name} in ${killmail.system_name} (${killmail.region_name}). `;
         description += `Final Blow by `;
         // Loop through attackers to find the one with final_blow: true
