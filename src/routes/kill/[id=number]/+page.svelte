@@ -12,6 +12,7 @@
 
     export let data;
     let killmail: Killmail;
+    let showComments: boolean = false;
 
     // Set custom meta tags for this page
     setMeta({
@@ -23,6 +24,10 @@
 
     onMount(() => {
         killmail = data.killmail;
+
+        // Check for 'comments' parameter in the URL
+        const params = new URLSearchParams(window.location.search);
+        showComments = params.get('comments') === 'true';
     });
 </script>
 
@@ -49,9 +54,11 @@
 
         <!-- Right Container -->
         <div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
-            <Comments />
+            {#if showComments}
+                <Comments />
+            {/if}
             <!-- Attackers -->
-			<Attackers attackers={killmail.attackers} />
+            <Attackers attackers={killmail.attackers} />
         </div>
     </div>
 {/if}
