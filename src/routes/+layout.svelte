@@ -5,15 +5,19 @@
     import Navbar from '../components/Navbar.svelte';
     import Meta from '../components/Meta.svelte';
     import { resetMeta, meta } from '$lib/Meta.ts';
-    import { afterUpdate } from 'svelte';
+    import { beforeNavigate, afterNavigate } from '$app/navigation';
     import { get } from 'svelte/store';
 
     // Reset meta tags after each navigation if no custom meta is set
-    afterUpdate(() => {
+    afterNavigate(() => {
         const currentMeta = get(meta);
         if (!currentMeta.hasCustomMeta) {
             resetMeta();
         }
+    });
+
+    beforeNavigate(() => {
+        resetMeta();
     });
 </script>
 
