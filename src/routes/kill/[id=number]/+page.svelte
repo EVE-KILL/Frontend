@@ -49,7 +49,7 @@
 
         <!-- Right Container -->
         <div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
-            <!-- <Comments /> -->
+            <Comments />
             <!-- Attackers -->
 			<Attackers attackers={killmail.attackers} />
         </div>

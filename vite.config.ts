@@ -7,7 +7,7 @@ export default defineConfig({
 	server: {
 		cors: {
 			origin: '*',
-			methods: ['GET'],
+			methods: ['GET', 'POST'],
 			allowedHeaders: ['Content-Type', 'Authorization']
 		}
 	},

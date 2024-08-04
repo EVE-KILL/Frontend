@@ -1,77 +1,67 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { getUpstreamUrl } from '$lib/Config';
+
+	const upstreamUrl = getUpstreamUrl();
 	let sortedComments = [];
 	let newComment = '';
-
-	let comments = [
-		{
-			id: 1,
-			character: {
-				name: 'John Doe',
-				image_url: 'https://via.placeholder.com/128',
-				corporation_name: 'Corp A',
-				alliance_name: 'Alliance A'
-			},
-			body: 'This is the best killmail ever!',
-			date: new Date().toISOString(),
-			rating: 5
-		},
-		{
-			id: 2,
-			character: {
-				name: 'Alice Johnson',
-				image_url: 'https://via.placeholder.com/128',
-				corporation_name: 'Corp C',
-				alliance_name: 'Alliance C'
-			},
-			body: "This is a placeholder comment. It's not very interesting.",
-			date: new Date().toISOString(),
-			rating: 7
-		},
-		{
-			id: 3,
-			character: {
-				name: 'Bob Brown',
-				image_url: 'https://via.placeholder.com/128',
-				corporation_name: 'Corp D',
-				alliance_name: 'Alliance D'
-			},
-			body: 'Yet another placeholder comment.',
-			date: new Date().toISOString(),
-			rating: 2
-		}
-	];
+	let comments = [];
+	let url: string;
 
     onMount(async () => {
+		url = window.location.pathname;
+        await fetchComments(url);
         sortComments('date');
     });
 
+    async function fetchComments(url: string) {
+		const response = await fetch(`${upstreamUrl}/api/comments`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: url
+		});
+
+		comments = await response.json();
+		console.log(comments);
+		sortComments('date');
+    }
+
     function sortComments(criteria) {
         if (criteria === 'date') {
-            sortedComments = [...comments].sort((a, b) => new Date(b.date) - new Date(a.date));
-        } else if (criteria === 'rating') {
-            sortedComments = [...comments].sort((a, b) => b.rating - a.rating);
-        } else if (criteria === 'id') {
-            sortedComments = [...comments].sort((a, b) => a.id - b.id);
+            sortedComments = [...comments].sort((a, b) => new Date(b.last_modified) - new Date(a.last_modified));
         }
     }
 
-    function postComment() {
+    async function postComment(url)(url: string) {
         if (newComment.trim() !== '') {
             const comment = {
-                id: sortedComments.length + 1,
-                character: {
-                    name: 'Current User',
-                    image_url: 'https://via.placeholder.com/128',
-                    corporation_name: 'Current Corp',
-                    alliance_name: 'Current Alliance'
-                },
                 body: newComment,
-                date: new Date().toISOString(),
-                rating: 0
+                identifier: 'some-identifier', // Replace with actual identifier
+                url: url
             };
-            sortedComments = [comment, ...sortedComments];
-            newComment = '';
+
+            try {
+                const response = await fetch(`${upstreamUrl}/api/comments/post`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(comment)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    await fetchComments(); // Refresh comments after posting
+                    newComment = '';
+                } else {
+                    console.error('Error posting comment:', result.error);
+                }
+            } catch (error) {
+                console.error('Error posting comment:', error);
+            }
         }
     }
 
@@ -126,21 +116,21 @@
 					</td>
 					<td class="px-1 py-1">
 						<img
-							src={comment.character.image_url}
-							alt={comment.character.name}
+							src="https://via.placeholder.com/128"
+							alt={comment.character.character_name}
 							class="h-16 w-16 rounded-md"
 						/>
 					</td>
 					<td class="px-1 py-1" colspan="3">
 						<div class="text-left text-xs">
-							{comment.character.name} <br />
+							{comment.character.character_name} <br />
 							<div class="text-gray-500">
 								{comment.character.corporation_name} / {comment.character
 									.alliance_name}
 							</div>
 						</div>
 						<div class="mt-2">{comment.body}</div>
-						<div class="text-gray-500 text-xs mt-2 text-right">{comment.date}</div>
+						<div class="text-gray-500 text-xs mt-2 text-right">{comment.last_modified}</div>
 					</td>
 				</tr>
 			{/each}
@@ -162,7 +152,7 @@
 			></textarea>
 		</div>
 		<div class="flex justify-end mt-2">
-			<button class="post-button" on:click={postComment}>Post Comment</button>
+			<button class="post-button" on:click={postComment(url)}>Post Comment</button>
 		</div>
 	</div>
 </div>
