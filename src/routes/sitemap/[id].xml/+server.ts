@@ -20,7 +20,6 @@ export const GET: RequestHandler = async ({ params }) => {
                 <lastmod>${item.lastmod}</lastmod>
                 <image:image>
                     <image:loc>${item.image}</image:loc>
-                    <image:title>${item.name}</image:title>
                 </image:image>
             </url>`).join('')}
     </urlset>`;
