@@ -28,7 +28,7 @@
 				<react:DefaultCharactersProvider>
 					<react:CurrentCharacterProvider>
 						<react:StatisticsProvider>
-							<react:ShipFit withStats />
+							<react:ShipFit withStats readOnly />
 
 						</react:StatisticsProvider>
 					</react:CurrentCharacterProvider>
