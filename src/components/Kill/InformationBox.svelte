@@ -82,11 +82,6 @@
                 </tr>
             {/if}
             <tr>
-                <td colspan="2">
-                    <hr class="w-60 h-px mx-auto bg-gray-100 border-0 rounded dark:bg-gray-700">
-                </td>
-            </tr>
-            <tr>
                 <th class="p-1 text-right">Ship:</th>
                 <td class="p-1">
                     <a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400" style="font-weight: 500; font-size:larger">

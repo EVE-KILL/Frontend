@@ -31,10 +31,10 @@
     });
 </script>
 
-<!-- Navbar -->
-<!--<Navbar />-->
-
 {#if killmail}
+    <!-- Navbar -->
+    <Navbar killmail_id={killmail.killmail_id} />
+
     <div class="container flex p-2 pt-4 gap-2">
         <!-- Left Container -->
         <div class="w-full text-white p-4 rounded-lg shadow-lg">

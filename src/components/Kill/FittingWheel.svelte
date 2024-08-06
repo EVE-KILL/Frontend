@@ -4,6 +4,8 @@
     import { onMount } from 'svelte';
 	import {
 		ShipFit,
+		ShipAttribute,
+		Icon,
 		CurrentCharacterProvider,
 		DefaultCharactersProvider,
 		EveDataProvider,
@@ -29,7 +31,9 @@
 					<react:CurrentCharacterProvider>
 						<react:StatisticsProvider>
 							<react:ShipFit withStats readOnly />
-
+							<!--<react:ShipAttribute name="shieldCapacity" fixed={0} roundDown unit="hp" />-->
+							<!--<react:Icon name="warp-speed" />-->
+							<!-- https://github.com/EVEShipFit/react/blob/main/src/components/ShipStatistics/ShipStatistics.tsx -->
 						</react:StatisticsProvider>
 					</react:CurrentCharacterProvider>
 				</react:DefaultCharactersProvider>
