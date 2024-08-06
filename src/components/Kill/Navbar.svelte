@@ -19,7 +19,7 @@
         <ul class="flex space-x-4 justify-end">
             {#if inBattle}
                 <li>
-                    <a href="/battle/kill/{killmail_id}">Related</a>
+                    <a href="/battle/kill/{killmail_id}">Battle Info</a>
                 </li>
             {/if}
         </ul>
