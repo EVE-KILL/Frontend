@@ -27,12 +27,15 @@
     });
 
     async function fetchKillmails(killmailIds) {
+        // Convert the killmailIds to numeric values
+        const numericKillmailIds = killmailIds.map(id => Number(id));
+
         const response = await fetch(killmailUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(killmailIds)
+            body: JSON.stringify(numericKillmailIds)
         });
 
         return await response.json();
