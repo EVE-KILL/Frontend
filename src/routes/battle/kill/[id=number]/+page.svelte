@@ -176,7 +176,6 @@
                                 <th class="px-2 py-1 w-[64px]" scope="col"></th>
                                 <th class="px-2 py-1" scope="col">Victim</th>
                                 <th class="px-2 py-1" scope="col">Final Blow</th>
-                                <th class="px-2 py-1" scope="col">Location</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-300 text-sm">
@@ -212,16 +211,6 @@
                                                 {/if}
                                             {/each}
                                         {/if}
-                                    </td>
-                                    <td class="px-2 py-1">
-                                        {kill.region_name} / {kill.system_name}<br />
-                                        <div class="flex justify-between items-center">
-                                            <div class="flex items-center">
-                                                <span class="text-gray-400">{kill.attackers.length}</span>
-                                                <img src="/path/to/involvedImage.png" alt="{kill.attackers.length} Involved" />
-                                            </div>
-                                            <div class="text-right text-gray-500">{kill.kill_time}</div>
-                                        </div>
                                     </td>
                                 </tr>
                             {/each}
