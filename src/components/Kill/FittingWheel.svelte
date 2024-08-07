@@ -49,8 +49,8 @@
 		right: 0;
 		width: 100%;
 		height: 100%;
-		max-width: 500px;
-		max-height: 500px;
+		max-width: 550px;
+		max-height: 550px;
 		aspect-ratio: 1 / 1;
 	}
 </style>
