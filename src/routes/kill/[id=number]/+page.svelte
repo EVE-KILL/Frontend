@@ -43,9 +43,11 @@
                 <FittingWheel {killmail} />
 
                 <!-- Kill Information -->
+                <div class="information-box ml-5">
                 <InformationBox
                     {killmail}
                 />
+                </div>
             </div>
 
             <!-- Items -->

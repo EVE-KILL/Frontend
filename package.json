@@ -49,7 +49,6 @@
 		"cors": "^2.8.5",
 		"express": "^4.19.2",
 		"lru-cache": "^11.0.0",
-		"resize-observer-polyfill": "^1.5.1",
 		"svelte-preprocess-react": "^0.17.1"
 	}
 }
