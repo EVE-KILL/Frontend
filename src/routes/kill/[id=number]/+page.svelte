@@ -22,7 +22,6 @@
         killmail = await response.json();
 
         // Set custom meta tags for this page
-        console.log(generateDescription(killmail));
         setMeta({
             title: `Killmail #${killmail.killmail_id}`,
             description: generateDescription(killmail),
