@@ -26,6 +26,12 @@
 					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
 					on:click={(window.location.href = `/region/${region.region_id}`)}
 				>
+					<td class="px2 py-1">
+						<img style="width: 32px; height: 32px;"
+							src={`/map.png`}
+							alt="Region: {region.name}"
+						/>
+					</td>
 					<td class="px-2 py-1">
 						<div class="flex items-center">
 							<div>
