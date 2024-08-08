@@ -2,7 +2,8 @@
     import { onMount, tick } from 'svelte';
     import { page } from '$app/stores';
     import { getUpstreamUrl } from '$lib/Config';
-    import Top20 from '../../components/Lists/Top20.svelte';
+    import Top207d from '../../components/Lists/Top207d.svelte';
+    import Top2030d from '../../components/Lists/Top2030d.svelte';
     import Alliances from '../../components/Lists/Alliances.svelte';
     import Corporations from '../../components/Lists/Corporations.svelte';
     import Characters from '../../components/Lists/Characters.svelte';
@@ -10,13 +11,14 @@
     import Systems from '../../components/Lists/Systems.svelte';
     import Regions from '../../components/Lists/Regions.svelte';
 
-    let activeComponent = Top20;
-    let currentHash = '#top20'; // Default to '#top20'
+    let activeComponent = Top207d;
+    let currentHash = '#top207d'; // Default to '#top207d'
     const upstreamUrl = getUpstreamUrl();
 
     // Function to map hash to component
     const hashToComponent = {
-        '#top20': Top20,
+        '#top207d': Top207d,
+        '#top2030d': Top2030d,
         '#alliances': Alliances,
         '#corporations': Corporations,
         '#characters': Characters,
@@ -28,20 +30,20 @@
     // Load the appropriate component based on the URL hash
     function loadComponentFromHash(hash) {
         if (!hash || hash === '#') {
-            activeComponent = Top20; // Load Top20 by default if no hash or empty hash is present
-            currentHash = '#top20';
+            activeComponent = Top207d; // Load Top20 by default if no hash or empty hash is present
+            currentHash = '#top207d';
         } else {
             const component = hashToComponent[hash];
-            activeComponent = component || Top20;
+            activeComponent = component || Top207d;
             currentHash = hash;
         }
     }
 
     onMount(() => {
-        // Check if the URL has a hash, if not, add #top20 and replace history
+        // Check if the URL has a hash, if not, add #top207d and replace history
         if (!window.location.hash || window.location.hash === '#') {
-            history.replaceState(null, '', `${window.location.pathname}#top20`);
-            loadComponentFromHash('#top20');
+            history.replaceState(null, '', `${window.location.pathname}#top207d`);
+            loadComponentFromHash('#top207d');
         } else {
             // Load the component based on the current hash
             loadComponentFromHash(window.location.hash);
@@ -73,11 +75,20 @@
         <ul class="flex space-x-4">
             <li>
                 <a
-                    href="#top20"
-                    class="hover:underline {currentHash === '#top20' ? 'active' : ''}"
-                    on:click|preventDefault={() => loadComponent(Top20, '#top20')}
+                    href="#top207d"
+                    class="hover:underline {currentHash === '#top207d' ? 'active' : ''}"
+                    on:click|preventDefault={() => loadComponent(Top207d, '#top207d')}
                 >
-                    Top 20
+                    Top 20 (7 days)
+                </a>
+            </li>
+            <li>
+                <a
+                    href="#top2030d"
+                    class="hover:underline {currentHash === '#top2030d' ? 'active' : ''}"
+                    on:click|preventDefault={() => loadComponent(Top2030d, '#top2030d')}
+                >
+                    Top 20 (30 days)
                 </a>
             </li>
             <li>
