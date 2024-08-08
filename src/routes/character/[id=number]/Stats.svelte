@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Character } from '../../../types/Character.ts';
-	import Ships from '../../../components/Top10Boxes/Ships.svelte';
-	import Systems from '../../../components/Top10Boxes/Systems.svelte';
-	import Regions from '../../../components/Top10Boxes/Regions.svelte';
+	import Ships from '../../../components/TopBoxes/Ships.svelte';
+	import Systems from '../../../components/TopBoxes/Systems.svelte';
+	import Regions from '../../../components/TopBoxes/Regions.svelte';
 
 	export let character: Character;
 	const upstreamUrl = getUpstreamUrl();

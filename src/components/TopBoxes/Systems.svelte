@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { System } from '../../types/Top10s/System';
+	import type { System } from '../../types/Top/System';
 
 	export let url: string;
 	let systems: System[] = [];

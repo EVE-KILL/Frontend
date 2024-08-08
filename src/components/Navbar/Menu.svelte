@@ -54,4 +54,15 @@
 			{/if}
 		</div>
 	</li>
+	<li>
+		<ul><a href="/lists" class="text-white hover:text-gray-400">Lists</a></ul>
+	</li>
+	<!--
+	<li>
+		<ul><a href="/wars" class="text-white hover:text-gray-400">Wars</a></ul>
+	</li>
+	<li>
+		<ul><a href="/battles" class="text-white hover:text-gray-400">Battles</a></ul>
+	</li>
+	-->
 </ul>
