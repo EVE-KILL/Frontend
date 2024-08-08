@@ -14,12 +14,12 @@
 
 	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/mostvaluablekillslast7days/7`;
 	const killListUrl = `${upstreamUrl}/api/killlist/latest`;
-	const top10CharactersUrl = `${upstreamUrl}/api/stats/top10characters`;
-	const top10CorporationsUrl = `${upstreamUrl}/api/stats/top10corporations`;
-	const top10AlliancesUrl = `${upstreamUrl}/api/stats/top10alliances`;
-	const top10ShipsUrl = `${upstreamUrl}/api/stats/top10ships`;
-	const top10SystemsUrl = `${upstreamUrl}/api/stats/top10solarsystems`;
-	const top10RegionsUrl = `${upstreamUrl}/api/stats/top10regions`;
+	const top10CharactersUrl = `${upstreamUrl}/api/stats/topcharacters/10`;
+	const top10CorporationsUrl = `${upstreamUrl}/api/stats/topcorporations/10`;
+	const top10AlliancesUrl = `${upstreamUrl}/api/stats/topalliances/10`;
+	const top10ShipsUrl = `${upstreamUrl}/api/stats/topships/10`;
+	const top10SystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/10`;
+	const top10RegionsUrl = `${upstreamUrl}/api/stats/topregions/10`;
 
     // Set custom meta tags for this page
     setMeta({
