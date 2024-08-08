@@ -9,12 +9,12 @@
 
     const upstreamUrl = getUpstreamUrl();
 
-    const topCharactersUrl = `${upstreamUrl}/api/stats/topcharacters/20`;
-	const topCorporationsUrl = `${upstreamUrl}/api/stats/topcorporations/20`;
-	const topAlliancesUrl = `${upstreamUrl}/api/stats/topalliances/20`;
-	const topShipsUrl = `${upstreamUrl}/api/stats/topships/20`;
-	const topSystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/20`;
-	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/20`;
+    const topCharactersUrl = `${upstreamUrl}/api/stats/topcharacters/20/30`;
+	const topCorporationsUrl = `${upstreamUrl}/api/stats/topcorporations/20/30`;
+	const topAlliancesUrl = `${upstreamUrl}/api/stats/topalliances/20/30`;
+	const topShipsUrl = `${upstreamUrl}/api/stats/topships/20/30`;
+	const topSystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/20/30`;
+	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/20/30`;
 </script>
 
 <style>
@@ -30,21 +30,21 @@
 
 <div class="w-full flex-container">
     <div class="flex-item">
-        <Characters url={topCharactersUrl} />
+        <Characters url={topCharactersUrl} count=20 days=30 />
     </div>
     <div class="flex-item">
-        <Corporations url={topCorporationsUrl} />
+        <Corporations url={topCorporationsUrl} count=20 days=30/>
     </div>
     <div class="flex-item">
-        <Alliances url={topAlliancesUrl} />
+        <Alliances url={topAlliancesUrl} count=20 days=30/>
     </div>
     <div class="flex-item">
-        <Ships url={topShipsUrl} />
+        <Ships url={topShipsUrl} count=20 days=30/>
     </div>
     <div class="flex-item">
-        <Systems url={topSystemsUrl} />
+        <Systems url={topSystemsUrl} count=20 days=30/>
     </div>
     <div class="flex-item">
-        <Regions url={topRegionsUrl} />
+        <Regions url={topRegionsUrl} count=20 days=30/>
     </div>
 </div>

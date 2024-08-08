@@ -3,6 +3,8 @@
 	import type { Corporation } from '../../types/Top/Corporation';
 
 	export let url: string;
+	export let count: number = 10;
+	export let days: number = 7;
 	let corporations: Corporation[] = [];
 
 	onMount(async () => {
@@ -15,7 +17,7 @@
 	<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
 		<thead>
 			<tr class="bg-darker text-white uppercase text-xs leading-normal">
-				<th class="px-2 py-1" scope="col" colspan="3">Top 10 Corporations</th>
+				<th class="px-2 py-1" scope="col" colspan="3">Top {count} Corporations</th>
 			</tr>
 		</thead>
 		<tbody class="text-gray-300 text-sm">
@@ -43,7 +45,7 @@
 				</tr>
 			{/each}
 			<tr>
-				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last 7 days)</td>
+				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last {days} days)</td>
 			</tr>
 		</tbody>
 	</table>
