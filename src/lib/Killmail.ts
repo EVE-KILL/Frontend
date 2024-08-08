@@ -46,15 +46,6 @@ export async function generateEveShipFit(killmail: Killmail) {
 	let cargo = [];
 
 	items = killmail.items
-		.filter(
-			(item: {
-				flag: number;
-				item_type_id: number;
-				type_name: string;
-				qty_destroyed?: number;
-				qty_dropped?: number;
-			}) => !item.type_name.includes('Abyssal')
-		)
 		.map(
 			(item: {
 				flag: number;
