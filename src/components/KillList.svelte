@@ -5,7 +5,7 @@
     import { formatNumber } from '$lib/Helpers.ts';
 
     export let url: string;
-	export let title: string;
+	export let title: string = '';
     export let wsFilter = ['all'];
 
     let kills: Killmail[] = [];
