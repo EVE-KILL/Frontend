@@ -1,13 +1,48 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { browser } from '$app/environment';
+    import { onMount, onDestroy } from 'svelte';
+    import { createScalarReferences } from '@scalar/api-reference';
+    import type { ReferenceConfiguration } from '@scalar/api-reference';
     import { getUpstreamUrl } from '$lib/Config';
+    import { svelteThemeCss } from './apiTheme';
+
     const upstreamUrl = getUpstreamUrl();
 
-    // Template literal for multi-line HTML content
-    let html = `
-        \<script id="api-reference" data-url="${upstreamUrl}/api/openapi"\>\</script\>
-        \<script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"\>\</script\>
-    `;
+    let configuration: ReferenceConfiguration = {
+        spec: {
+            url: `${upstreamUrl}/api/openapi`,
+        }
+    };
+    let element: HTMLDivElement | null = null;
+    let instance: any;
+
+    const applyDefaultCss = (config: ReferenceConfiguration) => {
+        if (!config?.customCss && !config?.theme) {
+            config.customCss = svelteThemeCss;
+        }
+    }
+
+    onMount(async () => {
+        applyDefaultCss(configuration);
+        instance = createScalarReferences(element, configuration);
+    });
+
+    onDestroy(async() => {
+        if (browser) {
+            instance.unmount();
+            element?.remove();
+            // Remove the dark-mode class from body
+            document.body.classList.remove('dark-mode');
+        }
+    });
+
 </script>
 
-{@html html}
+<div class="scalar" bind:this={element}/>
+
+<style>
+    .scalar {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+    }
+</style>

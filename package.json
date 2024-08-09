@@ -46,6 +46,7 @@
 		"@eveshipfit/dogma-engine": "*",
 		"@eveshipfit/react": "^4.6",
 		"@fortawesome/fontawesome-free": "^6.6.0",
+		"@scalar/api-reference": "^1.24.73",
 		"cors": "^2.8.5",
 		"express": "^4.19.2",
 		"lru-cache": "^11.0.0",
