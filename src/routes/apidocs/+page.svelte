@@ -9,6 +9,9 @@
     const upstreamUrl = getUpstreamUrl();
 
     let configuration: ReferenceConfiguration = {
+        isEditable: false,
+        hideDownloadButton: true,
+
         spec: {
             url: `${upstreamUrl}/api/openapi`,
         }

@@ -1,22 +1,18 @@
-<script>
+<script lang="ts">
     import fourOhFourImage from '../images/404.png';
 </script>
 
-<div class="container text-white" style="background-image: url({fourOhFourImage}); background-size: cover; background-repeat: no-repeat; background-position: center center;"/>
+<div id="fourohfour" style="background: url({fourOhFourImage}) no-repeat center center;"/>
 
 <style>
-    :global(html) {
-        background: radial-gradient(circle, transparent, black 80%);
-        background-color: black;
-    }
-
-    .container {
+    #fourohfour {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        width: 50%;
-        height: 50%;
+        height: 60%;
+        width: 100%;
+        background-size: contain; /* Adjust image size to fit the container */
     }
 </style>
