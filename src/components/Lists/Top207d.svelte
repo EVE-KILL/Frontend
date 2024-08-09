@@ -21,25 +21,25 @@
 
 <div class="w-full flex-container">
 	<div class="flex-item">
-		<Characters url={topCharactersUrl} count="20" days="7" />
+		<Characters url={topCharactersUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Corporations url={topCorporationsUrl} count="20" days="7" />
+		<Corporations url={topCorporationsUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Alliances url={topAlliancesUrl} count="20" days="7" />
+		<Alliances url={topAlliancesUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Ships url={topShipsUrl} count="20" days="7" />
+		<Ships url={topShipsUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Systems url={topSystemsUrl} count="20" days="7" />
+		<Systems url={topSystemsUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Constellations url={topConstellationsUrl} count="20" days="7" />
+		<Constellations url={topConstellationsUrl} count={20} days={7} />
 	</div>
 	<div class="flex-item">
-		<Regions url={topRegionsUrl} count="20" days="7" />
+		<Regions url={topRegionsUrl} count={20} days={7} />
 	</div>
 </div>
 
