@@ -68,18 +68,30 @@
 
     function groupByQty(items: Item[]) {
         const grouped = items.reduce((acc, item) => {
-            const key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
+            let key;
+
+            // Don't group plastic wraps (type_id 3468), treat each one individually
+            if (item.type_id === 3468) {
+                key = `${item.Itemid}_${item.type_id}_${Math.random()}`; // Ensures unique key for each Plastic Wrap
+            } else {
+                key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
+            }
+
             if (!acc[key]) {
                 acc[key] = { ...item, qty_dropped: 0, qty_destroyed: 0, container_items: [], containerItemsValue: 0 };
             }
+
             acc[key].qty_dropped += item.qty_dropped || 0;
             acc[key].qty_destroyed += item.qty_destroyed || 0;
+
             if (item.isContainer) {
                 acc[key].container_items = item.container_items;
                 acc[key].containerItemsValue = item.containerItemsValue;
             }
+
             return acc;
         }, {});
+
         return Object.values(grouped);
     }
 
