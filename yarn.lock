@@ -969,9 +969,9 @@
     import-meta-resolve "^4.1.0"
 
 "@sveltejs/adapter-node@*":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-5.2.0.tgz#68080dfc3314514f5466a1886280f36a927b2629"
-  integrity sha512-HVZoei2078XSyPmvdTHE03VXDUD0ytTvMuMHMQP0j6zX4nPDpCcKrgvU7baEblMeCCMdM/shQvstFxOJPQKlUQ==
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-5.2.2.tgz#a4ed9c43a321400075b86ef892f8946ce5ce7038"
+  integrity sha512-BCX4zP0cf86TXpmvLQTnnT/tp7P12UMezf+5LwljP1MJC1fFzn9XOXpAHQCyP+pyHGy2K7p5gY0LyLcZFAL02w==
   dependencies:
     "@rollup/plugin-commonjs" "^26.0.1"
     "@rollup/plugin-json" "^6.1.0"
