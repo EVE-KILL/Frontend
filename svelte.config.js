@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-node';
+import adapter from 'svelte-adapter-bun';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import preprocessReact from 'svelte-preprocess-react/preprocessReact';
 
@@ -14,7 +14,13 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
 			out: 'build',
-			precompress: true
+			precompress: {
+				brotli: true,
+				gzip: true
+			},
+			assets: true,
+			dynamic_origin: true,
+			xff_depth: 1
 		})
 	}
 };
