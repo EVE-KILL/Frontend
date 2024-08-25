@@ -25,7 +25,7 @@
 
 <div class="fitting-wheel">
 	<react:CurrentFitProvider initialFit={fit}>
-		<react:EveDataProvider dataUrl="https://eve-kill.com/sde/">
+		<react:EveDataProvider dataUrl="/sde/">
 			<react:DogmaEngineProvider>
 				<react:DefaultCharactersProvider>
 					<react:CurrentCharacterProvider>
