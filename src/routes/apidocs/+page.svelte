@@ -50,6 +50,5 @@
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(10px);
         position: relative;
-        max-height: 400px;
     }
 </style>
