@@ -47,7 +47,6 @@
             { threshold: 1 }
         );
 
-        console.log(enableWs)
         if (enableWs) {
             socket = new WebSocket('wss://ws.eve-kill.com/kills');
 
@@ -72,8 +71,10 @@
     });
 
     onDestroy(async () => {
-        // Close the websocket connection
-        socket && socket.close();
+        if (enableWs) {
+            // Close the websocket connection
+            socket && socket.close();
+        }
     });
 
     afterUpdate(() => {
