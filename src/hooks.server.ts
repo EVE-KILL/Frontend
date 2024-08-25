@@ -2,9 +2,6 @@ import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 import { LRUCache } from 'lru-cache';
 import crypto from 'crypto';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 type CachedResponse = {
 	statusCode: number;
@@ -30,15 +27,6 @@ const setCorsHeaders = (headers: Headers) => {
 	headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 };
 
-// Helper function to resolve the path of static files
-const getStaticFilePath = (urlPath: string) => {
-	const __dirname = path.dirname(fileURLToPath(import.meta.url));
-	return path.join(__dirname, '../static', urlPath);
-};
-
-// Check if a path is a file (not a directory)
-const isFile = (filePath: string) => fs.existsSync(filePath) && fs.statSync(filePath).isFile();
-
 export const handle: Handle = async ({ event, resolve }) => {
 	// Parse cookies to manage session
 	const cookies = parse(event.request.headers.get('cookie') || '');
@@ -52,24 +40,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	// Handle favicon request
 	if (event.url.pathname === '/favicon') {
-		const filePath = getStaticFilePath('/favicon.png');
-		if (isFile(filePath)) {
-			const fileContent = fs.readFileSync(filePath);
-			const headers = new Headers();
-			setCorsHeaders(headers);
-			headers.set('Content-Type', 'image/png');
-			return new Response(fileContent, { status: 200, headers });
-		}
-	}
-
-	// Serve static files with CORS headers
-	const staticFilePath = getStaticFilePath(event.url.pathname);
-	if (isFile(staticFilePath)) {
-		const fileContent = fs.readFileSync(staticFilePath);
-		const headers = new Headers();
-		setCorsHeaders(headers);
-		headers.set('Content-Type', getMimeType(staticFilePath)); // Set appropriate content type
-		return new Response(fileContent, { status: 200, headers });
+		return new Response(await fetch('/static/favicon.png'));
 	}
 
 	// Handle requests to images.eve-kill.com
@@ -139,32 +110,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	return response;
-};
-
-// Utility function to determine the MIME type based on the file extension
-const getMimeType = (filePath: string): string => {
-	const ext = path.extname(filePath).toLowerCase();
-	switch (ext) {
-		case '.html':
-			return 'text/html';
-		case '.css':
-			return 'text/css';
-		case '.js':
-			return 'application/javascript';
-		case '.png':
-			return 'image/png';
-		case '.jpg':
-		case '.jpeg':
-			return 'image/jpeg';
-		case '.gif':
-			return 'image/gif';
-		case '.svg':
-			return 'image/svg+xml';
-		case '.json':
-			return 'application/json';
-		case '.txt':
-			return 'text/plain';
-		default:
-			return 'application/octet-stream';
-	}
 };
