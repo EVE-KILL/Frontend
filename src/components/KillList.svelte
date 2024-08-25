@@ -6,6 +6,7 @@
 
     export let url: string;
 	export let title: string = '';
+    export let enableWs: boolean = true;
     export let wsFilter = ['all'];
 
     let kills: Killmail[] = [];
@@ -46,25 +47,28 @@
             { threshold: 1 }
         );
 
-        socket = new WebSocket('wss://ws.eve-kill.com/kills');
+        console.log(enableWs)
+        if (enableWs) {
+            socket = new WebSocket('wss://ws.eve-kill.com/kills');
 
-        socket.addEventListener('open', () => {
-            socket.send(JSON.stringify({ type: 'subscribe', data: wsFilter }));
-        });
+            socket.addEventListener('open', () => {
+                socket.send(JSON.stringify({ type: 'subscribe', data: wsFilter }));
+            });
 
-        socket.addEventListener('message', event => {
-            const newKill = JSON.parse(event.data);
+            socket.addEventListener('message', event => {
+                const newKill = JSON.parse(event.data);
 
-            if (!killmailIds.has(newKill.killmail_id)) {
-                let newKillKillTime = new Date(newKill.kill_time);
-                let killsKillTime = new Date(kills[0]?.kill_time ?? 0);
+                if (!killmailIds.has(newKill.killmail_id)) {
+                    let newKillKillTime = new Date(newKill.kill_time);
+                    let killsKillTime = new Date(kills[0]?.kill_time ?? 0);
 
-                if (newKillKillTime.getTime() > killsKillTime.getTime()) {
-                    kills = [{ ...newKill }, ...kills];
-                    killmailIds.add(newKill.killmail_id);
+                    if (newKillKillTime.getTime() > killsKillTime.getTime()) {
+                        kills = [{ ...newKill }, ...kills];
+                        killmailIds.add(newKill.killmail_id);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     onDestroy(async () => {

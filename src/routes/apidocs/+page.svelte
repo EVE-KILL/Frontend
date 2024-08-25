@@ -41,11 +41,15 @@
 
 </script>
 
+<div class="w-full">
 <div class="scalar" bind:this={element}/>
+</div>
 
 <style>
     .scalar {
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(10px);
+        position: relative;
+        max-height: 400px;
     }
 </style>

@@ -1,50 +1,65 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
-    import '../app.css';
-    import '@fortawesome/fontawesome-free/css/all.min.css';
-    import Navbar from '../components/Navbar.svelte';
-    import Meta from '../components/Meta.svelte';
-    import { resetMeta, meta } from '$lib/Meta.ts';
-    import { beforeNavigate, afterNavigate } from '$app/navigation';
-    import { get } from 'svelte/store';
+	import { page } from '$app/stores';
 
-    // Reset meta tags after each navigation if no custom meta is set
-    afterNavigate(() => {
-        const currentMeta = get(meta);
-        if (!currentMeta.hasCustomMeta) {
-            resetMeta();
-        }
-    });
-
-    beforeNavigate(() => {
-        resetMeta();
-    });
+	import '../app.css';
+	import '@fortawesome/fontawesome-free/css/all.min.css';
+	import Navbar from '../components/Navbar.svelte';
 </script>
 
-<Meta />
+<svelte:head>
+	<!-- Title -->
+	<title>{$page.data.meta?.title || 'EVE-KILL'}</title>
+
+	<!-- Meta tags -->
+	<meta
+		name="description"
+		content={$page.data.meta?.description ||
+			'EVE-KILL is a killboard for the MMORPG EVE-Online'}
+	/>
+	<meta
+		name="keywords"
+		content={$page.data.meta?.keywords ||
+			'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com'}
+	/>
+	<meta name="robots" content={$page.data.meta?.robots || 'index, follow'} />
+	<meta name="creator" content={$page.data.meta?.creator || '@eve_kill'} />
+	<meta property="og:site_name" content={$page.data.meta?.siteName || 'EVE-KILL'} />
+	<meta property="og:image" content={$page.data.meta?.image || '/icon.png'} />
+	<meta name="twitter:site" content={$page.data.meta?.site || '@eve_kill'} />
+
+	<!-- Canonical URL (Optional, useful for SEO) -->
+	{#if $page.data.meta?.upstreamUrl}
+		<link rel="canonical" href={$page.data.meta.upstreamUrl} />
+	{/if}
+
+	<!-- Custom Meta (if applicable) -->
+	{#if $page.data.meta?.hasCustomMeta}
+		<!-- You can add any additional custom meta tags here based on page-specific needs -->
+	{/if}
+</svelte:head>
 
 <div id="content" class="content flex flex-col mx-auto">
-    <div id="inner-content" class="inner-content">
-        <Navbar />
-        <slot />
-    </div>
+	<div id="inner-content" class="inner-content">
+		<Navbar />
+		<slot />
+	</div>
 </div>
 
 <style>
-    .content {
-        max-width: 90rem;
-        background-color: rgba(21, 21, 21, 0.5);
-        border: 2px solid #252525;
-        padding: 5px;
-        border-radius: 10px;
-    }
+	.content {
+		max-width: 90rem;
+		background-color: rgba(21, 21, 21, 0.5);
+		border: 2px solid #252525;
+		padding: 5px;
+		border-radius: 10px;
+	}
 
-    #content > #inner-content {
-        display: block;
-        border: 5px solid rgba(0, 0, 0, 0.5);
-        padding: 0px 20px 20px 20px;
-        background: rgba(0, 0, 0, 0.65);
-        margin-bottom: 5px;
-    }
+	#content > #inner-content {
+		display: block;
+		border: 5px solid rgba(0, 0, 0, 0.5);
+		padding: 0px 20px 20px 20px;
+		background: rgba(0, 0, 0, 0.65);
+		margin-bottom: 5px;
+	}
 </style>
-

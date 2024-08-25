@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import HelpBox from './Navbar/HelpBox.svelte';
 	import Information from './Navbar/Information.svelte';
 	import Menu from './Navbar/Menu.svelte';
@@ -37,9 +35,6 @@
 </nav>
 
 <style>
-	.hover\:bg-gray-700:hover {
-		background-color: #4a4a4a;
-	}
 	nav {
 		position: relative;
 		z-index: 10;

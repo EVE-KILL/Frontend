@@ -1,35 +1,28 @@
 <script lang="ts">
 	import KillList from '../../../components/KillList.svelte';
-	import { getUpstreamUrl } from '$lib/Config';
-	import { onMount, afterUpdate } from 'svelte';
+	import { page } from '$app/stores'; // Import the page store to detect route changes
 
 	export let data;
-	const upstreamUrl = getUpstreamUrl();
-	let killListUrl: string;
-	let type: string;
-	let isReady = false;
 
-	afterUpdate(async() => {
-		type = data.type;
-		killListUrl = `${upstreamUrl}/api/killlist/${type}`;
-	});
+	let { type, killListUrl } = data;
 
-	onMount(async () => {
-		type = data.type;
-		killListUrl = `${upstreamUrl}/api/killlist/${type}`;
-		isReady = true;
-	});
-
+	// Function to capitalize the first letter of a string
 	function upperCaseFirstLetter(string: string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 
+	// Subscribe to the page store to detect when the URL changes
+	page.subscribe(($page) => {
+		// When the route changes, update the type and killListUrl
+		if ($page.params.type !== type) {
+			type = $page.params.type;
+			killListUrl = `${data.upstreamUrl}/api/killlist/${type}`;
+		}
+	});
 </script>
 
-{#if isReady}
-	<div class="container flex p-2 pt-4 gap-2">
-		<div class="w-full">
-			<KillList url={killListUrl} title={upperCaseFirstLetter(type)} />
-		</div>
+<div class="container flex p-2 pt-4 gap-2">
+	<div class="w-full">
+		<KillList url={killListUrl} title={upperCaseFirstLetter(type)} enableWs=false />
 	</div>
-{/if}
+</div>

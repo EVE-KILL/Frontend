@@ -9,7 +9,6 @@
 	import Systems from '../components/TopBoxes/Systems.svelte';
 	import Constellations from '../components/TopBoxes/Constellations.svelte';
 	import Regions from '../components/TopBoxes/Regions.svelte';
-	import { setMeta } from '$lib/Meta.ts';
 
 	const upstreamUrl = getUpstreamUrl();
 
@@ -22,11 +21,6 @@
 	const topSystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/10`;
 	const topConstellationsUrl = `${upstreamUrl}/api/stats/topconstellations/10`;
 	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/10`;
-
-    // Set custom meta tags for this page
-    setMeta({
-        title: `EVE-KILL`,
-    });
 </script>
 
 <div class="container flex w-full">
