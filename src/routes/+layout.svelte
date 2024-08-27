@@ -26,7 +26,13 @@
 	<meta name="creator" content={$page.data.meta?.creator || '@eve_kill'} />
 	<meta property="og:site_name" content={$page.data.meta?.siteName || 'EVE-KILL'} />
 	<meta property="og:image" content={$page.data.meta?.image || '/icon.png'} />
+	<meta property="og:type" content={$page.data.meta?.type || 'website'} />
+	<meta property="og:title" content={$page.data.meta?.title || 'EVE-KILL'} />
+	<meta property="og:description" content={$page.data.meta?.description || 'EVE-KILL'} />
 	<meta name="twitter:site" content={$page.data.meta?.site || '@eve_kill'} />
+	<meta name="twitter:creator" content={$page.data.meta?.creator || '@eve_kill'} />
+	<meta name="twitter:card" content={$page.data.meta?.card || 'summary'} />
+	<meta name="twitter:image" content={$page.data.meta?.image || '/icon.png'} />
 
 	<!-- Custom Meta (if applicable) -->
 	{#if $page.data.meta?.hasCustomMeta}
