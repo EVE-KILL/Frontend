@@ -5,11 +5,15 @@
 	import '../app.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import Navbar from '../components/Navbar.svelte';
+	let defaultKeywords = 'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
+	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
+	let defaultTitle = 'EVE-KILL';
+	let combinedTitle = $page.data.meta?.title ? `${defaultTitle} - ${$page.data.meta.title}` : defaultTitle;
 </script>
 
 <svelte:head>
 	<!-- Title -->
-	<title>{$page.data.meta?.title || 'EVE-KILL'}</title>
+	<title>{combinedTitle}</title>
 
 	<!-- Meta tags -->
 	<meta
@@ -17,22 +21,21 @@
 		content={$page.data.meta?.description ||
 			'EVE-KILL is a killboard for the MMORPG EVE-Online'}
 	/>
-	<meta
-		name="keywords"
-		content={$page.data.meta?.keywords ||
-			'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com'}
-	/>
+
+	<meta name="keywords" content={combinedKeywords} />
 	<meta name="robots" content={$page.data.meta?.robots || 'index, follow'} />
 	<meta name="creator" content={$page.data.meta?.creator || '@eve_kill'} />
 	<meta property="og:site_name" content={$page.data.meta?.siteName || 'EVE-KILL'} />
 	<meta property="og:image" content={$page.data.meta?.image || '/icon.png'} />
 	<meta property="og:type" content={$page.data.meta?.type || 'website'} />
-	<meta property="og:title" content={$page.data.meta?.title || 'EVE-KILL'} />
+	<meta property="og:title" content={combinedTitle} />
 	<meta property="og:description" content={$page.data.meta?.description || 'EVE-KILL'} />
 	<meta name="twitter:site" content={$page.data.meta?.site || '@eve_kill'} />
 	<meta name="twitter:creator" content={$page.data.meta?.creator || '@eve_kill'} />
 	<meta name="twitter:card" content={$page.data.meta?.card || 'summary'} />
 	<meta name="twitter:image" content={$page.data.meta?.image || '/icon.png'} />
+	<meta name="twitter:title" content={combinedTitle} />
+	<meta name="twitter:description" content={$page.data.meta?.description || 'EVE-KILL'} />
 
 	<!-- Custom Meta (if applicable) -->
 	{#if $page.data.meta?.hasCustomMeta}
