@@ -28,11 +28,6 @@
 	<meta property="og:image" content={$page.data.meta?.image || '/icon.png'} />
 	<meta name="twitter:site" content={$page.data.meta?.site || '@eve_kill'} />
 
-	<!-- Canonical URL (Optional, useful for SEO) -->
-	{#if $page.data.meta?.upstreamUrl}
-		<link rel="canonical" href={$page.data.meta.upstreamUrl} />
-	{/if}
-
 	<!-- Custom Meta (if applicable) -->
 	{#if $page.data.meta?.hasCustomMeta}
 		<!-- You can add any additional custom meta tags here based on page-specific needs -->
