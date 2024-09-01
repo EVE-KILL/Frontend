@@ -1,89 +1,33 @@
 <script lang="ts">
     import type { Killmail } from '../types/Killmail';
-    import { onMount, onDestroy, afterUpdate } from 'svelte';
+    import { onMount } from 'svelte';
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
+    import involvedImage from '../images/involved.png';
 
     export let url: string;
-	export let title: string = '';
-    export let enableWs: boolean = true;
-    export let wsFilter = ['all'];
+    export let title: string = '';
 
     let kills: Killmail[] = [];
     let page: number = 1;
     let loading: boolean = false;
-    let sentinel: HTMLDivElement;
-    let observer: IntersectionObserver;
-    let killmailIds = new Set<string>();
-    let socket: WebSocket;
 
-    async function loadMore() {
+    async function loadKills() {
         if (loading) return;
         loading = true;
         const newKills: Killmail[] = await fetchKillList(url, page);
-        const uniqueKills = newKills.filter(kill => !killmailIds.has(kill.killmail_id));
-        uniqueKills.forEach(kill => killmailIds.add(kill.killmail_id));
-        kills = [...kills, ...uniqueKills];
-        page++;
+        kills = newKills;
         loading = false;
     }
 
-    function resetAndLoad() {
-        kills = [];
-        page = 1;
-        killmailIds.clear();
-        loadMore();
+    function changePage(newPage: number) {
+        if (newPage > 0) {
+            page = newPage;
+            loadKills();
+        }
     }
 
-    $: url, resetAndLoad();
-
-    onMount(async () => {
-        observer = new IntersectionObserver(
-            entries => {
-                if (entries[0].isIntersecting) {
-                    loadMore();
-                }
-            },
-            { threshold: 1 }
-        );
-
-        if (enableWs) {
-            socket = new WebSocket('wss://ws.eve-kill.com/kills');
-
-            socket.addEventListener('open', () => {
-                socket.send(JSON.stringify({ type: 'subscribe', data: wsFilter }));
-            });
-
-            socket.addEventListener('message', event => {
-                const newKill = JSON.parse(event.data);
-
-                if (!killmailIds.has(newKill.killmail_id)) {
-                    let newKillKillTime = new Date(newKill.kill_time);
-                    let killsKillTime = new Date(kills[0]?.kill_time ?? 0);
-
-                    if (newKillKillTime.getTime() > killsKillTime.getTime()) {
-                        kills = [{ ...newKill }, ...kills];
-                        killmailIds.add(newKill.killmail_id);
-                    }
-                }
-            });
-        }
-    });
-
-    onDestroy(async () => {
-        if (enableWs) {
-            // Close the websocket connection
-            socket && socket.close();
-        }
-    });
-
-    afterUpdate(() => {
-        if (sentinel) {
-            observer.observe(sentinel);
-        }
-    });
-
-    import involvedImage from '../images/involved.png';
+    onMount(loadKills);
 
     function truncateString(str: any, num: number) {
         let stringifiedStr = String(str);
@@ -92,8 +36,27 @@
 </script>
 
 {#if title !== undefined}
-	<h1 class="text-white">{title}</h1>
+    <h1 class="text-white">{title}</h1>
 {/if}
+
+<!-- Pagination Control at the Top -->
+<div class="flex justify-between items-center mb-4">
+    <button
+        on:click={() => changePage(page - 1)}
+        disabled={page === 1 || loading}
+        class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+    >
+        Previous
+    </button>
+    <span class="text-white">Page {page}</span>
+    <button
+        on:click={() => changePage(page + 1)}
+        disabled={loading}
+        class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+    >
+        Next
+    </button>
+</div>
 
 <div class="overflow-x-auto" role="table">
     <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
@@ -169,4 +132,21 @@
     </table>
 </div>
 
-<div bind:this={sentinel}></div>
+<!-- Pagination Control at the Bottom -->
+<div class="flex justify-between items-center mt-4">
+    <button
+        on:click={() => changePage(page - 1)}
+        disabled={page === 1 || loading}
+        class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+    >
+        Previous
+    </button>
+    <span class="text-white">Page {page}</span>
+    <button
+        on:click={() => changePage(page + 1)}
+        disabled={loading}
+        class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+    >
+        Next
+    </button>
+</div>
