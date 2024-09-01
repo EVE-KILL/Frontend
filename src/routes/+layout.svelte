@@ -10,12 +10,6 @@
 	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
 	let defaultTitle = 'EVE-KILL';
 	let combinedTitle = $page.data.meta?.title ? `${defaultTitle} - ${$page.data.meta.title}` : defaultTitle;
-
-	onNavigate(async () => {
-		// Reset the page meta back to default
-		combinedKeywords = defaultKeywords;
-		combinedTitle = defaultTitle;
-	});
 </script>
 
 <svelte:head>

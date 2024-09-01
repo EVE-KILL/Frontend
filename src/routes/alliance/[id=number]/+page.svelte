@@ -1,7 +1,6 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { tick } from 'svelte';
     import { page } from '$app/stores';
-    import { getUpstreamUrl } from '$lib/Config';
     import type { Alliance } from '../../../types/Alliance.ts';
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
@@ -10,10 +9,9 @@
     import Stats from './Stats.svelte';
 
     export let data;
-    let alliance: Alliance;
+    let alliance: Alliance = data.alliance;
     let activeComponent = Kills;
     let currentHash = '#kills'; // Default to '#kills'
-    const upstreamUrl = getUpstreamUrl();
 
     // Function to map hash to component
     const hashToComponent = {
@@ -35,23 +33,6 @@
             currentHash = hash;
         }
     }
-
-    onMount(async () => {
-        const response = await fetch(`${upstreamUrl}/api/alliances/${data.id}`);
-        alliance = await response.json();
-        if (alliance.error) {
-            window.location.href = '/';
-        } else {
-            // Check if the URL has a hash, if not, add #kills and replace history
-            if (!window.location.hash || window.location.hash === '#') {
-                history.replaceState(null, '', `${window.location.pathname}#kills`);
-                loadComponentFromHash('#kills');
-            } else {
-                // Load the component based on the current hash
-                loadComponentFromHash(window.location.hash);
-            }
-        }
-    });
 
     function loadComponent(component, hash) {
         activeComponent = component;
