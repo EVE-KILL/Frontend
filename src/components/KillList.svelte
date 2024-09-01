@@ -15,6 +15,7 @@
     let loading: boolean = false;
     let isPaused: boolean = false; // To pause adding new kills when hovering
     let pauseTimeout: any; // Timeout reference for pausing
+    let queuedKills: Killmail[] = []; // Queue for incoming killmails while paused
 
     const MAX_KILLS_DISPLAYED = 100; // Maximum number of kills to display in the table
 
@@ -57,14 +58,21 @@
     }
 
     function handleIncomingMessage(message: Killmail) {
-        if (page === 1 && !isPaused) {
+        if (isPaused) {
+            // Queue the message if paused
+            queuedKills.push(message);
+        } else if (page === 1) {
             // Add the new kill to the top of the list
-            kills = [message, ...kills];
+            addKillToList(message);
+        }
+    }
 
-            // Keep the list within the max limit by removing the last kill if necessary
-            if (kills.length > MAX_KILLS_DISPLAYED) {
-                kills.pop();
-            }
+    function addKillToList(message: Killmail) {
+        kills = [message, ...kills];
+
+        // Keep the list within the max limit by removing the last kill if necessary
+        if (kills.length > MAX_KILLS_DISPLAYED) {
+            kills.pop();
         }
     }
 
@@ -73,7 +81,11 @@
         isPaused = true;
         pauseTimeout = setTimeout(() => {
             isPaused = false;
-        }, 1000);
+            // Process the queued killmails
+            while (queuedKills.length > 0) {
+                addKillToList(queuedKills.shift()!);
+            }
+        }, 2500);
     }
 </script>
 
@@ -119,6 +131,7 @@
                     class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
                     on:click={() => { window.location.href = `/kill/${kill.killmail_id}`; }}
                     on:mouseover={pauseAddingKills}
+                    on:focus={pauseAddingKills}
                 >
                     <td class="px-2 py-1">
                         <img
