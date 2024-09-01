@@ -6,9 +6,12 @@
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
     import involvedImage from '../images/involved.png';
+	import { match } from '../params/number';
 
     export let url: string;
     export let title: string = '';
+    export let subscriptionTopic: string = 'all';
+    export let filter: { field: string; value: any } | null = null;
 
     let kills: Killmail[] = [];
     let page: number = 1;
@@ -16,8 +19,6 @@
     let isPaused: boolean = false; // To pause adding new kills when hovering
     let pauseTimeout: any; // Timeout reference for pausing
     let queuedKills: Killmail[] = []; // Queue for incoming killmails while paused
-
-    const MAX_KILLS_DISPLAYED = 100; // Maximum number of kills to display in the table
 
     // Check for page number in the URL when the component is mounted
     onMount(() => {
@@ -27,14 +28,16 @@
             page = parseInt(pageParam, 10);
         }
         loadKills();
-        stompConnection('/exchange/killmail_topic_exchange/all', handleIncomingMessage);
+        let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
+        console.log(topic);
+        stompConnection(topic, handleIncomingMessage); // Use the dynamic or default topic
     });
 
     async function loadKills() {
         if (loading) return;
         loading = true;
         const newKills: Killmail[] = await fetchKillList(url, page);
-        kills = newKills.slice(0, MAX_KILLS_DISPLAYED);  // Ensure we only keep the number of kills within the limit
+        kills = newKills.slice(0, 100);  // Ensure we only keep the number of kills within the limit
         updateURL();       // Update the URL with the current page
         loading = false;
     }
@@ -58,20 +61,52 @@
     }
 
     function handleIncomingMessage(message: Killmail) {
+        if (page !== 1) return;
+
+        if (filter && !matchesFilter(message, filter)) {
+            return;
+        }
+
         if (isPaused) {
             // Queue the message if paused
             queuedKills.push(message);
-        } else if (page === 1) {
+        } else {
             // Add the new kill to the top of the list
             addKillToList(message);
         }
     }
 
+    function matchesFilter(killmail: Killmail, filter: { field: string; value: any }): boolean {
+        const keys = filter.field.split('.'); // Split the field into its path components
+        let current: any = killmail;
+
+        // Traverse the object according to the keys path
+        for (const key of keys) {
+            if (Array.isArray(current)) {
+                // If the current field is an array, check if any element matches
+                return current.some((item) => item[key] === filter.value);
+            } else {
+                current = current[key];
+            }
+
+            // If at any point the path is undefined, return false
+            if (current === undefined) {
+                return false;
+            }
+        }
+
+        // Final check to ensure we're comparing the correct value
+        return current === filter.value;
+    }
+
     function addKillToList(message: Killmail) {
-        kills = [message, ...kills];
+        // Check if the killmail already exists in the list
+        if (!kills.find(kill => kill.killmail_id === message.killmail_id)) {
+            kills = [message, ...kills];
+        }
 
         // Keep the list within the max limit by removing the last kill if necessary
-        if (kills.length > MAX_KILLS_DISPLAYED) {
+        if (kills.length > 100) {
             kills.pop();
         }
     }

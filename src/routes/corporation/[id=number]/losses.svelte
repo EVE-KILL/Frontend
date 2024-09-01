@@ -5,9 +5,8 @@
 	export let corporation: Corporation;
 	const upstreamUrl = getUpstreamUrl();
 	let killlistUrl = `${upstreamUrl}/api/killlist/victim.corporation_id/${corporation.corporation_id}`;
-	let wsFilter = {
-		'victim.corporation_id': corporation.corporation_id
-	};
+	let subscriptionTopic = `corporation.${corporation.corporation_id}`;
+	let filter = { field: 'victim.corporation_id', value: corporation.corporation_id };
 </script>
 
-<KillList url={killlistUrl} {wsFilter} />
+<KillList url={killlistUrl} subscriptionTopic={subscriptionTopic} filter={filter} />
