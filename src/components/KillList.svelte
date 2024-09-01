@@ -12,11 +12,22 @@
     let page: number = 1;
     let loading: boolean = false;
 
+    // Check for page number in the URL when the component is mounted
+    onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageParam = urlParams.get('killlistPage');
+        if (pageParam) {
+            page = parseInt(pageParam, 10);
+        }
+        loadKills();
+    });
+
     async function loadKills() {
         if (loading) return;
         loading = true;
         const newKills: Killmail[] = await fetchKillList(url, page);
-        kills = newKills;
+        kills = newKills;  // Load the kills without filtering by killmailIds
+        updateURL();       // Update the URL with the current page
         loading = false;
     }
 
@@ -27,7 +38,11 @@
         }
     }
 
-    onMount(loadKills);
+    function updateURL() {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('killlistPage', String(page));
+        history.pushState({}, '', newUrl);
+    }
 
     function truncateString(str: any, num: number) {
         let stringifiedStr = String(str);
