@@ -127,13 +127,3 @@
         </tbody>
     </table>
 </div>
-
-<style>
-    .dropped-items {
-        background-color: rgba(21, 255, 0, 0.1);
-    }
-
-    .destroyed-items {
-        background-color: rgba(255, 0, 0, 0.117);
-    }
-</style>
