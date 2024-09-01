@@ -25,7 +25,10 @@
 				<a href="/information" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Information</a>
 			</li>
 			<li>
-				<a href="/apidocs" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">API Docs</a>
+				<a href="/docs/apidocs" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">API Docs</a>
+			</li>
+			<li>
+				<a href="/docs/stomp" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">STOMP Docs</a>
 			</li>
 			<li>
 				<a href="/stats" class="block px-4 py-2 text-sm text-white hover:bg-gray-700">Stats</a>
