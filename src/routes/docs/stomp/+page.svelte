@@ -2,6 +2,12 @@
 	import { javascript, php } from 'svelte-highlight/languages';
 	import { Highlight } from 'svelte-highlight';
 	import { tomorrowNight } from 'svelte-highlight/styles';
+    import { meta } from '$lib/stores/meta';
+
+    meta.set({
+		title: 'STOMP API Documentation',
+		description: 'Documentation for the STOMP API provided by EVE-KILL',
+	});
 </script>
 
 <svelte:head>

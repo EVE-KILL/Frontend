@@ -12,7 +12,7 @@ export async function load({ params }) {
         killmail,
         meta: {
             // ShipName | VictimName | SystemName | RegionName | EVE-KILL
-            title: `${killmail.victim.ship_name} | ${killmail.victim.character_name} | ${killmail.system_name} | ${killmail.region_name} | EVE-KILL`,
+            title: `${killmail.victim.ship_name} | ${killmail.victim.character_name} | ${killmail.system_name} | ${killmail.region_name}`,
             description: generateDescription(killmail),
             image: `https://images.evetech.net/types/${killmail.victim.ship_id}/render?size=128`
         }
