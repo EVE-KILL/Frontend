@@ -50,6 +50,7 @@
 		"@eveshipfit/react": "^4.6.0",
 		"@fortawesome/fontawesome-free": "^6.6.0",
 		"@scalar/api-reference": "^1.25.6",
+		"@stomp/stompjs": "^7.0.0",
 		"cors": "^2.8.5",
 		"devalue": "^5.0.0",
 		"express": "^4.19.2",

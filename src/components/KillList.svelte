@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { Killmail } from '../types/Killmail';
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+    import { stompConnection } from '$lib/Stomp.ts';
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
     import involvedImage from '../images/involved.png';
@@ -11,6 +13,10 @@
     let kills: Killmail[] = [];
     let page: number = 1;
     let loading: boolean = false;
+    let isPaused: boolean = false; // To pause adding new kills when hovering
+    let pauseTimeout: any; // Timeout reference for pausing
+
+    const MAX_KILLS_DISPLAYED = 100; // Maximum number of kills to display in the table
 
     // Check for page number in the URL when the component is mounted
     onMount(() => {
@@ -20,13 +26,14 @@
             page = parseInt(pageParam, 10);
         }
         loadKills();
+        stompConnection('/exchange/killmail_topic_exchange/all', handleIncomingMessage);
     });
 
     async function loadKills() {
         if (loading) return;
         loading = true;
         const newKills: Killmail[] = await fetchKillList(url, page);
-        kills = newKills;  // Load the kills without filtering by killmailIds
+        kills = newKills.slice(0, MAX_KILLS_DISPLAYED);  // Ensure we only keep the number of kills within the limit
         updateURL();       // Update the URL with the current page
         loading = false;
     }
@@ -41,12 +48,32 @@
     function updateURL() {
         const newUrl = new URL(window.location.href);
         newUrl.searchParams.set('killlistPage', String(page));
-        history.pushState({}, '', newUrl);
+        goto(newUrl.toString(), { replaceState: true });
     }
 
     function truncateString(str: any, num: number) {
         let stringifiedStr = String(str);
         return stringifiedStr.length <= num ? stringifiedStr : stringifiedStr.slice(0, num) + '...';
+    }
+
+    function handleIncomingMessage(message: Killmail) {
+        if (page === 1 && !isPaused) {
+            // Add the new kill to the top of the list
+            kills = [message, ...kills];
+
+            // Keep the list within the max limit by removing the last kill if necessary
+            if (kills.length > MAX_KILLS_DISPLAYED) {
+                kills.pop();
+            }
+        }
+    }
+
+    function pauseAddingKills() {
+        clearTimeout(pauseTimeout);
+        isPaused = true;
+        pauseTimeout = setTimeout(() => {
+            isPaused = false;
+        }, 1000);
     }
 </script>
 
@@ -89,8 +116,9 @@
         <tbody class="text-gray-300 text-sm">
             {#each kills as kill (kill.killmail_id)}
                 <tr
-                    class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
+                    class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
                     on:click={() => { window.location.href = `/kill/${kill.killmail_id}`; }}
+                    on:mouseover={pauseAddingKills}
                 >
                     <td class="px-2 py-1">
                         <img
