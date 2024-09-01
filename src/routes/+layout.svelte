@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { onNavigate } from '$app/navigation';
 	import { get } from 'svelte/store';
-	import { meta } from '$lib/stores/meta';
+	import { meta } from '$lib/stores/Meta.ts';
 
 	import '../app.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';

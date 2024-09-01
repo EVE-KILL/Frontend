@@ -12,9 +12,6 @@ export async function stompConnection(topic: string, onMessageReceived: (message
         reconnectDelay: 5000, // Automatically reconnect after 5 seconds if disconnected
         heartbeatIncoming: 4000, // Set heartbeat for incoming messages
         heartbeatOutgoing: 4000, // Set heartbeat for outgoing messages
-        //debug: function (str) {
-        //    console.log(str);
-        //},
     });
 
     client.onConnect = () => {

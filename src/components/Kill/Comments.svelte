@@ -24,7 +24,6 @@
 		});
 
 		comments = await response.json();
-		console.log(comments);
 		sortComments('date');
     }
 

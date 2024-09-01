@@ -4,8 +4,6 @@
     import { onMount } from 'svelte';
 	import {
 		ShipFit,
-		ShipAttribute,
-		Icon,
 		CurrentCharacterProvider,
 		DefaultCharactersProvider,
 		EveDataProvider,

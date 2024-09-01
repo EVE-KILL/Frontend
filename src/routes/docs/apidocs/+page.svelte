@@ -5,7 +5,7 @@
     import type { ReferenceConfiguration } from '@scalar/api-reference';
     import { getUpstreamUrl } from '$lib/Config';
     import { svelteThemeCss } from './apiTheme';
-    import { meta } from '$lib/stores/meta';
+    import { meta } from '$lib/stores/Meta.ts';
 
     meta.set({
 		title: 'REST API Documentation',

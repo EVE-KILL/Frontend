@@ -29,7 +29,6 @@
         }
         loadKills();
         let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-        console.log(topic);
         stompConnection(topic, handleIncomingMessage); // Use the dynamic or default topic
     });
 
