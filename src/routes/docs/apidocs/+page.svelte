@@ -5,12 +5,6 @@
     import type { ReferenceConfiguration } from '@scalar/api-reference';
     import { getUpstreamUrl } from '$lib/Config';
     import { svelteThemeCss } from './apiTheme';
-    import { meta } from '$lib/stores/Meta.ts';
-
-    meta.set({
-		title: 'REST API Documentation',
-		description: 'Documentation for the REST API provided by EVE-KILL',
-	});
 
     const upstreamUrl = getUpstreamUrl();
 
