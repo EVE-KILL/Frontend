@@ -6,6 +6,7 @@
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
     import Members from './members.svelte';
+    import AllianceHistory from './allianceHistory.svelte';
     import Stats from './Stats.svelte';
 
     export let data;
@@ -18,6 +19,7 @@
         '#info': Information,
         '#kills': Kills,
         '#losses': Losses,
+        '#alliance-history': AllianceHistory,
         '#members': Members,
         '#stats': Stats
     };
@@ -156,6 +158,14 @@
                             Members
                         </a>
                     </li>
+                    <li>
+                        <a
+                            href="#alliance-history"
+                            class="hover:underline {currentHash === '#alliance-history' ? 'active' : ''}"
+                            on:click|preventDefault={() => loadComponent(AllianceHistory, '#alliance-history')}
+                        >
+                            Alliance History
+                        </a>
                     <li>
                         <a
                             href="#stats"
