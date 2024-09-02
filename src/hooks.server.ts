@@ -1,4 +1,4 @@
-import {sequence} from '@sveltejs/kit/hooks';
+import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
