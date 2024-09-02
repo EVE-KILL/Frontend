@@ -13,3 +13,6 @@ vite.config.ts.timestamp-*
 .vscode/settings.json
 static/icons
 static/sde
+
+# Sentry Config File
+.sentryclirc

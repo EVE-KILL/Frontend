@@ -1,14 +1,21 @@
+import {sequence} from '@sveltejs/kit/hooks';
+import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 
+Sentry.init({
+    dsn: "https://705e8816b6ec29c58f08d8d19c7b6434@o4507882253516800.ingest.de.sentry.io/4507882268196944",
+    tracesSampleRate: 1
+})
+
 // Function to handle CORS
 const setCorsHeaders = (headers: Headers) => {
-	headers.set('Access-Control-Allow-Origin', '*');
-	headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-	headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+				headers.set('Access-Control-Allow-Origin', '*');
+				headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+				headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 };
 
-export const handle: Handle = async ({ event, resolve }) => {
+export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, resolve }) => {
 	// Parse cookies to manage session
 	const cookies = parse(event.request.headers.get('cookie') || '');
 	const session = cookies.session ? JSON.parse(cookies.session) : null;
@@ -40,4 +47,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	return response;
-};
+});
+export const handleError = Sentry.handleErrorWithSentry();
