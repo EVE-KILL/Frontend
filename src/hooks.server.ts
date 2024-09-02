@@ -3,10 +3,13 @@ import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 
-Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    tracesSampleRate: 1
-})
+let sentryDSN: string = import.meta.env.VITE_SENTRY_DSN ?? '';
+if (sentryDSN.length > 0) {
+	Sentry.init({
+		dsn: sentryDSN,
+		tracesSampleRate: 1
+	});
+}
 
 // Function to handle CORS
 const setCorsHeaders = (headers: Headers) => {
