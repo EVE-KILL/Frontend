@@ -4,7 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 
 Sentry.init({
-    dsn: "https://705e8816b6ec29c58f08d8d19c7b6434@o4507882253516800.ingest.de.sentry.io/4507882268196944",
+    dsn: import.meta.env.VITE_SENTRY_DSN,
     tracesSampleRate: 1
 })
 
