@@ -22,3 +22,6 @@ export function logout() {
     session.set({ user: null });
     localStorage.removeItem('user');
 }
+
+// Fake that we are logged in
+session.set({ user: { character_name: 'Karbowiak', character_id: 268946627, expiration: '2022-01-01T00:00:00Z', identifier: '66d6217dc5e398.30017466' } });

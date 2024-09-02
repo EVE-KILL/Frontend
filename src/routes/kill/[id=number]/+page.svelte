@@ -11,13 +11,6 @@
 
     export let data;
     let killmail: Killmail = data.killmail;
-    let showComments: boolean = false;
-
-    onMount(async () => {
-        // Check for 'comments' parameter in the URL
-        const params = new URLSearchParams(window.location.search);
-        showComments = params.get('comments') === 'true';
-    });
 </script>
 
 {#if killmail}
@@ -45,9 +38,8 @@
 
         <!-- Right Container -->
         <div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
-            {#if showComments}
-                <Comments />
-            {/if}
+            <Comments identifier="kill:{killmail.killmail_id}"/>
+
             <!-- Attackers -->
             <Attackers attackers={killmail.attackers} />
         </div>
