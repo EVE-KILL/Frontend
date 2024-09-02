@@ -38,7 +38,10 @@
 	}
 
 	function handleKeydown(event) {
-		if (event.key === 's' && !isSearchBoxFocused) {
+		// Check if Alt/Option key is pressed along with 's'
+		const isAltOrOption = event.altKey || (navigator.platform.toUpperCase().indexOf('MAC') >= 0 && event.metaKey);
+
+		if (event.key === 's' && isAltOrOption && !isSearchBoxFocused) {
 			event.preventDefault();
 			document.getElementById('search').focus();
 		}
