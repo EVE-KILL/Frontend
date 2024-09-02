@@ -1,10 +1,10 @@
 import { handleErrorWithSentry, replayIntegration } from "@sentry/sveltekit";
 import * as Sentry from '@sentry/sveltekit';
+import { env } from '$env/dynamic/public';
 
-let sentryDSN: string = import.meta.env.VITE_SENTRY_DSN ?? '';
-if (sentryDSN.length > 0) {
-  Sentry.init({
-    dsn: sentryDSN,
+if (env.PUBLIC_SENTRY_DSN.length > 0) {
+	Sentry.init({
+		dsn: env.PUBLIC_SENTRY_DSN,
     tracesSampleRate: 1.0,
 
     // This sets the sample rate to be 10%. You may want this to be 100% while

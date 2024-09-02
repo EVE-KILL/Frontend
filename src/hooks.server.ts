@@ -2,11 +2,11 @@ import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
+import { env } from '$env/dynamic/private';
 
-let sentryDSN: string = import.meta.env.VITE_SENTRY_DSN ?? '';
-if (sentryDSN.length > 0) {
+if (env.SENTRY_DSN.length > 0) {
 	Sentry.init({
-		dsn: sentryDSN,
+		dsn: env.SENTRY_DSN,
 		tracesSampleRate: 1
 	});
 }
