@@ -4,7 +4,7 @@ import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 import { env } from '$env/dynamic/private';
 
-if (env.SENTRY_DSN.length > 0) {
+if (env.SENTRY_DSN) {
 	Sentry.init({
 		dsn: env.SENTRY_DSN,
 		tracesSampleRate: 1
