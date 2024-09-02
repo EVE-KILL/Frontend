@@ -18,7 +18,8 @@ export default defineConfig({
 		}
 	},
 	build: {
-		target: 'esnext'
+		target: 'esnext',
+		sourcemap: true,
 	},
 	esbuild: {
 		supported: {
