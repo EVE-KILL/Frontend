@@ -49,7 +49,7 @@
 			<h2 class="text-lg font-bold mb-4">Keyboard Shortcuts</h2>
 			<h2>Global</h2>
 			<ul class="list-disc pl-5">
-				<li><strong>s</strong>: Focus on the search box</li>
+				<li><strong>alt+s (or meta+s)</strong>: Focus on the search box</li>
 				<li><strong>?</strong>: Open this shortcuts panel</li>
 				<li><strong>Arrow Up/Down</strong>: Navigate search results</li>
 				<li><strong>Enter</strong>: Select search result</li>
