@@ -89,8 +89,4 @@
 		border-bottom: 2px solid #edf2f7;
 		font-weight: bold;
 	}
-
-	.bg-darker {
-		background-color: #2d3748;
-	}
 </style>
