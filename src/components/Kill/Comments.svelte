@@ -2,6 +2,10 @@
 	import { onMount } from 'svelte';
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
+	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
+	import DOMPurify from 'isomorphic-dompurify';
+
+	import '$lib/styles/github.scss';
 
 	export let identifier: string;
 	let comments: any[] = [];
@@ -9,8 +13,15 @@
 	let upstreamUrl = getUpstreamUrl();
 	let user: any = null;
 
+	let carta = new Carta({
+		sanitizer: DOMPurify.sanitize,
+		theme: 'github-dark',
+	});
+
 	onMount(async () => {
-		await fetchComments();
+		if (user) {
+			await fetchComments();
+		}
 	});
 
 	async function fetchComments() {
@@ -75,56 +86,52 @@
 
 </script>
 
-<!-- Comments Section -->
-<div class="overflow-x-auto">
-	<!-- Display Comments -->
-	{#each comments as comment}
-		<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
-			<div class="flex items-start">
-				<img
-					src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
-					alt={comment.character.character_name}
-					class="h-16 w-16 rounded-md mr-4"
-				/>
-				<div>
-					<div class="text-left text-sm text-white">
-						<strong>{comment.character.character_name}</strong><br/>
-						<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
-						<p class="text-sm text-gray-500">{comment.created_at}</p>
+{#if user}
+	<!-- Comments Section -->
+	<div class="overflow-x-auto">
+		<!-- Display Comments -->
+		{#each comments as comment}
+			<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
+				<div class="flex items-start">
+					<img
+						src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
+						alt={comment.character.character_name}
+						class="h-16 w-16 rounded-md mr-4"
+					/>
+					<div>
+						<div class="text-left text-sm text-white">
+							<strong>{comment.character.character_name}</strong><br/>
+							<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
+							<p class="text-sm text-gray-500">{comment.created_at}</p>
+						</div>
+						<Markdown {carta} value={comment.comment} />
 					</div>
-					<div class="mt-2 text-white">{comment.comment}</div>
 				</div>
 			</div>
-		</div>
-	{/each}
+		{/each}
 
-	{#if user}
 		<!-- Comment Input Box -->
 		<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
-				<img
-					src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`}
-					alt="User avatar"
-					class="h-16 w-16 rounded-md mr-4"
-				/>
 				<div class="flex flex-col w-full">
+					<img
+						src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`}
+						alt="User avatar"
+						class="h-16 w-16 rounded-md mr-4"
+					/>
 					<div class="text-left text-sm text-white">
 						<strong>{user.character_name}</strong><br/>
 					</div>
-					<textarea
-						class="w-full bg-gray-700 text-white rounded-md p-2"
-						rows="4"
-						placeholder="Write a comment..."
-						bind:value={comment}
-					></textarea>
+
+					<MarkdownEditor bind:value={comment} mode=undefined theme="github" placeholder="Leave a comment.." {carta} />
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
 				<button class="post-button" on:click={() => postComment(comment)}>Post Comment</button>
 			</div>
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	.comment {

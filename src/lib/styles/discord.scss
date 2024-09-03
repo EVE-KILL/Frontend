@@ -1,0 +1,88 @@
+.carta-theme__discord {
+	// Core styles
+	$background: #2f3136;
+	$background-light: #161b22;
+	$background-contrast: #46484b;
+
+	&.carta-editor {
+		background-color: $background;
+		border-radius: 0.5rem;
+
+		::placeholder {
+			opacity: 0.5;
+		}
+
+		.carta-wrapper {
+			padding: 1rem;
+			flex-grow: 1;
+		}
+
+		.carta-input-wrapper {
+			padding-left: 36px;
+		}
+
+		.carta-input,
+		.carta-renderer {
+			min-height: 32px;
+			max-height: 400px;
+			overflow: auto;
+		}
+
+		.carta-font-code {
+			font-family: 'Fira Code', monospace;
+			caret-color: white;
+			font-size: 1.1rem;
+		}
+
+		.carta-toolbar {
+			display: none;
+		}
+
+		.discord-plus-icon {
+			position: absolute;
+			top: 15px;
+			left: 15px;
+			width: 1.75rem;
+			height: 1.75rem;
+			transform: translateX(-50%) translateY(-50%);
+		}
+	}
+
+	// Plugin emoji
+	&.carta-emoji {
+		width: 18rem;
+		max-height: 14rem;
+		overflow-y: scroll;
+		border-radius: 4px;
+		font-family: inherit;
+		background-color: $background;
+		padding: 6px;
+		scroll-padding: 6px;
+		gap: 6px;
+	}
+
+	&.carta-emoji button {
+		background: $background-light;
+
+		aspect-ratio: 1;
+		border-radius: 4px;
+		border: 0;
+		padding: 0;
+		margin: 0.175rem;
+
+		cursor: pointer;
+
+		font-size: 1.2rem;
+		line-height: 100%;
+	}
+
+	&.carta-emoji button:hover,
+	&.carta-emoji button.carta-active {
+		background: $background-contrast;
+	}
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+	color: var(--shiki-dark) !important;
+}
