@@ -3,9 +3,15 @@
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
+	import { emoji } from '@cartamd/plugin-emoji';
+	import { video } from 'carta-plugin-video';
+	import { slash } from '@cartamd/plugin-slash';
 	import DOMPurify from 'isomorphic-dompurify';
 
 	import '$lib/styles/github.scss';
+	import '@cartamd/plugin-emoji/default.css';
+	import 'carta-plugin-video/default.css';
+	import '@cartamd/plugin-slash/default.css';
 
 	export let identifier: string;
 	let comments: any[] = [];
@@ -16,8 +22,38 @@
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
+		extensions: [
+			emoji(),
+			video(),
+			slash({
+				snippets: [
+					{
+						id: 'embed',
+						title: 'Embed',
+						description: 'Embed an image',
+						group: 'Basic',
+						action: (input) => insertLine(input, "![Alt text](url)"),
+					},
+				]
+			})
+		]
 	});
 
+	function insertLine(input: string, string: string): string {
+		const line = input.getLine();
+		if (line.value !== '') {
+			input.insertAt(line.end, `\n${string}`);
+			const newPos = line.end + string.length + 1;
+			input.textarea.selectionStart = newPos;
+			input.textarea.selectionEnd = newPos;
+		}
+		else {
+			input.insertAt(line.end, `${string}`);
+			const newPos = line.end + string.length;
+			input.textarea.selectionStart = newPos;
+			input.textarea.selectionEnd = newPos;
+		}
+	}
 	onMount(async () => {
 		if (user) {
 			await fetchComments();
