@@ -9,7 +9,6 @@
 
 	import '$lib/styles/github.scss';
 	import '@cartamd/plugin-emoji/default.css';
-	import 'carta-plugin-video/default.css';
 	import '@cartamd/plugin-slash/default.css';
 
 	export let identifier: string;
