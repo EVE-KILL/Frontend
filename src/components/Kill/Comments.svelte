@@ -1,5 +1,6 @@
 <script lang="ts">
 	import YouTubeEmbed from '../Carta/YouTubeEmbed.svelte';
+	import ImageEmbed from '../Carta/ImageEmbed.svelte';
 	import { onMount } from 'svelte';
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
@@ -13,6 +14,7 @@
 	import '$lib/styles/github.scss';
 	import '@cartamd/plugin-emoji/default.css';
 	import '@cartamd/plugin-slash/default.css';
+	import { c } from 'svelte-highlight/languages';
 
 	export let identifier: string;
 	let comments: any[] = [];
@@ -29,7 +31,6 @@
 		svelteCustom(
 			'youtube',
 			(node) => {
-				console.log(node);
 				if (node.tagName === 'a' && (node.properties.href.includes('youtube.com') || node.properties.href.includes('youtu.be'))) {
 					return true
 				}
@@ -37,6 +38,17 @@
 			},
 			YouTubeEmbed
 		),
+		svelteCustom(
+			'image',
+			(node) => {
+				// Ensure the tagName is a for links, and then check for it either ending in .jpeg, .jpg, .gif, or .png or contains an image extension in the url
+				if (node.tagName === 'a' && (node.properties.href.match(/\.(jpeg|jpg|gif|png)$/) != null || node.properties.href.includes('.jpeg') || node.properties.href.includes('.jpg') || node.properties.href.includes('.gif') || node.properties.href.includes('.png'))) {
+					return true;
+				}
+				return false;
+			},
+			ImageEmbed
+		)
 	];
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
