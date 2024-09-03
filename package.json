@@ -48,7 +48,6 @@
 	"dependencies": {
 		"@cartamd/plugin-component": "^1.0.2",
 		"@cartamd/plugin-emoji": "^4.1.3",
-		"@cartamd/plugin-slash": "^4.0.2",
 		"@eveshipfit/data": "^10.2.20240806",
 		"@eveshipfit/dogma-engine": "^7.0.0",
 		"@eveshipfit/react": "^4.6.0",

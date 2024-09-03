@@ -6,7 +6,6 @@
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
-	import { slash } from '@cartamd/plugin-slash';
 	import { component } from '@cartamd/plugin-component';
 	import { initializeComponents, svelteCustom } from '@cartamd/plugin-component/svelte';
 	import DOMPurify from 'isomorphic-dompurify';
@@ -55,24 +54,6 @@
 		theme: 'github-dark',
 		extensions: [
 			emoji(),
-			slash({
-				snippets: [
-					{
-						id: 'image',
-						title: 'Image',
-						description: 'Image an image',
-						group: 'Basic',
-						action: (input) => insertLine(input, "![Alt text](url)"),
-					},
-					{
-						id: 'video',
-						title: 'Video',
-						description: 'Embed a video',
-						group: 'Basic',
-						action: (input) => insertLine(input, "[![Alt Text](placeholder-image)](url)"),
-					}
-				]
-			}),
 			component(mappedComponents, initializeComponents)
 		]
 	});
