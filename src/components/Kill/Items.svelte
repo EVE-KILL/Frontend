@@ -118,7 +118,7 @@
         <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
             <thead>
                 <tr class="bg-darker text-white uppercase text-xs leading-normal text-left">
-                    <th class="px-2 py-1 w-9" scope="col"></th>
+                    <th class="px-2 py-1 w-1" scope="col"></th>
                     <th class="px-2 py-1 w-60" scope="col">Name</th>
                     <th class="px-2 py-1 w-12" scope="col">Destroyed</th>
                     <th class="px-2 py-1 w-12" scope="col">Dropped</th>
@@ -142,7 +142,7 @@
                         <img
                             src={`https://images.evetech.net/types/${killmail.victim.ship_id}/icon?size=32`}
                             alt={killmail.victim.ship_name}
-                            class="h-8 w-8 rounded-md"
+                            class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                         />
                     </td>
                     <td class="px-2 py-1">
@@ -168,11 +168,11 @@
                         {#if collapsibleSections[group.slotType]}
                             {#each group.items as item}
                                 <tr class={`border-b border-gray-700 hover:bg-gray-600 transition-colors duration-30 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}>
-                                    <td class="pl-2 -pr-5 py-1">
+                                    <td class="pl-2 py-1">
                                         <img
                                             src={`https://images.evetech.net/types/${item.type_id}/icon?size=32`}
                                             alt={item.type_name}
-                                            class="h-8 w-8 rounded-md"
+                                            class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                                         />
                                     </td>
                                     <td class="px-2 py-1">
@@ -198,7 +198,7 @@
                                                 <img
                                                     src={`https://images.evetech.net/types/${containerItem.type_id}/icon?size=32`}
                                                     alt={containerItem.type_name}
-                                                    class="h-8 w-8 rounded-md"
+                                                    class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                                                 />
                                             </td>
                                             <td class="px-2 py-1">
