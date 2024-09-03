@@ -1,10 +1,13 @@
 <script lang="ts">
+	import YouTubeEmbed from '../Carta/YouTubeEmbed.svelte';
 	import { onMount } from 'svelte';
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { slash } from '@cartamd/plugin-slash';
+	import { component } from '@cartamd/plugin-component';
+	import { initializeComponents, svelteCustom } from '@cartamd/plugin-component/svelte';
 	import DOMPurify from 'isomorphic-dompurify';
 
 	import '$lib/styles/github.scss';
@@ -16,11 +19,25 @@
 	let comment: string = '';
 	let upstreamUrl = getUpstreamUrl();
 	let user: any = null;
+	let container: HTMLElement;
 
 	// Define the character limit for comments
 	const commentLimit = 500;
 	let charactersRemaining = commentLimit;
 
+	let mappedComponents = [
+		svelteCustom(
+			'youtube',
+			(node) => {
+				console.log(node);
+				if (node.tagName === 'a' && (node.properties.href.includes('youtube.com') || node.properties.href.includes('youtu.be'))) {
+					return true
+				}
+				return false;
+			},
+			YouTubeEmbed
+		),
+	];
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
@@ -43,7 +60,8 @@
 						action: (input) => insertLine(input, "[![Alt Text](placeholder-image)](url)"),
 					}
 				]
-			})
+			}),
+			component(mappedComponents, initializeComponents)
 		]
 	});
 
@@ -64,6 +82,7 @@
 
 	onMount(async () => {
 		await fetchComments();
+		initializeComponents(mappedComponents, container)
 	});
 
 	async function fetchComments() {
@@ -133,7 +152,7 @@
 </script>
 
 <!-- Comments Section -->
-<div class="overflow-x-auto">
+<div class="overflow-x-auto" bind:this={container}>
 	<!-- Display Comments -->
 	{#each comments as comment}
 		<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
@@ -154,6 +173,7 @@
 			</div>
 		</div>
 	{/each}
+
 
 	{#if user}
 		<!-- Comment Input Box -->
