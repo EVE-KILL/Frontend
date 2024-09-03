@@ -19,6 +19,10 @@
 	let upstreamUrl = getUpstreamUrl();
 	let user: any = null;
 
+	// Define the character limit for comments
+	const commentLimit = 500;
+	let charactersRemaining = commentLimit;
+
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
@@ -46,14 +50,14 @@
 			const newPos = line.end + string.length + 1;
 			input.textarea.selectionStart = newPos;
 			input.textarea.selectionEnd = newPos;
-		}
-		else {
+		} else {
 			input.insertAt(line.end, `${string}`);
 			const newPos = line.end + string.length;
 			input.textarea.selectionStart = newPos;
 			input.textarea.selectionEnd = newPos;
 		}
 	}
+
 	onMount(async () => {
 		await fetchComments();
 	});
@@ -72,7 +76,7 @@
 	}
 
 	async function postComment(comment: string) {
-		if (comment.trim() === '') return; // Prevent empty comments
+		if (comment.trim() === '' || comment.length > commentLimit) return; // Prevent empty comments and limit exceeding
 
 		let commentObject = {
 			identifier: user.identifier,
@@ -91,6 +95,7 @@
 			if (request.ok) {
 				await fetchComments(); // Fetch the latest comments after posting
 				comment = ''; // Clear the input box
+				charactersRemaining = commentLimit; // Reset character counter
 			} else {
 				console.error('Failed to post comment:', request.statusText);
 			}
@@ -110,6 +115,9 @@
 			return '';
 		}
 	}
+
+	// Watch the comment input to update charactersRemaining
+	$: charactersRemaining = commentLimit - comment.length;
 
 	$: session.subscribe((value) => {
 		user = value.user;
@@ -158,10 +166,18 @@
 					</div>
 
 					<MarkdownEditor bind:value={comment} mode=undefined theme="github" placeholder="Leave a comment.." {carta} />
+					<p class="text-right text-xs text-gray-400">
+						{charactersRemaining} characters remaining
+					</p>
+					{#if charactersRemaining < 0}
+						<p class="text-right text-xs text-red-500">Comment exceeds the maximum length!</p>
+					{/if}
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
-				<button class="post-button" on:click={() => postComment(comment)}>Post Comment</button>
+				<button class="post-button" on:click={() => postComment(comment)} disabled={charactersRemaining < 0}>
+					Post Comment
+				</button>
 			</div>
 		</div>
 	{/if}
@@ -183,5 +199,10 @@
 
 	.post-button:hover {
 		background-color: #6a6a6a;
+	}
+
+	.post-button:disabled {
+		background-color: #6a6a6a;
+		cursor: not-allowed;
 	}
 </style>
