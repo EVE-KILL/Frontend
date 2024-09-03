@@ -55,9 +55,7 @@
 		}
 	}
 	onMount(async () => {
-		if (user) {
-			await fetchComments();
-		}
+		await fetchComments();
 	});
 
 	async function fetchComments() {
