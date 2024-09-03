@@ -41,7 +41,7 @@
 						title: 'Video',
 						description: 'Embed a video',
 						group: 'Basic',
-						action: (input) => insertLine(input, "![Video](url)"),
+						action: (input) => insertLine(input, "[![Alt Text](placeholder-image)](url)"),
 					}
 				]
 			})
