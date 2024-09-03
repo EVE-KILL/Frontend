@@ -4,7 +4,6 @@
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
-	import { video } from 'carta-plugin-video';
 	import { slash } from '@cartamd/plugin-slash';
 	import DOMPurify from 'isomorphic-dompurify';
 
@@ -28,16 +27,22 @@
 		theme: 'github-dark',
 		extensions: [
 			emoji(),
-			video(),
 			slash({
 				snippets: [
 					{
-						id: 'embed',
-						title: 'Embed',
-						description: 'Embed an image',
+						id: 'image',
+						title: 'Image',
+						description: 'Image an image',
 						group: 'Basic',
 						action: (input) => insertLine(input, "![Alt text](url)"),
 					},
+					{
+						id: 'video',
+						title: 'Video',
+						description: 'Embed a video',
+						group: 'Basic',
+						action: (input) => insertLine(input, "![Video](url)"),
+					}
 				]
 			})
 		]
@@ -145,7 +150,7 @@
 						<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
 						<p class="text-sm text-gray-500">{comment.created_at}</p>
 					</div>
-					<Markdown {carta} value={comment.comment} />
+					<Markdown value={comment.comment} {carta} />
 				</div>
 			</div>
 		</div>

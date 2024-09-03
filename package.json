@@ -58,7 +58,6 @@
 		"@sentry/sveltekit": "^8.28.0",
 		"@stomp/stompjs": "^7.0.0",
 		"carta-md": "^4.4.5",
-		"carta-plugin-video": "^2.0.1",
 		"cookie": "^0.6.0",
 		"cors": "^2.8.5",
 		"devalue": "^5.0.0",
