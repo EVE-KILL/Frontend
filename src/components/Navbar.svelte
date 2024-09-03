@@ -34,6 +34,13 @@
 	</div>
 </nav>
 
+<div class="bg-blue-900 text-white text-center py-2 px-4">
+    EARLY DAYS
+    <ul>
+        <a href="https://discord.gg/phw3AmMJZh" class="underline">Swing by Discord for help or feedback!</a>
+    </ul>
+</div>
+
 <style>
 	nav {
 		position: relative;
