@@ -41,7 +41,7 @@
                             <img
                                 src={`${attacker.character_image_url}?size=128`}
                                 alt={attacker.character_name}
-                                class="h-16 w-16 rounded-md"
+                                class="h-16 min-h-16 w-16 min-w-16 rounded-md"
                             />
                         </a>
                     </td>
@@ -51,7 +51,7 @@
                                 <img
                                     src={attacker.ship_image_url}
                                     alt={attacker.ship_name}
-                                    class="h-8 w-8 rounded-md"
+                                    class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                                 />
                             </a>
                             <a href={`/item/${attacker.weapon_type_id}`}>
@@ -60,7 +60,7 @@
                                         ? `https://images.evetech.net/types/${attacker.ship_id}/icon?size=64`
                                         : `https://images.evetech.net/types/${attacker.weapon_type_id}/icon?size=64`}
                                     alt={attacker.weapon_type_name}
-                                    class="h-8 w-8 rounded-md"
+                                    class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                                 />
                             </a>
                         </div>
@@ -116,7 +116,7 @@
                                     <img
                                         src={`https://images.evetech.net/alliances/${attacker.alliance_id}/logo?size=64`}
                                         alt={attacker.alliance_name}
-                                        class="h-8 w-8 rounded-md"
+                                        class="h-8 min-h-8 w-8 min-w-8 rounded-md"
                                     />
                                 </a>
                             {/if}
