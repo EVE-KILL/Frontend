@@ -86,30 +86,30 @@
 
 </script>
 
-{#if user}
-	<!-- Comments Section -->
-	<div class="overflow-x-auto">
-		<!-- Display Comments -->
-		{#each comments as comment}
-			<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
-				<div class="flex items-start">
-					<img
-						src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
-						alt={comment.character.character_name}
-						class="h-16 w-16 rounded-md mr-4"
-					/>
-					<div>
-						<div class="text-left text-sm text-white">
-							<strong>{comment.character.character_name}</strong><br/>
-							<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
-							<p class="text-sm text-gray-500">{comment.created_at}</p>
-						</div>
-						<Markdown {carta} value={comment.comment} />
+<!-- Comments Section -->
+<div class="overflow-x-auto">
+	<!-- Display Comments -->
+	{#each comments as comment}
+		<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
+			<div class="flex items-start">
+				<img
+					src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
+					alt={comment.character.character_name}
+					class="h-16 w-16 rounded-md mr-4"
+				/>
+				<div>
+					<div class="text-left text-sm text-white">
+						<strong>{comment.character.character_name}</strong><br/>
+						<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
+						<p class="text-sm text-gray-500">{comment.created_at}</p>
 					</div>
+					<Markdown {carta} value={comment.comment} />
 				</div>
 			</div>
-		{/each}
+		</div>
+	{/each}
 
+	{#if user}
 		<!-- Comment Input Box -->
 		<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
@@ -130,8 +130,8 @@
 				<button class="post-button" on:click={() => postComment(comment)}>Post Comment</button>
 			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <style>
 	.comment {
