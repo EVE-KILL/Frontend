@@ -226,7 +226,13 @@
       });
 
       const result = await response.json();
-      closeModal(); // Close modal and reset form
+      // If we get a result back and it contains "success: true", we can assume the campaign was created successfully
+      if (result.success) {
+        closeModal(); // Close modal and reset form
+        resetForm();
+      } else if (result.error) {
+        alert(result.error);
+      }
     } else {
       alert('Please fill in all required fields.');
     }
