@@ -219,7 +219,8 @@
           timePeriods,
           user: {
             character_id: user.character_id,
-            character_name: user.character_name
+            character_name: user.character_name,
+            identifier: user.identifier,
           }
         }),
       });
@@ -249,21 +250,26 @@
       <!-- Close Button -->
       <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-2xl font-bold" on:click={closeModal}>&times;</button>
 
-      <h2 class="text-2xl font-semibold mb-6 text-center">Create New Campaign</h2>
+      <h2 class="text-2xl font-semibold mb-6 text-center">New Campaign</h2>
 
       <!-- Campaign Name -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2">Campaign Name</label>
-        <input type="text" bind:value={campaignName} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" />
+        <label class="block text-gray-300 mb-2 text-sm">Campaign Name</label>
+        <input type="text" bind:value={campaignName} class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-gray-900 text-white" />
       </div>
 
       <!-- Campaign Description -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2">Campaign Description</label>
-        <textarea bind:value={campaignDescription} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" rows="3"></textarea>
+        <label class="block text-gray-300 mb-2 text-sm">Campaign Description</label>
+        <input type="text" bind:value={campaignDescription} class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-gray-900 text-white" />
       </div>
 
+
       <!-- Entities -->
+      {#if entities.length > 0}
+        <h3 class="font-semibold">Entities</h3>
+        <underline class="block w-full h-0.5 bg-gray-600"></underline>
+      {/if}
       {#each entities as entity, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Entity Type -->
@@ -330,6 +336,10 @@
       {/each}
 
       <!-- Locations -->
+      {#if locations.length > 0}
+        <h3 class="font-semibold">Locations</h3>
+        <underline class="block w-full h-0.5 bg-gray-600"></underline>
+      {/if}
       {#each locations as location, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Location Type -->
@@ -372,6 +382,10 @@
       {/each}
 
       <!-- Time Periods -->
+      {#if timePeriods.length > 0}
+        <h3 class="font-semibold">Time Period</h3>
+        <underline class="block w-full h-0.5 bg-gray-600"></underline>
+      {/if}
       {#each timePeriods as timePeriod, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Date From -->
