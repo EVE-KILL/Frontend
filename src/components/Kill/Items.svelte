@@ -181,8 +181,8 @@
                                             {item.type_name}
                                         </a>
                                     </td>
-                                    <td class="px-2 py-1">{item.qty_destroyed}</td>
-                                    <td class="px-2 py-1">{item.qty_dropped}</td>
+                                    <td class="px-2 py-1">{formatNumber(item.qty_destroyed, 0)}</td>
+                                    <td class="px-2 py-1">{formatNumber(item.qty_dropped, 0)}</td>
                                     <td class="px-2 py-1">
                                         {#if item.isContainer && item.containerItemsValue > 0}
                                             {formatNumber((item.value * (item.qty_destroyed + item.qty_dropped)) + item.containerItemsValue, 0)}
