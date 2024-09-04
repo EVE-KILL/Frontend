@@ -68,7 +68,7 @@
                 Start Time: {battle.start_time} | End Time: {battle.end_time}
             </div>
             <div class="text-sm text-gray-400">
-                ISK Lost: {battle.total_value.toLocaleString()} ISK | Pilots Involved: {battle.total_characters} | Corporations: {battle.total_corporations} | Alliances: {battle.total_alliances}
+                ISK Lost: {battle.total_value} ISK | Pilots Involved: {battle.total_characters} | Corporations: {battle.total_corporations} | Alliances: {battle.total_alliances}
             </div>
             <div class="text-sm text-gray-400">
                 Duration: {duration(battle.start_time, battle.end_time)}
@@ -81,7 +81,7 @@
                 <div class="mb-2 text-lg font-bold">Blue Team</div>
                 <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
                     <div class="mb-2 text-sm text-gray-400">
-                        ISK Lost: {battle.blue_team.value.toLocaleString()} ISK | Ships Lost: {battle.blue_team.total_ship_count} | Damage Inflicted: {battle.blue_team.points}
+                        ISK Lost: {battle.blue_team.value} ISK | Ships Lost: {battle.blue_team.total_ship_count} | Damage Inflicted: {battle.blue_team.points}
                     </div>
                     <div class="mb-2 text-sm text-gray-400">Alliances:</div>
                     <ul class="list-disc list-inside">
@@ -95,7 +95,7 @@
                 <div class="mb-2 text-lg font-bold">Red Team</div>
                 <div class="bg-gray-800 p-2 rounded-lg shadow-lg">
                     <div class="mb-2 text-sm text-gray-400">
-                        ISK Lost: {battle.red_team.value.toLocaleString()} ISK | Ships Lost: {battle.red_team.total_ship_count} | Damage Inflicted: {battle.red_team.points}
+                        ISK Lost: {battle.red_team.value} ISK | Ships Lost: {battle.red_team.total_ship_count} | Damage Inflicted: {battle.red_team.points}
                     </div>
                     <div class="mb-2 text-sm text-gray-400">Alliances:</div>
                     <ul class="list-disc list-inside">
