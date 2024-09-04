@@ -3,7 +3,7 @@
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { DateInput } from 'date-picker-svelte';
 
-	let showModal = false;
+	export let showModal;
 	let campaignName = '';
 	let campaignDescription = '';
 	let selectedType = ''; // Track the selected entity type to show the appropriate descriptions
@@ -363,20 +363,6 @@
 		}
 	};
 </script>
-
-<div class="mt-4">
-	<!-- Only show the create campaign button if the user is logged in -->
-	{#if user}
-		<nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
-			<button
-				class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all"
-				on:click={() => (showModal = true)}
-			>
-				Create Campaign
-			</button>
-		</nav>
-	{/if}
-</div>
 
 {#if showModal && user}
 	<div
