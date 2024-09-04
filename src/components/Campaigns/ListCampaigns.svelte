@@ -76,11 +76,12 @@
     <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
         <thead>
             <tr class="bg-darker text-white uppercase text-xs leading-normal">
-                <th class="px-4 py-2 w-1/6 text-left" scope="col">Campaign Name</th>
+                <th class="px-4 py-2 w-1/6 text-left" scope="col">Name</th>
                 <th class="px-4 py-2 w-1/3 text-left" scope="col">Description</th>
                 <th class="px-4 py-2 w-1/12 text-right" scope="col">Kills</th>
-                <th class="px-4 py-2 w-1/12 text-right" scope="col">Losses</th>
                 <th class="px-4 py-2 w-1/12 text-right" scope="col">Active Pilots</th>
+                <th class="px-4 py-2 w-1/12 text-right" scope="col">Active Corporations</th>
+                <th class="px-4 py-2 w-1/12 text-right" scope="col">Active Alliances</th>
                 <th class="px-4 py-2 w-1/6 text-left" scope="col">Last Modified</th>
             </tr>
         </thead>
@@ -98,13 +99,16 @@
                         {campaign.description ? campaign.description : "No description"}
                     </td>
                     <td class="px-4 py-2 w-1/12 text-right">
-                        {campaign.stats.kills}
+                        {campaign.stats.totalKills}
                     </td>
                     <td class="px-4 py-2 w-1/12 text-right">
-                        {campaign.stats.losses}
+                        {campaign.stats.foeActivePilots + campaign.stats.friendlyActivePilots}
                     </td>
                     <td class="px-4 py-2 w-1/12 text-right">
-                        {campaign.stats.active_pilots}
+                        {campaign.stats.foeActiveCorporations + campaign.stats.friendlyActiveCorporations}
+                    </td>
+                    <td class="px-4 py-2 w-1/12 text-right">
+                        {campaign.stats.foeActiveAlliances + campaign.stats.friendlyActiveAlliances}
                     </td>
                     <td class="px-4 py-2 w-1/6 text-left">
                         {campaign.last_modified}
