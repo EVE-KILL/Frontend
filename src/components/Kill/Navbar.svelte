@@ -48,6 +48,10 @@
                         <li class="px-4 py-2 text-sm text-gray-300">EVE Missioneer</li>
                         <li><a href="https://evemissioneer.com/s/{killmail.system_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.system_name}</a></li>
                         <li><a href="https://evemissioneer.com/r/{killmail.region_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.region_name}</a></li>
+                        {#if killmail.region_id >= 11000001 && killmail.region_id <= 11000033}
+                            <li class="px-4 py-2 text-sm text-gray-300">Anoik.is</li>
+                            <li><a href="http://anoik.is/systems/{killmail.system_name}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.system_name}</a></li>
+                        {/if}
                         <li class="px-4 py-2 text-sm text-gray-300">EveShip.fit</li>
                         <li><a href="https://eveship.fit/?fit=killmail:{killmail.killmail_id}/{killmail.hash}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">ESF</a></li>
                     </ul>
