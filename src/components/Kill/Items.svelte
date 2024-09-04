@@ -33,7 +33,8 @@
         'Quafe Bay': false,
         'Structure Services': true,
         'Structure Fuel': false,
-        'Implants': true
+        'Implants': true,
+        'Infrastructure Hangar': false,
     };
 
     onMount(async () => {

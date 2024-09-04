@@ -29,6 +29,7 @@ export function itemSlotTypes() {
 		'Quafe Bay': [154],
 		'Structure Services': [164, 165, 166, 167, 168, 169, 170, 171],
 		'Structure Fuel': [172],
+		'Infrastructure Hangar': [185],
 		Implants: [89]
 	};
 }
