@@ -18,9 +18,6 @@
 		if (event.key === 'Escape') {
 			closeShortcutPanel();
 		}
-		if (event.key === '?') {
-			toggleShortcutPanel();
-		}
 	}
 
 	onMount(() => {
