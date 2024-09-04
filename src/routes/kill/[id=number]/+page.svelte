@@ -15,7 +15,7 @@
 
 {#if killmail}
     <!-- Navbar -->
-    <Navbar killmail_id={killmail.killmail_id} />
+    <Navbar killmail={killmail} />
 
     <div class="container flex p-2 pt-4 gap-2">
         <!-- Left Container -->
