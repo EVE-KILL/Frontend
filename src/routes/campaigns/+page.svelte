@@ -6,11 +6,13 @@
   let showModal = false;
   let campaignName = '';
   let campaignDescription = '';
+  let selectedType = ''; // Track the selected entity type to show the appropriate descriptions
   let entities = [];
   let locations = [];
-  let timePeriods = []; // Only allow a single time period
+  let timePeriods = []; // For tracking date range selections
   const upstreamUrl = getUpstreamUrl();
   let user: any = null;
+  // Set the max date to be today + 10 years
   let maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 10);
 
@@ -65,10 +67,10 @@
     locations = [...locations, { type: '', name: '', id: '', imageUrl: '', searchResults: [], searchTerm: '', selectedIndex: -1, isDropdownOpen: false }];
   };
 
-  // Add a new time period row (Limit to 1)
+  // Add a new time period row
   const addTimePeriod = () => {
     if (timePeriods.length === 0) {
-      timePeriods = [{ from: null, to: null }];
+      timePeriods = [...timePeriods, { from: null, to: null }];
     }
   };
 
@@ -82,46 +84,28 @@
     locations = locations.filter((_, i) => i !== index);
   };
 
-  // Remove a time period (Only one can exist)
+  // Remove a time period from the list
   const removeTimePeriod = () => {
     timePeriods = [];
   };
 
-  // Reactive statement to update form validity (Campaign name, description, and at least one entity)
-  $: isFormValid = campaignName.trim() !== '' && campaignDescription.trim() !== '' && entities.length > 0;
-
-  // Function to handle form submission (send the data to the backend)
-  const submitCampaign = async () => {
-    if (isFormValid && user) {
-      const response = await fetch('/api/campaign/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          campaignName,
-          campaignDescription,
-          entities: entities.map(entity => ({
-            type: entity.type,
-            id: entity.id,
-            treatment: entity.treatmentValue,
-          })),
-          locations: locations.map(location => ({
-            type: location.type,
-            id: location.id
-          })),
-          timePeriods, // Only one time period will be sent
-          user: {
-            character_id: user.character_id,
-            character_name: user.character_name
-          }
-        }),
-      });
-
-      const result = await response.json();
-      showModal = false;
-    } else {
-      alert('Please fill in all required fields.');
-    }
+  // Reset the form content
+  const resetForm = () => {
+    campaignName = '';
+    campaignDescription = '';
+    entities = [];
+    locations = [];
+    timePeriods = [];
   };
+
+  // Close the modal and reset form data
+  const closeModal = () => {
+    resetForm();
+    showModal = false;
+  };
+
+  // Reactive statement to update form validity
+  $: isFormValid = campaignName.trim() !== '' && campaignDescription.trim() !== '' && entities.length > 0;
 
   // Function to search for entities
   async function searchForEntity(index: number) {
@@ -206,23 +190,65 @@
       }
     }
   };
+
+  // Close modal by clicking outside
+  const handleOutsideClick = (event) => {
+    if (event.target.classList.contains('modal-overlay')) {
+      closeModal();
+    }
+  };
+
+  // Function to handle form submission (send the data to the backend)
+  const submitCampaign = async () => {
+    if (isFormValid && user) {
+      const response = await fetch('/api/campaign/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaignName,
+          campaignDescription,
+          entities: entities.map(entity => ({
+            type: entity.type,
+            id: entity.id,
+            treatment: entity.treatmentValue,
+          })),
+          locations: locations.map(location => ({
+            type: location.type,
+            id: location.id
+          })),
+          timePeriods,
+          user: {
+            character_id: user.character_id,
+            character_name: user.character_name
+          }
+        }),
+      });
+
+      const result = await response.json();
+      closeModal(); // Close modal and reset form
+    } else {
+      alert('Please fill in all required fields.');
+    }
+  };
 </script>
 
-<!-- HTML and Layout -->
-
 <div class="mt-4">
-    {#if user}
-        <nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={() => (showModal = true)}>
-            Create Campaign
-            </button>
-        </nav>
-    {/if}
+  <!-- Only show the create campaign button if the user is logged in -->
+  {#if user}
+    <nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
+      <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={() => (showModal = true)}>
+        Create Campaign
+      </button>
+    </nav>
+  {/if}
 </div>
 
 {#if showModal && user}
-  <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-    <div class="bg-gray-800 text-white rounded-lg p-8 w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+  <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 modal-overlay" on:click={handleOutsideClick}>
+    <div class="bg-gray-800 text-white rounded-lg p-8 w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto relative">
+      <!-- Close Button -->
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-2xl font-bold" on:click={closeModal}>&times;</button>
+
       <h2 class="text-2xl font-semibold mb-6 text-center">Create New Campaign</h2>
 
       <!-- Campaign Name -->
@@ -237,9 +263,10 @@
         <textarea bind:value={campaignDescription} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" rows="3"></textarea>
       </div>
 
-      <!-- Entities Section -->
+      <!-- Entities -->
       {#each entities as entity, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
+          <!-- Entity Type -->
           <div>
             <label class="block text-gray-300 mb-2">Type</label>
             <select bind:value={entities[index].type} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white">
@@ -297,12 +324,12 @@
             {/if}
           </div>
 
-          <!-- Remove Entity Button -->
+          <!-- Remove Entity Button (X icon) -->
           <button class="absolute right-0 top-0 text-red-500 hover:text-red-700 font-bold text-xl" on:click={() => removeEntity(index)}>&times;</button>
         </div>
       {/each}
 
-      <!-- Locations Section -->
+      <!-- Locations -->
       {#each locations as location, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Location Type -->
@@ -344,13 +371,7 @@
         </div>
       {/each}
 
-      <!-- Time Period Section -->
-      {#if timePeriods.length === 0}
-        <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all mb-6" on:click={addTimePeriod}>
-          Add Time Period
-        </button>
-      {/if}
-
+      <!-- Time Periods -->
       {#each timePeriods as timePeriod, index}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Date From -->
@@ -366,7 +387,7 @@
           </div>
 
           <!-- Remove Time Period Button -->
-          <button class="absolute right-0 top-0 text-red-500 hover:text-red-700 font-bold text-xl" on:click={removeTimePeriod}>&times;</button>
+          <button class="absolute right-0 top-0 text-red-500 hover:text-red-700 font-bold text-xl" on:click={() => removeTimePeriod()}>&times;</button>
         </div>
       {/each}
 
@@ -379,6 +400,13 @@
       <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all mb-6" on:click={addLocation}>
         Add Location
       </button>
+
+      <!-- Add Time Period Button (only one time period allowed) -->
+      {#if timePeriods.length === 0}
+        <button class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all mb-6" on:click={addTimePeriod}>
+          Add Time Period
+        </button>
+      {/if}
 
       <!-- Submit Button (disabled if form is not valid) -->
       <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={submitCampaign} disabled={!isFormValid}>
