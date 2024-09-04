@@ -205,8 +205,8 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          campaignName,
-          campaignDescription,
+          name: campaignName,
+          description: campaignDescription,
           entities: entities.map(entity => ({
             type: entity.type,
             id: entity.id,
