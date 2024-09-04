@@ -12,8 +12,6 @@
 
 	import '$lib/styles/github.scss';
 	import '@cartamd/plugin-emoji/default.css';
-	import '@cartamd/plugin-slash/default.css';
-	import { c } from 'svelte-highlight/languages';
 
 	export let identifier: string;
 	let comments: any[] = [];
