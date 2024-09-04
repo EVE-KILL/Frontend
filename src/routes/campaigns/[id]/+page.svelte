@@ -43,11 +43,6 @@
         await tick(); // Ensure DOM updates
     });
 
-    // Utility function to format large numbers
-    function formatNumber(num: number) {
-        return num.toLocaleString();
-    }
-
     console.log(campaign);
 </script>
 

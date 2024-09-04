@@ -1,10 +1,9 @@
 export function formatNumber(value: number, decimals = 2): string {
-    const formatter = new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat(undefined, {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
-    });
+    }).format(value);
 
-    return formatter.format(value);
 }
 
 export function truncateString(str: string, num: number): string {

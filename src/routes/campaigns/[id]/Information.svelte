@@ -1,10 +1,8 @@
 <script lang="ts">
+    import { formatNumber } from '$lib/Helpers.ts';
     export let campaign;
 
     // Utility function to format large numbers with commas
-    function formatNumber(num: number) {
-        return num.toLocaleString();
-    }
 </script>
 
 <!-- Campaign Overview -->
