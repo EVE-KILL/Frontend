@@ -662,6 +662,7 @@
 			>
 				Submit
 			</button>
+            <p class="text-xs text-gray-400 mt-2">* Be aware processing can take a long time, once submitted DO NOT SUBMIT AGAIN!</p>
 		</div>
 	</div>
 {/if}
