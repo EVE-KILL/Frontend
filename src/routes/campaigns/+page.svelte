@@ -254,13 +254,13 @@
 
       <!-- Campaign Name -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2 text-sm">Campaign Name</label>
+        <label class="block text-gray-300 mb-2 text-sm">Name</label>
         <input type="text" bind:value={campaignName} class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-gray-900 text-white" />
       </div>
 
       <!-- Campaign Description -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2 text-sm">Campaign Description</label>
+        <label class="block text-gray-300 mb-2 text-sm">Description</label>
         <input type="text" bind:value={campaignDescription} class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-gray-900 text-white" />
       </div>
 
@@ -284,7 +284,7 @@
 
           <!-- Entity Search or Input -->
           <div class="relative">
-            <label class="block text-gray-300 mb-2">Name/Value</label>
+            <label class="block text-gray-300 mb-2">Name</label>
             <div class="flex items-center border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white">
               {#if entity.imageUrl}
                 <img src={entity.imageUrl} alt={entity.name} class="h-8 w-8 mr-2 rounded-md"/>
@@ -344,7 +344,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Location Type -->
           <div>
-            <label class="block text-gray-300 mb-2">Location Type</label>
+            <label class="block text-gray-300 mb-2">Type</label>
             <select bind:value={locations[index].type} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white">
               <option value="system">System</option>
               <option value="region">Region</option>
@@ -390,13 +390,13 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
           <!-- Date From -->
           <div>
-            <label class="block text-gray-300 mb-2">Date From</label>
+            <label class="block text-gray-300 mb-2">From</label>
             <DateInput bind:value={timePeriod.from} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" />
           </div>
 
           <!-- Date To -->
           <div>
-            <label class="block text-gray-300 mb-2">Date To</label>
+            <label class="block text-gray-300 mb-2">To</label>
             <DateInput bind:value={timePeriod.to} max={maxDate} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" />
           </div>
 
