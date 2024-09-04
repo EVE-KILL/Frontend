@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { session } from '$lib/stores/Session';
   import { getUpstreamUrl } from '$lib/Config.ts';
 
   let showModal = false;
@@ -7,9 +8,12 @@
   let selectedType = ''; // Track the selected entity type to show the appropriate descriptions
   let entities = [];
   const upstreamUrl = getUpstreamUrl();
+  let user: any = null;
 
-  // Reactive form validation
-  let isFormValid = false;
+  // Subscribe to the session to get the user data
+  $: session.subscribe((value) => {
+    user = value.user;
+  });
 
   // Entity types with display names, values, and descriptions
   const entityTypes = [
@@ -144,8 +148,8 @@
 
   // Function to handle form submission (send the data to the backend)
   const submitCampaign = async () => {
-    if (isFormValid) {
-      const response = await fetch(`${upstreamUrl}/api/campaign/add`, {
+    if (isFormValid && user) {
+      const response = await fetch('/api/campaign/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -156,8 +160,11 @@
             id: entity.id,
             treatment: entity.treatmentValue,
             value: entity.value,
-            modifiers: entity.modifiers
           })),
+          user: {
+            character_id: user.character_id,
+            character_name: user.character_name
+          }
         }),
       });
 
@@ -165,51 +172,38 @@
       console.log(result);
       showModal = false; // Close modal after submission
     } else {
-      // You can add additional UI feedback or alert here if the form is invalid.
       alert('Please fill in all required fields.');
     }
   };
 </script>
 
 <div class="mt-4">
-  <nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
-    <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={() => (showModal = true)}>
-      Create Campaign
-    </button>
-  </nav>
+  <!-- Only show the create campaign button if the user is logged in -->
+  {#if user}
+    <nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
+      <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={() => (showModal = true)}>
+        Create Campaign
+      </button>
+    </nav>
+  {/if}
 </div>
 
-{#if showModal}
+{#if showModal && user}
   <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
     <div class="bg-gray-800 text-white rounded-lg p-8 w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
-      <h2 class="text-2xl font-semibold mb-6 text-center">New Campaign</h2>
+      <h2 class="text-2xl font-semibold mb-6 text-center">Create New Campaign</h2>
 
       <!-- Campaign Name -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2">Name</label>
+        <label class="block text-gray-300 mb-2">Campaign Name</label>
         <input type="text" bind:value={campaignName} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" />
       </div>
 
       <!-- Campaign Description -->
       <div class="mb-6">
-        <label class="block text-gray-300 mb-2">Description</label>
+        <label class="block text-gray-300 mb-2">Campaign Description</label>
         <textarea bind:value={campaignDescription} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-900 text-white" rows="3"></textarea>
       </div>
-
-      <!-- Show descriptions only when an entity type is selected -->
-      {#if selectedType !== ''}
-        <div class="mb-6 p-4 bg-gray-700 text-gray-300 rounded-lg">
-          <h3 class="text-xl mb-3 font-semibold">Entity Type: {entityTypes.find(e => e.value === selectedType)?.name}</h3>
-          <p>{entityTypes.find(e => e.value === selectedType)?.description}</p>
-
-          <h4 class="text-lg mt-3 mb-2">Available Treatments:</h4>
-          <ul class="list-disc list-inside">
-            {#each treatments[selectedType] as treatment}
-              <li>{treatment.name}: {treatment.description}</li>
-            {/each}
-          </ul>
-        </div>
-      {/if}
 
       <!-- Entities -->
       {#each entities as entity, index}
