@@ -201,7 +201,7 @@
   // Function to handle form submission (send the data to the backend)
   const submitCampaign = async () => {
     if (isFormValid && user) {
-      const response = await fetch('/api/campaign/add', {
+      const response = await fetch(`${upstreamUrl}/api/campaign/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
