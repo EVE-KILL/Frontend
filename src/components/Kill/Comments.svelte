@@ -108,7 +108,7 @@
 					errorMessage = result.error; // Display error message
 				} else {
 					const newComment = result;
-					comments = [newComment, ...comments]; // Add the new comment to the top of the array
+					comments = [newComment, ...comments.slice()]; // Add the new comment to the top of the array (make a copy of the array to trigger reactivity)
 
 					lastPostedComment = comment.trim(); // Update last posted comment
 					comment = ''; // Clear the input box
