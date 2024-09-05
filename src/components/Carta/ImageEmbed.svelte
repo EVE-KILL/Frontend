@@ -1,6 +1,5 @@
 <script lang="ts">
     export let href;
-    console.log(href);
 </script>
 
 <a href="{href}" target="_blank">

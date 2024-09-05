@@ -48,12 +48,13 @@
 		)
 	];
 
+	let fakeInit = function() { return null; };
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
 		extensions: [
 			emoji(),
-			component(mappedComponents)
+			component(mappedComponents, fakeInit)
 		]
 	});
 
