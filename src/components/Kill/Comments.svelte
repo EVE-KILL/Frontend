@@ -20,7 +20,6 @@
 	let user: any = null;
 	let container: HTMLElement;
 
-	// Define the character limit for comments
 	const commentLimit = 500;
 	let charactersRemaining = commentLimit;
 
@@ -38,7 +37,6 @@
 		svelteCustom(
 			'image',
 			(node) => {
-				// Ensure the tagName is a for links, and then check for it either ending in .jpeg, .jpg, .gif, or .png or contains an image extension in the url
 				if (node.tagName === 'a' && (node.properties.href.match(/\.(jpeg|jpg|gif|png)$/) != null || node.properties.href.includes('.jpeg') || node.properties.href.includes('.jpg') || node.properties.href.includes('.gif') || node.properties.href.includes('.png'))) {
 					return true;
 				}
@@ -57,21 +55,6 @@
 			component(mappedComponents, fakeInit)
 		]
 	});
-
-	function insertLine(input: string, string: string): string {
-		const line = input.getLine();
-		if (line.value !== '') {
-			input.insertAt(line.end, `\n${string}`);
-			const newPos = line.end + string.length + 1;
-			input.textarea.selectionStart = newPos;
-			input.textarea.selectionEnd = newPos;
-		} else {
-			input.insertAt(line.end, `${string}`);
-			const newPos = line.end + string.length;
-			input.textarea.selectionStart = newPos;
-			input.textarea.selectionEnd = newPos;
-		}
-	}
 
 	onMount(async () => {
 		await fetchComments();
@@ -92,7 +75,7 @@
 	}
 
 	async function postComment(comment: string) {
-		if (comment.trim() === '' || comment.length > commentLimit) return; // Prevent empty comments and limit exceeding
+		if (comment.trim() === '' || comment.length > commentLimit) return;
 
 		let commentObject = {
 			identifier: user.identifier,
@@ -109,7 +92,8 @@
 			});
 
 			if (request.ok) {
-				await fetchComments(); // Fetch the latest comments after posting
+				const newComment = await request.json(); // Get the returned comment object
+				comments = [newComment, ...comments]; // Add the new comment to the top of the array
 				comment = ''; // Clear the input box
 				charactersRemaining = commentLimit; // Reset character counter
 			} else {
@@ -132,7 +116,6 @@
 		}
 	}
 
-	// Watch the comment input to update charactersRemaining
 	$: charactersRemaining = commentLimit - comment.length;
 
 	$: session.subscribe((value) => {
@@ -141,12 +124,10 @@
 			fetchComments();
 		}
 	});
-
 </script>
 
 <!-- Comments Section -->
 <div class="overflow-x-auto" bind:this={container}>
-	<!-- Display Comments -->
 	{#each comments as comment}
 		<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
@@ -166,7 +147,6 @@
 			</div>
 		</div>
 	{/each}
-
 
 	{#if user}
 		<!-- Comment Input Box -->
@@ -192,7 +172,7 @@
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
-				<button class="post-button" on:click={() => postComment(comment)} disabled={charactersRemaining < 0}>
+				<button class="post-button {charactersRemaining >= 0 && comment.trim() !== '' ? 'enabled' : 'disabled'}" on:click={() => postComment(comment)} disabled={charactersRemaining < 0 || comment.trim() === ''}>
 					Post Comment
 				</button>
 			</div>
@@ -214,12 +194,16 @@
 		cursor: pointer;
 	}
 
-	.post-button:hover {
-		background-color: #6a6a6a;
+	.post-button.enabled {
+		background-color: #007bff; /* Blue when enabled */
 	}
 
-	.post-button:disabled {
-		background-color: #6a6a6a;
+	.post-button.disabled {
+		background-color: #4a4a4a; /* Stay gray when disabled */
 		cursor: not-allowed;
+	}
+
+	.post-button:hover.enabled {
+		background-color: #0056b3; /* Darker blue when hovered and enabled */
 	}
 </style>
