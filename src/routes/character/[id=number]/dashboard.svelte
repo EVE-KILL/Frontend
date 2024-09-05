@@ -73,39 +73,39 @@
                 <tbody class="text-gray-300 text-sm">
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Kills</td>
-                        <td class="px-2 py-1">{formatNumber(stats.kills)}</td>
+                        <td class="px-2 py-1">{formatNumber(stats.kills, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Losses</td>
-                        <td class="px-2 py-1">{formatNumber(stats.losses)}</td>
+                        <td class="px-2 py-1">{formatNumber(stats.losses, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">ISK Killed</td>
-                        <td class="px-2 py-1">{formatNumber(stats.iskKilled)} ISK</td>
+                        <td class="px-2 py-1">{formatNumber(stats.iskKilled, 0)} ISK</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">ISK Lost</td>
-                        <td class="px-2 py-1">{formatNumber(stats.iskLost)} ISK</td>
+                        <td class="px-2 py-1">{formatNumber(stats.iskLost, 0)} ISK</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Solo Kills</td>
-                        <td class="px-2 py-1">{formatNumber(stats.soloKills)}</td>
+                        <td class="px-2 py-1">{formatNumber(stats.soloKills, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Solo Losses</td>
-                        <td class="px-2 py-1">{formatNumber(stats.soloLosses)}</td>
+                        <td class="px-2 py-1">{formatNumber(stats.soloLosses, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">NPC Losses</td>
-                        <td class="px-2 py-1">{formatNumber(stats.npcLosses)}</td>
+                        <td class="px-2 py-1">{formatNumber(stats.npcLosses, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Blob Factor</td>
-                        <td class="px-2 py-1">{stats.blobFactor.toFixed(2)}</td>
+                        <td class="px-2 py-1">{stats.blobFactor.toFixed(2, 0)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Last Active</td>
-                        <td class="px-2 py-1">{formatDate(stats.lastActive)}</td>
+                        <td class="px-2 py-1">{formatDate(stats.lastActive, 0)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -123,7 +123,7 @@
                     {#each Object.entries(stats.heatMap) as [hour, count]}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{hour.replace('h', '')}:00</td>
-                            <td class="px-2 py-1">{formatNumber(count)}</td>
+                            <td class="px-2 py-1">{formatNumber(count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -142,7 +142,7 @@
                     {#each sortByCountDesc(stats.mostUsedShips) as ship}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{ship.name}</td>
-                            <td class="px-2 py-1">{formatNumber(ship.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(ship.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -161,7 +161,7 @@
                     {#each sortByCountDesc(stats.mostLostShips) as ship}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{ship.name}</td>
-                            <td class="px-2 py-1">{formatNumber(ship.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(ship.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -180,7 +180,7 @@
                     {#each sortByCountDesc(stats.diesToCorporations) as corp}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{corp.name}</td>
-                            <td class="px-2 py-1">{formatNumber(corp.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(corp.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -199,7 +199,7 @@
                     {#each sortByCountDesc(stats.diesToAlliances) as alliance}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{alliance.name}</td>
-                            <td class="px-2 py-1">{formatNumber(alliance.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(alliance.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -218,7 +218,7 @@
                     {#each sortByCountDesc(stats.fliesWithCorporations) as corp}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{corp.name}</td>
-                            <td class="px-2 py-1">{formatNumber(corp.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(corp.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
@@ -237,7 +237,7 @@
                     {#each sortByCountDesc(stats.fliesWithAlliances) as alliance}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{alliance.name}</td>
-                            <td class="px-2 py-1">{formatNumber(alliance.count)}</td>
+                            <td class="px-2 py-1">{formatNumber(alliance.count, 0)}</td>
                         </tr>
                     {/each}
                 </tbody>
