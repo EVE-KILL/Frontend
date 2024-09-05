@@ -121,6 +121,15 @@
             }
         }, 2500);
     }
+
+    function handleClick(event: MouseEvent, killmailId: string) {
+        if (event.ctrlKey || event.metaKey || event.button === 1) {
+            event.preventDefault();
+            window.open(`/kill/${killmailId}`, '_blank');
+        } else {
+            window.location.href = `/kill/${killmailId}`;
+        }
+    }
 </script>
 
 {#if title !== undefined}
@@ -163,7 +172,7 @@
             {#each kills as kill (kill.killmail_id)}
                 <tr
                     class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
-                    on:click={() => { window.location.href = `/kill/${kill.killmail_id}`; }}
+                    on:mousedown={(event) => handleClick(event, kill.killmail_id)}
                     on:mouseover={pauseAddingKills}
                     on:focus={pauseAddingKills}
                 >
