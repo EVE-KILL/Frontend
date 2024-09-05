@@ -2,32 +2,48 @@
     import type { Character } from '../../../types/Character.js';
     import { onMount } from 'svelte';
     import { convertEveHtml, formatNumber } from '$lib/Helpers.js';
-	import { getUpstreamUrl } from '$lib/Config.js';
+    import { getUpstreamUrl } from '$lib/Config.js';
 
     export let data;
     let character: Character = data.character;
     let stats: any = null; // Initially null until fetched
     let sanitizedDescription: string;
     let statsLoading = true; // Loading indicator for stats
-    const upstreamUrl = getUpstreamUrl(); // Replace with your actual upstream URL
+    const upstreamUrl = getUpstreamUrl(); // Get the upstream URL
+	let url = '';
 
-    // Fetch stats on mount
-    onMount(async () => {
+    // Active period (14d, 30d, 90d, all)
+    let activePeriod = '90'; // Default period is 90d
+    let activePeriodLabel = '90d'; // Label for the active period
+
+    // Fetch stats on mount or period change
+    async function fetchStats(period = '90') {
+        statsLoading = true;
+        try {
+			if (period === 'all') {
+				url = `${upstreamUrl}/api/characters/${character.character_id}/stats`
+			} else {
+				url = `${upstreamUrl}/api/characters/${character.character_id}/stats/${period}`;
+			}
+            const response = await fetch(url);
+            stats = await response.json();
+        } catch (error) {
+            console.error("Failed to fetch stats:", error);
+        } finally {
+            statsLoading = false;
+            activePeriodLabel = period === 'all' ? 'All Time' : `${period}d`;
+        }
+    }
+
+    onMount(() => {
+        // Load the stats for the default 90-day period
         let description = convertEveHtml(character.description);
         if (description.startsWith("u'") || description.startsWith('u"')) {
             description = description.slice(2, -1);
         }
         sanitizedDescription = decodeUnicode(description);
 
-        // Fetch the stats after the bio is shown
-        try {
-            const response = await fetch(`${upstreamUrl}/api/characters/${character.character_id}/stats`);
-            stats = await response.json();
-        } catch (error) {
-            console.error("Failed to fetch stats:", error);
-        } finally {
-            statsLoading = false;
-        }
+        fetchStats(activePeriod); // Fetch 90d stats by default
     });
 
     function decodeUnicode(str: string): string {
@@ -45,6 +61,12 @@
     function sortByCountDesc(items) {
         return Object.values(items).sort((a, b) => b.count - a.count);
     }
+
+    // Function to handle period change
+    function changePeriod(period) {
+        activePeriod = period;
+        fetchStats(period);
+    }
 </script>
 
 <!-- Dashboard Layout -->
@@ -59,7 +81,36 @@
 
     <!-- Stats Section -->
     <div class="stats-section p-4 bg-semi-transparent rounded-lg shadow-lg">
-        <h2 class="text-xl font-bold mb-4">Character Stats</h2>
+        <h2 class="text-xl font-bold mb-4">Character Stats ({activePeriodLabel})</h2>
+
+        <!-- Period Selection Buttons -->
+        <div class="mb-4">
+            <button
+                class="btn"
+                class:active-btn={activePeriod === '14'}
+                on:click={() => changePeriod('14')}>
+                14d
+            </button>
+            <button
+                class="btn"
+                class:active-btn={activePeriod === '30'}
+                on:click={() => changePeriod('30')}>
+                30d
+            </button>
+            <button
+                class="btn"
+                class:active-btn={activePeriod === '90'}
+                on:click={() => changePeriod('90')}>
+                90d
+            </button>
+            <button
+                class="btn"
+                class:active-btn={activePeriod === 'all'}
+                on:click={() => changePeriod('all')}>
+                All
+            </button>
+        </div>
+
         {#if statsLoading}
             <p>Loading stats...</p>
         {:else if stats}
@@ -101,11 +152,11 @@
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Blob Factor</td>
-                        <td class="px-2 py-1">{stats.blobFactor.toFixed(2, 0)}</td>
+                        <td class="px-2 py-1">{stats.blobFactor.toFixed(2)}</td>
                     </tr>
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Last Active</td>
-                        <td class="px-2 py-1">{formatDate(stats.lastActive, 0)}</td>
+                        <td class="px-2 py-1">{formatDate(stats.lastActive)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -262,5 +313,24 @@
     }
     .bg-darker {
         background-color: #2D3748;
+    }
+
+    .btn {
+        margin-right: 10px;
+        padding: 8px 16px;
+        background-color: #2D3748;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #4A5568;
+    }
+
+    .active-btn {
+        background-color: #3182CE;
     }
 </style>
