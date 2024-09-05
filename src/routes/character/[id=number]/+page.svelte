@@ -2,20 +2,21 @@
     import { tick } from 'svelte';
     import { page } from '$app/stores';
     import type { Character } from '../../../types/Character.ts';
-    import Information from './information.svelte';
+    import Dashboard from './dashboard.svelte';
     import Kills from './kills.svelte';
     import Losses from './losses.svelte';
     import CorporationHistory from './corporationHistory.svelte';
     import Stats from './Stats.svelte';
+    import { formatNumber } from '$lib/Helpers.ts';
 
     export let data;
     let character: Character = data.character;
-    let activeComponent = Information;
-    let currentHash = '#info'; // Default to '#info'
+    let activeComponent = Dashboard;
+    let currentHash = '#dashboard'; // Default to '#dashboard'
 
     // Function to map hash to component
     const hashToComponent = {
-        '#info': Information,
+        '#dashboard': Dashboard,
         '#kills': Kills,
         '#losses': Losses,
         '#corporation-history': CorporationHistory,
@@ -25,11 +26,11 @@
     // Load the appropriate component based on the URL hash
     function loadComponentFromHash(hash) {
         if (!hash || hash === '#') {
-            activeComponent = Information; // Load Information by default if no hash or empty hash is present
-            currentHash = '#info';
+            activeComponent = Dashboard; // Load Dashboard by default if no hash or empty hash is present
+            currentHash = '#dashboard';
         } else {
             const component = hashToComponent[hash];
-            activeComponent = component || Information;
+            activeComponent = component || Dashboard;
             currentHash = hash;
         }
     }
@@ -54,9 +55,9 @@
 </style>
 
 {#if character}
-    <div class="container mx-auto p-4 text-white">
+    <div class="container mx-auto  p-4 text-white">
         <!-- Profile Section -->
-        <div class="flex items-start">
+        <div class="flex items-start bg-semi-transparent p-4 ">
             <!-- Profile Image with Additional Images -->
             <div class="flex items-center">
                 <img
@@ -93,27 +94,28 @@
                                 <td class="font-bold text-right p-1">Character:</td>
                                 <td>{character.name}</td>
                             </tr>
-                            <tr
-                                on:click={() =>
-                                    (window.location.href = `/corporation/${character.corporation_id}`)}
-                            >
+                            <tr>
                                 <td class="font-bold text-right p-1">Corporation:</td>
-                                <td>{character.corporation_name}</td>
+                                <td><a href="/corporation/{character.corporation_id}">{character.corporation_name}</a></td>
                             </tr>
-                            <tr
-                                on:click={() =>
-                                    (window.location.href = `/alliance/${character.alliance_id}`)}
-                            >
+                            {#if character.title}
+                            <tr>
+                                <td class="font-bold text-right p-1">Title:</td>
+                                <td>{character.title}</td>
+                            </tr>
+                            {/if}
+                            {#if character.alliance_id}
+                            <tr>
                                 <td class="font-bold text-right p-1">Alliance:</td>
-                                <td>{character.alliance_name}</td>
+                                <td><a href="/alliance/{character.alliance_id}">{character.alliance_name}</a></td>
                             </tr>
-                            <tr
-                                on:click={() =>
-                                    (window.location.href = `/faction/${character.faction_id}`)}
-                            >
+                            {/if}
+                            {#if character.faction_id}
+                            <tr>
                                 <td class="font-bold text-right p-1">Faction:</td>
-                                <td>{character.faction_name}</td>
+                                <td><a href="/faction/{character.faction_id}">{character.faction_name}</a></td>
                             </tr>
+                            {/if}
                             <tr>
                                 <td class="font-bold text-right p-1">Sec. Status:</td>
                                 <td>{character.security_status.toFixed(3)}</td>
@@ -121,12 +123,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="hidden">
+                <div>
                     <table class="table-auto">
                         <tbody>
                             <tr>
-                                <td class="font-bold">Hidden:</td>
-                                <td>More Info?</td>
+                                <td class="font-bold text-right p-1">Kills:</td>
+                                <td>{formatNumber(character.kills, 0)}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-right p-1">Losses:</td>
+                                <td>{formatNumber(character.losses, 0)}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-right p-1">Points:</td>
+                                <td>{formatNumber(character.points, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -135,16 +145,16 @@
         </div>
 
         <!-- Navbar -->
-        <div class="mt-4">
+        <div>
             <nav class="bg-semi-transparent text-white py-2 px-4 rounded">
                 <ul class="flex space-x-4">
                     <li>
                         <a
-                            href="#info"
-                            class="hover:underline {currentHash === '#info' ? 'active' : ''}"
-                            on:click|preventDefault={() => loadComponent(Information, '#info')}
+                            href="#dashboard"
+                            class="hover:underline {currentHash === '#dashboard' ? 'active' : ''}"
+                            on:click|preventDefault={() => loadComponent(Dashboard, '#dashboard')}
                         >
-                            Info
+                            Dashboard
                         </a>
                     </li>
                     <li>
@@ -192,7 +202,7 @@
         <!-- Main content -->
         <div class="container mt-4 p-4 rounded">
             {#if activeComponent}
-                <svelte:component this={activeComponent} {character} />
+                <svelte:component this={activeComponent} data={{ character }} />
             {/if}
         </div>
     </div>

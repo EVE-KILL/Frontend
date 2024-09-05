@@ -5,7 +5,8 @@
 	import Systems from '../../../components/TopBoxes/Systems.svelte';
 	import Regions from '../../../components/TopBoxes/Regions.svelte';
 
-	export let character: Character;
+	export let data: any;
+	let character: Character = data.character;
 	const upstreamUrl = getUpstreamUrl();
 	const top10ShipsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top/ships`;
 	const top10SystemsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top/systems`;

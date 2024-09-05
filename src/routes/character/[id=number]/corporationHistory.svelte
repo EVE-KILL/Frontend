@@ -3,7 +3,8 @@
 	import type { Character } from '../../../types/Character.ts';
 	import { onMount } from 'svelte';
 
-	export let character: Character;
+	export let data: any;
+	let character: Character = data.character;
 	let corporationHistory = [];
 	const upstreamUrl = getUpstreamUrl();
 	let corporationHistoryUrl = `${upstreamUrl}/api/characters/${character.character_id}/corporationhistory`;
