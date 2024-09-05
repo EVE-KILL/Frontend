@@ -61,7 +61,7 @@
 
 	onMount(async () => {
 		await fetchComments();
-		//initializeComponents(mappedComponents, container);
+		initializeComponents(mappedComponents, container);
 	});
 
 	async function fetchComments() {
