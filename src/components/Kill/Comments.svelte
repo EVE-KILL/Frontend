@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
-	import { Carta, Markdown, MarkdownEditor } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
 	import { component } from '@cartamd/plugin-component';
 	import { initializeComponents, svelteCustom } from '@cartamd/plugin-component/svelte';
@@ -49,26 +49,37 @@
 		)
 	];
 
-	let fakeInit = function() { return null; };
+	let fakeInitialize = function() { return null; }
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
 		extensions: [
 			emoji(),
-			component(mappedComponents, fakeInit)
+			component(mappedComponents, fakeInitialize)
 		]
 	});
 
 	onMount(async () => {
 		await fetchComments();
-		initializeComponents(mappedComponents, container);
+		//initializeComponents(mappedComponents, container);
 	});
 
 	async function fetchComments() {
 		try {
 			let request = await fetch(`${upstreamUrl}/api/comments/${identifier}`);
 			if (request.ok) {
-				comments = await request.json();
+				let fetchedComments = await request.json();
+
+				// Render each comment's markdown
+				const renderedComments = await Promise.all(
+					fetchedComments.map(async (comment) => {
+						comment.rendered = await carta.render(comment.comment);
+						return comment;
+					})
+				);
+
+				// Now update the comments array
+				comments = renderedComments;
 			} else {
 				console.error('Failed to fetch comments:', request.statusText);
 			}
@@ -103,12 +114,11 @@
 			if (request.ok) {
 				const result = await request.json();
 
-				// Check if there is an error returned by the API
 				if (result.error) {
 					errorMessage = result.error; // Display error message
 				} else {
-					const newComment = result;
-					comments = [newComment, ...comments.slice()]; // Add the new comment to the top of the array (make a copy of the array to trigger reactivity)
+					result.rendered = await carta.render(result.comment); // Render the new comment
+					comments = [result, ...comments]; // Add the new comment to the top of the array
 
 					lastPostedComment = comment.trim(); // Update last posted comment
 					comment = ''; // Clear the input box
@@ -162,7 +172,8 @@
 						<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
 						<p class="text-sm text-gray-500">{comment.created_at}</p>
 					</div>
-					<Markdown value={comment.comment} {carta} />
+					<!-- Rendered Markdown -->
+					<div class="markdown-content">{@html comment.rendered}</div>
 				</div>
 			</div>
 		</div>
@@ -182,7 +193,7 @@
 						<strong>{user.character_name}</strong><br/>
 					</div>
 
-					<MarkdownEditor bind:value={comment} mode=undefined theme="github" placeholder="Leave a comment.." {carta} />
+					<MarkdownEditor bind:value={comment} theme="github" placeholder="Leave a comment.." {carta} />
 					<p class="text-right text-xs text-gray-400">
 						{charactersRemaining} characters remaining
 					</p>
@@ -208,6 +219,10 @@
 <style>
 	.comment {
 		margin-bottom: 5px;
+	}
+
+	.markdown-content {
+		margin-top: 10px;
 	}
 
 	.post-button {
