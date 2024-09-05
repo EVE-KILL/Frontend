@@ -6,6 +6,7 @@
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
     import involvedImage from '../images/involved.png';
+    import commentImage from '../images/comment.gif';
 	import { match } from '../params/number';
 
     export let url: string;
@@ -211,7 +212,12 @@
                         <div class="flex justify-between items-center">
                             <div class="flex items-center">
                                 <span class="text-gray-400">{kill.attackers.length}</span>
+                                &nbsp;
                                 <img src={involvedImage} alt="{kill.attackers.length} Involved" />
+                                &nbsp;
+                                <span class="text-gray-400">{kill.comment_count || 0}</span>
+                                &nbsp;
+                                <img src={commentImage} alt="{kill.attackers.length} Involved" />
                             </div>
                             <div class="text-right text-gray-500">{kill.kill_time}</div>
                         </div>
