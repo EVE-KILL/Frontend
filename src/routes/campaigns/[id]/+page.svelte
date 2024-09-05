@@ -42,8 +42,6 @@
         loadComponentFromHash($page.url.hash);
         await tick(); // Ensure DOM updates
     });
-
-    console.log(campaign);
 </script>
 
 <!-- Description Section -->
