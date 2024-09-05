@@ -46,7 +46,7 @@
         </div>
 
         <!-- Right Container -->
-        <div class="w-2/4 text-white p-4 rounded-lg shadow-lg">
+        <div class="w-2/4 text-white p-4 rounded-lg shadow-lg" style="max-width: 500px;">
             <!-- Tabs -->
             <div class="tab-container">
                 {#each tabs as tab, index}
