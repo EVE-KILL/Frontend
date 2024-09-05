@@ -77,7 +77,7 @@
 		}
 	}
 
-	async function postComment(comment: string) {
+	async function postComment() {
 		if (comment.trim() === '' || comment.length > commentLimit) return;
 
 		// Check if the comment is the same as the last one posted
@@ -108,7 +108,7 @@
 					errorMessage = result.error; // Display error message
 				} else {
 					const newComment = result;
-					comments = [newComment, ...comments.slice()]; // Add the new comment to the top of the array
+					comments = [newComment, ...comments]; // Add the new comment to the top of the array
 
 					lastPostedComment = comment.trim(); // Update last posted comment
 					comment = ''; // Clear the input box
@@ -197,7 +197,7 @@
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
-				<button class="post-button {charactersRemaining >= 0 && comment.trim() !== '' ? 'enabled' : 'disabled'}" on:click={() => postComment(comment)} disabled={charactersRemaining < 0 || comment.trim() === ''}>
+				<button class="post-button {charactersRemaining >= 0 && comment.trim() !== '' ? 'enabled' : 'disabled'}" on:click={postComment} disabled={charactersRemaining < 0 || comment.trim() === ''}>
 					Post Comment
 				</button>
 			</div>
