@@ -7,7 +7,6 @@
     import { formatNumber } from '$lib/Helpers.ts';
     import involvedImage from '../images/involved.png';
     import commentImage from '../images/comment.gif';
-	import { match } from '../params/number';
 
     export let url: string;
     export let title: string = '';

@@ -1,4 +1,3 @@
-<!-- src/lib/components/UserMenu.svelte -->
 <script lang="ts">
 	import { session, logout } from '$lib/stores/Session.ts';
 	import { getEVEAuthLoginUrl } from '$lib/Auth.ts';
@@ -10,11 +9,19 @@
 	let closeAccountDropdownTimeout = 0;
 	let user = null;
 	let eveSSOLoginUrl = '';
-
 	const upstreamUrl = getUpstreamUrl();
+
+	const REAUTH_INTERVAL = 30 * 60 * 1000; // 30 minutes in milliseconds
+	let reauthIntervalId = null; // Store the interval ID
 
 	$: session.subscribe((value) => {
 		user = value.user;
+
+		// If the user logs out, clear the reauth interval
+		if (!user && reauthIntervalId) {
+			clearInterval(reauthIntervalId);
+			reauthIntervalId = null;
+		}
 	});
 
 	async function handleReauth() {
@@ -30,6 +37,7 @@
 						identifier: data.identifier
 					};
 					session.set({ user });
+					localStorage.setItem('lastReauthTime', Date.now().toString());
 				} else if (response.status === 401) {
 					console.warn('Reauthentication failed, logging out.');
 					logout();
@@ -40,6 +48,23 @@
 				console.error('Error reauthenticating:', error);
 				logout();
 			}
+		}
+	}
+
+	function checkAndReauth() {
+		const lastReauthTime = parseInt(localStorage.getItem('lastReauthTime') || '0');
+		const currentTime = Date.now();
+
+		if (currentTime - lastReauthTime > REAUTH_INTERVAL) {
+			handleReauth();
+		}
+	}
+
+	function startReauthTimer() {
+		if (user) {
+			reauthIntervalId = setInterval(() => {
+				handleReauth();
+			}, REAUTH_INTERVAL);
 		}
 	}
 
@@ -56,6 +81,10 @@
 
 	onMount(async () => {
 		eveSSOLoginUrl = await getEVEAuthLoginUrl();
+		if (user) {
+			checkAndReauth();
+			startReauthTimer();
+		}
 	});
 </script>
 
