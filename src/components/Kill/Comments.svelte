@@ -23,12 +23,15 @@
 	const commentLimit = 500;
 	let charactersRemaining = commentLimit;
 
+	let lastPostedComment: string = ''; // To track the last posted comment
+	let errorMessage: string = ''; // To store error messages from the API
+
 	let mappedComponents = [
 		svelteCustom(
 			'youtube',
 			(node) => {
 				if (node.tagName === 'a' && (node.properties.href.includes('youtube.com') || node.properties.href.includes('youtu.be'))) {
-					return true
+					return true;
 				}
 				return false;
 			},
@@ -58,7 +61,7 @@
 
 	onMount(async () => {
 		await fetchComments();
-		initializeComponents(mappedComponents, container)
+		initializeComponents(mappedComponents, container);
 	});
 
 	async function fetchComments() {
@@ -77,6 +80,12 @@
 	async function postComment(comment: string) {
 		if (comment.trim() === '' || comment.length > commentLimit) return;
 
+		// Check if the comment is the same as the last one posted
+		if (comment.trim() === lastPostedComment.trim()) {
+			errorMessage = 'You cannot post the same comment consecutively.';
+			return;
+		}
+
 		let commentObject = {
 			identifier: user.identifier,
 			comment: comment
@@ -92,14 +101,25 @@
 			});
 
 			if (request.ok) {
-				const newComment = await request.json(); // Get the returned comment object
-				comments = [newComment, ...comments]; // Add the new comment to the top of the array
-				comment = ''; // Clear the input box
-				charactersRemaining = commentLimit; // Reset character counter
+				const result = await request.json();
+
+				// Check if there is an error returned by the API
+				if (result.error) {
+					errorMessage = result.error; // Display error message
+				} else {
+					const newComment = result;
+					comments = [newComment, ...comments.slice()]; // Add the new comment to the top of the array
+
+					lastPostedComment = comment.trim(); // Update last posted comment
+					comment = ''; // Clear the input box
+					charactersRemaining = commentLimit; // Reset character counter
+					errorMessage = ''; // Clear any previous error messages
+				}
 			} else {
 				console.error('Failed to post comment:', request.statusText);
 			}
 		} catch (error) {
+			errorMessage = 'An error occurred while posting the comment.';
 			console.error('Error posting comment:', error);
 		}
 	}
@@ -169,6 +189,11 @@
 					{#if charactersRemaining < 0}
 						<p class="text-right text-xs text-red-500">Comment exceeds the maximum length!</p>
 					{/if}
+
+					<!-- Error message display -->
+					{#if errorMessage}
+						<p class="text-red-500 text-sm mt-2">{errorMessage}</p>
+					{/if}
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
@@ -205,5 +230,9 @@
 
 	.post-button:hover.enabled {
 		background-color: #0056b3; /* Darker blue when hovered and enabled */
+	}
+
+	.text-red-500 {
+		color: #f56565;
 	}
 </style>
