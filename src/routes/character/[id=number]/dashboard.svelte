@@ -1,15 +1,15 @@
 <script lang="ts">
     import type { Character } from '../../../types/Character.js';
     import { onMount } from 'svelte';
-	import { getUpstreamUrl } from '$lib/Config.js';
     import { convertEveHtml, formatNumber } from '$lib/Helpers.js';
+	import { getUpstreamUrl } from '$lib/Config.js';
 
     export let data;
     let character: Character = data.character;
     let stats: any = null; // Initially null until fetched
     let sanitizedDescription: string;
     let statsLoading = true; // Loading indicator for stats
-	let upstreamUrl = getUpstreamUrl();
+    const upstreamUrl = getUpstreamUrl(); // Replace with your actual upstream URL
 
     // Fetch stats on mount
     onMount(async () => {
@@ -39,6 +39,11 @@
     function formatDate(dateStr: string): string {
         const date = new Date(dateStr);
         return date.toLocaleString();
+    }
+
+    // Helper function to sort by count in descending order
+    function sortByCountDesc(items) {
+        return Object.values(items).sort((a, b) => b.count - a.count);
     }
 </script>
 
@@ -124,7 +129,7 @@
                 </tbody>
             </table>
 
-            <!-- Most Used Ships Section -->
+            <!-- Most Used Ships Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Most Used Ships</h2>
             <table class="table-auto min-w-full mb-4">
                 <thead>
@@ -134,7 +139,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.mostUsedShips) as ship}
+                    {#each sortByCountDesc(stats.mostUsedShips) as ship}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{ship.name}</td>
                             <td class="px-2 py-1">{formatNumber(ship.count)}</td>
@@ -143,7 +148,7 @@
                 </tbody>
             </table>
 
-            <!-- Most Lost Ships Section -->
+            <!-- Most Lost Ships Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Most Lost Ships</h2>
             <table class="table-auto min-w-full mb-4">
                 <thead>
@@ -153,7 +158,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.mostLostShips) as ship}
+                    {#each sortByCountDesc(stats.mostLostShips) as ship}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{ship.name}</td>
                             <td class="px-2 py-1">{formatNumber(ship.count)}</td>
@@ -162,7 +167,7 @@
                 </tbody>
             </table>
 
-            <!-- Dies To Corporations Section -->
+            <!-- Dies To Corporations Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Dies To Corporations</h2>
             <table class="table-auto min-w-full mb-4">
                 <thead>
@@ -172,7 +177,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.diesToCorporations) as corp}
+                    {#each sortByCountDesc(stats.diesToCorporations) as corp}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{corp.name}</td>
                             <td class="px-2 py-1">{formatNumber(corp.count)}</td>
@@ -181,7 +186,7 @@
                 </tbody>
             </table>
 
-            <!-- Dies To Alliances Section -->
+            <!-- Dies To Alliances Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Dies To Alliances</h2>
             <table class="table-auto min-w-full mb-4">
                 <thead>
@@ -191,7 +196,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.diesToAlliances) as alliance}
+                    {#each sortByCountDesc(stats.diesToAlliances) as alliance}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{alliance.name}</td>
                             <td class="px-2 py-1">{formatNumber(alliance.count)}</td>
@@ -200,7 +205,7 @@
                 </tbody>
             </table>
 
-            <!-- Flies With Corporations Section -->
+            <!-- Flies With Corporations Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Flies With Corporations</h2>
             <table class="table-auto min-w-full mb-4">
                 <thead>
@@ -210,7 +215,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.fliesWithCorporations) as corp}
+                    {#each sortByCountDesc(stats.fliesWithCorporations) as corp}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{corp.name}</td>
                             <td class="px-2 py-1">{formatNumber(corp.count)}</td>
@@ -219,7 +224,7 @@
                 </tbody>
             </table>
 
-            <!-- Flies With Alliances Section -->
+            <!-- Flies With Alliances Section (Sorted by Count) -->
             <h2 class="text-xl font-bold mb-4">Flies With Alliances</h2>
             <table class="table-auto min-w-full">
                 <thead>
@@ -229,7 +234,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-300 text-sm">
-                    {#each Object.values(stats.fliesWithAlliances) as alliance}
+                    {#each sortByCountDesc(stats.fliesWithAlliances) as alliance}
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <td class="px-2 py-1">{alliance.name}</td>
                             <td class="px-2 py-1">{formatNumber(alliance.count)}</td>
