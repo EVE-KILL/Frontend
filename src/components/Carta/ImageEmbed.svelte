@@ -1,8 +1,9 @@
 <script lang="ts">
     export let href;
+    console.log(href);
 </script>
 
 <a href="{href}" target="_blank">
-    <img src="{href}" alt="Image" class="w-full" />
+    <img src="{href}" alt="Image" class="w-full" aria-hidden="true" />
 </a>
 

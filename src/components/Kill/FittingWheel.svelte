@@ -21,6 +21,7 @@
 
 </script>
 
+{#if fit}
 <div class="fitting-wheel">
 	<react:CurrentFitProvider initialFit={fit}>
 		<react:EveDataProvider dataUrl="/sde/">
@@ -39,7 +40,7 @@
 		</react:EveDataProvider>
 	</react:CurrentFitProvider>
 </div>
-
+{/if}
 <style>
 	.fitting-wheel {
 		position: relative;

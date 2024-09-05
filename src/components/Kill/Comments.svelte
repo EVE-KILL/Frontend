@@ -47,12 +47,13 @@
 			ImageEmbed
 		)
 	];
+
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
 		extensions: [
 			emoji(),
-			component(mappedComponents, initializeComponents)
+			component(mappedComponents)
 		]
 	});
 
