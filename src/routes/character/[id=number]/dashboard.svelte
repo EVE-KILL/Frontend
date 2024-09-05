@@ -10,23 +10,35 @@
     let sanitizedDescription: string;
     let statsLoading = true; // Loading indicator for stats
     const upstreamUrl = getUpstreamUrl(); // Get the upstream URL
-	let url = '';
+    let url = '';
 
     // Active period (14d, 30d, 90d, all)
     let activePeriod = '90'; // Default period is 90d
     let activePeriodLabel = '90d'; // Label for the active period
+    let activeTimezone = ''; // To store the active timezone based on heatmap
+
+    // Timezone ranges
+    const timezones = {
+        "Early EUTZ": [6, 10],
+        "EUTZ": [11, 14],
+        "Late EUTZ": [15, 17],
+        "Early USTZ": [18, 21],
+        "USTZ": [22, 2],
+        "Late USTZ": [3, 5]
+    };
 
     // Fetch stats on mount or period change
     async function fetchStats(period = '90') {
         statsLoading = true;
         try {
-			if (period === 'all') {
-				url = `${upstreamUrl}/api/characters/${character.character_id}/stats`
-			} else {
-				url = `${upstreamUrl}/api/characters/${character.character_id}/stats/${period}`;
-			}
+            if (period === 'all') {
+                url = `${upstreamUrl}/api/characters/${character.character_id}/stats`;
+            } else {
+                url = `${upstreamUrl}/api/characters/${character.character_id}/stats/${period}`;
+            }
             const response = await fetch(url);
             stats = await response.json();
+            activeTimezone = determineActiveTimezone(stats.heatMap); // Determine the active timezone
         } catch (error) {
             console.error("Failed to fetch stats:", error);
         } finally {
@@ -66,6 +78,26 @@
     function changePeriod(period) {
         activePeriod = period;
         fetchStats(period);
+    }
+
+    // Function to determine the most active timezone based on the heatmap
+    function determineActiveTimezone(heatMap) {
+        const hours = Object.entries(heatMap).map(([hour, count]) => ({ hour: parseInt(hour.replace('h', '')), count }));
+        const sortedHours = hours.sort((a, b) => b.count - a.count); // Sort hours by activity
+
+        const activeHour = sortedHours[0].hour; // Get the most active hour
+
+        // Find the timezone that matches the active hour
+        for (const [timezone, [start, end]] of Object.entries(timezones)) {
+            if (activeHour >= start && activeHour <= end) {
+                return timezone;
+            }
+            // Handle the case where the timezone spans over midnight (e.g., USTZ)
+            if (start > end && (activeHour >= start || activeHour <= end)) {
+                return timezone;
+            }
+        }
+        return 'Unknown'; // Fallback if no timezone is found
     }
 </script>
 
@@ -157,6 +189,10 @@
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Last Active</td>
                         <td class="px-2 py-1">{formatDate(stats.lastActive)}</td>
+                    </tr>
+                    <tr class="border-b border-gray-700 hover:bg-gray-600">
+                        <td class="px-2 py-1">Active Timezone</td>
+                        <td class="px-2 py-1">{activeTimezone}</td>
                     </tr>
                 </tbody>
             </table>
