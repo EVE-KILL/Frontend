@@ -17,15 +17,13 @@
     let activePeriodLabel = '90d'; // Label for the active period
     let activeTimezone = ''; // To store the active timezone based on heatmap
 
-    // Timezone ranges
-    const timezones = {
-        "Early EUTZ": [6, 10],
-        "EUTZ": [11, 14],
-        "Late EUTZ": [15, 17],
-        "Early USTZ": [18, 21],
-        "USTZ": [22, 2],
-        "Late USTZ": [3, 5]
-    };
+	// Timezone ranges (evening playtimes)
+	const timezones = {
+		"Australia": [6, 10], // Evening in Australia (18:00 - 22:00 AEST)
+		"Asia": [11, 15], // Evening in Asia (18:00 - 22:00 CST/JST)
+		"Europe": [16, 22], // Evening in Europe (18:00 - 22:00 CET/UTC+1)
+		"United States": [23, 5] // Evening in the US (18:00 - 22:00 EST/PST)
+	};
 
     // Fetch stats on mount or period change
     async function fetchStats(period = '90') {
