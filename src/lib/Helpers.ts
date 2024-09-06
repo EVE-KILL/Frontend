@@ -10,6 +10,14 @@ export function truncateString(str: string, num: number): string {
     return str.length <= num ? str : str.slice(0, num) + '...';
 }
 
+export function convertIskToMillions(isk: number, decimals: number = 2): string {
+    return formatNumber(isk / 1000000, decimals) + 'M ISK';
+}
+
+export function convertIskToBillions(isk: number, decimals: number = 2): string {
+    return formatNumber(isk / 1000000000, decimals) + 'B ISK';
+}
+
 /**
  * Converts EVE HTML blobs to properly formatted HTML.
  * - Converts color codes to proper HTML colors.

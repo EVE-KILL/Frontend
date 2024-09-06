@@ -60,6 +60,9 @@
 	<li>
 		<ul><a href="/campaigns" class="text-white hover:text-gray-400">Campaigns</a></ul>
 	</li>
+	<li>
+		<ul><a href="/littlehelper" class="text-white hover:text-gray-400">Lil' Helper</a></ul>
+	</li>
 	<!--
 	<li>
 		<ul><a href="/wars" class="text-white hover:text-gray-400">Wars</a></ul>
