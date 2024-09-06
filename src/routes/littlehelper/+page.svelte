@@ -130,9 +130,9 @@
     return 'Unknown'; // Fallback if no timezone is found
   }
 </script>
-
-<!-- Tailwind layout -->
+}
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
+	<p class="text-right text-xs text-gray-400">* Copy the channel list into your pastebuffer, then press button below</p>
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
 		<div class="flex justify-center space-x-4">
 			<button
