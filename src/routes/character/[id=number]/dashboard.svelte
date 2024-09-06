@@ -19,10 +19,37 @@
 
 	// Timezone ranges (evening playtimes)
 	const timezones = {
-		"Australia": [6, 10], // Evening in Australia (18:00 - 22:00 AEST)
-		"Asia": [11, 15], // Evening in Asia (18:00 - 22:00 CST/JST)
-		"Europe": [16, 22], // Evening in Europe (18:00 - 22:00 CET/UTC+1)
-		"United States": [23, 5] // Evening in the US (18:00 - 22:00 EST/PST)
+
+		// EUTZ - London (0700 - 2200 CET)
+		"EUTZ Morning": [7, 12],
+		"EUTZ Afternoon": [12, 17],
+		"EUTZ Evening": [17, 22],
+
+		// WEST USTZ - Los Angeles (0600 - 2100 PST)
+		"USWTZ Morning": [14, 19],
+		"USWTZ Afternoon": [19, 0],
+		"USWTZ Evening": [0, 5],
+
+		// EAST USTZ - New York (0600 - 2100 EST)
+		"USETZ Morning": [11, 16],
+		"USETZ Afternoon": [16, 21],
+		"USETZ vening": [21, 2],
+
+		// AUTZ - Sydney (0600 - 2100 AEST)
+		"AUTZ Morning": [21, 2],
+		"AUTZ Afternoon": [2, 7],
+		"AUTZ Evening": [7, 12],
+
+		// CHTZ - Beijing (0600 - 2100 CST)
+		"CHTZ Morning": [23, 4],
+		"CHTZ Afternoon": [4, 9],
+		"CHTZ Evening": [9, 14],
+
+		// RUTZ - Moscow (0600 - 2100 MSK)
+		"RUTZ Morning": [4, 9],
+		"RUTZ Afternoon": [9, 14],
+		"RUTZ Evening": [14, 19],
+
 	};
 
     // Fetch stats on mount or period change
@@ -191,6 +218,14 @@
                     <tr class="border-b border-gray-700 hover:bg-gray-600">
                         <td class="px-2 py-1">Active Timezone</td>
                         <td class="px-2 py-1">{activeTimezone}</td>
+                    </tr>
+					<tr class="border-b border-gray-700 hover:bg-gray-600">
+                        <td class="px-2 py-1">Possible FC</td>
+                        <td class="px-2 py-1">{stats.possibleFC === true ? 'Yes' : 'No'}</td>
+                    </tr>
+					<tr class="border-b border-gray-700 hover:bg-gray-600">
+                        <td class="px-2 py-1">Possible Cyno Alt</td>
+                        <td class="px-2 py-1">{stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
                     </tr>
                 </tbody>
             </table>
