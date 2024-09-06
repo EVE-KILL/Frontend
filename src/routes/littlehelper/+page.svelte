@@ -252,11 +252,11 @@
 					<div class="pl-4">
 						<table class="table-auto w-full text-left">
 							<tr>
-								<td class="font-bold text-right pr-4">Possible Cyno Alt:</td>
+								<td class="font-bold text-right pr-4">Cyno Alt:</td>
 								<td class="text-left">{character.stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
 							</tr>
 							<tr>
-								<td class="font-bold text-right pr-4">Possible FC:</td>
+								<td class="font-bold text-right pr-4">FC:</td>
 								<td class="text-left">{character.stats.possibleFC === true ? 'Yes' : 'No'}</td>
 							</tr>
 							<tr>
