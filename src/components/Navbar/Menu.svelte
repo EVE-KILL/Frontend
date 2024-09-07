@@ -86,8 +86,9 @@
 			</button>
 			{#if isHelperDropdownOpen}
 				<ul class="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10" on:mouseenter={openHelperDropdown} on:mouseleave={closeHelperDropdown}>
-					<li><a href="/littlehelper/local" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">Local</a></li>
+					<li><a href="/littlehelper/pilotlookup" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">Pilot Lookup</a></li>
 					<li><a href="/littlehelper/dscan" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">DScan</a></li>
+					<li><a href="/littlehelper/localscan" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">Local Scan</a></li>
 				</ul>
 			{/if}
 		</div>
