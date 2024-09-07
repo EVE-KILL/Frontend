@@ -66,6 +66,7 @@
 		"highlight.js": "^11.10.0",
 		"isomorphic-dompurify": "^2.15.0",
 		"lru-cache": "^11.0.0",
+		"pako": "^2.1.0",
 		"set-cookie-parser": "^2.7.0",
 		"svelte-highlight": "^7.7.0",
 		"svelte-preprocess-react": "^0.17.1"
