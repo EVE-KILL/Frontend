@@ -220,11 +220,11 @@
                         <td class="px-2 py-1">{activeTimezone}</td>
                     </tr>
 					<tr class="border-b border-gray-700 hover:bg-gray-600">
-                        <td class="px-2 py-1">Possible FC</td>
+                        <td class="px-2 py-1">Known FC</td>
                         <td class="px-2 py-1">{stats.possibleFC === true ? 'Yes' : 'No'}</td>
                     </tr>
 					<tr class="border-b border-gray-700 hover:bg-gray-600">
-                        <td class="px-2 py-1">Possible Cyno Alt</td>
+                        <td class="px-2 py-1">Known Cyno Alt</td>
                         <td class="px-2 py-1">{stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
                     </tr>
                 </tbody>
