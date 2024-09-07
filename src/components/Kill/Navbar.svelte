@@ -54,6 +54,12 @@
                         {/if}
                         <li class="px-4 py-2 text-sm text-gray-300">EveShip.fit</li>
                         <li><a href="https://eveship.fit/?fit=killmail:{killmail.killmail_id}/{killmail.hash}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">ESF</a></li>
+                        <li class="px-4 py-2 text-sm text-gray-300">EVE Ref</li>
+                        <li><a href="https://everef.net/groups/{killmail.victim.ship_group_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.victim.ship_group_name}</a></li>
+                        <li><a href="https://everef.net/type/{killmail.victim.ship_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.victim.ship_name}</a></li>
+                        <li class="px-4 py-2 text-sm text-gray-300">Jita.space</li>
+                        <li><a href="https://www.jita.space/system/{killmail.system_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.system_name}</a></li>
+                        <li><a href="https://www.jita.space/region/{killmail.region_id}" target="_blank" class="block px-4 py-2 hover:bg-gray-700">{killmail.region_name}</a></li>
                     </ul>
                 {/if}
             </li>
