@@ -1,16 +1,32 @@
-<!-- src/lib/components/Menu.svelte -->
 <script lang="ts">
 	let isKillsDropdownOpen = false;
+	let isHelperDropdownOpen = false;
 	let closeKillsDropdownTimeout = 0;
+	let closeHelperDropdownTimeout = 0;
 
+	// Function to open the Kills dropdown
 	function openKillsDropdown() {
 		clearTimeout(closeKillsDropdownTimeout);
 		isKillsDropdownOpen = true;
 	}
 
+	// Function to close the Kills dropdown
 	function closeKillsDropdown() {
 		closeKillsDropdownTimeout = setTimeout(() => {
 			isKillsDropdownOpen = false;
+		}, 200);
+	}
+
+	// Function to open the Lil' Helper dropdown
+	function openHelperDropdown() {
+		clearTimeout(closeHelperDropdownTimeout);
+		isHelperDropdownOpen = true;
+	}
+
+	// Function to close the Lil' Helper dropdown
+	function closeHelperDropdown() {
+		closeHelperDropdownTimeout = setTimeout(() => {
+			isHelperDropdownOpen = false;
 		}, 200);
 	}
 </script>
@@ -54,21 +70,30 @@
 			{/if}
 		</div>
 	</li>
+
 	<li>
 		<ul><a href="/lists" class="text-white hover:text-gray-400">Lists</a></ul>
 	</li>
+
 	<li>
 		<ul><a href="/campaigns" class="text-white hover:text-gray-400">Campaigns</a></ul>
 	</li>
+
 	<li>
-		<ul><a href="/littlehelper" class="text-white hover:text-gray-400">Lil' Helper</a></ul>
+		<div class="relative">
+			<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openHelperDropdown} on:mouseleave={closeHelperDropdown}>
+				Lil' Helpers
+			</button>
+			{#if isHelperDropdownOpen}
+				<ul class="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10" on:mouseenter={openHelperDropdown} on:mouseleave={closeHelperDropdown}>
+					<li><a href="/littlehelper/local" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">Local</a></li>
+					<li><a href="/littlehelper/dscan" class="block px-4 py-2 text-sm text-white hover:bg-gray-700 hover:text-yellow-500">DScan</a></li>
+				</ul>
+			{/if}
+		</div>
 	</li>
-	<!--
-	<li>
-		<ul><a href="/wars" class="text-white hover:text-gray-400">Wars</a></ul>
-	</li>
-	<li>
-		<ul><a href="/battles" class="text-white hover:text-gray-400">Battles</a></ul>
-	</li>
-	-->
 </ul>
+
+<style>
+	/* Additional styles can go here if necessary */
+</style>
