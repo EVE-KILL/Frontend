@@ -1,11 +1,34 @@
 <script lang="ts">
   import { formatNumber, convertIskToMillions, convertIskToBillions } from '$lib/Helpers';
 
-  // State variables
   let pasteText: string = ''; // Store the clipboard text
   let namesArray: string[] = []; // Store the array of names
   let characterData: any[] = []; // Store the character data as they load
   let selectedDays = "90"; // Default selection for days of stats (90d)
+  let shipCounts: Record<string, number> = {}; // Store ship counts from DScan
+  let isDScan = false; // Track if the input is a DScan
+
+  // Timezone ranges (evening playtimes)
+  const timezones = {
+    'EUTZ Morning': [7, 12],
+    'EUTZ Afternoon': [12, 17],
+    'EUTZ Evening': [17, 22],
+    'USWTZ Morning': [14, 19],
+    'USWTZ Afternoon': [19, 0],
+    'USWTZ Evening': [0, 5],
+    'USETZ Morning': [11, 16],
+    'USETZ Afternoon': [16, 21],
+    'USETZ Evening': [21, 2],
+    'AUTZ Morning': [21, 2],
+    'AUTZ Afternoon': [2, 7],
+    'AUTZ Evening': [7, 12],
+    'CHTZ Morning': [23, 4],
+    'CHTZ Afternoon': [4, 9],
+    'CHTZ Evening': [9, 14],
+    'RUTZ Morning': [4, 9],
+    'RUTZ Afternoon': [9, 14],
+    'RUTZ Evening': [14, 19]
+  };
 
   // Reusable function to get the element with the highest count from an object
   const getTopElementByCount = (items: Record<string, { count: number; name: string }> | undefined) => {
@@ -15,6 +38,7 @@
     return sortedArray.length > 0 ? sortedArray[0].name : 'Unknown'; // Select the top element
   };
 
+  // Helper function to fetch data from the API
   const fetchCharacterData = async (name: string) => {
     try {
       // First API call to search for the character
@@ -59,56 +83,65 @@
     }
   };
 
-
-  // Function to handle clipboard data asynchronously for each character
+  // Function to handle clipboard data and detect the format (local scan or DScan)
   const handleClipboardData = async () => {
     try {
-      // Clear previous state before fetching new data
+      // Clear previous state
       characterData = [];
+      shipCounts = {};
+      isDScan = false; // Reset DScan flag
       const text = await navigator.clipboard.readText(); // Read clipboard text
       pasteText = text;
-      namesArray = pasteText.split('\n').filter((name) => name.trim() !== ''); // Split by newline
 
-      // Fetch each character data individually and update as they are loaded
-      for (const name of namesArray) {
-        const character = await fetchCharacterData(name);
-        if (character) {
-          characterData = [...characterData, character]; // Add character as soon as it's loaded
-        }
+      if (isDScanFormat(pasteText)) {
+        isDScan = true; // Mark input as DScan
+        parseDScan(pasteText); // Parse DScan data
+      } else {
+        parseLocalScan(pasteText); // Parse as local scan
       }
     } catch (err) {
       console.error('Failed to read clipboard: ', err);
     }
   };
 
-  // Function to calculate kill efficiency and handle cases of NaN
-  function killEfficiency(kills: number, losses: number) {
-    if (kills + losses === 0) {
-      return '0%'; // Handle division by zero
-    }
-    return `${formatNumber((kills / (kills + losses)) * 100)}%`;
-  }
+  // Function to determine if the input is in DScan format
+  const isDScanFormat = (text: string) => {
+    const lines = text.split('\n');
+    return lines.some(line => line.split('\t').length >= 4) || lines.some(line => line.split('    ').length >= 4);
+  };
 
-  // Timezone ranges (evening playtimes)
-  const timezones = {
-    'EUTZ Morning': [7, 12],
-    'EUTZ Afternoon': [12, 17],
-    'EUTZ Evening': [17, 22],
-    'USWTZ Morning': [14, 19],
-    'USWTZ Afternoon': [19, 0],
-    'USWTZ Evening': [0, 5],
-    'USETZ Morning': [11, 16],
-    'USETZ Afternoon': [16, 21],
-    'USETZ Evening': [21, 2],
-    'AUTZ Morning': [21, 2],
-    'AUTZ Afternoon': [2, 7],
-    'AUTZ Evening': [7, 12],
-    'CHTZ Morning': [23, 4],
-    'CHTZ Afternoon': [4, 9],
-    'CHTZ Evening': [9, 14],
-    'RUTZ Morning': [4, 9],
-    'RUTZ Afternoon': [9, 14],
-    'RUTZ Evening': [14, 19]
+  // Function to parse DScan data, fetch character data, and count ship types
+  const parseDScan = async (text: string) => {
+    const lines = text.split('\n');
+    const shipsMap: Record<string, number> = {}; // Map to store ship counts
+
+    for (const line of lines) {
+      let [id, name, shipType] = line.includes('\t') ? line.split('\t') : line.split('    ');
+
+      if (name && shipType) {
+        const character = await fetchCharacterData(name.trim());
+        if (character) {
+          characterData = [...characterData, character]; // Add character data
+
+          // Count ship types
+          shipsMap[shipType] = (shipsMap[shipType] || 0) + 1;
+        }
+      }
+    }
+
+    shipCounts = shipsMap; // Store ship counts
+  };
+
+  // Function to parse local scan data and fetch character data
+  const parseLocalScan = async (text: string) => {
+    namesArray = text.split('\n').filter((name) => name.trim() !== ''); // Split by newline
+
+    for (const name of namesArray) {
+      const character = await fetchCharacterData(name.trim());
+      if (character) {
+        characterData = [...characterData, character]; // Add character data
+      }
+    }
   };
 
   // Function to determine the most active timezone based on the heatmap
@@ -132,10 +165,19 @@
     }
     return 'Unknown'; // Fallback if no timezone is found
   }
+
+  // Function to calculate kill efficiency and handle cases of NaN
+  function killEfficiency(kills: number, losses: number) {
+    if (kills + losses === 0) {
+      return '0%'; // Handle division by zero
+    }
+    return `${formatNumber((kills / (kills + losses)) * 100)}%`;
+  }
 </script>
-}
+
+<!-- Layout -->
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
-	<p class="text-right text-xs text-gray-400">* Copy the channel list into your pastebuffer, then press button below</p>
+	<p class="text-right text-xs text-gray-400">* Copy the channel list or DScan into your pastebuffer, then press the button below</p>
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
 		<div class="flex justify-center space-x-4">
 			<button
@@ -152,124 +194,54 @@
 				<option value="90">90 Days</option>
 				<option value="all">All-Time</option>
 			</select>
+
+      <!-- Ship counts display (right of the dropdown) -->
+      {#if isDScan}
+        <div class="ml-4 bg-gray-800 text-white rounded-lg p-4">
+          <h3 class="text-lg font-bold mb-2">Ship Counts</h3>
+          {#each Object.entries(shipCounts) as [ship, count]}
+            <div>{ship}: {count}</div>
+          {/each}
+        </div>
+      {/if}
 		</div>
 	</div>
 
+	<!-- Character data display -->
 	<div class="w-full space-y-4">
 		{#each characterData as character}
 			<div class="shadow-md rounded overflow-hidden bg-gray-900">
-				<!-- Flex container for image and details -->
 				<div class="flex items-start p-4">
-					<!-- Character image (128x128) fixed size -->
-					<img
-						class="w-40 h-40 rounded-full flex-shrink-0"
-						src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`}
-						alt="Character Image"
-					/>
+					<img class="w-40 h-40 rounded-full flex-shrink-0" src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`} alt="Character Image" />
 
-					<!-- Character name, corporation, alliance -->
 					<div class="pl-4">
 						<table class="table-auto w-full text-left">
-							<tr>
-								<td class="font-bold text-right pr-4">Name:</td>
-								<td class="text-left">
-                                    <a href="/character/{character.id}">{character.name}</a>
-                                </td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Corporation:</td>
-								<td class="text-left">
-                                    <a href="/corporation/{character.info.corporation_id}">
-                                        {character.info.corporation_name || 'Unknown'}
-                                    </a>
-                                </td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Alliance:</td>
-								<td class="text-left">
-                                    <a href="/alliance/{character.info.alliance_id}">
-                                        {character.info.alliance_name || 'Unknown'}
-                                    </a>
-                                </td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Efficiency:</td>
-								<td class="text-left">{killEfficiency(character.stats.kills || 0, character.stats.losses || 0)}</td>
-							</tr>
+							<tr><td class="font-bold text-right pr-4">Name:</td><td><a href="/character/{character.id}">{character.name}</a></td></tr>
+							<tr><td class="font-bold text-right pr-4">Corporation:</td><td><a href="/corporation/{character.info.corporation_id}">{character.info.corporation_name || 'Unknown'}</a></td></tr>
+							<tr><td class="font-bold text-right pr-4">Alliance:</td><td><a href="/alliance/{character.info.alliance_id}">{character.info.alliance_name || 'Unknown'}</a></td></tr>
+							<tr><td class="font-bold text-right pr-4">Efficiency:</td><td>{killEfficiency(character.stats.kills || 0, character.stats.losses || 0)}</td></tr>
 						</table>
 					</div>
 
-					<!-- Kills, Losses, Solo Kills -->
+					<!-- Stats section -->
 					<div class="pl-4">
 						<table class="table-auto w-full text-left">
-							<tr>
-								<td class="font-bold text-right pr-4">Kills:</td>
-								<td class="text-left">{character.stats.kills || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Losses:</td>
-								<td class="text-left">{character.stats.losses || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Solo Kills:</td>
-								<td class="text-left">{character.stats.soloKills || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Solo Losses:</td>
-								<td class="text-left">{character.stats.soloLosses || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">NPC Losses:</td>
-								<td class="text-left">{character.stats.npcLosses || 0}</td>
-							</tr>
+							<tr><td class="font-bold text-right pr-4">Kills:</td><td>{character.stats.kills || 0}</td></tr>
+							<tr><td class="font-bold text-right pr-4">Losses:</td><td>{character.stats.losses || 0}</td></tr>
+							<tr><td class="font-bold text-right pr-4">Solo Kills:</td><td>{character.stats.soloKills || 0}</td></tr>
+							<tr><td class="font-bold text-right pr-4">ISK Killed:</td><td>{convertIskToBillions(character.stats.iskKilled, 0) || 0}</td></tr>
+							<tr><td class="font-bold text-right pr-4">ISK Lost:</td><td>{convertIskToBillions(character.stats.iskLost, 0) || 0}</td></tr>
 						</table>
 					</div>
 
-					<!-- ISK Killed, ISK Lost, Most Used Ship -->
+					<!-- More details -->
 					<div class="pl-4">
 						<table class="table-auto w-full text-left">
-							<tr>
-								<td class="font-bold text-right pr-4">ISK Killed:</td>
-								<td class="text-left">{convertIskToBillions(character.stats.iskKilled, 0) || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">ISK Lost:</td>
-								<td class="text-left">{convertIskToBillions(character.stats.iskLost, 0) || 0}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Most Used Ship:</td>
-								<td class="text-left">{getTopElementByCount(character.stats.mostUsedShips)}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Most Flown W/Corp:</td>
-								<td class="text-left">{getTopElementByCount(character.stats.fliesWithCorporations)}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Most Flown W/Alli:</td>
-								<td class="text-left">{getTopElementByCount(character.stats.fliesWithAlliances)}</td>
-							</tr>
-						</table>
-					</div>
-
-					<!-- Other details -->
-					<div class="pl-4">
-						<table class="table-auto w-full text-left">
-							<tr>
-								<td class="font-bold text-right pr-4">Cyno Alt:</td>
-								<td class="text-left">{character.stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">FC:</td>
-								<td class="text-left">{character.stats.possibleFC === true ? 'Yes' : 'No'}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">Last Active:</td>
-								<td class="text-left">{character.stats.lastActive}</td>
-							</tr>
-							<tr>
-								<td class="font-bold text-right pr-4">TimeZone:</td>
-								<td class="text-left">{determineActiveTimezone(character.stats.heatMap)}</td>
-							</tr>
+							<tr><td class="font-bold text-right pr-4">Most Used Ship:</td><td>{getTopElementByCount(character.stats.mostUsedShips)}</td></tr>
+							<tr><td class="font-bold text-right pr-4">Most Flown W/Corp:</td><td>{getTopElementByCount(character.stats.fliesWithCorporations)}</td></tr>
+							<tr><td class="font-bold text-right pr-4">Most Flown W/Alli:</td><td>{getTopElementByCount(character.stats.fliesWithAlliances)}</td></tr>
+							<tr><td class="font-bold text-right pr-4">Last Active:</td><td>{character.stats.lastActive}</td></tr>
+							<tr><td class="font-bold text-right pr-4">TimeZone:</td><td>{determineActiveTimezone(character.stats.heatMap)}</td></tr>
 						</table>
 					</div>
 				</div>
