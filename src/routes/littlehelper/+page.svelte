@@ -15,16 +15,16 @@
     return sortedArray.length > 0 ? sortedArray[0].name : 'Unknown'; // Select the top element
   };
 
-  // Helper function to fetch data from the API
   const fetchCharacterData = async (name: string) => {
     try {
       // First API call to search for the character
       const searchResponse = await fetch(`https://eve-kill.com/api/search/${name}`);
       const searchData = await searchResponse.json();
 
-      // Check if we have hits and pick the first character
-      if (searchData.hits && searchData.hits.length > 0) {
-        const character = searchData.hits[0];
+      // Check if we have hits and pick the first character whose type is 'character'
+      const character = searchData.hits.find(hit => hit.type === 'character');
+
+      if (character) {
         const characterId = character.id;
 
         // Second API call to fetch character info
@@ -32,12 +32,14 @@
           `https://eve-kill.com/api/characters/${characterId}`
         );
         const characterInfo = await characterInfoResponse.json();
+
+        // Build the URL for the stats API call based on the selected days
         let url = `https://eve-kill.com/api/characters/${characterId}/stats`;
         if (selectedDays !== 'all') {
           url = `https://eve-kill.com/api/characters/${characterId}/stats/${selectedDays}`;
         }
 
-        // Third API call to fetch character stats, appending the selected day range
+        // Third API call to fetch character stats
         const characterStatsResponse = await fetch(url);
         const characterStats = await characterStatsResponse.json();
 
@@ -56,6 +58,7 @@
       return null;
     }
   };
+
 
   // Function to handle clipboard data asynchronously for each character
   const handleClipboardData = async () => {
