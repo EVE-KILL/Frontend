@@ -90,7 +90,7 @@
 
 <div class="relative">
 	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
-		<a href={user ? `/characters/${user.character_id}` : '#'}>
+		<a href={user ? `/character/${user.character_id}` : '#'}>
 			<img src={user ? `https://images.evetech.net/characters/${user.character_id}/portrait?size=32` : 'https://images.evetech.net/characters/1/portrait?size=32'} alt="User avatar" class="rounded"/>
 		</a>
 	</button>
