@@ -1,13 +1,15 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import pako from 'pako'; // Import pako for gzip compression/decompression
-  import { replaceState } from '$app/navigation'; // Import Svelte's replaceState function
+  import pako from 'pako'; // For gzip compression/decompression
+  import { replaceState } from '$app/navigation';
 
-  let pasteText: string = ''; // Store the clipboard text
-  let namesArray: string[] = []; // Store the array of names
-  let characterData: any[] = []; // Store the character data
-  let corpAllianceMap: Record<string, Record<string, number>> = {}; // Stores alliance -> corp -> count
-  let nonAllianceCorps: Record<string, number> = {}; // Stores corporations not in any alliance
+  let pasteText = '';
+  let namesArray = [];
+  let slimmedData = []; // Stores the slimmed data with just corp, alliance, and count
+  let corpAllianceMap = {}; // Stores alliance -> corp -> count
+  let nonAllianceCorps = {}; // Stores corporations not in any alliance
+  let dataFromUrl = false; // Flag to check if data is coming from URL
+  let isLoading = false; // Flag to show a loading state
 
   // On component mount, check for the data parameter and decompress it
   onMount(() => {
@@ -15,44 +17,65 @@
     const dataParam = params.get('data');
 
     if (dataParam) {
-      // If we have a data param, decompress and parse it
-      const decompressedData = decompressData(dataParam);
-      characterData = JSON.parse(decompressedData); // Use the decompressed character data
-      processCharacterData(characterData); // Process the data directly
+      try {
+        // Mark that the data is from the URL, to skip API calls
+        dataFromUrl = true;
+
+        // Enter loading state only if we're processing URL data
+        isLoading = true;
+
+        // Try to decompress and parse the data from the URL
+        const decompressedData = decompressData(dataParam);
+        slimmedData = JSON.parse(decompressedData); // Parse the JSON data
+        processSlimmedData(slimmedData); // Process the slimmed data directly
+
+        isLoading = false; // Loading finished
+      } catch (err) {
+        console.error('Failed to decode or decompress URL data:', err);
+        isLoading = false;
+      }
     }
   });
 
-  // Function to handle clipboard data, fetch character data, compress it, and update the URL
   const handleClipboardData = async () => {
+    // Enter loading state when the button is clicked to fetch new data
+    isLoading = true;
+
     try {
       corpAllianceMap = {};
       nonAllianceCorps = {};
+
       const text = await navigator.clipboard.readText(); // Read clipboard text
       pasteText = text;
       namesArray = pasteText.split('\n').filter((name) => name.trim() !== '');
 
-      characterData = []; // Reset the character data array
-      // Fetch character data from API
+      let dataMap = {};
+
+      // Fetch character data and store only necessary fields
       for (const name of namesArray) {
         const character = await fetchCharacterData(name);
         if (character) {
-          characterData.push(character);
+          const { corporation_name, alliance_name } = character;
+          dataMap[name] = { corp: corporation_name, alliance: alliance_name || null };
         }
       }
 
-      // Process the fetched character data
-      processCharacterData(characterData);
+      // Slim down the data to just corp, alliance, and count
+      slimmedData = slimDownData(dataMap);
+      processSlimmedData(slimmedData);
 
-      // Compress and store the character data in the URL
-      const compressedUrl = generateCompressedUrl(JSON.stringify(characterData));
-      replaceState(compressedUrl); // Update the URL without reloading using Svelte's replaceState
+      // Store new data in the URL as ?data parameter
+      const compressedUrl = generateCompressedUrl(JSON.stringify(slimmedData)); // JSON encode, then gzip + base64url
+      replaceState(`${window.location.pathname}?data=${encodeURIComponent(compressedUrl)}`); // Use Svelte's replaceState
+
+      isLoading = false;
     } catch (err) {
       console.error('Failed to read clipboard: ', err);
+      isLoading = false;
     }
   };
 
-  // Helper function to fetch data from the API
-  const fetchCharacterData = async (name: string) => {
+  const fetchCharacterData = async (name) => {
     try {
       const searchResponse = await fetch(`https://eve-kill.com/api/search/${name}`);
       const searchData = await searchResponse.json();
@@ -71,56 +94,100 @@
     }
   };
 
-  // Function to process and organize the character data
-  const processCharacterData = (data: any[]) => {
+  const slimDownData = (dataMap) => {
+    const slimmed = [];
+
+    // Create counts based on the corp and alliance
+    const corpAllianceCounter = {};
+
+    for (const key in dataMap) {
+      const { corp, alliance } = dataMap[key];
+      const keyForCount = `${corp}-${alliance || 'no-alliance'}`;
+
+      if (corpAllianceCounter[keyForCount]) {
+        corpAllianceCounter[keyForCount].count += 1;
+      } else {
+        corpAllianceCounter[keyForCount] = { corp, alliance, count: 1 };
+      }
+    }
+
+    // Convert the counter map into an array for easy encoding and processing
+    for (const key in corpAllianceCounter) {
+      slimmed.push(corpAllianceCounter[key]);
+    }
+
+    return slimmed;
+  };
+
+  const processSlimmedData = (data) => {
     corpAllianceMap = {};
     nonAllianceCorps = {};
 
-    data.forEach(character => {
-      const { corporation_name, alliance_name } = character;
+    data.forEach(entry => {
+      const { corp, alliance, count } = entry;
 
-      if (!alliance_name) {
-        if (!nonAllianceCorps[corporation_name]) {
-          nonAllianceCorps[corporation_name] = 1;
+      if (!alliance) {
+        if (!nonAllianceCorps[corp]) {
+          nonAllianceCorps[corp] = count;
         } else {
-          nonAllianceCorps[corporation_name] += 1;
+          nonAllianceCorps[corp] += count;
         }
       } else {
-        if (!corpAllianceMap[alliance_name]) {
-          corpAllianceMap[alliance_name] = { [corporation_name]: 1 };
+        if (!corpAllianceMap[alliance]) {
+          corpAllianceMap[alliance] = { [corp]: count };
         } else {
-          if (!corpAllianceMap[alliance_name][corporation_name]) {
-            corpAllianceMap[alliance_name][corporation_name] = 1;
+          if (!corpAllianceMap[alliance][corp]) {
+            corpAllianceMap[alliance][corp] = count;
           } else {
-            corpAllianceMap[alliance_name][corporation_name] += 1;
+            corpAllianceMap[alliance][corp] += count;
           }
         }
       }
     });
   };
 
-  // Function to compress the character data and encode it in base64
-  const generateCompressedUrl = (data: string) => {
-    const compressedData = pako.gzip(data); // Compress the JSON data
-    const base64Encoded = btoa(String.fromCharCode(...new Uint8Array(compressedData))); // Base64 encode
-    return `${window.location.pathname}?data=${encodeURIComponent(base64Encoded)}`; // Return the new URL
+  const generateCompressedUrl = (data) => {
+    const compressedData = pako.gzip(data); // Compress the slimmed JSON data using gzip
+    const base64UrlEncoded = base64urlEncode(compressedData); // Base64URL encode
+    return base64UrlEncoded;
   };
 
-  // Function to decompress the base64 encoded character data from the URL
-  const decompressData = (compressedBase64: string): string => {
-    const compressedData = Uint8Array.from(atob(compressedBase64), c => c.charCodeAt(0)); // Decode base64
-    const decompressedData = pako.ungzip(compressedData, { to: 'string' }); // Decompress using pako
+  const decompressData = (compressedBase64Url) => {
+    const compressedData = base64urlDecode(compressedBase64Url);
+    const decompressedData = pako.ungzip(compressedData, { to: 'string' }); // Decompress and return as string
     return decompressedData;
   };
 
-  // Helper function to calculate the total count for each alliance
-  const getTotalCount = (corporations: Record<string, number>) => {
+  // Helper function to Base64URL encode data
+  const base64urlEncode = (data) => {
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(data)));
+    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  };
+
+  // Helper function to Base64URL decode data
+  const base64urlDecode = (base64Url) => {
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const binaryString = atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+  };
+
+  const getTotalCount = (corporations) => {
     return Object.values(corporations).reduce((acc, count) => acc + count, 0);
   };
 </script>
 
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
   <p class="text-right text-xs text-gray-400">* Copy the list of characters into your paste buffer, then press the button below</p>
+
+  {#if isLoading}
+    <p>Loading...</p>
+  {/if}
+
   <div class="bg-semi-transparent shadow-md rounded mt-4">
     <div class="flex justify-center space-x-4">
       <button
