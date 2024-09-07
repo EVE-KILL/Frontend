@@ -20,7 +20,7 @@
 		{ src: bg3, name: 'bg3.png' },
 		{ src: bg4, name: 'bg4.png' },
 		{ src: bg5, name: 'bg5.png' },
-		{ src: bg6, name: 'bg6.png' },
+		{ src: bg6, name: 'bg6.png' }
 	];
 
 	// Local state for dropdown visibility
@@ -53,21 +53,38 @@
 	// Set the background on load
 	onMount(() => {
 		const savedBackground = localStorage.getItem('selectedBackground');
-		const backgroundImage = backgroundImages.find(img => img.name === savedBackground) || backgroundImages[0];
+		const backgroundImage =
+			backgroundImages.find((img) => img.name === savedBackground) || backgroundImages[0];
 		setBackground(backgroundImage);
 	});
 </script>
 
 <div class="relative">
-	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openDropdown} on:mouseleave={closeDropdown}>
+	<button
+		class="text-white hover:text-gray-400 focus:outline-none"
+		on:mouseenter={openDropdown}
+		on:mouseleave={closeDropdown}
+	>
 		<i class="fas fa-image text-gray-500 hover:text-gray-400" style="font-size: 32px;"></i>
 	</button>
 	{#if isDropdownOpen}
-		<ul class="absolute mt-2 bg-gray-800 rounded-md shadow-lg z-10" style="min-width: 6rem;" on:mouseenter={openDropdown} on:mouseleave={closeDropdown}>
+		<ul
+			class="absolute mt-2 bg-gray-800 rounded-md shadow-lg z-10"
+			style="min-width: 6rem;"
+			on:mouseenter={openDropdown}
+			on:mouseleave={closeDropdown}
+		>
 			{#each backgroundImages as image}
 				<li>
-					<button on:click={() => setBackground(image)} class="block px-4 py-2 text-sm text-white hover:bg-gray-700">
-						<img src={image.src} alt={image.name} class="w-16 h-16 object-cover mx-auto opacity-75 hover:opacity-100"/>
+					<button
+						on:click={() => setBackground(image)}
+						class="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+					>
+						<img
+							src={image.src}
+							alt={image.name}
+							class="w-16 h-16 object-cover mx-auto opacity-75 hover:opacity-100"
+						/>
 					</button>
 				</li>
 			{/each}

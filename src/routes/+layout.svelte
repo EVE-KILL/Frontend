@@ -8,10 +8,15 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import Navbar from '../components/Navbar.svelte';
 
-	let defaultKeywords = 'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
-	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
+	let defaultKeywords =
+		'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
+	let combinedKeywords = $page.data.meta?.keywords
+		? `${defaultKeywords}, ${$page.data.meta.keywords}`
+		: defaultKeywords;
 	let defaultTitle = 'EVE-KILL';
-	let combinedTitle = $page.data.meta?.title ? `${defaultTitle} - ${$page.data.meta.title}` : defaultTitle;
+	let combinedTitle = $page.data.meta?.title
+		? `${defaultTitle} - ${$page.data.meta.title}`
+		: defaultTitle;
 
 	// Store the current path without query or hash
 	let currentPath = get(page).url.pathname;

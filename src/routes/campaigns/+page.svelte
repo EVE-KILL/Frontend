@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { session } from '$lib/stores/Session';
-  import Modal from '../../components/Campaigns/Modal.svelte';
-  import ListCampaigns from '../../components/Campaigns/ListCampaigns.svelte';
+	import { onMount } from 'svelte';
+	import { session } from '$lib/stores/Session';
+	import Modal from '../../components/Campaigns/Modal.svelte';
+	import ListCampaigns from '../../components/Campaigns/ListCampaigns.svelte';
 
-  let user: any = null;
-  let showModal = false;
+	let user: any = null;
+	let showModal = false;
 	// Subscribe to the session to get the user data
 	$: session.subscribe((value) => {
 		user = value.user;
@@ -27,7 +27,7 @@
 </div>
 
 <!-- Modal -->
-<Modal showModal={showModal} />
+<Modal {showModal} />
 
 <!-- ListCampaigns -->
 <ListCampaigns />

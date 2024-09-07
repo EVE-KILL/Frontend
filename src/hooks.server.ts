@@ -13,9 +13,9 @@ if (env.SENTRY_DSN) {
 
 // Function to handle CORS
 const setCorsHeaders = (headers: Headers) => {
-				headers.set('Access-Control-Allow-Origin', '*');
-				headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-				headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	headers.set('Access-Control-Allow-Origin', '*');
+	headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+	headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 };
 
 export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, resolve }) => {

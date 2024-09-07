@@ -14,8 +14,8 @@
 
 	let activeTab = 1; // Set Attackers as the default tab
 	const tabs = [
-		{ name: "Comments", count: killmail.comment_count || 0 }, // Initialize comment count to 0
-		{ name: "Attackers", count: killmail.attackers.length }
+		{ name: 'Comments', count: killmail.comment_count || 0 }, // Initialize comment count to 0
+		{ name: 'Attackers', count: killmail.attackers.length }
 	];
 
 	// Callback to receive the comment count from the Comments component
@@ -25,50 +25,54 @@
 </script>
 
 {#if killmail}
-    <!-- Navbar -->
-    <Navbar killmail={killmail} />
+	<!-- Navbar -->
+	<Navbar {killmail} />
 
-    <div class="container flex p-2 pt-4 gap-2">
-        <!-- Left Container -->
-        <div class="w-full text-white p-4 rounded-lg shadow-lg">
-            <div id="information-area" class="flex justify-around">
-                <!-- Fitting Wheel -->
-                <FittingWheel {killmail} />
+	<div class="container flex p-2 pt-4 gap-2">
+		<!-- Left Container -->
+		<div class="w-full text-white p-4 rounded-lg shadow-lg">
+			<div id="information-area" class="flex justify-around">
+				<!-- Fitting Wheel -->
+				<FittingWheel {killmail} />
 
-                <!-- Kill Information -->
-                <div class="information-box ml-5">
-                    <InformationBox {killmail} />
-                </div>
-            </div>
+				<!-- Kill Information -->
+				<div class="information-box ml-5">
+					<InformationBox {killmail} />
+				</div>
+			</div>
 
-            <!-- Items -->
-            <Items {killmail} />
-        </div>
+			<!-- Items -->
+			<Items {killmail} />
+		</div>
 
-        <!-- Right Container -->
-        <div class="w-2/4 text-white p-4 rounded-lg shadow-lg" style="max-width: 500px;">
-            <!-- Tabs -->
-            <div class="tab-container">
-                {#each tabs as tab, index}
-                    <button
-                        class="tab-btn"
-                        class:active-tab={activeTab === index}
-                        on:click={() => (activeTab = index)}
-                    >
-                        {tab.name} {#if tab.count}({tab.count}){/if}
-                    </button>
-                {/each}
-            </div>
+		<!-- Right Container -->
+		<div class="w-2/4 text-white p-4 rounded-lg shadow-lg" style="max-width: 500px;">
+			<!-- Tabs -->
+			<div class="tab-container">
+				{#each tabs as tab, index}
+					<button
+						class="tab-btn"
+						class:active-tab={activeTab === index}
+						on:click={() => (activeTab = index)}
+					>
+						{tab.name}
+						{#if tab.count}({tab.count}){/if}
+					</button>
+				{/each}
+			</div>
 
-            <!-- Tab content -->
-            {#if activeTab === 0}
-                <Comments identifier="kill:{killmail.killmail_id}" on:count={e => updateCommentCount(e.detail)} />
-            {/if}
-            {#if activeTab === 1}
-                <Attackers attackers={killmail.attackers} />
-            {/if}
-        </div>
-    </div>
+			<!-- Tab content -->
+			{#if activeTab === 0}
+				<Comments
+					identifier="kill:{killmail.killmail_id}"
+					on:count={(e) => updateCommentCount(e.detail)}
+				/>
+			{/if}
+			{#if activeTab === 1}
+				<Attackers attackers={killmail.attackers} />
+			{/if}
+		</div>
+	</div>
 {/if}
 
 <style>

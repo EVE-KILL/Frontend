@@ -9,4 +9,4 @@
 	let filter = { field: 'attackers.corporation_id', value: corporation.corporation_id };
 </script>
 
-<KillList url={killlistUrl} subscriptionTopic={subscriptionTopic} filter={filter} />
+<KillList url={killlistUrl} {subscriptionTopic} {filter} />

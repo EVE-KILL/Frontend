@@ -30,7 +30,11 @@
 		svelteCustom(
 			'youtube',
 			(node) => {
-				if (node.tagName === 'a' && (node.properties.href.includes('youtube.com') || node.properties.href.includes('youtu.be'))) {
+				if (
+					node.tagName === 'a' &&
+					(node.properties.href.includes('youtube.com') ||
+						node.properties.href.includes('youtu.be'))
+				) {
 					return true;
 				}
 				return false;
@@ -40,7 +44,14 @@
 		svelteCustom(
 			'image',
 			(node) => {
-				if (node.tagName === 'a' && (node.properties.href.match(/\.(jpeg|jpg|gif|png)$/) != null || node.properties.href.includes('.jpeg') || node.properties.href.includes('.jpg') || node.properties.href.includes('.gif') || node.properties.href.includes('.png'))) {
+				if (
+					node.tagName === 'a' &&
+					(node.properties.href.match(/\.(jpeg|jpg|gif|png)$/) != null ||
+						node.properties.href.includes('.jpeg') ||
+						node.properties.href.includes('.jpg') ||
+						node.properties.href.includes('.gif') ||
+						node.properties.href.includes('.png'))
+				) {
 					return true;
 				}
 				return false;
@@ -49,14 +60,13 @@
 		)
 	];
 
-	let fakeInitialize = function() { return null; }
+	let fakeInitialize = function () {
+		return null;
+	};
 	let carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		theme: 'github-dark',
-		extensions: [
-			emoji(),
-			component(mappedComponents, fakeInitialize)
-		]
+		extensions: [emoji(), component(mappedComponents, fakeInitialize)]
 	});
 
 	onMount(async () => {
@@ -168,8 +178,13 @@
 				/>
 				<div>
 					<div class="text-left text-sm text-white">
-						<strong>{comment.character.character_name}</strong><br/>
-						<p class="text-xs text-gray-500">({infoString(comment.character.corporation_name, comment.character.alliance_name)})</p>
+						<strong>{comment.character.character_name}</strong><br />
+						<p class="text-xs text-gray-500">
+							({infoString(
+								comment.character.corporation_name,
+								comment.character.alliance_name
+							)})
+						</p>
 						<p class="text-sm text-gray-500">{comment.created_at}</p>
 					</div>
 					<!-- Rendered Markdown -->
@@ -190,15 +205,22 @@
 						class="h-16 w-16 rounded-md mr-4"
 					/>
 					<div class="text-left text-sm text-white">
-						<strong>{user.character_name}</strong><br/>
+						<strong>{user.character_name}</strong><br />
 					</div>
 
-					<MarkdownEditor bind:value={comment} theme="github" placeholder="Leave a comment.." {carta} />
+					<MarkdownEditor
+						bind:value={comment}
+						theme="github"
+						placeholder="Leave a comment.."
+						{carta}
+					/>
 					<p class="text-right text-xs text-gray-400">
 						{charactersRemaining} characters remaining
 					</p>
 					{#if charactersRemaining < 0}
-						<p class="text-right text-xs text-red-500">Comment exceeds the maximum length!</p>
+						<p class="text-right text-xs text-red-500">
+							Comment exceeds the maximum length!
+						</p>
 					{/if}
 
 					<!-- Error message display -->
@@ -208,7 +230,13 @@
 				</div>
 			</div>
 			<div class="flex justify-end mt-2">
-				<button class="post-button {charactersRemaining >= 0 && comment.trim() !== '' ? 'enabled' : 'disabled'}" on:click={postComment} disabled={charactersRemaining < 0 || comment.trim() === ''}>
+				<button
+					class="post-button {charactersRemaining >= 0 && comment.trim() !== ''
+						? 'enabled'
+						: 'disabled'}"
+					on:click={postComment}
+					disabled={charactersRemaining < 0 || comment.trim() === ''}
+				>
 					Post Comment
 				</button>
 			</div>

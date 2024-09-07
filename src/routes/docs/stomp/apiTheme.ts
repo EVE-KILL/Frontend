@@ -8,4 +8,4 @@ export const svelteThemeCss = `
   --scalar-background-1: #0f0f0f;
   border-color: #1f1f1f;
 }
-`
+`;

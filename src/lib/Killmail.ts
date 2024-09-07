@@ -46,23 +46,22 @@ export async function generateEveShipFit(killmail: Killmail) {
 	let drones = [];
 	let cargo = [];
 
-	items = killmail.items
-		.map(
-			(item: {
-				flag: number;
-				item_type_id: number;
-				type_name: string;
-				qty_destroyed?: number;
-				qty_dropped?: number;
-			}) => {
-				return {
-					flag: item.flag,
-					type_id: item.type_id,
-					category_id: item.category_id,
-					quantity: (item.qty_dropped ?? 0) + (item.qty_destroyed ?? 0)
-				};
-			}
-		);
+	items = killmail.items.map(
+		(item: {
+			flag: number;
+			item_type_id: number;
+			type_name: string;
+			qty_destroyed?: number;
+			qty_dropped?: number;
+		}) => {
+			return {
+				flag: item.flag,
+				type_id: item.type_id,
+				category_id: item.category_id,
+				quantity: (item.qty_dropped ?? 0) + (item.qty_destroyed ?? 0)
+			};
+		}
+	);
 	/* Find the modules from the item-list. */
 	modules = items
 		.map((item) => {

@@ -27,12 +27,12 @@
 
 <div class="container flex w-full">
 	<MostValuableKills
-    categories={[
-        { name: "Most Valuable Kills", url: mostValuableKillsUrl },
-		{ name: "Most Valuable Structures", url: mostValuableStructureKillsUrl },
-		{ name: "Most Valuable Ships", url: mostValuableShipKillsUrl }
-    ]}
-/>
+		categories={[
+			{ name: 'Most Valuable Kills', url: mostValuableKillsUrl },
+			{ name: 'Most Valuable Structures', url: mostValuableStructureKillsUrl },
+			{ name: 'Most Valuable Ships', url: mostValuableShipKillsUrl }
+		]}
+	/>
 </div>
 <div class="container flex p-2 pt-4 gap-2">
 	<div class="w-1/4">
