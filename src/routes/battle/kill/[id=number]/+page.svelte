@@ -1,8 +1,9 @@
 <script lang="ts">
+	import type Killmail from '../../../types/Killmail.ts';
+
 	import { getUpstreamUrl } from '$lib/Config';
 	import { onMount } from 'svelte';
-	import type Killmail from '../../../types/Killmail.ts';
-	import { formatNumber } from '$lib/Helpers.ts';
+	import { formatNumber, convertIskToBillions } from '$lib/Helpers.ts';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();
@@ -11,7 +12,10 @@
 	let battle;
 	let blueTeamKills: Killmail[] = [];
 	let redTeamKills: Killmail[] = [];
-	let killmailUrl: string = `${upstreamUrl}/api/killmail`;
+	let blueTeamStats = { iskLost: 0, shipsLost: 0, damageInflicted: 0 };
+	let redTeamStats = { iskLost: 0, shipsLost: 0, damageInflicted: 0 };
+	let killmails: Killmail[] = [];
+	let system;
 
 	onMount(async () => {
 		let battleUrl = `${upstreamUrl}/api/battles/killmail/${killmail_id}`;
@@ -19,25 +23,21 @@
 		battle = await response.json();
 		console.log(battle);
 
-		// Fetch killmails for Blue Team
-		blueTeamKills = await fetchKillmails(Object.keys(battle.blue_team.kills));
+		// Fetch the killmails
+		killmails = await fetchKillmails(battle.start_time, battle.end_time, [
+			battle.system_id,
+			30000163
+		]);
 
-		// Fetch killmails for Red Team
-		redTeamKills = await fetchKillmails(Object.keys(battle.red_team.kills));
+		// Split the killmails into blue and red team
+		splitKillmailsToSides(killmails, battle);
 	});
 
-	async function fetchKillmails(killmailIds) {
-		// Convert the killmailIds to numeric values
-		const numericKillmailIds = killmailIds.map((id) => Number(id));
+	async function fetchKillmails(startTime: number, endTime: number, systemIds: number[]) {
+		let query = `${upstreamUrl}/api/query/between/${startTime}/${endTime}/`;
+		query += systemIds.map((id) => `system_id/${id}`).join('/');
 
-		const response = await fetch(killmailUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(numericKillmailIds)
-		});
-
+		const response = await fetch(query);
 		return await response.json();
 	}
 
@@ -45,15 +45,139 @@
 		return str.length <= num ? str : str.slice(0, num) + '...';
 	}
 
-	function duration(start, end) {
-		const startTime = new Date(start);
-		const endTime = new Date(end);
-		const duration = endTime - startTime;
+	function convertUnixTimeToDateTime(unixTime: number) {
+		let date = new Date(unixTime * 1000);
+		return date.toLocaleString();
+	}
 
-		const hours = Math.floor(duration / 3600000);
-		const minutes = Math.floor((duration % 3600000) / 60000);
+	function duration(start: number, end: number) {
+		let duration = end - start;
+		let minutes = Math.floor(duration / 60);
+		let seconds = duration % 60;
+		return `${minutes}m ${seconds}s`;
+	}
 
-		return `${hours}h ${minutes}m`;
+	function generateTotalValue(killmails: Killmail[]) {
+		return killmails.reduce((acc, killmail) => acc + killmail.total_value, 0);
+	}
+
+	function countOfPilotsInvolved(killmails: Killmail[]) {
+		// Count the amount of unique attackers[].character_id there are on all the killmails
+		let characterIds: number[] = [];
+		killmails.forEach((killmail) => {
+			killmail.attackers.forEach((attacker) => {
+				if (!characterIds.includes(attacker.character_id)) {
+					characterIds.push(attacker.character_id);
+				}
+			});
+		});
+
+		return characterIds.length;
+	}
+
+	function countOfCorporationsInvolved(killmails: Killmail[]) {
+		// Count the amount of unique attackers[].corporation_id there are on all the killmails
+		let corporationIds: number[] = [];
+		killmails.forEach((killmail) => {
+			killmail.attackers.forEach((attacker) => {
+				if (!corporationIds.includes(attacker.corporation_id)) {
+					corporationIds.push(attacker.corporation_id);
+				}
+			});
+		});
+
+		return corporationIds.length;
+	}
+
+	function countOfAlliancesInvolved(killmails: Killmail[]) {
+		// Count the amount of unique attackers[].alliance_id there are on all the killmails
+		let allianceIds: number[] = [];
+		killmails.forEach((killmail) => {
+			killmail.attackers.forEach((attacker) => {
+				if (!allianceIds.includes(attacker.alliance_id)) {
+					allianceIds.push(attacker.alliance_id);
+				}
+			});
+		});
+
+		return allianceIds.length;
+	}
+
+	function splitKillmailsToSides(killmails: Killmail[], battle) {
+		// Create sets for quick lookup of alliance and corporation IDs
+		let blueAlliances = new Set(battle.blue_team.alliances.map((a) => a.id));
+		let blueCorporations = new Set(battle.blue_team.corporations.map((c) => c.id));
+		let redAlliances = new Set(battle.red_team.alliances.map((a) => a.id));
+		let redCorporations = new Set(battle.red_team.corporations.map((c) => c.id));
+
+		// Reset the blue and red team arrays and stats
+		blueTeamKills = [];
+		redTeamKills = [];
+		blueTeamStats = { iskLost: 0, shipsLost: 0, damageInflicted: 0 };
+		redTeamStats = { iskLost: 0, shipsLost: 0, damageInflicted: 0 };
+
+		killmails.forEach((killmail) => {
+			let isBlueTeam = false;
+			let isRedTeam = false;
+
+			// Check the victim first
+			if (killmail.victim.alliance_id && blueAlliances.has(killmail.victim.alliance_id)) {
+				isBlueTeam = true;
+			} else if (
+				killmail.victim.alliance_id &&
+				redAlliances.has(killmail.victim.alliance_id)
+			) {
+				isRedTeam = true;
+			} else if (
+				killmail.victim.corporation_id &&
+				blueCorporations.has(killmail.victim.corporation_id)
+			) {
+				isBlueTeam = true;
+			} else if (
+				killmail.victim.corporation_id &&
+				redCorporations.has(killmail.victim.corporation_id)
+			) {
+				isRedTeam = true;
+			}
+
+			// If no team determined by victim, check the attackers
+			if (!isBlueTeam && !isRedTeam) {
+				killmail.attackers.forEach((attacker) => {
+					if (attacker.alliance_id && blueAlliances.has(attacker.alliance_id)) {
+						isBlueTeam = true;
+					} else if (attacker.alliance_id && redAlliances.has(attacker.alliance_id)) {
+						isRedTeam = true;
+					} else if (
+						attacker.corporation_id &&
+						blueCorporations.has(attacker.corporation_id)
+					) {
+						isBlueTeam = true;
+					} else if (
+						attacker.corporation_id &&
+						redCorporations.has(attacker.corporation_id)
+					) {
+						isRedTeam = true;
+					}
+				});
+			}
+
+			// Add the killmail to the respective team's list and update stats
+			if (isBlueTeam) {
+				blueTeamKills.push(killmail);
+				blueTeamStats.iskLost += killmail.total_value;
+				blueTeamStats.shipsLost += 1;
+				blueTeamStats.damageInflicted += killmail.victim.damage_taken;
+			} else if (isRedTeam) {
+				redTeamKills.push(killmail);
+				redTeamStats.iskLost += killmail.total_value;
+				redTeamStats.shipsLost += 1;
+				redTeamStats.damageInflicted += killmail.victim.damage_taken;
+			}
+		});
+
+		// Sort the killmails by total_value
+		blueTeamKills = blueTeamKills.sort((a, b) => b.total_value - a.total_value);
+		redTeamKills = redTeamKills.sort((a, b) => b.total_value - a.total_value);
 	}
 </script>
 
@@ -62,14 +186,21 @@
 		<!-- Top Div -->
 		<div class="mb-4">
 			<div class="text-lg font-bold">
-				Battle in System: {battle.system_name} ({battle.system_security_status}) - {battle.region_name}
+				Battle in System: {battle.systemInfo.name} ({formatNumber(
+					battle.systemInfo.security_status
+				)}) - {battle.systemInfo.region_name}
 			</div>
 			<div class="text-sm text-gray-400">
-				Start Time: {battle.start_time} | End Time: {battle.end_time}
+				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(
+					battle.end_time
+				)}
 			</div>
 			<div class="text-sm text-gray-400">
-				ISK Lost: {battle.total_value} ISK | Pilots Involved: {battle.total_characters} | Corporations:
-				{battle.total_corporations} | Alliances: {battle.total_alliances}
+				ISK Lost: {convertIskToBillions(generateTotalValue(killmails))} ISK | Pilots Involved:
+				{countOfPilotsInvolved(killmails)} | Corporations:
+				{countOfCorporationsInvolved(killmails)} | Alliances: {countOfAlliancesInvolved(
+					killmails
+				)}
 			</div>
 			<div class="text-sm text-gray-400">
 				Duration: {duration(battle.start_time, battle.end_time)}
@@ -81,9 +212,10 @@
 			<div>
 				<div class="mb-2 text-lg font-bold">Blue Team</div>
 				<div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+					<div class="mb-2 text-lg font-bold">Blue Team</div>
 					<div class="mb-2 text-sm text-gray-400">
-						ISK Lost: {battle.blue_team.value} ISK | Ships Lost: {battle.blue_team
-							.total_ship_count} | Damage Inflicted: {battle.blue_team.points}
+						ISK Lost: {convertIskToBillions(blueTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost}
+						| Damage Inflicted: {blueTeamStats.damageInflicted}
 					</div>
 					<div class="mb-2 text-sm text-gray-400">Alliances:</div>
 					<ul class="list-disc list-inside">
@@ -96,9 +228,10 @@
 			<div>
 				<div class="mb-2 text-lg font-bold">Red Team</div>
 				<div class="bg-gray-800 p-2 rounded-lg shadow-lg">
+					<div class="mb-2 text-lg font-bold">Red Team</div>
 					<div class="mb-2 text-sm text-gray-400">
-						ISK Lost: {battle.red_team.value} ISK | Ships Lost: {battle.red_team
-							.total_ship_count} | Damage Inflicted: {battle.red_team.points}
+						ISK Lost: {convertIskToBillions(redTeamStats.iskLost)} ISK | Ships Lost: {redTeamStats.shipsLost}
+						| Damage Inflicted: {redTeamStats.damageInflicted}
 					</div>
 					<div class="mb-2 text-sm text-gray-400">Alliances:</div>
 					<ul class="list-disc list-inside">
