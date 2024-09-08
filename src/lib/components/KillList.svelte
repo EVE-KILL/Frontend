@@ -5,8 +5,6 @@
 	import { stompConnection } from '$lib/Stomp.ts';
 	import { fetchKillList } from '$lib/fetchKillList.ts';
 	import { formatNumber } from '$lib/Helpers.ts';
-	import involvedImage from '../images/involved.png';
-	import commentImage from '../images/comment.gif';
 
 	export let url: string;
 	export let title: string = '';
@@ -110,7 +108,10 @@
 
 	// Helper function to check if the kill is a loss that should be highlighted
 	function isCombinedLoss(kill: Killmail): boolean {
-		if (combinedKillsAndLosses && kill.victim[`${combinedVictimType}_id`] === combinedVictimId) {
+		if (
+			combinedKillsAndLosses &&
+			kill.victim[`${combinedVictimType}_id`] === combinedVictimId
+		) {
 			return true;
 		}
 		return false;
@@ -168,7 +169,11 @@
 		<tbody class="text-gray-300 text-sm">
 			{#each kills as kill (kill.killmail_id)}
 				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer {isCombinedLoss(kill) ? 'bg-darkred': ''}"
+					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer {isCombinedLoss(
+						kill
+					)
+						? 'bg-darkred'
+						: ''}"
 					on:mousedown={(event) => handleClick(event, kill.killmail_id)}
 					on:mouseover={pauseAddingKills}
 					on:focus={pauseAddingKills}
@@ -195,7 +200,9 @@
 					</td>
 					<td class="px-2 py-1">
 						{kill.victim.character_name}<br />
-						<span class="text-gray-400">{truncateString(kill.victim.corporation_name, 22)}</span>
+						<span class="text-gray-400"
+							>{truncateString(kill.victim.corporation_name, 22)}</span
+						>
 					</td>
 					<td class="px-2 py-1">
 						{#if Array.isArray(kill.attackers)}
@@ -203,10 +210,14 @@
 								{#if attacker.final_blow}
 									{#if kill.is_npc}
 										{attacker.faction_name}<br />
-										<span class="text-gray-400">{truncateString(attacker.ship_group_name, 22)}</span>
+										<span class="text-gray-400"
+											>{truncateString(attacker.ship_group_name, 22)}</span
+										>
 									{:else}
 										{attacker.character_name}<br />
-										<span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
+										<span class="text-gray-400"
+											>{truncateString(attacker.corporation_name, 22)}</span
+										>
 									{/if}
 								{/if}
 							{/each}
@@ -218,11 +229,17 @@
 							<div class="flex items-center">
 								<span class="text-gray-400">{kill.attackers.length}</span>
 								&nbsp;
-								<img src={involvedImage} alt="{kill.attackers.length} Involved" />
+								<img
+									src="/images/involved.png"
+									alt="{kill.attackers.length} Involved"
+								/>
 								&nbsp;
 								<span class="text-gray-400">{kill.comment_count || 0}</span>
 								&nbsp;
-								<img src={commentImage} alt="{kill.attackers.length} Involved" />
+								<img
+									src="/images/comment.gif"
+									alt="{kill.attackers.length} Involved"
+								/>
 							</div>
 							<div class="text-right text-gray-500">{kill.kill_time}</div>
 						</div>
@@ -253,7 +270,7 @@
 </div>
 
 <style>
-.bg-darkred {
-    background-color: rgb(40, 0, 0);
-}
+	.bg-darkred {
+		background-color: rgb(40, 0, 0);
+	}
 </style>
