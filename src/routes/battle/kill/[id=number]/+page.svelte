@@ -247,7 +247,7 @@
 		<div class="mt-4 grid grid-cols-2 gap-4">
 			<!-- Blue Team Kills -->
 			<div>
-				<div class="mb-2 text-lg font-bold">Blue Team Kills</div>
+				<div class="mb-2 text-lg font-bold">Blue Team Losses</div>
 				<div class="overflow-x-auto" role="table">
 					<table
 						class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg"
@@ -334,7 +334,7 @@
 
 			<!-- Red Team Kills -->
 			<div>
-				<div class="mb-2 text-lg font-bold">Red Team Kills</div>
+				<div class="mb-2 text-lg font-bold">Red Team Losses</div>
 				<div class="overflow-x-auto" role="table">
 					<table
 						class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg"
