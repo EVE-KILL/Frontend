@@ -1,4 +1,3 @@
-<!-- src/routes/+layout.svelte -->
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onNavigate } from '$app/navigation';
@@ -46,7 +45,6 @@
 		content={$page.data.meta?.description ||
 			'EVE-KILL is a killboard for the MMORPG EVE-Online'}
 	/>
-
 	<meta name="keywords" content={combinedKeywords} />
 	<meta name="robots" content={$page.data.meta?.robots || 'index, follow'} />
 	<meta name="creator" content={$page.data.meta?.creator || '@eve_kill'} />
@@ -68,14 +66,24 @@
 	{/if}
 </svelte:head>
 
-<div id="content" class="content flex flex-col mx-auto">
-	<div id="inner-content" class="inner-content">
-		<Navbar />
-		<slot />
+<!-- Main content wrapper with scale applied -->
+<div id="zoom-wrapper">
+	<div id="content" class="content flex flex-col mx-auto">
+		<div id="inner-content" class="inner-content">
+			<Navbar />
+			<slot />
+		</div>
 	</div>
 </div>
 
 <style>
+	/* Set the zoom wrapper scale to 95% */
+	#zoom-wrapper {
+		transform: scale(0.95); /* This scales the entire content to 95% */
+		transform-origin: top center;
+		height: auto;
+	}
+
 	.content {
 		max-width: 90rem;
 		background-color: rgba(21, 21, 21, 0.5);

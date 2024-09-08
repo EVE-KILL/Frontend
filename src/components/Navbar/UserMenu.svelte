@@ -111,16 +111,6 @@
 			on:mouseleave={closeAccountDropdown}
 		>
 			{#if user}
-				<li class="p-2">
-					<div class="text-gray-300 text-sm">Character: {user.character_name}</div>
-					<div class="text-gray-500 text-xs mt-2">ID: {user.character_id}</div>
-					<div class="text-gray-500 text-xs mt-2">Expiration: {user.expiration}</div>
-					<div class="text-gray-500 text-xs mt-2">
-						<button on:click={handleReauth} class="text-blue-500 hover:text-blue-300"
-							>Reauthenticate</button
-						>
-					</div>
-				</li>
 				<li class="p-2 border-t border-gray-700">
 					<div class="text-gray-300 text-sm">Settings</div>
 					<div class="text-gray-500 text-xs mt-2">
