@@ -12,15 +12,17 @@
 	export let title: string = '';
 	export let subscriptionTopic: string = 'all';
 	export let filter: { field: string; value: any } | null = null;
+	export let combinedKillsAndLosses: boolean = false;
+	export let combinedVictimType: string = 'character';
+	export let combinedVictimId: number;
 
 	let kills: Killmail[] = [];
 	let page: number = 1;
 	let loading: boolean = false;
-	let isPaused: boolean = false; // To pause adding new kills when hovering
-	let pauseTimeout: any; // Timeout reference for pausing
-	let queuedKills: Killmail[] = []; // Queue for incoming killmails while paused
+	let isPaused: boolean = false;
+	let pauseTimeout: any;
+	let queuedKills: Killmail[] = [];
 
-	// Check for page number in the URL when the component is mounted
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
 		const pageParam = urlParams.get('killlistPage');
@@ -29,34 +31,22 @@
 		}
 		loadKills();
 		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-		stompConnection(topic, handleIncomingMessage); // Use the dynamic or default topic
+		stompConnection(topic, handleIncomingMessage);
 	});
 
 	async function loadKills() {
 		if (loading) return;
 		loading = true;
 		const newKills: Killmail[] = await fetchKillList(url, page);
-		kills = newKills.slice(0, 100); // Ensure we only keep the number of kills within the limit
-		updateURL(); // Update the URL with the current page
+		kills = newKills.slice(0, 100);
+		updateURL();
 		loading = false;
-	}
-
-	function changePage(newPage: number) {
-		if (newPage > 0) {
-			page = newPage;
-			loadKills();
-		}
 	}
 
 	function updateURL() {
 		const newUrl = new URL(window.location.href);
 		newUrl.searchParams.set('killlistPage', String(page));
 		goto(newUrl.toString(), { replaceState: true });
-	}
-
-	function truncateString(str: any, num: number) {
-		let stringifiedStr = String(str);
-		return stringifiedStr.length <= num ? stringifiedStr : stringifiedStr.slice(0, num) + '...';
 	}
 
 	function handleIncomingMessage(message: Killmail) {
@@ -67,44 +57,32 @@
 		}
 
 		if (isPaused) {
-			// Queue the message if paused
 			queuedKills.push(message);
 		} else {
-			// Add the new kill to the top of the list
 			addKillToList(message);
 		}
 	}
 
 	function matchesFilter(killmail: Killmail, filter: { field: string; value: any }): boolean {
-		const keys = filter.field.split('.'); // Split the field into its path components
+		const keys = filter.field.split('.');
 		let current: any = killmail;
-
-		// Traverse the object according to the keys path
 		for (const key of keys) {
 			if (Array.isArray(current)) {
-				// If the current field is an array, check if any element matches
 				return current.some((item) => item[key] === filter.value);
 			} else {
 				current = current[key];
 			}
-
-			// If at any point the path is undefined, return false
 			if (current === undefined) {
 				return false;
 			}
 		}
-
-		// Final check to ensure we're comparing the correct value
 		return current === filter.value;
 	}
 
 	function addKillToList(message: Killmail) {
-		// Check if the killmail already exists in the list
 		if (!kills.find((kill) => kill.killmail_id === message.killmail_id)) {
 			kills = [message, ...kills];
 		}
-
-		// Keep the list within the max limit by removing the last kill if necessary
 		if (kills.length > 100) {
 			kills.pop();
 		}
@@ -115,7 +93,6 @@
 		isPaused = true;
 		pauseTimeout = setTimeout(() => {
 			isPaused = false;
-			// Process the queued killmails
 			while (queuedKills.length > 0) {
 				addKillToList(queuedKills.shift()!);
 			}
@@ -128,6 +105,26 @@
 			window.open(`/kill/${killmailId}`, '_blank');
 		} else {
 			window.location.href = `/kill/${killmailId}`;
+		}
+	}
+
+	// Helper function to check if the kill is a loss that should be highlighted
+	function isCombinedLoss(kill: Killmail): boolean {
+		if (combinedKillsAndLosses && kill.victim[`${combinedVictimType}_id`] === combinedVictimId) {
+			return true;
+		}
+		return false;
+	}
+
+	function truncateString(str: any, num: number) {
+		let stringifiedStr = String(str);
+		return stringifiedStr.length <= num ? stringifiedStr : stringifiedStr.slice(0, num) + '...';
+	}
+
+	function changePage(newPage: number) {
+		if (newPage > 0) {
+			page = newPage;
+			loadKills();
 		}
 	}
 </script>
@@ -171,7 +168,7 @@
 		<tbody class="text-gray-300 text-sm">
 			{#each kills as kill (kill.killmail_id)}
 				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer {isCombinedLoss(kill) ? 'bg-darkred': ''}"
 					on:mousedown={(event) => handleClick(event, kill.killmail_id)}
 					on:mouseover={pauseAddingKills}
 					on:focus={pauseAddingKills}
@@ -198,9 +195,7 @@
 					</td>
 					<td class="px-2 py-1">
 						{kill.victim.character_name}<br />
-						<span class="text-gray-400"
-							>{truncateString(kill.victim.corporation_name, 22)}</span
-						>
+						<span class="text-gray-400">{truncateString(kill.victim.corporation_name, 22)}</span>
 					</td>
 					<td class="px-2 py-1">
 						{#if Array.isArray(kill.attackers)}
@@ -208,14 +203,10 @@
 								{#if attacker.final_blow}
 									{#if kill.is_npc}
 										{attacker.faction_name}<br />
-										<span class="text-gray-400"
-											>{truncateString(attacker.ship_group_name, 22)}</span
-										>
+										<span class="text-gray-400">{truncateString(attacker.ship_group_name, 22)}</span>
 									{:else}
 										{attacker.character_name}<br />
-										<span class="text-gray-400"
-											>{truncateString(attacker.corporation_name, 22)}</span
-										>
+										<span class="text-gray-400">{truncateString(attacker.corporation_name, 22)}</span>
 									{/if}
 								{/if}
 							{/each}
@@ -260,3 +251,9 @@
 		Next
 	</button>
 </div>
+
+<style>
+.bg-darkred {
+    background-color: rgb(40, 0, 0);
+}
+</style>

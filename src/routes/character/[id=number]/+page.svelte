@@ -5,6 +5,7 @@
 	import Dashboard from './dashboard.svelte';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';
+	import Combined from './combined.svelte';
 	import CorporationHistory from './corporationHistory.svelte';
 	import Stats from './Stats.svelte';
 	import StatusTop from './statusTop.svelte'; // Import the new component
@@ -16,6 +17,7 @@
 
 	const hashToComponent = {
 		'#dashboard': Dashboard,
+		'#combined': Combined,
 		'#kills': Kills,
 		'#losses': Losses,
 		'#corporation-history': CorporationHistory,
@@ -79,6 +81,15 @@
 							on:click|preventDefault={() => loadComponent(Losses, '#losses')}
 						>
 							Losses
+						</a>
+					</li>
+					<li>
+						<a
+							href="#combined"
+							class="hover:underline {currentHash === '#combined' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Combined, '#combined')}
+						>
+							Combined
 						</a>
 					</li>
 					<li>
