@@ -34,7 +34,9 @@
 		'Structure Services': true,
 		'Structure Fuel': false,
 		Implants: true,
-		'Infrastructure Hangar': false
+		'Infrastructure Hangar': false,
+		'Core Room': false,
+		'Moon Material Bay': false
 	};
 
 	onMount(async () => {
