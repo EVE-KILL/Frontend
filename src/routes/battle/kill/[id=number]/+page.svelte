@@ -9,6 +9,7 @@
 	import Characters from './characters.svelte';
 	import Kills from './kills.svelte';
 	import Teams from './teams.svelte';
+	import Timeline from './timeline.svelte';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();
@@ -218,6 +219,9 @@
 			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'characters'} class:active={activeTab === 'characters'}>
 				Characters
 			</button>
+			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'timeline'} class:active={activeTab === 'timeline'}>
+				Timeline
+			</button>
 		</div>
 
 		<!-- Conditional Tab Content -->
@@ -235,6 +239,10 @@
 
 		{#if activeTab === 'characters'}
 			<Characters blueTeamCharacters={blueTeamCharacters} redTeamCharacters={redTeamCharacters} />
+		{/if}
+
+		{#if activeTab === 'timeline'}
+			<Timeline killmails={killmails} battle={battle} />
 		{/if}
 	{:else}
 		<div>Loading...</div>

@@ -26,10 +26,6 @@
                     <li class="mb-2">
                         <CollapsibleCard open={false}>
                             <div class="flex items-center cursor-pointer" slot="header">
-                                <!-- Arrow and Alliance Name with Corporation Count -->
-                                <svg class="w-4 h-4 mr-2 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.707 9.293a1 1 0 011.414 0L10 12.586l2.879-2.879a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
                                 <span class="text-xl font-bold">{alliance.name} ({blueTeamCorporations.filter(corp => corp.alliance_id === alliance.id).length})</span>
                             </div>
                             <ul class="ml-4 mt-1 text-sm list-disc" slot="body">
@@ -52,9 +48,6 @@
                                 <span class="font-bold text-lg">
                                     Standalone Corporations ({blueTeamCorporations.filter(corp => !corp.alliance_id).length})
                                 </span>
-                                <svg class="w-4 h-4 ml-2 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.707 9.293a1 1 0 011.414 0L10 12.586l2.879-2.879a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
                             </div>
                             <ul class="ml-4 mt-1 list-disc text-sm" slot="body">
                                 {#each blueTeamCorporations.filter(corp => !corp.alliance_id) as corp}
@@ -83,10 +76,6 @@
                     <li class="mb-2">
                         <CollapsibleCard open={false}>
                             <div class="flex items-center cursor-pointer" slot="header">
-                                <!-- Arrow and Alliance Name with Corporation Count -->
-                                <svg class="w-4 h-4 mr-2 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.707 9.293a1 1 0 011.414 0L10 12.586l2.879-2.879a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
                                 <span class="text-xl font-bold">{alliance.name} ({redTeamCorporations.filter(corp => corp.alliance_id === alliance.id).length})</span>
                             </div>
                             <ul class="ml-4 mt-1 text-sm list-disc" slot="body">
@@ -109,9 +98,6 @@
                                 <span class="font-bold text-lg">
                                     Standalone Corporations ({redTeamCorporations.filter(corp => !corp.alliance_id).length})
                                 </span>
-                                <svg class="w-4 h-4 ml-2 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.707 9.293a1 1 0 011.414 0L10 12.586l2.879-2.879a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
                             </div>
                             <ul class="ml-4 mt-1 list-disc text-sm" slot="body">
                                 {#each redTeamCorporations.filter(corp => !corp.alliance_id) as corp}
