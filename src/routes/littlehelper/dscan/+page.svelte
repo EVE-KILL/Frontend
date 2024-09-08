@@ -36,7 +36,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ dscan: pasteText })
+				body: JSON.stringify(shipNames)
 			});
 
 			const result = await response.json();
