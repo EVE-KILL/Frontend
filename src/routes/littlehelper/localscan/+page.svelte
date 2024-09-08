@@ -43,7 +43,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ names: namesArray })
+				body: JSON.stringify(namesArray)
 			});
 
 			const result = await response.json();
