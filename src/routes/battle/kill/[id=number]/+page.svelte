@@ -35,7 +35,7 @@
 		console.log(battle);
 
 		// Fetch the killmails
-		killmails = await fetchKillmails(battle.start_time, battle.end_time, [battle.system_id, 30000163]);
+		killmails = await fetchKillmails(battle.start_time, battle.end_time, [battle.system_id]);
 
 		// Split the killmails into blue and red team
 		splitKillmailsToSides(killmails, battle);
