@@ -6,7 +6,7 @@
 
 	import '../app.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
-	import Navbar from '../components/Navbar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 
 	let defaultKeywords =
 		'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';

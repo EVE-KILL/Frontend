@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Character } from '../../../types/Character.js';
-	import KillList from '../../../components/KillList.svelte';
+	import KillList from '$lib/components/KillList.svelte';
 	export let data: any;
 	let character: Character = data.character;
 	const upstreamUrl = getUpstreamUrl();
@@ -12,8 +12,8 @@
 
 <KillList
 	url={killlistUrl}
-	subscriptionTopic={subscriptionTopic}
-	filter={filter}
+	{subscriptionTopic}
+	{filter}
 	combinedKillsAndLosses={true}
 	combinedVictimType="character"
 	combinedVictimId={character.character_id}

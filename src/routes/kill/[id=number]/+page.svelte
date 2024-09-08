@@ -2,12 +2,12 @@
 	import { onMount } from 'svelte';
 	import type { Killmail } from '../../../types/Killmail.ts';
 
-	import Attackers from '../../../components/Kill/Attackers.svelte';
-	import Comments from '../../../components/Kill/Comments.svelte';
-	import FittingWheel from '../../../components/Kill/FittingWheel.svelte';
-	import Items from '../../../components/Kill/Items.svelte';
-	import InformationBox from '../../../components/Kill/InformationBox.svelte';
-	import Navbar from '../../../components/Kill/Navbar.svelte';
+	import Attackers from '$lib/components/Kill/Attackers.svelte';
+	import Comments from '$lib/components/Kill/Comments.svelte';
+	import FittingWheel from '$lib/components/Kill/FittingWheel.svelte';
+	import Items from '$lib/components/Kill/Items.svelte';
+	import InformationBox from '$lib/components/Kill/InformationBox.svelte';
+	import Navbar from '$lib/components/Kill/Navbar.svelte';
 
 	export let data;
 	let killmail: Killmail = data.killmail;

@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config';
 	import { convertEveHtml } from '$lib/Helpers.js';
-	import KillList from '../../../components/Item/KillList.svelte';
-	import PriceList from '../../../components/Item/PriceList.svelte';
-	import Fittings from '../../../components/Item/Fittings.svelte';
+	import KillList from '$lib/components/Item/KillList.svelte';
+	import PriceList from '$lib/components/Item/PriceList.svelte';
+	import Fittings from '$lib/components/Item/Fittings.svelte';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();

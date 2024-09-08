@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Character } from '../../../types/Character.ts';
-	import KillList from '../../../components/KillList.svelte';
+	import KillList from '$lib/components/KillList.svelte';
 	export let data: any;
 	let character: Character = data.character;
 	const upstreamUrl = getUpstreamUrl();

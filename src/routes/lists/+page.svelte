@@ -2,14 +2,14 @@
 	import { onMount, tick } from 'svelte';
 	import { page } from '$app/stores';
 	import { getUpstreamUrl } from '$lib/Config';
-	import Top207d from '../../components/Lists/Top207d.svelte';
-	import Top2030d from '../../components/Lists/Top2030d.svelte';
-	import Alliances from '../../components/Lists/Alliances.svelte';
-	import Corporations from '../../components/Lists/Corporations.svelte';
-	import Characters from '../../components/Lists/Characters.svelte';
-	import Ships from '../../components/Lists/Ships.svelte';
-	import Systems from '../../components/Lists/Systems.svelte';
-	import Regions from '../../components/Lists/Regions.svelte';
+	import Top207d from '$lib/components/Lists/Top207d.svelte';
+	import Top2030d from '$lib/components/Lists/Top2030d.svelte';
+	import Alliances from '$lib/components/Lists/Alliances.svelte';
+	import Corporations from '$lib/components/Lists/Corporations.svelte';
+	import Characters from '$lib/components/Lists/Characters.svelte';
+	import Ships from '$lib/components/Lists/Ships.svelte';
+	import Systems from '$lib/components/Lists/Systems.svelte';
+	import Regions from '$lib/components/Lists/Regions.svelte';
 
 	let activeComponent = Top207d;
 	let currentHash = '#top207d'; // Default to '#top207d'

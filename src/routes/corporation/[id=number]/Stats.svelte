@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Corporation } from '../../../types/Corporation.ts';
-	import Ships from '../../../components/TopBoxes/Ships.svelte';
-	import Systems from '../../../components/TopBoxes/Systems.svelte';
-	import Regions from '../../../components/TopBoxes/Regions.svelte';
-	import Characters from '../../../components/TopBoxes/Characters.svelte';
+	import Ships from '$lib/components/TopBoxes/Ships.svelte';
+	import Systems from '$lib/components/TopBoxes/Systems.svelte';
+	import Regions from '$lib/components/TopBoxes/Regions.svelte';
+	import Characters from '$lib/components/TopBoxes/Characters.svelte';
 
 	export let corporation: Corporation;
 	const upstreamUrl = getUpstreamUrl();

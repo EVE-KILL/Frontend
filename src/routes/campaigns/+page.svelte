@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { session } from '$lib/stores/Session';
-	import Modal from '../../components/Campaigns/Modal.svelte';
-	import ListCampaigns from '../../components/Campaigns/ListCampaigns.svelte';
+	import Modal from '$lib/components/Campaigns/Modal.svelte';
+	import ListCampaigns from '$lib/components/Campaigns/ListCampaigns.svelte';
 
 	let user: any = null;
 	let showModal = false;

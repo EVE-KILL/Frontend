@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Alliance } from '../../../types/Alliance.ts';
-	import Ships from '../../../components/TopBoxes/Ships.svelte';
-	import Systems from '../../../components/TopBoxes/Systems.svelte';
-	import Regions from '../../../components/TopBoxes/Regions.svelte';
-	import Characters from '../../../components/TopBoxes/Characters.svelte';
-	import Corporations from '../../../components/TopBoxes/Corporations.svelte';
+	import Ships from '$lib/components/TopBoxes/Ships.svelte';
+	import Systems from '$lib/components/TopBoxes/Systems.svelte';
+	import Regions from '$lib/components/TopBoxes/Regions.svelte';
+	import Characters from '$lib/components/TopBoxes/Characters.svelte';
+	import Corporations from '$lib/components/TopBoxes/Corporations.svelte';
 
 	export let alliance: Alliance;
 	const upstreamUrl = getUpstreamUrl();
