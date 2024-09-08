@@ -64,7 +64,7 @@
 
 	const fetchDataByHash = async (hash) => {
 		try {
-			const response = await fetch(`https://eve-kill.com/api/lilhelper/localscan/${hash}`);
+			const response = await fetch(`${upstreamUrl}/api/lilhelper/localscan/${hash}`);
 			const result = await response.json();
 			const { alliances, corporations } = result;
 
