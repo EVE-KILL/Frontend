@@ -8,6 +8,7 @@
 	import Corporations from './corporations.svelte';
 	import Characters from './characters.svelte';
 	import Kills from './kills.svelte';
+	import Teams from './teams.svelte';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();
@@ -25,7 +26,6 @@
 	let blueTeamCharacters = [];
 	let redTeamCharacters = [];
 	let killmails: Killmail[] = [];
-	let system;
 	let activeTab = 'kills'; // Track the active tab
 
 	onMount(async () => {
@@ -109,7 +109,7 @@
 
 				// Track the victim's alliance, corporation, and character
 				trackKillStats(blueAlliancesMap, killmail.victim.alliance_id, killmail.victim.alliance_name, killmail.total_value);
-				trackKillStats(blueCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value);
+				trackKillStats(blueCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value, killmail.victim.alliance_id, killmail.victim.alliance_name);
 				trackKillStats(blueCharactersMap, killmail.victim.character_id, killmail.victim.character_name, killmail.total_value);
 			} else if (isRedVictim) {
 				blueTeamKills.push(killmail);  // Blue team killed red team
@@ -119,7 +119,7 @@
 
 				// Track the victim's alliance, corporation, and character
 				trackKillStats(redAlliancesMap, killmail.victim.alliance_id, killmail.victim.alliance_name, killmail.total_value);
-				trackKillStats(redCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value);
+				trackKillStats(redCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value, killmail.victim.alliance_id, killmail.victim.alliance_name);
 				trackKillStats(redCharactersMap, killmail.victim.character_id, killmail.victim.character_name, killmail.total_value);
 			}
 
@@ -128,12 +128,12 @@
 				if (attacker.alliance_id && blueAlliances.has(attacker.alliance_id)) {
 					// Blue team attacker
 					trackKillStats(blueAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(blueCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value);
+					trackKillStats(blueCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
 					trackKillStats(blueCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
 				} else if (attacker.alliance_id && redAlliances.has(attacker.alliance_id)) {
 					// Red team attacker
 					trackKillStats(redAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(redCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value);
+					trackKillStats(redCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
 					trackKillStats(redCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
 				}
 			});
@@ -149,20 +149,21 @@
 		redTeamAlliances = Array.from(redAlliancesMap.values()).sort((a, b) => b.kills - a.kills);
 		redTeamCorporations = Array.from(redCorporationsMap.values()).sort((a, b) => b.kills - a.kills);
 
-
 		// Sort the killmails by total_value
 		blueTeamKills = blueTeamKills.sort((a, b) => b.total_value - a.total_value);
 		redTeamKills = redTeamKills.sort((a, b) => b.total_value - a.total_value);
 	}
 
 	// Helper function to add killmail details to a map
-	function trackKillStats(map, id, name, totalValue) {
+	function trackKillStats(map, id, name, totalValue, allianceId, allianceName) {
 		if (!id || !name) return; // If no id or name, do nothing
 
 		if (!map.has(id)) {
 			map.set(id, {
 				id,
 				name,
+				alliance_id: allianceId, // Add the alliance_id here
+				alliance_name: allianceName, // Store alliance name
 				kills: 0,
 				totalValue: 0
 			});
@@ -172,6 +173,7 @@
 		stats.kills += 1;
 		stats.totalValue += totalValue;
 	}
+
 </script>
 
 <div class="p-4 bg-gray-900 rounded-lg shadow-lg text-white">
@@ -185,7 +187,7 @@
 				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(battle.end_time)}
 			</div>
 			<div class="text-sm text-gray-400">
-				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost + redTeamStats.shipsLost} | Damage Inflicted: {blueTeamStats.damageInflicted + redTeamStats.damageInflicted}
+				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost + redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(blueTeamStats.damageInflicted + redTeamStats.damageInflicted)}
 			</div>
 			<div class="text-sm text-gray-400">
 				Duration: {duration(battle.start_time, battle.end_time)}
@@ -193,40 +195,14 @@
 		</div>
 
 		<!-- Teams Table -->
-		<div class="grid grid-cols-2 gap-4">
-			<div>
-				<div class="mb-2 text-lg font-bold">Blue Team</div>
-				<div class="bg-gray-800 p-2 rounded-lg shadow-lg">
-					<div class="mb-2 text-lg font-bold">Blue Team</div>
-					<div class="mb-2 text-sm text-gray-400">
-						ISK Lost: {convertIskToBillions(blueTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost}
-						| Damage Inflicted: {blueTeamStats.damageInflicted}
-					</div>
-					<div class="mb-2 text-sm text-gray-400">Alliances:</div>
-					<ul class="list-disc list-inside">
-						{#each battle.blue_team.alliances as alliance}
-							<li>{alliance.name}</li>
-						{/each}
-					</ul>
-				</div>
-			</div>
-			<div>
-				<div class="mb-2 text-lg font-bold">Red Team</div>
-				<div class="bg-gray-800 p-2 rounded-lg shadow-lg">
-					<div class="mb-2 text-lg font-bold">Red Team</div>
-					<div class="mb-2 text-sm text-gray-400">
-						ISK Lost: {convertIskToBillions(redTeamStats.iskLost)} ISK | Ships Lost: {redTeamStats.shipsLost}
-						| Damage Inflicted: {redTeamStats.damageInflicted}
-					</div>
-					<div class="mb-2 text-sm text-gray-400">Alliances:</div>
-					<ul class="list-disc list-inside">
-						{#each battle.red_team.alliances as alliance}
-							<li>{alliance.name}</li>
-						{/each}
-					</ul>
-				</div>
-			</div>
-		</div>
+		<Teams
+			blueTeamStats={blueTeamStats}
+			redTeamStats={redTeamStats}
+			blueTeamAlliances={blueTeamAlliances}
+			redTeamAlliances={redTeamAlliances}
+			blueTeamCorporations={blueTeamCorporations}
+			redTeamCorporations={redTeamCorporations}
+		/>
 
 		<!-- Tabs Navigation -->
 		<div class="mb-4">
@@ -269,4 +245,9 @@
 	button.active {
 		background-color: #4a5568;
 	}
+
+	/* Arrow rotation class for collapse/expand */
+    .rotate-90 {
+        transform: rotate(90deg);
+    }
 </style>

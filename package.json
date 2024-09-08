@@ -68,6 +68,7 @@
 		"lru-cache": "^11.0.1",
 		"pako": "^2.1.0",
 		"set-cookie-parser": "^2.7.0",
+		"svelte-collapsible": "^0.3.0",
 		"svelte-highlight": "^7.7.0",
 		"svelte-preprocess-react": "^0.17.1"
 	}
