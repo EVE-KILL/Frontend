@@ -4,7 +4,7 @@
 	import { replaceState } from '$app/navigation';
 
 	let pasteText = ''; // Store the clipboard text
-	let shipNames: string[] = []; // Store extracted ship names
+	let shipCounts: Record<string, number> = {}; // Store ship names and counts
 	let isLoading = false;
 	let upstreamUrl = getUpstreamUrl();
 
@@ -23,12 +23,12 @@
 	const handleClipboardData = async () => {
 		try {
 			isLoading = true;
-			shipNames = []; // Clear previous state
+			shipCounts = {}; // Clear previous state
 			const text = await navigator.clipboard.readText(); // Read clipboard text
 			pasteText = text;
 
-			// Extract ship names from DScan
-			shipNames = parseDScan(pasteText);
+			// Extract ship names from DScan (you can still do this to clean up the input)
+			const shipNames = parseDScan(pasteText);
 
 			// Send the ship names to the API
 			const response = await fetch(`${upstreamUrl}/api/lilhelper/dscan`, {
@@ -36,11 +36,14 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(shipNames)
+				body: JSON.stringify({ dscan: pasteText })
 			});
 
 			const result = await response.json();
-			const { hash } = result;
+			const { ships, hash } = result;
+
+			// Process the ship counts from the API
+			shipCounts = ships;
 
 			// Store the hash in the URL
 			replaceState(`${window.location.pathname}?hash=${hash}`);
@@ -58,8 +61,8 @@
 			const result = await response.json();
 			const { ships } = result;
 
-			// Extract ship names from the result
-			shipNames = Object.keys(ships);
+			// Process the ship counts from the result
+			shipCounts = ships;
 
 			isLoading = false;
 		} catch (err) {
@@ -107,22 +110,32 @@
 		<p>Loading...</p>
 	{/if}
 
-	<!-- Ship names display -->
-	{#if shipNames.length > 0 && !isLoading}
+	<!-- Ship counts display -->
+	{#if Object.keys(shipCounts).length > 0 && !isLoading}
 		<div class="bg-gray-900 text-white rounded-lg p-4 w-full max-w-2xl">
-			<h3 class="text-lg font-bold mb-2">Ship Names</h3>
-			<ul>
-				{#each shipNames as ship}
-					<li>{ship}</li>
-				{/each}
-			</ul>
+			<h3 class="text-lg font-bold mb-2">Ship Counts</h3>
+			<table class="table-auto w-full">
+				<thead>
+					<tr>
+						<th class="text-left">Ship Type</th>
+						<th class="text-right">Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each Object.entries(shipCounts) as [ship, count]}
+						<tr>
+							<td>{ship}</td>
+							<td class="text-right">{count}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 		</div>
 	{/if}
 </div>
 
 <style>
-	ul {
-		list-style-type: none;
-		padding-left: 0;
+	table {
+		border-spacing: 0 10px;
 	}
 </style>
