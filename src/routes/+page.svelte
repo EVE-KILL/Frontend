@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import KillList from '../components/KillList.svelte';
-	import MostValuableKills from '../components/MostValuableKills.svelte';
-	import Characters from '../components/TopBoxes/Characters.svelte';
-	import Corporations from '../components/TopBoxes/Corporations.svelte';
-	import Alliances from '../components/TopBoxes/Alliances.svelte';
-	import Ships from '../components/TopBoxes/Ships.svelte';
-	import Systems from '../components/TopBoxes/Systems.svelte';
-	import Constellations from '../components/TopBoxes/Constellations.svelte';
-	import Regions from '../components/TopBoxes/Regions.svelte';
+	import KillList from '$lib/components/KillList.svelte';
+	import MostValuableKills from '$lib/components/MostValuableKills.svelte';
+	import Characters from '$lib/components/TopBoxes/Characters.svelte';
+	import Corporations from '$lib/components/TopBoxes/Corporations.svelte';
+	import Alliances from '$lib/components/TopBoxes/Alliances.svelte';
+	import Ships from '$lib/components/TopBoxes/Ships.svelte';
+	import Systems from '$lib/components/TopBoxes/Systems.svelte';
+	import Constellations from '$lib/components/TopBoxes/Constellations.svelte';
+	import Regions from '$lib/components/TopBoxes/Regions.svelte';
 
 	const upstreamUrl = getUpstreamUrl();
 

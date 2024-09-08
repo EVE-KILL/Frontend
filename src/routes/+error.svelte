@@ -1,8 +1,7 @@
 <script lang="ts">
-	import fourOhFourImage from '../images/404.png';
 </script>
 
-<div id="fourohfour" style="background: url({fourOhFourImage}) no-repeat center center;" />
+<div id="fourohfour" style="background: url(/images/404.png) no-repeat center center;" />
 
 <style>
 	#fourohfour {

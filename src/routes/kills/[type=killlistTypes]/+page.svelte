@@ -1,5 +1,5 @@
 <script lang="ts">
-	import KillList from '../../../components/KillList.svelte';
+	import KillList from '$lib/components/KillList.svelte';
 	import { page } from '$app/stores'; // Import the page store to detect route changes
 
 	export let data;

@@ -3,7 +3,6 @@
 	import { getEVEAuthLoginUrl } from '$lib/Auth.ts';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { onMount } from 'svelte';
-	import ssoLightLarge from '../../images/sso-light-large.png';
 
 	let isAccountDropdownOpen = false;
 	let closeAccountDropdownTimeout = 0;
@@ -127,7 +126,7 @@
 			{:else}
 				<li class="p-2">
 					<a href={eveSSOLoginUrl}>
-						<img src={ssoLightLarge} alt="Login" class="w-full" />
+						<img src="/images/sso-light-large.png" alt="Login" class="w-full" />
 					</a>
 				</li>
 				<li class="p-2 rounded-b-md">
