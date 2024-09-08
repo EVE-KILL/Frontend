@@ -20,7 +20,6 @@
 
 <!-- Combined Kill List -->
 <div class="mt-4">
-    <div class="col-span-2 mb-2 text-lg font-bold">Combined Kill Timeline</div>
     <div class="overflow-x-auto col-span-2" role="table">
         <table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
             <thead>
@@ -32,7 +31,13 @@
             </thead>
             <tbody class="text-gray-300 text-sm">
                 {#each killmails as kill}
-                    <tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+                    <tr
+                        class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+                        on:click={() => window.location.href = `/kill/${kill.killmail_id}`}
+                        role="button"
+                        aria-label="View killmail details for {kill.victim.character_name} in {kill.victim.ship_name}"
+                        tabindex="0"
+                    >
                         <!-- Blue Team Kill -->
                         {#if isBlueTeamKill(kill)}
                             <td class="text-right">
@@ -49,12 +54,14 @@
                                         <div class="text-xs">{formatNumber(kill.victim.damage_taken)} damage</div>
                                     </div>
 
+                                    <!-- Kill Time & Image -->
                                     <div class="flex flex-col items-start">
                                         <div class="flex flex-row items-center">
                                             <div class="text-xs mr-4">{kill.kill_time}</div>
                                             <img src={`https://images.evetech.net/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
                                         </div>
-                                    </div>                                </div>
+                                    </div>
+                                </div>
                             </td>
                             <td class="text-center h-full w-px bg-gray-600"></td>
                             <td></td>
@@ -66,6 +73,7 @@
                             <td class="text-center h-full w-px bg-gray-600"></td>
                             <td class="text-left">
                                 <div class="flex justify-between items-center">
+                                    <!-- Kill Time & Image -->
                                     <div class="flex flex-col items-start mr-4">
                                         <div class="flex flex-row items-center">
                                             <img src={`https://images.evetech.net/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
