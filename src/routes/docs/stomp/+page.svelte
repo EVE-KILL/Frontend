@@ -12,26 +12,26 @@
 	<div class="flex flex-col lg:flex-row gap-6 mb-8">
 		<!-- Connection Details Table -->
 		<div class="w-full lg:w-1/2">
-			<table class="table-auto min-w-full bg-gray-800 rounded-lg shadow-lg">
+			<table class="table-auto min-w-full bg-background-800 rounded-lg shadow-lg">
 				<thead>
 					<tr class="bg-darker text-white uppercase text-xs leading-normal">
 						<th class="px-2 py-1" scope="col" colspan="2">Connection Details</th>
 					</tr>
 				</thead>
 				<tbody class="text-gray-300 text-sm">
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1 font-semibold">WebSocket URL</td>
 						<td class="px-2 py-1"><code>wss://stomp.eve-kill.com/ws</code></td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1 font-semibold">Username</td>
 						<td class="px-2 py-1"><code>guest</code></td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1 font-semibold">Password</td>
 						<td class="px-2 py-1"><code>guest</code></td>
 					</tr>
-					<tr class="hover:bg-gray-600 transition-colors duration-300">
+					<tr class="hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1 font-semibold">Default Topic</td>
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/all</code></td>
 					</tr>
@@ -41,38 +41,38 @@
 
 		<!-- Available Topics Table -->
 		<div class="w-full lg:w-1/2">
-			<table class="table-auto min-w-full bg-gray-800 rounded-lg shadow-lg">
+			<table class="table-auto min-w-full bg-background-800 rounded-lg shadow-lg">
 				<thead>
 					<tr class="bg-darker text-white uppercase text-xs leading-normal">
 						<th class="px-2 py-1" scope="col" colspan="2">Available Topics</th>
 					</tr>
 				</thead>
 				<tbody class="text-gray-300 text-sm">
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/all</code></td>
 						<td class="px-2 py-1">Emits all killmails.</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/character.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular character id</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/corporation.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular corporation id</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/alliance.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular alliance id</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/faction.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular faction id</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/system.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular system id</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1"><code>/exchange/killmail_topic_exchange/region.id</code></td>
 						<td class="px-2 py-1">Emits all killmails for a particular region id</td>
 					</tr>
@@ -172,9 +172,11 @@ $client->close();`}
 
 	<h2 class="text-xl font-semibold mt-8 mb-4 text-white">Handling Incoming Messages</h2>
 	<p class="text-gray-300 mb-4">
-		Once connected and subscribed, you will receive incoming messages containing killmail data in JSON format. You can process these messages according to your application's
-		requirements.
+		Once connected and subscribed, you will receive incoming messages containing killmail data in JSON format. You can process these messages
+		according to your application's requirements.
 	</p>
 
-	<p class="text-gray-300"> For more advanced usage, including filtering and processing specific data, refer to the full API documentation or contact support. </p>
+	<p class="text-gray-300">
+		For more advanced usage, including filtering and processing specific data, refer to the full API documentation or contact support.
+	</p>
 </div>

@@ -22,13 +22,13 @@
 					<table class="min-w-full bg-semi-transparent rounded-lg">
 						<thead>
 							<tr>
-								<th class="py-2 px-4 bg-gray-900 text-left">Image</th>
-								<th class="py-2 px-4 bg-gray-900 text-left">Name</th>
+								<th class="py-2 px-4 bg-background-900 text-left">Image</th>
+								<th class="py-2 px-4 bg-background-900 text-left">Name</th>
 							</tr>
 						</thead>
 						<tbody class="text-gray-300 text-sm">
 							{#each searchResults as result}
-								<tr class="hover:bg-gray-600 transition-colors duration-300 cursor-pointer" on:click={() => handleResultClick(result)}>
+								<tr class="hover:bg-background-600 transition-colors duration-300 cursor-pointer" on:click={() => handleResultClick(result)}>
 									<td class="flex items-center space-x-2 py-2 px-4">
 										{#if result.type === 'character'}
 											<img src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`} alt={result.name} class="w-16 h-16 rounded" />
@@ -37,7 +37,11 @@
 										{:else if result.type === 'alliance'}
 											<img src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`} alt={result.name} class="w-16 h-16 rounded" />
 										{:else if result.type === 'item'}
-											<img src={`https://images.evetech.net/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`} alt={result.name} class="w-16 h-16 rounded" />
+											<img
+												src={`https://images.evetech.net/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
+												alt={result.name}
+												class="w-16 h-16 rounded"
+											/>
 										{:else if result.type === 'system' || result.type === 'region'}
 											<img src="https://eve-kill.com/map.png" alt={result.name} class="w-16 h-16 rounded" />
 										{/if}

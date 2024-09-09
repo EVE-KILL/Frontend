@@ -34,7 +34,7 @@
 	</div>
 </nav>
 
-<div class="bg-blue-900 text-white text-center py-2 px-4">
+<div class="bg-primary-900 text-white rounded-sm text-center mb-2 py-2 px-4">
 	EARLY DAYS
 	<ul>
 		<a href="https://discord.gg/R9gZRc4Jtn" class="underline">Swing by Discord for help or feedback!</a>

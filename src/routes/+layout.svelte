@@ -5,18 +5,19 @@
 	import { get } from 'svelte/store';
 
 	import '../app.css';
+	import '../global.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 
-	let defaultKeywords =
-		'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
-	let combinedKeywords = $page.data.meta?.keywords
-		? `${defaultKeywords}, ${$page.data.meta.keywords}`
-		: defaultKeywords;
+	import { useKillmails } from '$lib/models/useKillmails';
+	const { setup: setupKillmails } = useKillmails();
+
+	setupKillmails();
+
+	let defaultKeywords = 'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
+	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
 	let defaultTitle = 'EVE-KILL';
-	let combinedTitle = $page.data.meta?.title
-		? `${defaultTitle} - ${$page.data.meta.title}`
-		: defaultTitle;
+	let combinedTitle = $page.data.meta?.title ? `${defaultTitle} - ${$page.data.meta.title}` : defaultTitle;
 
 	// Store the current path without query or hash
 	let currentPath = get(page).url.pathname;
@@ -41,11 +42,7 @@
 	<title>{combinedTitle}</title>
 
 	<!-- Meta tags -->
-	<meta
-		name="description"
-		content={$page.data.meta?.description ||
-			'EVE-KILL is a killboard for the MMORPG EVE-Online'}
-	/>
+	<meta name="description" content={$page.data.meta?.description || 'EVE-KILL is a killboard for the MMORPG EVE-Online'} />
 
 	<meta name="keywords" content={combinedKeywords} />
 	<meta name="robots" content={$page.data.meta?.robots || 'index, follow'} />

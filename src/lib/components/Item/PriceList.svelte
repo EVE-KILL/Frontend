@@ -29,7 +29,7 @@
 			</thead>
 			<tbody class="text-gray-300 text-sm">
 				{#each prices as price}
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+					<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 						<td class="px-2 py-1">{price.date}</td>
 						<td class="px-2 py-1 text-right">{formatNumber(price.lowest)} ISK</td>
 						<td class="px-2 py-1 text-right">{formatNumber(price.average)} ISK</td>

@@ -143,12 +143,26 @@
 				if (attacker.alliance_id && blueAlliances.has(attacker.alliance_id)) {
 					// Blue team attacker
 					trackKillStats(blueAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(blueCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
+					trackKillStats(
+						blueCorporationsMap,
+						attacker.corporation_id,
+						attacker.corporation_name,
+						killmail.total_value,
+						attacker.alliance_id,
+						attacker.alliance_name
+					);
 					trackKillStats(blueCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
 				} else if (attacker.alliance_id && redAlliances.has(attacker.alliance_id)) {
 					// Red team attacker
 					trackKillStats(redAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(redCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
+					trackKillStats(
+						redCorporationsMap,
+						attacker.corporation_id,
+						attacker.corporation_name,
+						killmail.total_value,
+						attacker.alliance_id,
+						attacker.alliance_name
+					);
 					trackKillStats(redCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
 				}
 			});
@@ -190,7 +204,7 @@
 	}
 </script>
 
-<div class="p-4 bg-gray-900 rounded-lg shadow-lg text-white">
+<div class="p-4 bg-background-900 rounded-lg shadow-lg text-white">
 	{#if battle}
 		<!-- Top Div -->
 		<div class="mb-4">
@@ -201,9 +215,8 @@
 				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(battle.end_time)}
 			</div>
 			<div class="text-sm text-gray-400">
-				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost + redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(
-					blueTeamStats.damageInflicted + redTeamStats.damageInflicted
-				)}
+				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost +
+					redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(blueTeamStats.damageInflicted + redTeamStats.damageInflicted)}
 			</div>
 			<div class="text-sm text-gray-400">
 				Duration: {duration(battle.start_time, battle.end_time)}
@@ -215,32 +228,36 @@
 
 		<!-- Tabs Navigation -->
 		<div class="mb-4">
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600" on:click={() => (activeTab = 'kills')} class:active={activeTab === 'kills'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-background-700 hover:bg-background-600"
+				on:click={() => (activeTab = 'kills')}
+				class:active={activeTab === 'kills'}
+			>
 				Kills
 			</button>
 			<button
-				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-background-700 hover:bg-background-600 ml-2"
 				on:click={() => (activeTab = 'alliances')}
 				class:active={activeTab === 'alliances'}
 			>
 				Alliances
 			</button>
 			<button
-				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-background-700 hover:bg-background-600 ml-2"
 				on:click={() => (activeTab = 'corporations')}
 				class:active={activeTab === 'corporations'}
 			>
 				Corporations
 			</button>
 			<button
-				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-background-700 hover:bg-background-600 ml-2"
 				on:click={() => (activeTab = 'characters')}
 				class:active={activeTab === 'characters'}
 			>
 				Characters
 			</button>
 			<button
-				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-background-700 hover:bg-background-600 ml-2"
 				on:click={() => (activeTab = 'timeline')}
 				class:active={activeTab === 'timeline'}
 			>

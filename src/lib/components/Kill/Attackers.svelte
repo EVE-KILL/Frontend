@@ -24,7 +24,7 @@
 </script>
 
 <div class="overflow-x-auto" role="table">
-	<table class="table-auto bg-semi-transparent bg-gray-800 rounded-lg shadow-lg w-full">
+	<table class="table-auto bg-semi-transparent bg-background-800 rounded-lg shadow-lg w-full">
 		<thead>
 			<tr class="bg-darker text-white uppercase text-xs leading-normal">
 				<th class="px-2 py-1" scope="col"></th>
@@ -35,7 +35,7 @@
 		</thead>
 		<tbody class="text-gray-300 text-sm">
 			{#each attackers as attacker}
-				<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
+				<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
 					<td>
 						<a href={`/character/${attacker.character_id}`}>
 							<img src={`${attacker.character_image_url}?size=128`} alt={attacker.character_name} class="h-16 min-h-16 w-16 min-w-16 rounded-md" />
@@ -98,12 +98,20 @@
 						<div class="flex justify-end mt-1">
 							{#if attacker.corporation_id}
 								<a href={`/corporation/${attacker.corporation_id}`}>
-									<img src={`https://images.evetech.net/corporations/${attacker.corporation_id}/logo?size=64`} alt={attacker.corporation_name} class="h-8 w-8 rounded-md" />
+									<img
+										src={`https://images.evetech.net/corporations/${attacker.corporation_id}/logo?size=64`}
+										alt={attacker.corporation_name}
+										class="h-8 w-8 rounded-md"
+									/>
 								</a>
 							{/if}
 							{#if attacker.alliance_id}
 								<a class="ml-1" href={`/alliance/${attacker.alliance_id}`}>
-									<img src={`https://images.evetech.net/alliances/${attacker.alliance_id}/logo?size=64`} alt={attacker.alliance_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
+									<img
+										src={`https://images.evetech.net/alliances/${attacker.alliance_id}/logo?size=64`}
+										alt={attacker.alliance_name}
+										class="h-8 min-h-8 w-8 min-w-8 rounded-md"
+									/>
 								</a>
 							{/if}
 						</div>

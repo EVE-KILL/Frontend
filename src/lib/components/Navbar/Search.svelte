@@ -1,20 +1,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getUpstreamUrl } from '$lib/Config.ts';
+
+	import { useSearch } from '$lib/models/useSearch';
+	const { search } = useSearch();
 
 	let searchTerm = '';
-	let searchResults = [];
+	let searchResults: string | any[] = [];
 	let selectedIndex = -1;
 	let isSearchDropdownOpen = false;
 	let isSearchBoxFocused = false;
-	const upstreamUrl = getUpstreamUrl();
 
-	async function handleSearch(event) {
+	async function handleSearch(event: { target: { value: string } }) {
 		searchTerm = event.target.value;
 		if (searchTerm.length > 2) {
-			const response = await fetch(`${upstreamUrl}/api/search/${searchTerm}`);
-			let results = await response.json();
-			searchResults = results.hits;
+			searchResults = await search(searchTerm);
 			isSearchDropdownOpen = searchResults.length > 0;
 			selectedIndex = -1;
 		} else {
@@ -37,7 +36,7 @@
 		isSearchBoxFocused = false;
 	}
 
-	function handleKeydown(event) {
+	function handleKeydown(event: { altKey: any; metaKey: any; key: string; preventDefault: () => void }) {
 		// Check if Alt/Option key is pressed along with 's'
 		const isAltOrOption = event.altKey || (navigator.platform.toUpperCase().indexOf('MAC') >= 0 && event.metaKey);
 
@@ -76,7 +75,13 @@
 		<div class="relative">
 			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
 				<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+					/>
 				</svg>
 			</div>
 			<input
@@ -86,23 +91,29 @@
 				on:input={handleSearch}
 				on:focus={handleFocus}
 				on:blur={handleBlur}
-				class="search block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				class="search block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-background-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-background-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 				placeholder="Search..."
 			/>
 		</div>
 		{#if isSearchDropdownOpen}
-			<div class="absolute bg-gray-800 rounded-lg shadow-lg mt-2 w-full">
+			<div class="absolute bg-background-800 rounded-lg shadow-lg mt-2 w-full">
 				<div class="overflow-y-auto max-h-64">
 					<table class="table-auto w-full">
 						<tbody class="text-gray-300 text-sm">
 							{#each searchResults as result, index}
 								<tr
-									class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex === index ? 'bg-gray-600' : ''}"
+									class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300 {selectedIndex === index
+										? 'bg-background-600'
+										: ''}"
 									on:click={() => (window.location.href = `/${result.type}/${result.id}`)}
 								>
 									<td class="h-16 w-16 rounded-md">
 										{#if result.type === 'character'}
-											<img src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
+											<img
+												src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`}
+												alt={result.name}
+												class="h-16 w-16 rounded-md"
+											/>
 										{:else if result.type === 'corporation'}
 											<img src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'alliance'}

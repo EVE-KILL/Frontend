@@ -165,7 +165,7 @@
 <!-- Comments Section -->
 <div class="overflow-x-auto" bind:this={container}>
 	{#each comments as comment}
-		<div class="comment bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
+		<div class="comment bg-semi-transparent bg-background-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
 				<img
 					src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
@@ -189,10 +189,14 @@
 
 	{#if user}
 		<!-- Comment Input Box -->
-		<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
+		<div class="bg-semi-transparent bg-background-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
 				<div class="flex flex-col w-full">
-					<img src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`} alt="User avatar" class="h-16 w-16 rounded-md mr-4" />
+					<img
+						src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`}
+						alt="User avatar"
+						class="h-16 w-16 rounded-md mr-4"
+					/>
 					<div class="text-left text-sm text-white">
 						<strong>{user.character_name}</strong><br />
 					</div>
