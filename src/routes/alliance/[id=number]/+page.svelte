@@ -48,9 +48,9 @@
 </script>
 
 {#if alliance}
-	<div class="container mx-auto p-4 text-white">
+	<div class="mx-auto p-4 text-white">
 		<!-- Profile Section -->
-		<div class="flex items-start">
+		<div class="flex items-start bg-semi-transparent">
 			<!-- Profile Image with Additional Images -->
 			<div class="flex items-center">
 				<img src="https://images.evetech.net/alliances/{alliance.alliance_id}/logo?size=256" alt="Alliance: {alliance.name}" class="rounded-full" />
@@ -94,7 +94,7 @@
 		</div>
 
 		<!-- Navbar -->
-		<div class="mt-4">
+		<div>
 			<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 				<ul class="flex space-x-4">
 					<li>
@@ -123,7 +123,7 @@
 		</div>
 
 		<!-- Main content -->
-		<div class="container mt-4 p-4 rounded">
+		<div class="mt-4 rounded">
 			{#if activeComponent}
 				<svelte:component this={activeComponent} {alliance} />
 			{/if}
