@@ -8,11 +8,11 @@
 	// Background image options
 	const backgroundImages = [
 		{ src: '/images/bg1.jpg', name: 'bg1.jpg' },
-		{ src: '/images/bg2.jpg', name: 'bg2.png' },
-		{ src: '/images/bg3.jpg', name: 'bg3.png' },
-		{ src: '/images/bg4.jpg', name: 'bg4.png' },
-		{ src: '/images/bg5.jpg', name: 'bg5.png' },
-		{ src: '/images/bg6.jpg', name: 'bg6.png' }
+		{ src: '/images/bg2.png', name: 'bg2.png' },
+		{ src: '/images/bg3.png', name: 'bg3.png' },
+		{ src: '/images/bg4.png', name: 'bg4.png' },
+		{ src: '/images/bg5.png', name: 'bg5.png' },
+		{ src: '/images/bg6.png', name: 'bg6.png' }
 	];
 
 	// Local state for dropdown visibility

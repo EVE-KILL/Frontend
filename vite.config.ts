@@ -2,6 +2,7 @@ import { sentrySvelteKit } from "@sentry/sveltekit";
 import wasm from 'vite-plugin-wasm';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import path from "path";
 
 export default defineConfig({
 	plugins: [sentrySvelteKit({
@@ -25,5 +26,10 @@ export default defineConfig({
 		supported: {
 			'top-level-await': true
 		}
-	}
+	},
+	resolve: {
+    alias: {
+      $lib: path.resolve("./src/lib"),
+    },
+  },
 });
