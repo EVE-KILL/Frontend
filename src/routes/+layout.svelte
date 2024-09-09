@@ -3,14 +3,15 @@
 	import { page } from '$app/stores';
 	import { onNavigate } from '$app/navigation';
 	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
 
 	import '../app.css';
 	import '../global.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 
-	// import { useKillmails } from '$lib/models/useKillmails';
-	// const { setup: setupKillmails } = useKillmails();
+	import { useKillmails } from '$lib/models/useKillmails';
+	const { setup: setupKillmails } = useKillmails();
 
 	// setupKillmails();
 
@@ -34,6 +35,10 @@
 			combinedKeywords = defaultKeywords;
 			combinedTitle = defaultTitle;
 		}
+	});
+
+	onMount(() => {
+		// setupKillmails();
 	});
 </script>
 
