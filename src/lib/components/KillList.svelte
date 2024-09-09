@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Killmail } from '../types/Killmail';
+	import type { Killmail } from '$lib/types/Killmail';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { stompConnection } from '$lib/Stomp.ts';

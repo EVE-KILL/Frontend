@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Character } from '../../../types/Character.js';
+	import type { Character } from '$lib/types/Character.js';
 	import { onMount } from 'svelte';
 	import { convertEveHtml, formatNumber } from '$lib/Helpers.js';
 	import { getUpstreamUrl } from '$lib/Config.js';
