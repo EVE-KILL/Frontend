@@ -13,6 +13,8 @@ vite.config.ts.timestamp-*
 .vscode/settings.json
 static/icons
 static/sde
+copyESFDataToStatic.ps1
+package-lock.json
 
 # Sentry Config File
 .sentryclirc
