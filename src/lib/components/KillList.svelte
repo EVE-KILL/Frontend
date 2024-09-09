@@ -8,6 +8,9 @@
 	import { fetchKillList } from '$lib/fetchKillList.ts';
 	import { formatNumber } from '$lib/Helpers.ts';
 
+	import { useColors } from '$lib/models/useColors';
+	const { getSecurityColor } = useColors();
+
 	export let url: string;
 	export let title: string = '';
 	export let subscriptionTopic: string = 'all';
@@ -231,7 +234,10 @@
 			<div class="flex flex-col items-start px-2 py-1 text-sm">
 				<div class="flex flex-col items-start">
 					<span class="text-sm whitespace-nowrap">{kill.region_name}</span>
-					<span class="text-background-400 text-xs whitespace-nowrap">{kill.system_name}</span>
+					<div class="text-background-400 text-xs whitespace-nowrap">
+						<span>{kill.system_name}</span>
+						(<span style="color: {getSecurityColor(kill.system_security)}">{formatNumber(kill.system_security)}</span>)
+					</div>
 				</div>
 			</div>
 
