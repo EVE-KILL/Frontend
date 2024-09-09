@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Killmail } from '../types/Killmail';
+	import type { Killmail } from '$lib/types/Killmail';
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { onMount } from 'svelte';
 

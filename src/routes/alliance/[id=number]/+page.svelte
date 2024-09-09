@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { page } from '$app/stores';
-	import type { Alliance } from '../../../types/Alliance.ts';
+	import type { Alliance } from '$lib/types/Alliance.ts';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';
 	import Corporations from './corporations.svelte';

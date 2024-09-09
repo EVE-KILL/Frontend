@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Alliance } from '../../types/Top/Alliance';
+	import type { Alliance } from '$lib/types/Top/Alliance';
 
 	export let url: string;
 	export let count: number = 10;

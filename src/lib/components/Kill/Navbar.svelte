@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
 	import { onMount } from 'svelte';
-	import type { Killmail } from '../../types/Killmail';
+	import type { Killmail } from '$lib/types/Killmail';
 
 	export let killmail: Killmail;
 	let inBattle: boolean = false;

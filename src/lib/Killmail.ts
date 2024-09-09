@@ -1,6 +1,6 @@
 import { esiFlagToEsfSlot } from '@eveshipfit/react';
-import type { Killmail } from '../types/Killmail';
-import type { Item } from '../types/Killmail/Item';
+import type { Killmail } from '$lib/types/Killmail';
+import type { Item } from '$lib/types/Killmail/Item';
 
 export function itemSlotTypes() {
 	return {

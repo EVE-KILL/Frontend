@@ -1,5 +1,5 @@
 import { getUpstreamUrl } from '$lib/Config';
-import type { Corporation } from '../../../types/Corporation.js';
+import type { Corporation } from '$lib/types/Corporation.js';
 const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {

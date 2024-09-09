@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { System } from '../../types/Top/System';
+	import type { System } from '$lib/types/Top/System';
 
 	export let url: string;
 	export let count: number = 10;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Killmail } from '../../../types/Killmail.ts';
+	import type { Killmail } from '$lib/types/Killmail.ts';
 
 	import Attackers from '$lib/components/Kill/Attackers.svelte';
 	import Comments from '$lib/components/Kill/Comments.svelte';

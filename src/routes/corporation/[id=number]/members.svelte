@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Character } from '../../../types/Character.ts';
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Character } from '$lib/types/Character.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import { onMount } from 'svelte';
 
 	export let corporation: Corporation;

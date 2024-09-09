@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Alliance } from '../../../types/Alliance.ts';
+	import type { Alliance } from '$lib/types/Alliance.ts';
 	import Ships from '$lib/components/TopBoxes/Ships.svelte';
 	import Systems from '$lib/components/TopBoxes/Systems.svelte';
 	import Regions from '$lib/components/TopBoxes/Regions.svelte';

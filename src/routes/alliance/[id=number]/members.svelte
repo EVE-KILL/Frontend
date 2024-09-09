@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Character } from '../../../types/Character.ts';
-	import type { Alliance } from '../../../types/Alliance.ts';
+	import type { Character } from '$lib/types/Character.ts';
+	import type { Alliance } from '$lib/types/Alliance.ts';
 	import { onMount } from 'svelte';
 
 	export let alliance: Alliance;

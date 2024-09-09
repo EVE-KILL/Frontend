@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Region } from '../../types/Top/Region';
+	import type { Region } from '$lib/types/Top/Region';
 
 	export let url: string;
 	export let count: number = 10;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
+	import type { Fitting } from '$lib/types/Killmail/Fitting.ts';
 	import { generateEveShipFit } from '$lib/Killmail.ts';
 	import { onMount } from 'svelte';
 	import {

@@ -2,7 +2,7 @@
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { itemSlotTypes, itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
 	import { onMount } from 'svelte';
-	import type { Item } from '../../types/Killmail/Item';
+	import type { Item } from '$lib/types/Killmail/Item';
 
 	export let killmail;
 	let groupedItems = [];

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { page } from '$app/stores';
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import Information from './information.svelte';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';

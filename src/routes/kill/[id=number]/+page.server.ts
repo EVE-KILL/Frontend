@@ -1,7 +1,7 @@
 import { getUpstreamUrl } from '$lib/Config';
 import { formatNumber } from '$lib/Helpers.js';
 
-import type { Killmail } from '../../../types/Killmail.js';
+import type { Killmail } from '$lib/types/Killmail.js';
 const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {

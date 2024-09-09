@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import KillList from '$lib/components/KillList.svelte';
 	export let corporation: Corporation;
 	const upstreamUrl = getUpstreamUrl();

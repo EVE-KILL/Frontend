@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Killmail } from '../../../types/Killmail.js';
+	import type { Killmail } from '$lib/types/Killmail.js';
 
 	export let item;
 	let itemId = item.type_id;

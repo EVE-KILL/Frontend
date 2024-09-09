@@ -1,5 +1,5 @@
 import { getUpstreamUrl } from '$lib/Config';
-import type { Character } from '../../../types/Character.js';
+import type { Character } from '$lib/types/Character.js';
 const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {

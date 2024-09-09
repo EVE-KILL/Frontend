@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Character } from '../../types/Top/Character';
+	import type { Character } from '$lib/types/Top/Character';
 
 	export let url: string;
 	export let count: number = 10;

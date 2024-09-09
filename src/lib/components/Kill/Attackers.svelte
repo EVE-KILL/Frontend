@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { onMount } from 'svelte';
-	import type { Attacker } from '../../types/Killmail/Attacker.ts';
+	import type { Attacker } from '$lib/types/Killmail/Attacker.ts';
 
 	export let attackers: Attacker[];
 	let totalDamage: number;

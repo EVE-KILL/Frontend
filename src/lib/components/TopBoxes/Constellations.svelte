@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Constellation } from '../../types/Top/Constellation';
+	import type { Constellation } from '$lib/types/Top/Constellation';
 
 	export let url: string;
 	export let count: number = 10;

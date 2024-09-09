@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Ship } from '../../types/Top/Ship';
+	import type { Ship } from '$lib/types/Top/Ship';
 
 	export let url: string;
 	export let count: number = 10;

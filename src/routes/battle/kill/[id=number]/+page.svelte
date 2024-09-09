@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type Killmail from '../../../types/Killmail.ts';
+	import type Killmail from '$lib/types/Killmail.ts';
 
 	import { getUpstreamUrl } from '$lib/Config';
 	import { onMount } from 'svelte';
@@ -93,62 +93,145 @@
 			// Determine the victim's team
 			if (killmail.victim.alliance_id && blueAlliances.has(killmail.victim.alliance_id)) {
 				isBlueVictim = true;
-			} else if (killmail.victim.alliance_id && redAlliances.has(killmail.victim.alliance_id)) {
+			} else if (
+				killmail.victim.alliance_id &&
+				redAlliances.has(killmail.victim.alliance_id)
+			) {
 				isRedVictim = true;
-			} else if (killmail.victim.corporation_id && blueCorporations.has(killmail.victim.corporation_id)) {
+			} else if (
+				killmail.victim.corporation_id &&
+				blueCorporations.has(killmail.victim.corporation_id)
+			) {
 				isBlueVictim = true;
-			} else if (killmail.victim.corporation_id && redCorporations.has(killmail.victim.corporation_id)) {
+			} else if (
+				killmail.victim.corporation_id &&
+				redCorporations.has(killmail.victim.corporation_id)
+			) {
 				isRedVictim = true;
 			}
 
 			// Track stats for the victim's team
 			if (isBlueVictim) {
-				redTeamKills.push(killmail);  // Red team killed blue team
+				redTeamKills.push(killmail); // Red team killed blue team
 				blueTeamStats.iskLost += killmail.total_value;
 				blueTeamStats.shipsLost += 1;
 				blueTeamStats.damageInflicted += killmail.victim.damage_taken;
 
 				// Track the victim's alliance, corporation, and character
-				trackKillStats(blueAlliancesMap, killmail.victim.alliance_id, killmail.victim.alliance_name, killmail.total_value);
-				trackKillStats(blueCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value, killmail.victim.alliance_id, killmail.victim.alliance_name);
-				trackKillStats(blueCharactersMap, killmail.victim.character_id, killmail.victim.character_name, killmail.total_value);
+				trackKillStats(
+					blueAlliancesMap,
+					killmail.victim.alliance_id,
+					killmail.victim.alliance_name,
+					killmail.total_value
+				);
+				trackKillStats(
+					blueCorporationsMap,
+					killmail.victim.corporation_id,
+					killmail.victim.corporation_name,
+					killmail.total_value,
+					killmail.victim.alliance_id,
+					killmail.victim.alliance_name
+				);
+				trackKillStats(
+					blueCharactersMap,
+					killmail.victim.character_id,
+					killmail.victim.character_name,
+					killmail.total_value
+				);
 			} else if (isRedVictim) {
-				blueTeamKills.push(killmail);  // Blue team killed red team
+				blueTeamKills.push(killmail); // Blue team killed red team
 				redTeamStats.iskLost += killmail.total_value;
 				redTeamStats.shipsLost += 1;
 				redTeamStats.damageInflicted += killmail.victim.damage_taken;
 
 				// Track the victim's alliance, corporation, and character
-				trackKillStats(redAlliancesMap, killmail.victim.alliance_id, killmail.victim.alliance_name, killmail.total_value);
-				trackKillStats(redCorporationsMap, killmail.victim.corporation_id, killmail.victim.corporation_name, killmail.total_value, killmail.victim.alliance_id, killmail.victim.alliance_name);
-				trackKillStats(redCharactersMap, killmail.victim.character_id, killmail.victim.character_name, killmail.total_value);
+				trackKillStats(
+					redAlliancesMap,
+					killmail.victim.alliance_id,
+					killmail.victim.alliance_name,
+					killmail.total_value
+				);
+				trackKillStats(
+					redCorporationsMap,
+					killmail.victim.corporation_id,
+					killmail.victim.corporation_name,
+					killmail.total_value,
+					killmail.victim.alliance_id,
+					killmail.victim.alliance_name
+				);
+				trackKillStats(
+					redCharactersMap,
+					killmail.victim.character_id,
+					killmail.victim.character_name,
+					killmail.total_value
+				);
 			}
 
 			// Now, track which team did the killing (attackers)
 			killmail.attackers.forEach((attacker) => {
 				if (attacker.alliance_id && blueAlliances.has(attacker.alliance_id)) {
 					// Blue team attacker
-					trackKillStats(blueAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(blueCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
-					trackKillStats(blueCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
+					trackKillStats(
+						blueAlliancesMap,
+						attacker.alliance_id,
+						attacker.alliance_name,
+						killmail.total_value
+					);
+					trackKillStats(
+						blueCorporationsMap,
+						attacker.corporation_id,
+						attacker.corporation_name,
+						killmail.total_value,
+						attacker.alliance_id,
+						attacker.alliance_name
+					);
+					trackKillStats(
+						blueCharactersMap,
+						attacker.character_id,
+						attacker.character_name,
+						killmail.total_value
+					);
 				} else if (attacker.alliance_id && redAlliances.has(attacker.alliance_id)) {
 					// Red team attacker
-					trackKillStats(redAlliancesMap, attacker.alliance_id, attacker.alliance_name, killmail.total_value);
-					trackKillStats(redCorporationsMap, attacker.corporation_id, attacker.corporation_name, killmail.total_value, attacker.alliance_id, attacker.alliance_name);
-					trackKillStats(redCharactersMap, attacker.character_id, attacker.character_name, killmail.total_value);
+					trackKillStats(
+						redAlliancesMap,
+						attacker.alliance_id,
+						attacker.alliance_name,
+						killmail.total_value
+					);
+					trackKillStats(
+						redCorporationsMap,
+						attacker.corporation_id,
+						attacker.corporation_name,
+						killmail.total_value,
+						attacker.alliance_id,
+						attacker.alliance_name
+					);
+					trackKillStats(
+						redCharactersMap,
+						attacker.character_id,
+						attacker.character_name,
+						killmail.total_value
+					);
 				}
 			});
 		});
 
 		// Convert maps to arrays and sort by kills (descending order)
-		blueTeamCharacters = Array.from(blueCharactersMap.values()).sort((a, b) => b.kills - a.kills);
+		blueTeamCharacters = Array.from(blueCharactersMap.values()).sort(
+			(a, b) => b.kills - a.kills
+		);
 		redTeamCharacters = Array.from(redCharactersMap.values()).sort((a, b) => b.kills - a.kills);
 
 		blueTeamAlliances = Array.from(blueAlliancesMap.values()).sort((a, b) => b.kills - a.kills);
-		blueTeamCorporations = Array.from(blueCorporationsMap.values()).sort((a, b) => b.kills - a.kills);
+		blueTeamCorporations = Array.from(blueCorporationsMap.values()).sort(
+			(a, b) => b.kills - a.kills
+		);
 
 		redTeamAlliances = Array.from(redAlliancesMap.values()).sort((a, b) => b.kills - a.kills);
-		redTeamCorporations = Array.from(redCorporationsMap.values()).sort((a, b) => b.kills - a.kills);
+		redTeamCorporations = Array.from(redCorporationsMap.values()).sort(
+			(a, b) => b.kills - a.kills
+		);
 
 		// Sort the killmails by total_value
 		blueTeamKills = blueTeamKills.sort((a, b) => b.total_value - a.total_value);
@@ -174,7 +257,6 @@
 		stats.kills += 1;
 		stats.totalValue += totalValue;
 	}
-
 </script>
 
 <div class="p-4 bg-gray-900 rounded-lg shadow-lg text-white">
@@ -182,13 +264,20 @@
 		<!-- Top Div -->
 		<div class="mb-4">
 			<div class="text-lg font-bold">
-				Battle in System: {battle.systemInfo.name} ({formatNumber(battle.systemInfo.security_status)}) - {battle.systemInfo.region_name}
+				Battle in System: {battle.systemInfo.name} ({formatNumber(
+					battle.systemInfo.security_status
+				)}) - {battle.systemInfo.region_name}
 			</div>
 			<div class="text-sm text-gray-400">
-				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(battle.end_time)}
+				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(
+					battle.end_time
+				)}
 			</div>
 			<div class="text-sm text-gray-400">
-				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost + redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(blueTeamStats.damageInflicted + redTeamStats.damageInflicted)}
+				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK |
+				Ships Lost: {blueTeamStats.shipsLost + redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(
+					blueTeamStats.damageInflicted + redTeamStats.damageInflicted
+				)}
 			</div>
 			<div class="text-sm text-gray-400">
 				Duration: {duration(battle.start_time, battle.end_time)}
@@ -197,52 +286,72 @@
 
 		<!-- Teams Table -->
 		<Teams
-			blueTeamStats={blueTeamStats}
-			redTeamStats={redTeamStats}
-			blueTeamAlliances={blueTeamAlliances}
-			redTeamAlliances={redTeamAlliances}
-			blueTeamCorporations={blueTeamCorporations}
-			redTeamCorporations={redTeamCorporations}
+			{blueTeamStats}
+			{redTeamStats}
+			{blueTeamAlliances}
+			{redTeamAlliances}
+			{blueTeamCorporations}
+			{redTeamCorporations}
 		/>
 
 		<!-- Tabs Navigation -->
 		<div class="mb-4">
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600" on:click={() => activeTab = 'kills'} class:active={activeTab === 'kills'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600"
+				on:click={() => (activeTab = 'kills')}
+				class:active={activeTab === 'kills'}
+			>
 				Kills
 			</button>
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'alliances'} class:active={activeTab === 'alliances'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				on:click={() => (activeTab = 'alliances')}
+				class:active={activeTab === 'alliances'}
+			>
 				Alliances
 			</button>
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'corporations'} class:active={activeTab === 'corporations'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				on:click={() => (activeTab = 'corporations')}
+				class:active={activeTab === 'corporations'}
+			>
 				Corporations
 			</button>
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'characters'} class:active={activeTab === 'characters'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				on:click={() => (activeTab = 'characters')}
+				class:active={activeTab === 'characters'}
+			>
 				Characters
 			</button>
-			<button class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2" on:click={() => activeTab = 'timeline'} class:active={activeTab === 'timeline'}>
+			<button
+				class="p-2 text-sm font-semibold text-white rounded-lg bg-gray-700 hover:bg-gray-600 ml-2"
+				on:click={() => (activeTab = 'timeline')}
+				class:active={activeTab === 'timeline'}
+			>
 				Timeline
 			</button>
 		</div>
 
 		<!-- Conditional Tab Content -->
 		{#if activeTab === 'kills'}
-			<Kills blueTeamKills={blueTeamKills} redTeamKills={redTeamKills}/>
+			<Kills {blueTeamKills} {redTeamKills} />
 		{/if}
 
 		{#if activeTab === 'alliances'}
-			<Alliances redTeamAlliances={redTeamAlliances} blueTeamAlliances={blueTeamAlliances}/>
+			<Alliances {redTeamAlliances} {blueTeamAlliances} />
 		{/if}
 
 		{#if activeTab === 'corporations'}
-			<Corporations blueTeamCorporations={blueTeamCorporations} redTeamCorporations={redTeamCorporations}/>
+			<Corporations {blueTeamCorporations} {redTeamCorporations} />
 		{/if}
 
 		{#if activeTab === 'characters'}
-			<Characters blueTeamCharacters={blueTeamCharacters} redTeamCharacters={redTeamCharacters} />
+			<Characters {blueTeamCharacters} {redTeamCharacters} />
 		{/if}
 
 		{#if activeTab === 'timeline'}
-			<Timeline killmails={killmails} battle={battle} />
+			<Timeline {killmails} {battle} />
 		{/if}
 	{:else}
 		<div>Loading...</div>
@@ -255,7 +364,7 @@
 	}
 
 	/* Arrow rotation class for collapse/expand */
-    .rotate-90 {
-        transform: rotate(90deg);
-    }
+	.rotate-90 {
+		transform: rotate(90deg);
+	}
 </style>
