@@ -51,14 +51,19 @@
 </script>
 
 <div class="relative">
-	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openDropdown} on:mouseleave={closeDropdown}>
-		<i class="fas fa-image text-gray-500 hover:text-gray-400" style="font-size: 32px;"></i>
+	<button class="text-white hover:text-background-400 focus:outline-none" on:mouseenter={openDropdown} on:mouseleave={closeDropdown}>
+		<i class="fas fa-image text-background-500 hover:text-background-400" style="font-size: 32px;"></i>
 	</button>
 	{#if isDropdownOpen}
-		<ul class="absolute mt-2 bg-gray-800 rounded-md shadow-lg z-10" style="min-width: 6rem;" on:mouseenter={openDropdown} on:mouseleave={closeDropdown}>
+		<ul
+			class="absolute mt-2 bg-background-800 rounded-md shadow-lg z-10"
+			style="min-width: 6rem;"
+			on:mouseenter={openDropdown}
+			on:mouseleave={closeDropdown}
+		>
 			{#each backgroundImages as image}
 				<li>
-					<button on:click={() => setBackground(image)} class="block px-4 py-2 text-sm text-white hover:bg-gray-700">
+					<button on:click={() => setBackground(image)} class="block px-4 py-2 text-sm text-white hover:bg-background-700">
 						<img src={image.src} alt={image.name} class="w-16 h-16 object-cover mx-auto opacity-75 hover:opacity-100" />
 					</button>
 				</li>

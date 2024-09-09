@@ -133,13 +133,15 @@
 
 }
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
-	<p class="text-right text-xs text-gray-400"> * Copy the channel list into your pastebuffer, then press button below </p>
+	<p class="text-right text-xs text-background-400"> * Copy the channel list into your pastebuffer, then press button below </p>
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
 		<div class="flex justify-center space-x-4">
-			<button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600" on:click={handleClipboardData}> Lookup Pilots </button>
+			<button class="px-4 py-2 bg-primary-500 text-white font-semibold rounded hover:bg-primary-600" on:click={handleClipboardData}>
+				Lookup Pilots
+			</button>
 
 			<!-- Dropdown for selecting the number of days -->
-			<select bind:value={selectedDays} class="px-4 py-2 bg-gray-700 text-white rounded">
+			<select bind:value={selectedDays} class="px-4 py-2 bg-background-700 text-white rounded">
 				<option value="14">14 Days</option>
 				<option value="30">30 Days</option>
 				<option value="90">90 Days</option>
@@ -150,11 +152,15 @@
 
 	<div class="w-full space-y-4">
 		{#each characterData as character}
-			<div class="shadow-md rounded overflow-hidden bg-gray-900">
+			<div class="shadow-md rounded overflow-hidden bg-background-900">
 				<!-- Flex container for image and details -->
 				<div class="flex items-start p-4">
 					<!-- Character image (128x128) fixed size -->
-					<img class="w-40 h-40 rounded-full flex-shrink-0" src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`} alt="Character Image" />
+					<img
+						class="w-40 h-40 rounded-full flex-shrink-0"
+						src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`}
+						alt="Character Image"
+					/>
 
 					<!-- Character name, corporation, alliance -->
 					<div class="pl-4">

@@ -104,12 +104,18 @@
 </script>
 
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
-	<p class="text-right text-xs text-gray-400"> * Copy the list of characters into your paste buffer, then press the button below </p>
+	<p class="text-right text-xs text-background-400"> * Copy the list of characters into your paste buffer, then press the button below </p>
 
 	<!-- Always show the button -->
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
 		<div class="flex justify-center space-x-4">
-			<button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600" on:click={handleClipboardData} disabled={isLoading}> Paste </button>
+			<button
+				class="px-4 py-2 bg-primary-500 text-white font-semibold rounded hover:bg-primary-600"
+				on:click={handleClipboardData}
+				disabled={isLoading}
+			>
+				Paste
+			</button>
 		</div>
 	</div>
 
@@ -130,7 +136,7 @@
 						</tr>
 						{#each Object.entries(corporations) as [corp, count]}
 							<tr>
-								<td class="pl-8 text-gray-400">{corp}</td>
+								<td class="pl-8 text-background-400">{corp}</td>
 								<td class="text-right">{count}</td>
 							</tr>
 						{/each}
@@ -147,7 +153,7 @@
 
 					{#each Object.entries(nonAllianceCorps) as [corp, count]}
 						<tr>
-							<td class="pl-8 text-gray-400">{corp}</td>
+							<td class="pl-8 text-background-400">{corp}</td>
 							<td class="text-right">{count}</td>
 						</tr>
 					{/each}

@@ -17,15 +17,27 @@
 		<div class="flex justify-start items-start">
 			<!-- Character and Corporation Info -->
 			<a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
-				<img src={`https://images.evetech.net/characters/${killmail.victim.character_id}/portrait?size=128`} alt={killmail.victim.character_name} class="h-32 w-32 rounded-md" />
+				<img
+					src={`https://images.evetech.net/characters/${killmail.victim.character_id}/portrait?size=128`}
+					alt={killmail.victim.character_name}
+					class="h-32 w-32 rounded-md"
+				/>
 			</a>
 			<div class="flex flex-col justify-center">
 				<a href={`/corporation/${killmail.victim.corporation_id}/`}>
-					<img src={`https://images.evetech.net/corporations/${killmail.victim.corporation_id}/logo?size=64`} alt={killmail.victim.corporation_name} class="h-16 w-16 rounded-md" />
+					<img
+						src={`https://images.evetech.net/corporations/${killmail.victim.corporation_id}/logo?size=64`}
+						alt={killmail.victim.corporation_name}
+						class="h-16 w-16 rounded-md"
+					/>
 				</a>
 				{#if killmail.victim.alliance_id > 0}
 					<a href={`/alliance/${killmail.victim.alliance_id}/`}>
-						<img src={`https://images.evetech.net/alliances/${killmail.victim.alliance_id}/logo?size=64`} alt={killmail.victim.alliance_name} class="h-16 w-16 rounded-md" />
+						<img
+							src={`https://images.evetech.net/alliances/${killmail.victim.alliance_id}/logo?size=64`}
+							alt={killmail.victim.alliance_name}
+							class="h-16 w-16 rounded-md"
+						/>
 					</a>
 				{/if}
 			</div>
@@ -44,7 +56,7 @@
 			<tr>
 				<th class="p-1 text-right">Corporation:</th>
 				<td class="p-1">
-					<a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-gray-400">
+					<a href={`/corporation/${killmail.victim.corporation_id}/`} class="text-sm text-background-400">
 						{killmail.victim.corporation_name}
 					</a>
 				</td>
@@ -75,8 +87,8 @@
 					<a href={`/item/${killmail.victim.ship_id}/`} class="text-lime-400" style="font-weight: 500; font-size:larger">
 						{killmail.victim.ship_name}
 					</a>
-					<small class="text-gray-500">
-						(<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-gray-400">
+					<small class="text-background-500">
+						(<a href={`/group/${killmail.victim.ship_group_id}/`} class="text-background-400">
 							{killmail.victim.ship_group_name}
 						</a>)
 					</small>
@@ -88,7 +100,7 @@
 					<a href={`/system/${killmail.system_id}/`}>
 						{killmail.system_name}
 					</a>
-					<span class="text-gray-500">
+					<span class="text-background-500">
 						(<span style={`color: ${getSecurityColor(killmail.system_security)}`}>
 							{formatNumber(killmail.system_security)}
 						</span>)

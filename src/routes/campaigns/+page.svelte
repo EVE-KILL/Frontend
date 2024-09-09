@@ -16,7 +16,10 @@
 	<!-- Only show the create campaign button if the user is logged in -->
 	{#if user}
 		<nav class="bg-semi-transparent text-white py-2 px-4 rounded flex justify-end">
-			<button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all" on:click={() => (showModal = true)}>
+			<button
+				class="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all"
+				on:click={() => (showModal = true)}
+			>
 				Create Campaign
 			</button>
 		</nav>

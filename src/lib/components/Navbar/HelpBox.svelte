@@ -26,7 +26,7 @@
 </script>
 
 <!-- Button to toggle the shortcut panel -->
-<button class="text-gray-500 text-xs mt-2 text-right cursor-pointer" on:click={toggleShortcutPanel}> ? </button>
+<button class="text-background-500 text-xs mt-2 text-right cursor-pointer" on:click={toggleShortcutPanel}> ? </button>
 
 <!-- Shortcut panel -->
 {#if isShortcutPanelOpen}

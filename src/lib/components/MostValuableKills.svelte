@@ -35,7 +35,7 @@
 			</th>
 		</tr>
 	</thead>
-	<tbody class="text-gray-300 text-sm">
+	<tbody class="text-background-300 text-sm">
 		<tr class="flex items-center justify-center">
 			{#each kills as kill (kill.killmail_id)}
 				<td class="flex flex-col items-center justify-center p-6" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
@@ -48,7 +48,7 @@
 				</td>
 			{/each}
 		</tr>
-		<tr class="text-center py-2 text-gray-400">
+		<tr class="text-center py-2 text-background-400">
 			<td colspan={categories.length}>(Over last 7 days)</td>
 		</tr>
 	</tbody>

@@ -57,7 +57,7 @@
 	<button
 		on:click={() => changePage(page - 1)}
 		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Previous
 	</button>
@@ -65,7 +65,7 @@
 	<button
 		on:click={() => changePage(page + 1)}
 		disabled={loading || campaigns.length < campaignsPerPage}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Next
 	</button>
@@ -73,7 +73,7 @@
 
 <!-- Campaigns Table -->
 <div class="overflow-x-auto" role="table">
-	<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+	<table class="table-auto min-w-full bg-semi-transparent bg-background-800 rounded-lg shadow-lg">
 		<thead>
 			<tr class="bg-darker text-white uppercase text-xs leading-normal">
 				<th class="px-4 py-2 w-1/6 text-left" scope="col">Name</th>
@@ -86,10 +86,10 @@
 			</tr>
 		</thead>
 
-		<tbody class="text-gray-300 text-sm">
+		<tbody class="text-background-300 text-sm">
 			{#each campaigns as campaign (campaign.campaign_id)}
 				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+					class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
 					on:click={() => {
 						window.location.href = `/campaigns/${campaign.campaign_id}`;
 					}}
@@ -126,7 +126,7 @@
 	<button
 		on:click={() => changePage(page - 1)}
 		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Previous
 	</button>
@@ -134,7 +134,7 @@
 	<button
 		on:click={() => changePage(page + 1)}
 		disabled={loading || campaigns.length < campaignsPerPage}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Next
 	</button>

@@ -52,11 +52,6 @@ html {
         /* top, transparent black, faked with gradient */ linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 }
 
-html {
-	/* background-color: black; */
-	text-shadow: 1px 1px 1px #0e0e0e;
-}
-
 /* Vignette effect */
 html::before {
 	content: '';

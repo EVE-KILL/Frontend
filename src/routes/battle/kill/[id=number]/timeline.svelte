@@ -7,7 +7,8 @@
 	// Helper to determine if a kill belongs to the blue team
 	function isBlueTeamKill(kill) {
 		return (
-			battle.blue_team.alliances.some((alliance) => alliance.id === kill.victim.alliance_id) || battle.blue_team.corporations.some((corp) => corp.id === kill.victim.corporation_id)
+			battle.blue_team.alliances.some((alliance) => alliance.id === kill.victim.alliance_id) ||
+			battle.blue_team.corporations.some((corp) => corp.id === kill.victim.corporation_id)
 		);
 	}
 
@@ -22,7 +23,7 @@
 <!-- Combined Kill List -->
 <div class="mt-4">
 	<div class="overflow-x-auto col-span-2" role="table">
-		<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+		<table class="table-auto min-w-full bg-semi-transparent bg-background-800 rounded-lg shadow-lg">
 			<thead>
 				<tr class="bg-darker text-white uppercase text-xs leading-normal">
 					<th class="px-2 py-1 text-right" scope="col">Blue Team Losses</th>
@@ -31,10 +32,10 @@
 					<th class="px-2 py-1 text-left" scope="col">Red Team Losses</th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each killmails as kill}
 					<tr
-						class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
 						on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}
 						role="button"
 						aria-label="View killmail details for {kill.victim.character_name} in {kill.victim.ship_name}"
@@ -65,14 +66,14 @@
 									</div>
 								</div>
 							</td>
-							<td class="text-center h-full w-px bg-gray-600"></td>
+							<td class="text-center h-full w-px bg-background-600"></td>
 							<td></td>
 						{/if}
 
 						<!-- Red Team Kill -->
 						{#if !isBlueTeamKill(kill)}
 							<td></td>
-							<td class="text-center h-full w-px bg-gray-600"></td>
+							<td class="text-center h-full w-px bg-background-600"></td>
 							<td class="text-left">
 								<div class="flex justify-between items-center">
 									<!-- Kill Time & Image -->

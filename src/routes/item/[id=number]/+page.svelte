@@ -31,9 +31,9 @@
 				</a>
 				{item.name}
 			</h2>
-			<div class="border-b border-gray-600 mb-4">
+			<div class="border-b border-background-600 mb-4">
 				<ul class="flex space-x-4">
-					<li class="text-blue-300">Description</li>
+					<li class="text-primary-300">Description</li>
 				</ul>
 			</div>
 			<div>{@html convertEveHtml(item.description)}</div>

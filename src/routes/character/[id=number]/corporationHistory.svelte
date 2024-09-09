@@ -17,7 +17,7 @@
 
 {#if corporationHistory.length > 0}
 	<div class="overflow-x-auto" role="table">
-		<table class="table-auto min-w-full bg-semi-transparent bg-gray-800 rounded-lg shadow-lg">
+		<table class="table-auto min-w-full bg-semi-transparent bg-background-800 rounded-lg shadow-lg">
 			<thead>
 				<tr class="bg-darker text-white uppercase text-xs leading-normal">
 					<th class="px-2 py-1" scope="col">Corporation</th>
@@ -25,13 +25,16 @@
 					<th class="px-2 py-1" scope="col">Leave Date</th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each corporationHistory as history}
-					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={() => (window.location.href = `/corporation/${history.corporation_id}`)}>
+					<tr
+						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
+						on:click={() => (window.location.href = `/corporation/${history.corporation_id}`)}
+					>
 						<td class="px-2 py-1">
 							{history.name}
 							{#if history.alliance}
-								&nbsp;(<a href={`/alliance/${history.alliance.alliance_id}`} class="text-blue-400 hover:underline">{history.alliance.name}</a>)
+								&nbsp;(<a href={`/alliance/${history.alliance.alliance_id}`} class="text-primary-400 hover:underline">{history.alliance.name}</a>)
 							{/if}
 						</td>
 						<td class="px-2 py-1">{history.join_date}</td>
