@@ -9,10 +9,10 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import Navbar from '$lib/components/Navbar.svelte';
 
-	import { useKillmails } from '$lib/models/useKillmails';
-	const { setup: setupKillmails } = useKillmails();
+	// import { useKillmails } from '$lib/models/useKillmails';
+	// const { setup: setupKillmails } = useKillmails();
 
-	setupKillmails();
+	// setupKillmails();
 
 	let defaultKeywords = 'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
 	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
