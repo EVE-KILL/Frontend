@@ -1,10 +1,15 @@
 <script lang="ts">
+	import moment from 'moment';
+
 	import type { Killmail } from '$lib/types/Killmail';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { stompConnection } from '$lib/Stomp.ts';
 	import { fetchKillList } from '$lib/fetchKillList.ts';
 	import { formatNumber } from '$lib/Helpers.ts';
+
+	import { useColors } from '$lib/models/useColors';
+	const { getSecurityColor } = useColors();
 
 	export let url: string;
 	export let title: string = '';
@@ -161,16 +166,17 @@
 </div>
 
 <div class="overflow-x-auto" role="table">
-	<div class="grid grid-cols-4 bg-background-800 text-white uppercase text-xs py-1">
-		<div class="text-center">Ship</div>
-		<div class="text-center">Victim</div>
-		<div class="text-center">Final Blow</div>
-		<div class="text-center">Location</div>
+	<div class="grid grid-cols-8 bg-background-800 text-white uppercase text-xs py-1">
+		<div class="pl-2 col-span-2">Ship</div>
+		<div class="pl-2 col-span-2">Victim</div>
+		<div class="pl-2 col-span-2">Final Blow</div>
+		<div class="pl-2">Location</div>
+		<div class="text-right pr-2">Details</div>
 	</div>
 
 	{#each kills as kill (kill.killmail_id)}
 		<button
-			class="grid grid-cols-4 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(
+			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(
 				kill
 			)
 				? 'bg-red-800'
@@ -179,7 +185,7 @@
 			on:mouseover={pauseAddingKills}
 			on:focus={pauseAddingKills}
 		>
-			<div class="flex items-center mx-2 py-1 w-fit">
+			<div class="flex items-center col-span-2 mx-2 py-1 w-fit">
 				<img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1 whitespace-nowrap">
 					<span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
@@ -191,7 +197,7 @@
 				</div>
 			</div>
 
-			<div class="flex items center px-2 py-1">
+			<div class="flex items-center col-span-2 px-2 py-1">
 				<img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1">
 					<span class="text-sm">{kill.victim.character_name}</span>
@@ -201,22 +207,42 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col items-start px-2 py-1 whitespace-nowrap">
+			<div class="flex items-center col-span-2 px-2 py-1 whitespace-nowrap">
 				{#if Array.isArray(kill.attackers)}
 					{@const finalBlowAttacker = getFinalBlowAttacker(kill)}
+					{#if !kill.is_npc}
+						<img src="{finalBlowAttacker.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+					{:else}
+						<img src="https://images.evetech.net/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
+					{/if}
 
-					<span class="text-sm">
-						{kill.is_npc ? finalBlowAttacker.faction_name : finalBlowAttacker.character_name}
-					</span>
-					<span class="text-background-400 text-xs">
-						{truncateString(finalBlowAttacker.ship_group_name, 22)}
-					</span>
+					<div class="flex flex-col items-start ml-1">
+						<span class="text-sm">
+							{#if kill.is_npc}
+								{finalBlowAttacker.faction_name}
+							{:else}
+								{finalBlowAttacker.character_name}
+							{/if}
+						</span>
+						<span class="text-background-400 text-xs">
+							{truncateString(finalBlowAttacker.ship_group_name, 22)}
+						</span>
+					</div>
 				{/if}
 			</div>
 
+			<div class="flex flex-col items-start px-2 py-1 text-sm">
+				<div class="flex flex-col items-start">
+					<span class="text-sm whitespace-nowrap">{kill.region_name}</span>
+					<div class="text-background-400 text-xs whitespace-nowrap">
+						<span>{kill.system_name}</span>
+						(<span style="color: {getSecurityColor(kill.system_security)}">{formatNumber(kill.system_security)}</span>)
+					</div>
+				</div>
+			</div>
+
 			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
-				<span>{kill.region_name} / {kill.system_name}</span>
-				<div class="text-background-500">{kill.kill_time}</div>
+				<div class="text-background-500">{moment(kill.kill_time).format('YYYY-MM-DD HH:mm')}</div>
 				<div class="flex gap-1 items-center">
 					<span class="text-background-400">{kill.attackers.length}</span>
 					<img src="/images/involved.png" alt="{kill.attackers.length} Involved" />
