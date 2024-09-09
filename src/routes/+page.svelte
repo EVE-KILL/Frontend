@@ -25,7 +25,7 @@
 	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/10`;
 </script>
 
-<div class="container flex w-full">
+<div class="flex w-full">
 	<MostValuableKills
 		categories={[
 			{ name: 'Most Valuable Kills', url: mostValuableKillsUrl },
@@ -34,7 +34,7 @@
 		]}
 	/>
 </div>
-<div class="container flex p-2 pt-4 gap-2">
+<div class="flex p-2 pt-4 gap-2">
 	<div class="w-1/4">
 		<div class="pb-5">
 			<Characters url={topCharactersUrl} />

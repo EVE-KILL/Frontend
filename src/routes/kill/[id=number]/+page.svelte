@@ -28,7 +28,7 @@
 	<!-- Navbar -->
 	<Navbar {killmail} />
 
-	<div class="container flex p-2 pt-4 gap-2">
+	<div class="flex p-2 pt-4 gap-2">
 		<!-- Left Container -->
 		<div class="w-full text-white p-4 rounded-lg shadow-lg">
 			<div id="information-area" class="flex justify-around">
@@ -69,11 +69,6 @@
 {/if}
 
 <style>
-	.container {
-		display: flex;
-		flex-direction: row;
-	}
-
 	.tab-container {
 		display: flex;
 		justify-content: center;

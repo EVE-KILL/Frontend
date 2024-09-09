@@ -48,7 +48,7 @@
 </script>
 
 {#if character}
-	<div class="container mx-auto p-4 text-white">
+	<div class="mx-auto p-4 text-white">
 		<!-- Character Profile Component -->
 		<StatusTop {character} />
 
@@ -115,7 +115,7 @@
 		</div>
 
 		<!-- Main content -->
-		<div class="container mt-4 p-4 rounded">
+		<div class="mt-4 rounded">
 			{#if activeComponent}
 				<svelte:component this={activeComponent} data={{ character }} />
 			{/if}
