@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Character } from '../../../types/Character.ts';
+	import type { Character } from '$lib/types/Character.ts';
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { formatNumber, convertIskToMillions, convertIskToBillions } from '$lib/Helpers.ts';

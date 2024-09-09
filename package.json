@@ -65,6 +65,7 @@
 		"devalue": "^5.0.0",
 		"highlight.js": "^11.10.0",
 		"isomorphic-dompurify": "^2.15.0",
+		"lodash": "^4.17.21",
 		"lru-cache": "^11.0.1",
 		"pako": "^2.1.0",
 		"set-cookie-parser": "^2.7.0",

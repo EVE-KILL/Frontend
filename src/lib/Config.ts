@@ -27,23 +27,15 @@ export function getDescription(): string {
 	if (typeof window === 'undefined') {
 		return process.env.VITE_DESCRIPTION || 'EVE-KILL is a killboard for the MMORPG EVE-Online';
 	} else {
-		return (
-			import.meta.env.VITE_DESCRIPTION || 'EVE-KILL is a killboard for the MMORPG EVE-Online'
-		);
+		return import.meta.env.VITE_DESCRIPTION || 'EVE-KILL is a killboard for the MMORPG EVE-Online';
 	}
 }
 
 export function getKeywords(): string {
 	if (typeof window === 'undefined') {
-		return (
-			process.env.VITE_KEYWORDS ||
-			'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com'
-		);
+		return process.env.VITE_KEYWORDS || 'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com';
 	} else {
-		return (
-			import.meta.env.VITE_KEYWORDS ||
-			'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com'
-		);
+		return import.meta.env.VITE_KEYWORDS || 'eve-online, eve, ccp, ccp games, kills, kills, killboard, eve-kill, eve-kill.net, eve-kill.com';
 	}
 }
 

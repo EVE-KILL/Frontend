@@ -88,27 +88,17 @@
 </script>
 
 <div class="relative">
-	<button
-		class="text-white hover:text-gray-400 focus:outline-none"
-		on:mouseenter={openAccountDropdown}
-		on:mouseleave={closeAccountDropdown}
-	>
+	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
 		<a href={user ? `/character/${user.character_id}` : '#'}>
 			<img
-				src={user
-					? `https://images.evetech.net/characters/${user.character_id}/portrait?size=32`
-					: 'https://images.evetech.net/characters/1/portrait?size=32'}
+				src={user ? `https://images.evetech.net/characters/${user.character_id}/portrait?size=32` : 'https://images.evetech.net/characters/1/portrait?size=32'}
 				alt="User avatar"
 				class="rounded"
 			/>
 		</a>
 	</button>
 	{#if isAccountDropdownOpen}
-		<ul
-			class="absolute right-0 mt-2 w-72 bg-gray-800 rounded-md shadow-lg z-10"
-			on:mouseenter={openAccountDropdown}
-			on:mouseleave={closeAccountDropdown}
-		>
+		<ul class="absolute right-0 mt-2 w-72 bg-gray-800 rounded-md shadow-lg z-10" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
 			{#if user}
 				<li class="p-2 border-t border-gray-700">
 					<div class="text-gray-300 text-sm">Settings</div>
@@ -120,8 +110,7 @@
 					</div>
 				</li>
 				<li class="p-2 border-t border-gray-700">
-					<button on:click={logout} class="text-red-500 hover:text-red-300">Logout</button
-					>
+					<button on:click={logout} class="text-red-500 hover:text-red-300">Logout</button>
 				</li>
 			{:else}
 				<li class="p-2">

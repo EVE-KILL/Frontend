@@ -1,5 +1,5 @@
 import { getUpstreamUrl } from '$lib/Config';
-import type { Alliance } from '../../../types/Alliance.js';
+import type { Alliance } from '$lib/types/Alliance.js';
 const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {

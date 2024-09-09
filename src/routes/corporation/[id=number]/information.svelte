@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import { onMount } from 'svelte';
 	import { convertEveHtml } from '$lib/Helpers.js';
 

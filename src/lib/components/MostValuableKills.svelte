@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Killmail } from '../types/Killmail';
+	import type { Killmail } from '$lib/types/Killmail';
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { onMount } from 'svelte';
 
@@ -28,11 +28,7 @@
 		<tr class="bg-semi-transparent text-white uppercase text-xs leading-normal">
 			<th class="px-2 py-1 flex justify-center" scope="col" colspan={categories.length}>
 				{#each categories as category, index}
-					<button
-						class="tab-btn"
-						class:active-tab={activeTab === index}
-						on:click={() => (activeTab = index)}
-					>
+					<button class="tab-btn" class:active-tab={activeTab === index} on:click={() => (activeTab = index)}>
 						{category.name}
 					</button>
 				{/each}
@@ -42,15 +38,8 @@
 	<tbody class="text-gray-300 text-sm">
 		<tr class="flex items-center justify-center">
 			{#each kills as kill (kill.killmail_id)}
-				<td
-					class="flex flex-col items-center justify-center p-6"
-					on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}
-				>
-					<img
-						src="{kill.victim.ship_image_url}?size=128"
-						alt="Ship: {kill.victim.ship_name}"
-						class="rounded"
-					/>
+				<td class="flex flex-col items-center justify-center p-6" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
+					<img src="{kill.victim.ship_image_url}?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
 					<div class="text-center">
 						{kill.victim.ship_name}
 						<br />

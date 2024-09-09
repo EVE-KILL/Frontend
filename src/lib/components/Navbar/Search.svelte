@@ -39,8 +39,7 @@
 
 	function handleKeydown(event) {
 		// Check if Alt/Option key is pressed along with 's'
-		const isAltOrOption =
-			event.altKey || (navigator.platform.toUpperCase().indexOf('MAC') >= 0 && event.metaKey);
+		const isAltOrOption = event.altKey || (navigator.platform.toUpperCase().indexOf('MAC') >= 0 && event.metaKey);
 
 		if (event.key === 's' && isAltOrOption && !isSearchBoxFocused) {
 			event.preventDefault();
@@ -76,20 +75,8 @@
 	<form class="max-w-full relative">
 		<div class="relative">
 			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-				<svg
-					class="w-4 h-4 text-gray-500 dark:text-gray-400"
-					aria-hidden="true"
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 20 20"
-				>
-					<path
-						stroke="currentColor"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-					/>
+				<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
 				</svg>
 			</div>
 			<input
@@ -110,32 +97,16 @@
 						<tbody class="text-gray-300 text-sm">
 							{#each searchResults as result, index}
 								<tr
-									class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex ===
-									index
-										? 'bg-gray-600'
-										: ''}"
-									on:click={() =>
-										(window.location.href = `/${result.type}/${result.id}`)}
+									class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300 {selectedIndex === index ? 'bg-gray-600' : ''}"
+									on:click={() => (window.location.href = `/${result.type}/${result.id}`)}
 								>
 									<td class="h-16 w-16 rounded-md">
 										{#if result.type === 'character'}
-											<img
-												src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`}
-												alt={result.name}
-												class="h-16 w-16 rounded-md"
-											/>
+											<img src={`https://images.evetech.net/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'corporation'}
-											<img
-												src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`}
-												alt={result.name}
-												class="h-16 w-16 rounded-md"
-											/>
+											<img src={`https://images.evetech.net/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'alliance'}
-											<img
-												src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`}
-												alt={result.name}
-												class="h-16 w-16 rounded-md"
-											/>
+											<img src={`https://images.evetech.net/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'item'}
 											<img
 												src={`https://images.evetech.net/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
@@ -143,11 +114,7 @@
 												class="h-16 w-16 rounded-md"
 											/>
 										{:else if result.type === 'system' || result.type === 'region'}
-											<img
-												src="https://eve-kill.com/map.png"
-												alt={result.name}
-												class="h-16 w-16 rounded-md"
-											/>
+											<img src="https://eve-kill.com/map.png" alt={result.name} class="h-16 w-16 rounded-md" />
 										{/if}
 									</td>
 									<td class="px-2 py-2">{result.name}</td>

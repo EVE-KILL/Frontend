@@ -1,16 +1,8 @@
 <script lang="ts">
-	import type { Fitting } from '../../../types/Killmail/Fitting.ts';
+	import type { Fitting } from '$lib/types/Killmail/Fitting.ts';
 	import { generateEveShipFit } from '$lib/Killmail.ts';
 	import { onMount } from 'svelte';
-	import {
-		ShipFit,
-		CurrentCharacterProvider,
-		DefaultCharactersProvider,
-		EveDataProvider,
-		DogmaEngineProvider,
-		CurrentFitProvider,
-		StatisticsProvider
-	} from '@eveshipfit/react';
+	import { ShipFit, CurrentCharacterProvider, DefaultCharactersProvider, EveDataProvider, DogmaEngineProvider, CurrentFitProvider, StatisticsProvider } from '@eveshipfit/react';
 
 	export let killmail;
 	let fit: Fitting;

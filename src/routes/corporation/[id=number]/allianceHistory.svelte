@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import { onMount } from 'svelte';
 
 	export let corporation: Corporation;
@@ -26,10 +26,7 @@
 			</thead>
 			<tbody class="text-gray-300 text-sm">
 				{#each allianceHistory as history}
-					<tr
-						class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-						on:click={(window.location.href = `/alliance/${history.alliance_id}`)}
-					>
+					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={(window.location.href = `/alliance/${history.alliance_id}`)}>
 						<td class="px-2 py-1">{history.name}</td>
 						<td class="px-2 py-1">{history.join_date}</td>
 						<td class="px-2 py-1">

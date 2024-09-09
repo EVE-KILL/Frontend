@@ -30,11 +30,7 @@
 		svelteCustom(
 			'youtube',
 			(node) => {
-				if (
-					node.tagName === 'a' &&
-					(node.properties.href.includes('youtube.com') ||
-						node.properties.href.includes('youtu.be'))
-				) {
+				if (node.tagName === 'a' && (node.properties.href.includes('youtube.com') || node.properties.href.includes('youtu.be'))) {
 					return true;
 				}
 				return false;
@@ -180,10 +176,7 @@
 					<div class="text-left text-sm text-white">
 						<strong>{comment.character.character_name}</strong><br />
 						<p class="text-xs text-gray-500">
-							({infoString(
-								comment.character.corporation_name,
-								comment.character.alliance_name
-							)})
+							({infoString(comment.character.corporation_name, comment.character.alliance_name)})
 						</p>
 						<p class="text-sm text-gray-500">{comment.created_at}</p>
 					</div>
@@ -199,28 +192,17 @@
 		<div class="bg-semi-transparent bg-gray-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
 				<div class="flex flex-col w-full">
-					<img
-						src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`}
-						alt="User avatar"
-						class="h-16 w-16 rounded-md mr-4"
-					/>
+					<img src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`} alt="User avatar" class="h-16 w-16 rounded-md mr-4" />
 					<div class="text-left text-sm text-white">
 						<strong>{user.character_name}</strong><br />
 					</div>
 
-					<MarkdownEditor
-						bind:value={comment}
-						theme="github"
-						placeholder="Leave a comment.."
-						{carta}
-					/>
+					<MarkdownEditor bind:value={comment} theme="github" placeholder="Leave a comment.." {carta} />
 					<p class="text-right text-xs text-gray-400">
 						{charactersRemaining} characters remaining
 					</p>
 					{#if charactersRemaining < 0}
-						<p class="text-right text-xs text-red-500">
-							Comment exceeds the maximum length!
-						</p>
+						<p class="text-right text-xs text-red-500"> Comment exceeds the maximum length! </p>
 					{/if}
 
 					<!-- Error message display -->
@@ -231,9 +213,7 @@
 			</div>
 			<div class="flex justify-end mt-2">
 				<button
-					class="post-button {charactersRemaining >= 0 && comment.trim() !== ''
-						? 'enabled'
-						: 'disabled'}"
+					class="post-button {charactersRemaining >= 0 && comment.trim() !== '' ? 'enabled' : 'disabled'}"
 					on:click={postComment}
 					disabled={charactersRemaining < 0 || comment.trim() === ''}
 				>

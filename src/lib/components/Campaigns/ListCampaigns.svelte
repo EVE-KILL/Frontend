@@ -107,8 +107,7 @@
 						{campaign.stats.foeActivePilots + campaign.stats.friendlyActivePilots}
 					</td>
 					<td class="px-4 py-2 w-1/12 text-right">
-						{campaign.stats.foeActiveCorporations +
-							campaign.stats.friendlyActiveCorporations}
+						{campaign.stats.foeActiveCorporations + campaign.stats.friendlyActiveCorporations}
 					</td>
 					<td class="px-4 py-2 w-1/12 text-right">
 						{campaign.stats.foeActiveAlliances + campaign.stats.friendlyActiveAlliances}

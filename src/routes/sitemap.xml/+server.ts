@@ -11,13 +11,13 @@ export const GET: RequestHandler = async () => {
 	const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
     <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${data.links
-			.map(
-				(link: string) => `
+					.map(
+						(link: string) => `
             <sitemap>
                 <loc>${`${publicDomain}${link}.xml`}</loc>
             </sitemap>`
-			)
-			.join('')}
+					)
+					.join('')}
     </sitemapindex>`;
 
 	return new Response(sitemapIndex, {

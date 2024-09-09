@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Killmail } from '../../../types/Killmail.ts';
+	import type { Killmail } from '$lib/types/Killmail.ts';
 
 	import Attackers from '$lib/components/Kill/Attackers.svelte';
 	import Comments from '$lib/components/Kill/Comments.svelte';
@@ -50,11 +50,7 @@
 			<!-- Tabs -->
 			<div class="tab-container">
 				{#each tabs as tab, index}
-					<button
-						class="tab-btn"
-						class:active-tab={activeTab === index}
-						on:click={() => (activeTab = index)}
-					>
+					<button class="tab-btn" class:active-tab={activeTab === index} on:click={() => (activeTab = index)}>
 						{tab.name}
 						{#if tab.count}({tab.count}){/if}
 					</button>
@@ -63,10 +59,7 @@
 
 			<!-- Tab content -->
 			{#if activeTab === 0}
-				<Comments
-					identifier="kill:{killmail.killmail_id}"
-					on:count={(e) => updateCommentCount(e.detail)}
-				/>
+				<Comments identifier="kill:{killmail.killmail_id}" on:count={(e) => updateCommentCount(e.detail)} />
 			{/if}
 			{#if activeTab === 1}
 				<Attackers attackers={killmail.attackers} />

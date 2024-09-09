@@ -1,7 +1,4 @@
-export async function fetchKillList(
-	url: string = 'https://eve-kill.com/api/killlist/latest',
-	pageNumber: number = 1
-) {
+export async function fetchKillList(url: string = 'https://eve-kill.com/api/killlist/latest', pageNumber: number = 1) {
 	const fetchUrl = `${url}/${pageNumber}`;
 
 	try {

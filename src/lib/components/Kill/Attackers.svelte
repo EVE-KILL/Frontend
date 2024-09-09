@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { onMount } from 'svelte';
-	import type { Attacker } from '../../types/Killmail/Attacker.ts';
+	import type { Attacker } from '$lib/types/Killmail/Attacker.ts';
 
 	export let attackers: Attacker[];
 	let totalDamage: number;
@@ -35,26 +35,16 @@
 		</thead>
 		<tbody class="text-gray-300 text-sm">
 			{#each attackers as attacker}
-				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-				>
+				<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300">
 					<td>
 						<a href={`/character/${attacker.character_id}`}>
-							<img
-								src={`${attacker.character_image_url}?size=128`}
-								alt={attacker.character_name}
-								class="h-16 min-h-16 w-16 min-w-16 rounded-md"
-							/>
+							<img src={`${attacker.character_image_url}?size=128`} alt={attacker.character_name} class="h-16 min-h-16 w-16 min-w-16 rounded-md" />
 						</a>
 					</td>
 					<td>
 						<div class="flex flex-col items-center">
 							<a href={`/ship/${attacker.ship_id}`}>
-								<img
-									src={attacker.ship_image_url}
-									alt={attacker.ship_name}
-									class="h-8 min-h-8 w-8 min-w-8 rounded-md"
-								/>
+								<img src={attacker.ship_image_url} alt={attacker.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 							</a>
 							<a href={`/item/${attacker.weapon_type_id}`}>
 								<img
@@ -71,45 +61,29 @@
 						<div>
 							{#if attacker.character_id}
 								<div>
-									<a
-										href={`/character/${attacker.character_id}`}
-										class="text-lime-400 hover:underline"
-									>
+									<a href={`/character/${attacker.character_id}`} class="text-lime-400 hover:underline">
 										{attacker.character_name}
 									</a>
-									<span>
-										(<a class="text-gray-400" href={`/ship/${attacker.ship_id}`}
-											>{attacker.ship_name}</a
-										>)</span
-									>
+									<span> (<a class="text-gray-400" href={`/ship/${attacker.ship_id}`}>{attacker.ship_name}</a>)</span>
 								</div>
 							{/if}
 							{#if attacker.corporation_id}
 								<div class="text-xs">
-									<a
-										href={`/corporation/${attacker.corporation_id}`}
-										class="text-gray-400 hover:underline"
-									>
+									<a href={`/corporation/${attacker.corporation_id}`} class="text-gray-400 hover:underline">
 										{attacker.corporation_name}
 									</a>
 								</div>
 							{/if}
 							{#if attacker.alliance_id}
 								<div>
-									<a
-										href={`/alliance/${attacker.alliance_id}`}
-										class="text-white-400 hover:underline"
-									>
+									<a href={`/alliance/${attacker.alliance_id}`} class="text-white-400 hover:underline">
 										{attacker.alliance_name}
 									</a>
 								</div>
 							{/if}
 							{#if countMissing(attacker) >= 2}
 								<div>
-									<a
-										href={`/group/${attacker.ship_group_id}`}
-										class="text-gray-400 hover:underline"
-									>
+									<a href={`/group/${attacker.ship_group_id}`} class="text-gray-400 hover:underline">
 										{attacker.ship_group_name}
 									</a>
 								</div>
@@ -124,20 +98,12 @@
 						<div class="flex justify-end mt-1">
 							{#if attacker.corporation_id}
 								<a href={`/corporation/${attacker.corporation_id}`}>
-									<img
-										src={`https://images.evetech.net/corporations/${attacker.corporation_id}/logo?size=64`}
-										alt={attacker.corporation_name}
-										class="h-8 w-8 rounded-md"
-									/>
+									<img src={`https://images.evetech.net/corporations/${attacker.corporation_id}/logo?size=64`} alt={attacker.corporation_name} class="h-8 w-8 rounded-md" />
 								</a>
 							{/if}
 							{#if attacker.alliance_id}
 								<a class="ml-1" href={`/alliance/${attacker.alliance_id}`}>
-									<img
-										src={`https://images.evetech.net/alliances/${attacker.alliance_id}/logo?size=64`}
-										alt={attacker.alliance_name}
-										class="h-8 min-h-8 w-8 min-w-8 rounded-md"
-									/>
+									<img src={`https://images.evetech.net/alliances/${attacker.alliance_id}/logo?size=64`} alt={attacker.alliance_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 								</a>
 							{/if}
 						</div>

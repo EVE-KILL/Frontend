@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getUpstreamUrl } from '$lib/Config';
-	import type { Character } from '../../../types/Character.ts';
-	import type { Corporation } from '../../../types/Corporation.ts';
+	import type { Character } from '$lib/types/Character.ts';
+	import type { Corporation } from '$lib/types/Corporation.ts';
 	import { onMount } from 'svelte';
 
 	export let corporation: Corporation;
@@ -25,10 +25,7 @@
 			</thead>
 			<tbody class="text-gray-300 text-sm">
 				{#each members as member}
-					<tr
-						class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-						on:click={(window.location.href = `/character/${member.character_id}`)}
-					>
+					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={(window.location.href = `/character/${member.character_id}`)}>
 						<td class="px-2 py-1 text-center">{member.name}</td>
 					</tr>
 				{/each}
