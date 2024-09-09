@@ -58,8 +58,23 @@ export const useColors = () => {
 		return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
 	};
 
+	const getSecurityColor = (securityStatus: number) => {
+		if (securityStatus >= 0.5) {
+			return '#00FF00';
+		} else if (securityStatus >= 0) {
+			return '#66FF00';
+		} else if (securityStatus >= -0.25) {
+			return '#FFFF00';
+		} else if (securityStatus >= -0.5) {
+			return '#FF6600';
+		} else {
+			return '#FF0000';
+		}
+	}
+
 	return {
 		generateBackgroundColors,
-		generateColors
+		generateColors,
+		getSecurityColor
 	};
 };
