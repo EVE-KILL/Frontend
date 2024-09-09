@@ -146,7 +146,7 @@
 	<button
 		on:click={() => changePage(page - 1)}
 		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Previous
 	</button>
@@ -154,90 +154,78 @@
 	<button
 		on:click={() => changePage(page + 1)}
 		disabled={loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
+		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
 	>
 		Next
 	</button>
 </div>
 
 <div class="overflow-x-auto" role="table">
-	<table class="table-auto min-w-full bg-semi-transparent bg-background-800 rounded-lg shadow-lg">
-		<thead>
-			<tr class="bg-darker text-white uppercase text-xs leading-normal">
-				<th scope="col">Ship</th>
-				<th scope="col">Victim</th>
-				<th scope="col">Final Blow</th>
-				<th scope="col">Location</th>
-			</tr>
-		</thead>
+	<div class="grid grid-cols-4 bg-background-800 text-white uppercase text-xs py-1">
+		<div class="text-center">Ship</div>
+		<div class="text-center">Victim</div>
+		<div class="text-center">Final Blow</div>
+		<div class="text-center">Location</div>
+	</div>
 
-		<tbody class="text-background-300 text-sm">
-			{#each kills as kill (kill.killmail_id)}
-				<tr
-					class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer {isCombinedLoss(kill)
-						? 'bg-darkred'
-						: ''}"
-					on:click={(event) => handleClick(event, kill.killmail_id)}
-					on:mouseover={pauseAddingKills}
-					on:focus={pauseAddingKills}
-				>
-					<td>
-						<div class="flex items-center mx-2 py-1 w-fit">
-							<img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
-							<div class="flex flex-col ml-1 whitespace-nowrap">
-								<span>{truncateString(kill.victim.ship_name, 20)}</span>
-								{#if kill.total_value > 50}
-									<span class="text-background-400 text-xs">
-										{formatNumber(kill.total_value)} ISK
-									</span>
-								{/if}
-							</div>
-						</div>
-					</td>
+	{#each kills as kill (kill.killmail_id)}
+		<button
+			class="grid grid-cols-4 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(
+				kill
+			)
+				? 'bg-red-800'
+				: ''}"
+			on:click={(event) => handleClick(event, kill.killmail_id)}
+			on:mouseover={pauseAddingKills}
+			on:focus={pauseAddingKills}
+		>
+			<div class="flex items-center mx-2 py-1 w-fit">
+				<img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
+				<div class="flex flex-col items-start ml-1 whitespace-nowrap">
+					<span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
+					{#if kill.total_value > 50}
+						<span class="text-background-400 text-xs">
+							{formatNumber(kill.total_value)} ISK
+						</span>
+					{/if}
+				</div>
+			</div>
 
-					<td>
-						<div class="flex items-center px-2 py-1">
-							<img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
-							<div class="flex flex-col ml-1">
-								<span>{kill.victim.character_name}</span>
-								<span class="text-background-400 text-xs whitespace-nowrap">
-									{truncateString(kill.victim.corporation_name, 22)}
-								</span>
-							</div>
-						</div>
-					</td>
+			<div class="flex items center px-2 py-1">
+				<img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+				<div class="flex flex-col items-start ml-1">
+					<span class="text-sm">{kill.victim.character_name}</span>
+					<span class="text-background-400 text-xs whitespace-nowrap">
+						{truncateString(kill.victim.corporation_name, 22)}
+					</span>
+				</div>
+			</div>
 
-					<td>
-						<div class="flex flex-col px-2 py-1 whitespace-nowrap">
-							{#if Array.isArray(kill.attackers)}
-								{@const finalBlowAttacker = getFinalBlowAttacker(kill)}
+			<div class="flex flex-col items-start px-2 py-1 whitespace-nowrap">
+				{#if Array.isArray(kill.attackers)}
+					{@const finalBlowAttacker = getFinalBlowAttacker(kill)}
 
-								<span>
-									{kill.is_npc ? finalBlowAttacker.faction_name : finalBlowAttacker.character_name}
-								</span>
-								<span class="text-background-400">
-									{truncateString(finalBlowAttacker.ship_group_name, 22)}
-								</span>
-							{/if}
-						</div>
-					</td>
+					<span class="text-sm">
+						{kill.is_npc ? finalBlowAttacker.faction_name : finalBlowAttacker.character_name}
+					</span>
+					<span class="text-background-400 text-xs">
+						{truncateString(finalBlowAttacker.ship_group_name, 22)}
+					</span>
+				{/if}
+			</div>
 
-					<td>
-						<div class="flex flex-col items-end px-2 py-1 whitespace-nowrap">
-							<span>{kill.region_name} / {kill.system_name}</span>
-							<div class="text-background-500">{kill.kill_time}</div>
-							<div class="flex gap-1 items-center">
-								<span class="text-background-400">{kill.attackers.length}</span>
-								<img src="/images/involved.png" alt="{kill.attackers.length} Involved" />
-								<span class="text-background-400">{kill.comment_count || 0}</span>
-								<img src="/images/comment.gif" alt="{kill.attackers.length} Involved" />
-							</div>
-						</div>
-					</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
+				<span>{kill.region_name} / {kill.system_name}</span>
+				<div class="text-background-500">{kill.kill_time}</div>
+				<div class="flex gap-1 items-center">
+					<span class="text-background-400">{kill.attackers.length}</span>
+					<img src="/images/involved.png" alt="{kill.attackers.length} Involved" />
+					<span class="text-background-400">{kill.comment_count || 0}</span>
+					<img src="/images/comment.gif" alt="{kill.attackers.length} Involved" />
+				</div>
+			</div>
+		</button>
+	{/each}
 </div>
 
 <!-- Pagination Control at the Bottom -->
