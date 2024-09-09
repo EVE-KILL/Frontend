@@ -33,11 +33,11 @@
 
 <ul class="flex items-center space-x-4">
 	<li>
-		<a href="/" class="text-white hover:text-gray-400">Home</a>
+		<a href="/" class="text-white hover:text-background-400">Home</a>
 	</li>
 	<li>
 		<div class="relative">
-			<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openKillsDropdown} on:mouseleave={closeKillsDropdown}>
+			<button class="text-white hover:text-background-400 focus:outline-none" on:mouseenter={openKillsDropdown} on:mouseleave={closeKillsDropdown}>
 				Kills
 			</button>
 			{#if isKillsDropdownOpen}
@@ -125,16 +125,16 @@
 	</li>
 
 	<li>
-		<ul><a href="/lists" class="text-white hover:text-gray-400">Lists</a></ul>
+		<ul><a href="/lists" class="text-white hover:text-background-400">Lists</a></ul>
 	</li>
 
 	<li>
-		<ul><a href="/campaigns" class="text-white hover:text-gray-400">Campaigns</a></ul>
+		<ul><a href="/campaigns" class="text-white hover:text-background-400">Campaigns</a></ul>
 	</li>
 
 	<li>
 		<div class="relative">
-			<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openHelperDropdown} on:mouseleave={closeHelperDropdown}>
+			<button class="text-white hover:text-background-400 focus:outline-none" on:mouseenter={openHelperDropdown} on:mouseleave={closeHelperDropdown}>
 				Lil' Helpers
 			</button>
 			{#if isHelperDropdownOpen}

@@ -95,11 +95,8 @@
 					<li>
 						<a
 							href="#corporation-history"
-							class="hover:underline {currentHash === '#corporation-history'
-								? 'active'
-								: ''}"
-							on:click|preventDefault={() =>
-								loadComponent(CorporationHistory, '#corporation-history')}
+							class="hover:underline {currentHash === '#corporation-history' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(CorporationHistory, '#corporation-history')}
 						>
 							Corporation History
 						</a>

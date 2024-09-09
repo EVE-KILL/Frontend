@@ -32,7 +32,7 @@
 	<h2 class="text-xl font-bold mb-4">Latest Kills</h2>
 	<div class="overflow-x-auto" role="table">
 		<table class="table-auto min-w-full bg-semi-transparent rounded-lg shadow-lg">
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each killmails as kill (kill.killmail_id)}
 					<tr class="hover:bg-background-600 transition-colors duration-300 cursor-pointer" on:click={() => handleKillmailClick(kill.killmail_id)}>
 						<td class="flex items-center space-x-2">
@@ -69,10 +69,10 @@
 						</td>
 						<td class="pl-5">
 							<div class="text-sm">
-								<a href={`/kill/${kill.killmail_id}`} class="text-blue-400">{kill.victim.character_name} ({kill.victim.ship_name})</a><br />
-								<a href={`/corporation/${kill.victim.corporation_id}`} class="text-blue-400">{kill.victim.corporation_name}</a><br />
+								<a href={`/kill/${kill.killmail_id}`} class="text-primary-400">{kill.victim.character_name} ({kill.victim.ship_name})</a><br />
+								<a href={`/corporation/${kill.victim.corporation_id}`} class="text-primary-400">{kill.victim.corporation_name}</a><br />
 								{#if kill.victim.alliance_name}
-									<a href={`/alliance/${kill.victim.alliance_id}`} class="text-blue-400">{kill.victim.alliance_name}</a><br />
+									<a href={`/alliance/${kill.victim.alliance_id}`} class="text-primary-400">{kill.victim.alliance_name}</a><br />
 								{/if}
 							</div>
 						</td>

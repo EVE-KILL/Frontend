@@ -211,14 +211,14 @@
 			<div class="text-lg font-bold">
 				Battle in System: {battle.systemInfo.name} ({formatNumber(battle.systemInfo.security_status)}) - {battle.systemInfo.region_name}
 			</div>
-			<div class="text-sm text-gray-400">
+			<div class="text-sm text-background-400">
 				Start Time: {convertUnixTimeToDateTime(battle.start_time)} | End Time: {convertUnixTimeToDateTime(battle.end_time)}
 			</div>
-			<div class="text-sm text-gray-400">
+			<div class="text-sm text-background-400">
 				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost + redTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost +
 					redTeamStats.shipsLost} | Damage Inflicted: {formatNumber(blueTeamStats.damageInflicted + redTeamStats.damageInflicted)}
 			</div>
-			<div class="text-sm text-gray-400">
+			<div class="text-sm text-background-400">
 				Duration: {duration(battle.start_time, battle.end_time)}
 			</div>
 		</div>

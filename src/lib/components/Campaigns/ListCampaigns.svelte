@@ -86,10 +86,10 @@
 			</tr>
 		</thead>
 
-		<tbody class="text-gray-300 text-sm">
+		<tbody class="text-background-300 text-sm">
 			{#each campaigns as campaign (campaign.campaign_id)}
 				<tr
-					class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
+					class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
 					on:click={() => {
 						window.location.href = `/campaigns/${campaign.campaign_id}`;
 					}}

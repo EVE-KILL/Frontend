@@ -24,7 +24,7 @@
 		<div class="grid grid-cols-2 gap-4">
 			{#each fittings as fitting, index}
 				{#if fitting.killmails.length > 0}
-					<div class="border border-gray-700 hover:bg-background-600 transition-colors duration-300 p-2">
+					<div class="border border-background-700 hover:bg-background-600 transition-colors duration-300 p-2">
 						<a href={generateEveShipFitUrl(fitting.killmails[0].killmail_id, fitting.killmails[0].hash)} target="_blank" rel="noopener noreferrer">
 							<div>{@html fitting.svg}</div>
 						</a>

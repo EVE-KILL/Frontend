@@ -23,10 +23,10 @@
 					<th class="px-2 py-1 text-center" scope="col">Corporation</th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each members as member}
 					<tr
-						class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300"
+						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
 						on:click={(window.location.href = `/corporation/${member.corporation_id}`)}
 					>
 						<td class="px-2 py-1 text-center">{member.name}</td>

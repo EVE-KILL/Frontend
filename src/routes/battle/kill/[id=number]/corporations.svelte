@@ -17,9 +17,9 @@
 						<th class="px-2 py-1" scope="col">Total Value</th>
 					</tr>
 				</thead>
-				<tbody class="text-gray-300 text-sm">
+				<tbody class="text-background-300 text-sm">
 					{#each blueTeamCorporations as corporation}
-						<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
+						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">{corporation.name}</td>
 							<td class="px-2 py-1">{corporation.kills}</td>
 							<td class="px-2 py-1">{convertIskToBillions(corporation.totalValue)} ISK</td>
@@ -42,9 +42,9 @@
 						<th class="px-2 py-1" scope="col">Total Value</th>
 					</tr>
 				</thead>
-				<tbody class="text-gray-300 text-sm">
+				<tbody class="text-background-300 text-sm">
 					{#each redTeamCorporations as corporation}
-						<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
+						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">{corporation.name}</td>
 							<td class="px-2 py-1">{corporation.kills}</td>
 							<td class="px-2 py-1">{convertIskToBillions(corporation.totalValue)} ISK</td>

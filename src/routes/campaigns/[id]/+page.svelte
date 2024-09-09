@@ -48,7 +48,7 @@
 <div class="p-4 text-white flex justify-between items-center shadow-lg">
 	<div>
 		<h1 class="text-2xl font-bold">{campaign.name}</h1>
-		<p class="text-sm text-gray-400">{campaign.description}</p>
+		<p class="text-sm text-background-400">{campaign.description}</p>
 	</div>
 	<div>
 		<span class="text-sm">Campaign ID: {campaign.campaign_id}</span>
@@ -60,7 +60,11 @@
 	<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 		<ul class="flex space-x-4">
 			<li>
-				<a href="#information" class="hover:underline {currentHash === '#information' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Information, '#information')}>
+				<a
+					href="#information"
+					class="hover:underline {currentHash === '#information' ? 'active' : ''}"
+					on:click|preventDefault={() => loadComponent(Information, '#information')}
+				>
 					Information
 				</a>
 			</li>

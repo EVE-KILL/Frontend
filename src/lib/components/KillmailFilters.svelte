@@ -19,7 +19,6 @@
 	};
 
 	const onSelect = (event: CustomEvent, filterCategory: string) => {
-		console.log(event.detail);
 		let selectedEntity = event.detail;
 
 		if (filterCategory === 'victim') {

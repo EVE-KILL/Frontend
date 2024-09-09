@@ -20,10 +20,10 @@
 				<th class="px-2 py-1" scope="col" colspan="3">Top {count} Regions</th>
 			</tr>
 		</thead>
-		<tbody class="text-gray-300 text-sm">
+		<tbody class="text-background-300 text-sm">
 			{#each regions as region (region.region_id)}
 				<tr
-					class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300"
+					class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
 					on:click={(window.location.href = `/region/${region.region_id}`)}
 				>
 					<td class="px2 py-1">
@@ -32,7 +32,7 @@
 					<td class="px-2 py-1">
 						<div class="flex items-center">
 							<div>
-								<div class="text-blue-400">{region.name}</div>
+								<div class="text-primary-400">{region.name}</div>
 							</div>
 						</div>
 					</td>
@@ -42,7 +42,7 @@
 				</tr>
 			{/each}
 			<tr>
-				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last {days} days)</td>
+				<td colspan="4" class="text-center py-2 text-background-400">(Kills over last {days} days)</td>
 			</tr>
 		</tbody>
 	</table>

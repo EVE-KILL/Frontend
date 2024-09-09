@@ -16,7 +16,7 @@
 		<div class="mb-2 text-lg font-bold">Blue Team</div>
 		<div class="bg-background-800 p-2 rounded-lg shadow-lg">
 			<div class="mb-2 text-lg font-bold">Blue Team</div>
-			<div class="mb-2 text-sm text-gray-400">
+			<div class="mb-2 text-sm text-background-400">
 				ISK Lost: {convertIskToBillions(blueTeamStats.iskLost)} ISK | Ships Lost: {blueTeamStats.shipsLost}
 				| Damage Inflicted: {formatNumber(blueTeamStats.damageInflicted)}
 			</div>
@@ -68,7 +68,7 @@
 		<div class="mb-2 text-lg font-bold">Red Team</div>
 		<div class="bg-background-800 p-2 rounded-lg shadow-lg">
 			<div class="mb-2 text-lg font-bold">Red Team</div>
-			<div class="mb-2 text-sm text-gray-400">
+			<div class="mb-2 text-sm text-background-400">
 				ISK Lost: {convertIskToBillions(redTeamStats.iskLost)} ISK | Ships Lost: {redTeamStats.shipsLost}
 				| Damage Inflicted: {formatNumber(redTeamStats.damageInflicted)}
 			</div>

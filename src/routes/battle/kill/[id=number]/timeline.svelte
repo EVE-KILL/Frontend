@@ -32,10 +32,10 @@
 					<th class="px-2 py-1 text-left" scope="col">Red Team Losses</th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each killmails as kill}
 					<tr
-						class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
+						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 cursor-pointer"
 						on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}
 						role="button"
 						aria-label="View killmail details for {kill.victim.character_name} in {kill.victim.ship_name}"

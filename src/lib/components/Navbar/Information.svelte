@@ -16,8 +16,12 @@
 </script>
 
 <div class="relative">
-	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openInformationDropdown} on:mouseleave={closeInformationDropdown}>
-		<i class="fas fa-circle-info text-gray-500 hover:text-gray-400" style="font-size: 32px;"></i>
+	<button
+		class="text-white hover:text-background-400 focus:outline-none"
+		on:mouseenter={openInformationDropdown}
+		on:mouseleave={closeInformationDropdown}
+	>
+		<i class="fas fa-circle-info text-background-500 hover:text-background-400" style="font-size: 32px;"></i>
 	</button>
 	{#if isInformationDropdownOpen}
 		<ul

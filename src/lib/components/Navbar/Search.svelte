@@ -74,7 +74,13 @@
 	<form class="max-w-full relative">
 		<div class="relative">
 			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-				<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+				<svg
+					class="w-4 h-4 text-background-500 dark:text-background-400"
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 20 20"
+				>
 					<path
 						stroke="currentColor"
 						stroke-linecap="round"
@@ -91,7 +97,7 @@
 				on:input={handleSearch}
 				on:focus={handleFocus}
 				on:blur={handleBlur}
-				class="search block w-full pl-10 pr-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-background-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-background-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				class="search block w-full pl-10 pr-4 py-2 text-sm text-background-900 border border-background-300 rounded-lg bg-background-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-background-700 dark:border-background-600 dark:placeholder-background-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
 				placeholder="Search..."
 			/>
 		</div>
@@ -99,10 +105,10 @@
 			<div class="absolute bg-background-800 rounded-lg shadow-lg mt-2 w-full">
 				<div class="overflow-y-auto max-h-64">
 					<table class="table-auto w-full">
-						<tbody class="text-gray-300 text-sm">
+						<tbody class="text-background-300 text-sm">
 							{#each searchResults as result, index}
 								<tr
-									class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300 {selectedIndex === index
+									class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300 {selectedIndex === index
 										? 'bg-background-600'
 										: ''}"
 									on:click={() => (window.location.href = `/${result.type}/${result.id}`)}

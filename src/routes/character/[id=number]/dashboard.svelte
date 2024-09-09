@@ -143,34 +143,10 @@
 
 		<!-- Period Selection Buttons -->
 		<div class="mb-4">
-			<button
-				class="btn"
-				class:active-btn={activePeriod === '14'}
-				on:click={() => changePeriod('14')}
-			>
-				14d
-			</button>
-			<button
-				class="btn"
-				class:active-btn={activePeriod === '30'}
-				on:click={() => changePeriod('30')}
-			>
-				30d
-			</button>
-			<button
-				class="btn"
-				class:active-btn={activePeriod === '90'}
-				on:click={() => changePeriod('90')}
-			>
-				90d
-			</button>
-			<button
-				class="btn"
-				class:active-btn={activePeriod === 'all'}
-				on:click={() => changePeriod('all')}
-			>
-				All
-			</button>
+			<button class="btn" class:active-btn={activePeriod === '14'} on:click={() => changePeriod('14')}> 14d </button>
+			<button class="btn" class:active-btn={activePeriod === '30'} on:click={() => changePeriod('30')}> 30d </button>
+			<button class="btn" class:active-btn={activePeriod === '90'} on:click={() => changePeriod('90')}> 90d </button>
+			<button class="btn" class:active-btn={activePeriod === 'all'} on:click={() => changePeriod('all')}> All </button>
 		</div>
 
 		{#if statsLoading}
@@ -183,52 +159,52 @@
 						<th class="px-2 py-1">Value</th>
 					</tr>
 				</thead>
-				<tbody class="text-gray-300 text-sm">
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+				<tbody class="text-background-300 text-sm">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Kills</td>
 						<td class="px-2 py-1">{formatNumber(stats.kills, 0)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Losses</td>
 						<td class="px-2 py-1">{formatNumber(stats.losses, 0)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">ISK Killed</td>
 						<td class="px-2 py-1">{formatNumber(stats.iskKilled, 0)} ISK</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">ISK Lost</td>
 						<td class="px-2 py-1">{formatNumber(stats.iskLost, 0)} ISK</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Solo Kills</td>
 						<td class="px-2 py-1">{formatNumber(stats.soloKills, 0)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Solo Losses</td>
 						<td class="px-2 py-1">{formatNumber(stats.soloLosses, 0)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">NPC Losses</td>
 						<td class="px-2 py-1">{formatNumber(stats.npcLosses, 0)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Blob Factor</td>
 						<td class="px-2 py-1">{stats.blobFactor.toFixed(2)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Last Active</td>
 						<td class="px-2 py-1">{formatDate(stats.lastActive)}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Active Timezone</td>
 						<td class="px-2 py-1">{activeTimezone}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Known FC</td>
 						<td class="px-2 py-1">{stats.possibleFC === true ? 'Yes' : 'No'}</td>
 					</tr>
-					<tr class="border-b border-gray-700 hover:bg-gray-600">
+					<tr class="border-b border-background-700 hover:bg-background-600">
 						<td class="px-2 py-1">Known Cyno Alt</td>
 						<td class="px-2 py-1">{stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
 					</tr>
@@ -374,11 +350,10 @@
 <!-- Styles -->
 <style>
 	.dashboard {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 	}
 	.bio-section,
+	.recent-kills-section,
 	.stats-section {
 		background-color: rgba(255, 255, 255, 0.05);
 		border-radius: 0.5rem;

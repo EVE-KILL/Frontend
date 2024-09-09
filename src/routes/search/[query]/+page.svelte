@@ -26,7 +26,7 @@
 								<th class="py-2 px-4 bg-background-900 text-left">Name</th>
 							</tr>
 						</thead>
-						<tbody class="text-gray-300 text-sm">
+						<tbody class="text-background-300 text-sm">
 							{#each searchResults as result}
 								<tr class="hover:bg-background-600 transition-colors duration-300 cursor-pointer" on:click={() => handleResultClick(result)}>
 									<td class="flex items-center space-x-2 py-2 px-4">
@@ -48,7 +48,7 @@
 									</td>
 									<td class="py-2 px-4">
 										<div class="text-sm">
-											<span class="text-blue-400">{result.name}</span>
+											<span class="text-primary-400">{result.name}</span>
 										</div>
 									</td>
 								</tr>

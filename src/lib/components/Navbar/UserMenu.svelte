@@ -88,7 +88,7 @@
 </script>
 
 <div class="relative">
-	<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
+	<button class="text-white hover:text-background-400 focus:outline-none" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
 		<a href={user ? `/character/${user.character_id}` : '#'}>
 			<img
 				src={user
@@ -106,16 +106,16 @@
 			on:mouseleave={closeAccountDropdown}
 		>
 			{#if user}
-				<li class="p-2 border-t border-gray-700">
-					<div class="text-gray-300 text-sm">Settings</div>
-					<div class="text-gray-500 text-xs mt-2">
+				<li class="p-2 border-t border-background-700">
+					<div class="text-background-300 text-sm">Settings</div>
+					<div class="text-background-500 text-xs mt-2">
 						<label class="flex items-center">
-							<input type="checkbox" class="form-checkbox h-4 w-4 text-blue-500" />
+							<input type="checkbox" class="form-checkbox h-4 w-4 text-primary-500" />
 							<span class="ml-2">Placeholder Toggle</span>
 						</label>
 					</div>
 				</li>
-				<li class="p-2 border-t border-gray-700">
+				<li class="p-2 border-t border-background-700">
 					<button on:click={logout} class="text-red-500 hover:text-red-300">Logout</button>
 				</li>
 			{:else}
@@ -125,7 +125,7 @@
 					</a>
 				</li>
 				<li class="p-2 rounded-b-md">
-					<div class="text-gray-500 text-xs mt-2 text-left">
+					<div class="text-background-500 text-xs mt-2 text-left">
 						Scopes:<br />
 						- esi-killmails.read_corporation_killmails.v1<br />
 						- esi-killmails.read_killmails.v1<br />

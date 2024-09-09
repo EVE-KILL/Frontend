@@ -344,23 +344,27 @@
 	<div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 modal-overlay" on:click={handleOutsideClick}>
 		<div class="bg-background-800 text-white rounded-lg p-8 w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto relative">
 			<!-- Close Button -->
-			<button class="absolute top-4 right-4 text-gray-400 hover:text-gray-200 text-2xl font-bold" on:click={closeModal}>&times;</button>
+			<button class="absolute top-4 right-4 text-background-400 hover:text-background-200 text-2xl font-bold" on:click={closeModal}>&times;</button>
 
 			<h2 class="text-2xl font-semibold mb-6 text-center">New Campaign</h2>
 
 			<!-- Campaign Name -->
 			<div class="mb-6">
-				<label class="block text-gray-300 mb-2 text-sm">Name</label>
-				<input type="text" bind:value={campaignName} class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-background-900 text-white" />
+				<label class="block text-background-300 mb-2 text-sm">Name</label>
+				<input
+					type="text"
+					bind:value={campaignName}
+					class="block w-full border border-background-600 rounded-lg py-1 px-4 bg-background-900 text-white"
+				/>
 			</div>
 
 			<!-- Campaign Description -->
 			<div class="mb-6">
-				<label class="block text-gray-300 mb-2 text-sm">Description</label>
+				<label class="block text-background-300 mb-2 text-sm">Description</label>
 				<input
 					type="text"
 					bind:value={campaignDescription}
-					class="block w-full border border-gray-600 rounded-lg py-1 px-4 bg-background-900 text-white"
+					class="block w-full border border-background-600 rounded-lg py-1 px-4 bg-background-900 text-white"
 				/>
 			</div>
 
@@ -373,8 +377,11 @@
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
 					<!-- Entity Type -->
 					<div>
-						<label class="block text-gray-300 mb-2">Type</label>
-						<select bind:value={entities[index].type} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white">
+						<label class="block text-background-300 mb-2">Type</label>
+						<select
+							bind:value={entities[index].type}
+							class="block w-full border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white"
+						>
 							{#each entityTypes as entityType}
 								<option value={entityType.value}>{entityType.name}</option>
 							{/each}
@@ -383,8 +390,8 @@
 
 					<!-- Entity Search or Input -->
 					<div class="relative">
-						<label class="block text-gray-300 mb-2">Name</label>
-						<div class="flex items-center border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white">
+						<label class="block text-background-300 mb-2">Name</label>
+						<div class="flex items-center border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white">
 							{#if entity.imageUrl}
 								<img src={entity.imageUrl} alt={entity.name} class="h-8 w-8 mr-2 rounded-md" />
 							{/if}
@@ -404,7 +411,7 @@
 								<ul class="max-h-64 overflow-y-auto">
 									{#each entities[index].searchResults as result, resultIndex}
 										<li
-											class="flex items-center px-4 py-2 text-gray-300 cursor-pointer hover:bg-background-700 {entities[index].selectedIndex ===
+											class="flex items-center px-4 py-2 text-background-300 cursor-pointer hover:bg-background-700 {entities[index].selectedIndex ===
 											resultIndex
 												? 'bg-background-600'
 												: ''}"
@@ -430,18 +437,18 @@
 
 					<!-- Treatment/Modifier -->
 					<div>
-						<label class="block text-gray-300 mb-2">Treatment</label>
+						<label class="block text-background-300 mb-2">Treatment</label>
 						{#if treatments[entities[index].type] && Array.isArray(treatments[entities[index].type])}
 							<select
 								bind:value={entities[index].treatmentValue}
-								class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white"
+								class="block w-full border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white"
 							>
 								{#each treatments[entities[index].type] as treatment}
 									<option value={treatment.value}>{treatment.name}</option>
 								{/each}
 							</select>
 						{:else}
-							<p class="text-gray-400">No treatments available for this type.</p>
+							<p class="text-background-400">No treatments available for this type.</p>
 						{/if}
 					</div>
 
@@ -461,8 +468,11 @@
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
 					<!-- Location Type -->
 					<div>
-						<label class="block text-gray-300 mb-2">Type</label>
-						<select bind:value={locations[index].type} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white">
+						<label class="block text-background-300 mb-2">Type</label>
+						<select
+							bind:value={locations[index].type}
+							class="block w-full border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white"
+						>
 							<option value="system">System</option>
 							<option value="region">Region</option>
 						</select>
@@ -470,8 +480,8 @@
 
 					<!-- Location Search -->
 					<div class="relative">
-						<label class="block text-gray-300 mb-2">Name/Value</label>
-						<div class="flex items-center border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white">
+						<label class="block text-background-300 mb-2">Name/Value</label>
+						<div class="flex items-center border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white">
 							{#if location.imageUrl}
 								<img src={location.imageUrl} alt={location.name} class="h-8 w-8 mr-2 rounded-md" />
 							{/if}
@@ -490,8 +500,8 @@
 								<ul class="max-h-64 overflow-y-auto">
 									{#each locations[index].searchResults as result, resultIndex}
 										<li
-											class="flex items-center px-4 py-2 text-gray-300 cursor-pointer hover:bg-background-700 {locations[index].selectedIndex ===
-											resultIndex
+											class="flex items-center px-4 py-2 text-background-300 cursor-pointer hover:bg-background-700 {locations[index]
+												.selectedIndex === resultIndex
 												? 'bg-background-600'
 												: ''}"
 											on:click={() => handleLocationSelect(index, result)}
@@ -521,17 +531,20 @@
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center mb-6 relative">
 					<!-- Date From -->
 					<div>
-						<label class="block text-gray-300 mb-2">From</label>
-						<DateInput bind:value={timePeriod.from} class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white" />
+						<label class="block text-background-300 mb-2">From</label>
+						<DateInput
+							bind:value={timePeriod.from}
+							class="block w-full border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white"
+						/>
 					</div>
 
 					<!-- Date To -->
 					<div>
-						<label class="block text-gray-300 mb-2">To</label>
+						<label class="block text-background-300 mb-2">To</label>
 						<DateInput
 							bind:value={timePeriod.to}
 							max={maxDate}
-							class="block w-full border border-gray-600 rounded-lg py-2 px-4 bg-background-900 text-white"
+							class="block w-full border border-background-600 rounded-lg py-2 px-4 bg-background-900 text-white"
 						/>
 					</div>
 
@@ -569,13 +582,13 @@
 
 			<!-- Submit Button (disabled if form is not valid) -->
 			<button
-				class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all"
+				class="bg-primary-500 hover:bg-primary-600 text-white font-semibold py-2 px-6 rounded-md shadow-md transition-all"
 				on:click={submitCampaign}
 				disabled={!isFormValid}
 			>
 				Submit
 			</button>
-			<p class="text-xs text-gray-400 mt-2"> * Be aware processing can take a long time, once submitted DO NOT SUBMIT AGAIN! </p>
+			<p class="text-xs text-background-400 mt-2"> * Be aware processing can take a long time, once submitted DO NOT SUBMIT AGAIN! </p>
 		</div>
 	</div>
 {/if}

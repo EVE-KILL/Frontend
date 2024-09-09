@@ -175,10 +175,10 @@
 				<div>
 					<div class="text-left text-sm text-white">
 						<strong>{comment.character.character_name}</strong><br />
-						<p class="text-xs text-gray-500">
+						<p class="text-xs text-background-500">
 							({infoString(comment.character.corporation_name, comment.character.alliance_name)})
 						</p>
-						<p class="text-sm text-gray-500">{comment.created_at}</p>
+						<p class="text-sm text-background-500">{comment.created_at}</p>
 					</div>
 					<!-- Rendered Markdown -->
 					<div class="markdown-content">{@html comment.rendered}</div>
@@ -202,7 +202,7 @@
 					</div>
 
 					<MarkdownEditor bind:value={comment} theme="github" placeholder="Leave a comment.." {carta} />
-					<p class="text-right text-xs text-gray-400">
+					<p class="text-right text-xs text-background-400">
 						{charactersRemaining} characters remaining
 					</p>
 					{#if charactersRemaining < 0}

@@ -19,9 +19,9 @@
 						<th class="px-2 py-1" scope="col">Total Value</th>
 					</tr>
 				</thead>
-				<tbody class="text-gray-300 text-sm">
+				<tbody class="text-background-300 text-sm">
 					{#each blueTeamCharacters as character}
-						<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
+						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">
 								<img
 									src={`https://images.evetech.net/characters/${character.id}/portrait?size=64`}
@@ -52,9 +52,9 @@
 						<th class="px-2 py-1" scope="col">Total Value</th>
 					</tr>
 				</thead>
-				<tbody class="text-gray-300 text-sm">
+				<tbody class="text-background-300 text-sm">
 					{#each redTeamCharacters as character}
-						<tr class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300">
+						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">
 								<img
 									src={`https://images.evetech.net/characters/${character.id}/portrait?size=64`}

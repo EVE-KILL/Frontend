@@ -24,10 +24,10 @@
 					<th class="px-2 py-1" scope="col">Leave Date</th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				{#each allianceHistory as history}
 					<tr
-						class="border-b border-gray-700 hover:bg-background-600 transition-colors duration-300"
+						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
 						on:click={(window.location.href = `/alliance/${history.alliance_id}`)}
 					>
 						<td class="px-2 py-1">{history.name}</td>

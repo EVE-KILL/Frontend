@@ -135,7 +135,7 @@
 					<th class="px-2 py-1 w-6" scope="col"></th>
 				</tr>
 			</thead>
-			<tbody class="text-gray-300 text-sm">
+			<tbody class="text-background-300 text-sm">
 				<tr class="bg-background-700 text-white bg-semi-transparent">
 					<td colspan="2" class="px-2 py-1"></td>
 					<td colspan="1" class="px-2 py-1">{formatNumber(itemDestroyedIsk(killmail.items), 0)}</td>
@@ -177,7 +177,7 @@
 						{#if collapsibleSections[group.slotType]}
 							{#each group.items as item}
 								<tr
-									class={`border-b border-gray-700 hover:bg-background-600 transition-colors duration-30 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
+									class={`border-b border-background-700 hover:bg-background-600 transition-colors duration-30 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
 								>
 									<td class="pl-2 py-1">
 										<img
@@ -205,7 +205,7 @@
 								{#if item.isContainer && item.container_items.length > 0}
 									{#each item.container_items as containerItem}
 										<tr
-											class={`border-b border-gray-700 hover:bg-background-600 transition-colors duration-30 pl-6 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
+											class={`border-b border-background-700 hover:bg-background-600 transition-colors duration-30 pl-6 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
 										>
 											<td class="px-2 py-1 pl-5">
 												<img

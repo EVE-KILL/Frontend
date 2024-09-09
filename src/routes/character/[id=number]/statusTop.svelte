@@ -11,9 +11,7 @@
 
 	onMount(async () => {
 		try {
-			let response = await fetch(
-				`${upstreamUrl}/api/characters/${character.character_id}/shortstats`
-			);
+			let response = await fetch(`${upstreamUrl}/api/characters/${character.character_id}/shortstats`);
 			stats = await response.json();
 			loading = false;
 		} catch (error) {
@@ -57,53 +55,24 @@
 		<!-- Profile Information and Stats Tables -->
 		<div class="w-full flex justify-between ml-5">
 			<!-- Character Info -->
-			<div class="flex-grow-0 mr-5">
-				<table class="table-auto">
-					<tbody>
-						<tr>
-							<td class="font-bold text-right p-1">Character:</td>
-							<td>{character.name}</td>
-						</tr>
-						<tr>
-							<td class="font-bold text-right p-1">Corporation:</td>
-							<td>
-								<a href="/corporation/{character.corporation_id}">
-									{character.corporation_name}
-								</a>
-							</td>
-						</tr>
-						{#if character.title}
-							<tr>
-								<td class="font-bold text-right p-1">Title:</td>
-								<td>{character.title}</td>
-							</tr>
-						{/if}
-						{#if character.alliance_id}
-							<tr>
-								<td class="font-bold text-right p-1">Alliance:</td>
-								<td>
-									<a href="/alliance/{character.alliance_id}">
-										{character.alliance_name}
-									</a>
-								</td>
-							</tr>
-						{/if}
-						{#if character.faction_id}
-							<tr>
-								<td class="font-bold text-right p-1">Faction:</td>
-								<td>
-									<a href="/faction/{character.faction_id}">
-										{character.faction_name}
-									</a>
-								</td>
-							</tr>
-						{/if}
-						<tr>
-							<td class="font-bold text-right p-1">Sec. Status:</td>
-							<td>{character.security_status.toFixed(3)}</td>
-						</tr>
-					</tbody>
-				</table>
+			<div>
+				<h1 class="text-2xl font-bold">{character.name}</h1>
+				<p class="text-background-400">{character.corporation_name}</p>
+				{#if character.title}
+					<p class="text-background-400">{character.title}</p>
+				{/if}
+				{#if character.alliance_id}
+					<p class="text-background-400">{character.alliance_name}</p>
+				{/if}
+				{#if character.faction_id}
+					<p class="text-background-400">{character.faction_name}</p>
+				{/if}
+				<p class="text-background-400">Sec. Status: {character.security_status.toFixed(3)}</p>
+				{#if !loading}
+					<p class="text-background-400">
+						Last Active: {new Date(stats.lastActive).toLocaleString()}
+					</p>
+				{/if}
 			</div>
 
 			<!-- Stats Tables (Center and Right) -->
@@ -124,15 +93,11 @@
 							</tr>
 							<tr>
 								<td class="font-bold p-1">ISK Killed:</td>
-								<td class="text-left pl-2"
-									>{convertIskToBillions(stats.iskKilled, 2)}</td
-								>
+								<td class="text-left pl-2">{convertIskToBillions(stats.iskKilled, 2)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold p-1">ISK Lost:</td>
-								<td class="text-left pl-2"
-									>{convertIskToBillions(stats.iskLost, 2)}</td
-								>
+								<td class="text-left pl-2">{convertIskToBillions(stats.iskLost, 2)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold p-1">NPC Losses:</td>
@@ -162,9 +127,7 @@
 							</tr>
 							<tr>
 								<td class="font-bold p-1">Last Active:</td>
-								<td class="text-left pl-2"
-									>{new Date(stats.lastActive).toLocaleString()}</td
-								>
+								<td class="text-left pl-2">{new Date(stats.lastActive).toLocaleString()}</td>
 							</tr>
 						</tbody>
 					</table>

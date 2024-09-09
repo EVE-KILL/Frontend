@@ -35,7 +35,11 @@
 		<ul class="flex space-x-4 justify-between w-full">
 			<!-- Left aligned items (External dropdown) -->
 			<li class="relative">
-				<button class="text-white hover:text-gray-400 focus:outline-none" on:mouseenter={openExternalDropdown} on:mouseleave={closeExternalDropdown}>
+				<button
+					class="text-white hover:text-background-400 focus:outline-none"
+					on:mouseenter={openExternalDropdown}
+					on:mouseleave={closeExternalDropdown}
+				>
 					External
 				</button>
 				{#if isExternalDropDownOpen}
@@ -44,7 +48,7 @@
 						on:mouseenter={openExternalDropdown}
 						on:mouseleave={closeExternalDropdown}
 					>
-						<li class="px-4 py-2 text-sm text-gray-300">DOTLAN</li>
+						<li class="px-4 py-2 text-sm text-background-300">DOTLAN</li>
 						<li>
 							<a href="https://evemaps.dotlan.net/system/{killmail.system_name}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 								>{killmail.system_name}</a
@@ -55,13 +59,13 @@
 								>{killmail.region_name}</a
 							>
 						</li>
-						<li class="px-4 py-2 text-sm text-gray-300">EVEEye</li>
+						<li class="px-4 py-2 text-sm text-background-300">EVEEye</li>
 						<li>
 							<a href="https://eveeye.com/?m={killmail.region_name}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 								>{killmail.region_name}</a
 							>
 						</li>
-						<li class="px-4 py-2 text-sm text-gray-300">EVE Missioneer</li>
+						<li class="px-4 py-2 text-sm text-background-300">EVE Missioneer</li>
 						<li>
 							<a href="https://evemissioneer.com/s/{killmail.system_id}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 								>{killmail.system_name}</a
@@ -73,14 +77,14 @@
 							>
 						</li>
 						{#if killmail.region_id >= 11000001 && killmail.region_id <= 11000033}
-							<li class="px-4 py-2 text-sm text-gray-300">Anoik.is</li>
+							<li class="px-4 py-2 text-sm text-background-300">Anoik.is</li>
 							<li>
 								<a href="http://anoik.is/systems/{killmail.system_name}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 									>{killmail.system_name}</a
 								>
 							</li>
 						{/if}
-						<li class="px-4 py-2 text-sm text-gray-300">EveShip.fit</li>
+						<li class="px-4 py-2 text-sm text-background-300">EveShip.fit</li>
 						<li>
 							<a
 								href="https://eveship.fit/?fit=killmail:{killmail.killmail_id}/{killmail.hash}"
@@ -88,7 +92,7 @@
 								class="block px-4 py-2 hover:bg-background-700">ESF</a
 							>
 						</li>
-						<li class="px-4 py-2 text-sm text-gray-300">EVE Ref</li>
+						<li class="px-4 py-2 text-sm text-background-300">EVE Ref</li>
 						<li>
 							<a href="https://everef.net/groups/{killmail.victim.ship_group_id}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 								>{killmail.victim.ship_group_name}</a
@@ -99,7 +103,7 @@
 								>{killmail.victim.ship_name}</a
 							>
 						</li>
-						<li class="px-4 py-2 text-sm text-gray-300">Jita.space</li>
+						<li class="px-4 py-2 text-sm text-background-300">Jita.space</li>
 						<li>
 							<a href="https://www.jita.space/system/{killmail.system_id}" target="_blank" class="block px-4 py-2 hover:bg-background-700"
 								>{killmail.system_name}</a
@@ -117,7 +121,7 @@
 			<!-- Right aligned items (Battle Info) -->
 			{#if inBattle}
 				<li class="ml-auto">
-					<a href="/battle/kill/{killmail.killmail_id}" class="text-white hover:text-gray-400">Battle Info</a>
+					<a href="/battle/kill/{killmail.killmail_id}" class="text-white hover:text-background-400">Battle Info</a>
 				</li>
 			{/if}
 		</ul>
