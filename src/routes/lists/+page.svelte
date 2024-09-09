@@ -68,29 +68,17 @@
 	<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 		<ul class="flex space-x-4">
 			<li>
-				<a
-					href="#top207d"
-					class="hover:underline {currentHash === '#top207d' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Top207d, '#top207d')}
-				>
+				<a href="#top207d" class="hover:underline {currentHash === '#top207d' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Top207d, '#top207d')}>
 					Top 20 (7 days)
 				</a>
 			</li>
 			<li>
-				<a
-					href="#top2030d"
-					class="hover:underline {currentHash === '#top2030d' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Top2030d, '#top2030d')}
-				>
+				<a href="#top2030d" class="hover:underline {currentHash === '#top2030d' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Top2030d, '#top2030d')}>
 					Top 20 (30 days)
 				</a>
 			</li>
 			<li>
-				<a
-					href="#alliances"
-					class="hover:underline {currentHash === '#alliances' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Alliances, '#alliances')}
-				>
+				<a href="#alliances" class="hover:underline {currentHash === '#alliances' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Alliances, '#alliances')}>
 					Alliances
 				</a>
 			</li>
@@ -104,40 +92,18 @@
 				</a>
 			</li>
 			<li>
-				<a
-					href="#characters"
-					class="hover:underline {currentHash === '#characters' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Characters, '#characters')}
-				>
+				<a href="#characters" class="hover:underline {currentHash === '#characters' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Characters, '#characters')}>
 					Characters
 				</a>
 			</li>
 			<li>
-				<a
-					href="#ships"
-					class="hover:underline {currentHash === '#ships' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Ships, '#ships')}
-				>
-					Ships
-				</a>
+				<a href="#ships" class="hover:underline {currentHash === '#ships' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Ships, '#ships')}> Ships </a>
 			</li>
 			<li>
-				<a
-					href="#systems"
-					class="hover:underline {currentHash === '#systems' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Systems, '#systems')}
-				>
-					Systems
-				</a>
+				<a href="#systems" class="hover:underline {currentHash === '#systems' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Systems, '#systems')}> Systems </a>
 			</li>
 			<li>
-				<a
-					href="#regions"
-					class="hover:underline {currentHash === '#regions' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Regions, '#regions')}
-				>
-					Regions
-				</a>
+				<a href="#regions" class="hover:underline {currentHash === '#regions' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Regions, '#regions')}> Regions </a>
 			</li>
 		</ul>
 	</nav>

@@ -60,11 +60,7 @@
 	<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 		<ul class="flex space-x-4">
 			<li>
-				<a
-					href="#information"
-					class="hover:underline {currentHash === '#information' ? 'active' : ''}"
-					on:click|preventDefault={() => loadComponent(Information, '#information')}
-				>
+				<a href="#information" class="hover:underline {currentHash === '#information' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Information, '#information')}>
 					Information
 				</a>
 			</li>

@@ -8,9 +8,7 @@
 	let selectedDays = '90'; // Default selection for days of stats (90d)
 
 	// Reusable function to get the element with the highest count from an object
-	const getTopElementByCount = (
-		items: Record<string, { count: number; name: string }> | undefined
-	) => {
+	const getTopElementByCount = (items: Record<string, { count: number; name: string }> | undefined) => {
 		if (!items) return 'Unknown';
 		const itemsArray = Object.values(items);
 		const sortedArray = itemsArray.sort((a, b) => b.count - a.count); // Sort by count descending
@@ -30,9 +28,7 @@
 				const characterId = character.id;
 
 				// Second API call to fetch character info
-				const characterInfoResponse = await fetch(
-					`https://eve-kill.com/api/characters/${characterId}`
-				);
+				const characterInfoResponse = await fetch(`https://eve-kill.com/api/characters/${characterId}`);
 				const characterInfo = await characterInfoResponse.json();
 
 				// Build the URL for the stats API call based on the selected days
@@ -137,17 +133,10 @@
 
 }
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
-	<p class="text-right text-xs text-gray-400">
-		* Copy the channel list into your pastebuffer, then press button below
-	</p>
+	<p class="text-right text-xs text-gray-400"> * Copy the channel list into your pastebuffer, then press button below </p>
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
 		<div class="flex justify-center space-x-4">
-			<button
-				class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
-				on:click={handleClipboardData}
-			>
-				Lookup Pilots
-			</button>
+			<button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600" on:click={handleClipboardData}> Lookup Pilots </button>
 
 			<!-- Dropdown for selecting the number of days -->
 			<select bind:value={selectedDays} class="px-4 py-2 bg-gray-700 text-white rounded">
@@ -165,11 +154,7 @@
 				<!-- Flex container for image and details -->
 				<div class="flex items-start p-4">
 					<!-- Character image (128x128) fixed size -->
-					<img
-						class="w-40 h-40 rounded-full flex-shrink-0"
-						src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`}
-						alt="Character Image"
-					/>
+					<img class="w-40 h-40 rounded-full flex-shrink-0" src={`https://images.evetech.net/characters/${character.id}/portrait?size=256`} alt="Character Image" />
 
 					<!-- Character name, corporation, alliance -->
 					<div class="pl-4">
@@ -198,12 +183,7 @@
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">Efficiency:</td>
-								<td class="text-left"
-									>{killEfficiency(
-										character.stats.kills || 0,
-										character.stats.losses || 0
-									)}</td
-								>
+								<td class="text-left">{killEfficiency(character.stats.kills || 0, character.stats.losses || 0)}</td>
 							</tr>
 						</table>
 					</div>
@@ -239,35 +219,23 @@
 						<table class="table-auto w-full text-left">
 							<tr>
 								<td class="font-bold text-right pr-4">ISK Killed:</td>
-								<td class="text-left"
-									>{convertIskToBillions(character.stats.iskKilled, 0) || 0}</td
-								>
+								<td class="text-left">{convertIskToBillions(character.stats.iskKilled, 0) || 0}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">ISK Lost:</td>
-								<td class="text-left"
-									>{convertIskToBillions(character.stats.iskLost, 0) || 0}</td
-								>
+								<td class="text-left">{convertIskToBillions(character.stats.iskLost, 0) || 0}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">Most Used Ship:</td>
-								<td class="text-left"
-									>{getTopElementByCount(character.stats.mostUsedShips)}</td
-								>
+								<td class="text-left">{getTopElementByCount(character.stats.mostUsedShips)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">Most Flown W/Corp:</td>
-								<td class="text-left"
-									>{getTopElementByCount(
-										character.stats.fliesWithCorporations
-									)}</td
-								>
+								<td class="text-left">{getTopElementByCount(character.stats.fliesWithCorporations)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">Most Flown W/Alli:</td>
-								<td class="text-left"
-									>{getTopElementByCount(character.stats.fliesWithAlliances)}</td
-								>
+								<td class="text-left">{getTopElementByCount(character.stats.fliesWithAlliances)}</td>
 							</tr>
 						</table>
 					</div>
@@ -277,15 +245,11 @@
 						<table class="table-auto w-full text-left">
 							<tr>
 								<td class="font-bold text-right pr-4">Cyno Alt:</td>
-								<td class="text-left"
-									>{character.stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td
-								>
+								<td class="text-left">{character.stats.possibleCynoAlt === true ? 'Yes' : 'No'}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">FC:</td>
-								<td class="text-left"
-									>{character.stats.possibleFC === true ? 'Yes' : 'No'}</td
-								>
+								<td class="text-left">{character.stats.possibleFC === true ? 'Yes' : 'No'}</td>
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">Last Active:</td>
@@ -293,9 +257,7 @@
 							</tr>
 							<tr>
 								<td class="font-bold text-right pr-4">TimeZone:</td>
-								<td class="text-left"
-									>{determineActiveTimezone(character.stats.heatMap)}</td
-								>
+								<td class="text-left">{determineActiveTimezone(character.stats.heatMap)}</td>
 							</tr>
 						</table>
 					</div>

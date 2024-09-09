@@ -45,29 +45,13 @@ const config = {
 				background: generateBackgroundColors(baseBackgroundColor),
 				foreground: 'hsl(var(--foreground) / <alpha-value>)',
 				primary: {
-					DEFAULT: generateColors(
-						baseBackgroundColor,
-						basePrimaryColor,
-						overlayOpacity
-					)[500],
-					foreground: generateColors(
-						baseBackgroundColor,
-						basePrimaryColor,
-						overlayOpacity
-					),
+					DEFAULT: generateColors(baseBackgroundColor, basePrimaryColor, overlayOpacity)[500],
+					foreground: generateColors(baseBackgroundColor, basePrimaryColor, overlayOpacity),
 					...generateColors(baseBackgroundColor, basePrimaryColor, overlayOpacity)
 				},
 				secondary: {
-					DEFAULT: generateColors(
-						baseBackgroundColor,
-						baseSecondaryColor,
-						overlayOpacity
-					)[500],
-					foreground: generateColors(
-						baseBackgroundColor,
-						baseSecondaryColor,
-						overlayOpacity
-					),
+					DEFAULT: generateColors(baseBackgroundColor, baseSecondaryColor, overlayOpacity)[500],
+					foreground: generateColors(baseBackgroundColor, baseSecondaryColor, overlayOpacity),
 					...generateColors(baseBackgroundColor, baseSecondaryColor, overlayOpacity)
 				},
 				destructive: {
@@ -104,10 +88,7 @@ const config = {
 				return Object.keys(colorObj).reduce((vars, colorKey) => {
 					const value = colorObj[colorKey];
 
-					const newVars =
-						typeof value === 'string'
-							? { [`--color${colorGroup}-${colorKey}`]: value }
-							: extractColorVars(value, `-${colorKey}`);
+					const newVars = typeof value === 'string' ? { [`--color${colorGroup}-${colorKey}`]: value } : extractColorVars(value, `-${colorKey}`);
 
 					return { ...vars, ...newVars };
 				}, {});

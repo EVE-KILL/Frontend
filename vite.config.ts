@@ -1,16 +1,20 @@
-import { sentrySvelteKit } from "@sentry/sveltekit";
+import { sentrySvelteKit } from '@sentry/sveltekit';
 import wasm from 'vite-plugin-wasm';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import path from "path";
+import path from 'path';
 
 export default defineConfig({
-	plugins: [sentrySvelteKit({
-        sourceMapsUploadOptions: {
-            org: "eve-kill",
-            project: "frontend"
-        }
-    }), sveltekit(), wasm()],
+	plugins: [
+		sentrySvelteKit({
+			sourceMapsUploadOptions: {
+				org: 'eve-kill',
+				project: 'frontend'
+			}
+		}),
+		sveltekit(),
+		wasm()
+	],
 	server: {
 		cors: {
 			origin: '*',
@@ -20,7 +24,7 @@ export default defineConfig({
 	},
 	build: {
 		target: 'esnext',
-		sourcemap: true,
+		sourcemap: true
 	},
 	esbuild: {
 		supported: {
@@ -28,8 +32,8 @@ export default defineConfig({
 		}
 	},
 	resolve: {
-    alias: {
-      $lib: path.resolve("./src/lib"),
-    },
-  },
+		alias: {
+			$lib: path.resolve('./src/lib')
+		}
+	}
 });

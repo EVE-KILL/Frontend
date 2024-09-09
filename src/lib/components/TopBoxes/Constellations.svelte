@@ -27,11 +27,7 @@
 					on:click={(window.location.href = `/constellation/${constellation.constellation_id}`)}
 				>
 					<td class="px2 py-1">
-						<img
-							style="width: 32px; height: 32px;"
-							src={`/map.png`}
-							alt="Constellation: {constellation.name}"
-						/>
+						<img style="width: 32px; height: 32px;" src={`/map.png`} alt="Constellation: {constellation.name}" />
 					</td>
 					<td class="px-2 py-1">
 						<div class="flex items-center">
@@ -46,9 +42,7 @@
 				</tr>
 			{/each}
 			<tr>
-				<td colspan="4" class="text-center py-2 text-gray-400"
-					>(Kills over last {days} days)</td
-				>
+				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last {days} days)</td>
 			</tr>
 		</tbody>
 	</table>

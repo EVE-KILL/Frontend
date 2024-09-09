@@ -55,22 +55,10 @@
 		<div class="flex items-start">
 			<!-- Profile Image with Additional Images -->
 			<div class="flex items-center">
-				<img
-					src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=256"
-					alt="Corporation: {corporation.name}"
-					class="rounded-full"
-				/>
+				<img src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=256" alt="Corporation: {corporation.name}" class="rounded-full" />
 				<div class="flex flex-col space-x-2 space-y-2">
-					<img
-						src="https://images.evetech.net/alliances/{corporation.alliance_id}/logo?size=64"
-						alt="Alliance: {corporation.alliance_name}"
-						class="rounded-full"
-					/>
-					<img
-						src="https://images.evetech.net/corporations/{corporation.faction_id}/logo?size=64"
-						alt="Faction: {corporation.faction_name}"
-						class="rounded-full"
-					/>
+					<img src="https://images.evetech.net/alliances/{corporation.alliance_id}/logo?size=64" alt="Alliance: {corporation.alliance_name}" class="rounded-full" />
+					<img src="https://images.evetech.net/corporations/{corporation.faction_id}/logo?size=64" alt="Faction: {corporation.faction_name}" class="rounded-full" />
 				</div>
 			</div>
 
@@ -88,17 +76,11 @@
 								<td class="font-bold text-right p-1">Ticker:</td>
 								<td>{corporation.ticker}</td>
 							</tr>
-							<tr
-								on:click={() =>
-									(window.location.href = `/alliance/${corporation.alliance_id}`)}
-							>
+							<tr on:click={() => (window.location.href = `/alliance/${corporation.alliance_id}`)}>
 								<td class="font-bold text-right p-1">Alliance:</td>
 								<td>{corporation.alliance_name}</td>
 							</tr>
-							<tr
-								on:click={() =>
-									(window.location.href = `/faction/${corporation.faction_id}`)}
-							>
+							<tr on:click={() => (window.location.href = `/faction/${corporation.faction_id}`)}>
 								<td class="font-bold text-right p-1">Faction:</td>
 								<td>{corporation.faction_name}</td>
 							</tr>
@@ -123,61 +105,28 @@
 			<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 				<ul class="flex space-x-4">
 					<li>
-						<a
-							href="#info"
-							class="hover:underline {currentHash === '#info' ? 'active' : ''}"
-							on:click|preventDefault={() => loadComponent(Information, '#info')}
-						>
-							Info
-						</a>
+						<a href="#info" class="hover:underline {currentHash === '#info' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Information, '#info')}> Info </a>
 					</li>
 					<li>
-						<a
-							href="#kills"
-							class="hover:underline {currentHash === '#kills' ? 'active' : ''}"
-							on:click|preventDefault={() => loadComponent(Kills, '#kills')}
-						>
-							Kills
-						</a>
+						<a href="#kills" class="hover:underline {currentHash === '#kills' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Kills, '#kills')}> Kills </a>
 					</li>
 					<li>
-						<a
-							href="#losses"
-							class="hover:underline {currentHash === '#losses' ? 'active' : ''}"
-							on:click|preventDefault={() => loadComponent(Losses, '#losses')}
-						>
-							Losses
-						</a>
+						<a href="#losses" class="hover:underline {currentHash === '#losses' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Losses, '#losses')}> Losses </a>
 					</li>
 					<li>
-						<a
-							href="#members"
-							class="hover:underline {currentHash === '#members' ? 'active' : ''}"
-							on:click|preventDefault={() => loadComponent(Members, '#members')}
-						>
-							Members
-						</a>
+						<a href="#members" class="hover:underline {currentHash === '#members' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Members, '#members')}> Members </a>
 					</li>
 					<li>
 						<a
 							href="#alliance-history"
-							class="hover:underline {currentHash === '#alliance-history'
-								? 'active'
-								: ''}"
-							on:click|preventDefault={() =>
-								loadComponent(AllianceHistory, '#alliance-history')}
+							class="hover:underline {currentHash === '#alliance-history' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(AllianceHistory, '#alliance-history')}
 						>
 							Alliance History
 						</a>
 					</li>
 					<li>
-						<a
-							href="#stats"
-							class="hover:underline {currentHash === '#stats' ? 'active' : ''}"
-							on:click|preventDefault={() => loadComponent(Stats, '#stats')}
-						>
-							Stats
-						</a>
+						<a href="#stats" class="hover:underline {currentHash === '#stats' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Stats, '#stats')}> Stats </a>
 					</li>
 				</ul>
 			</nav>

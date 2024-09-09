@@ -46,13 +46,7 @@
 		// Extract all items including items in containers
 		killmail.items.forEach((item) => {
 			const containerItemsValue = item.container_items
-				? item.container_items.reduce(
-						(sum, containerItem) =>
-							sum +
-							containerItem.value *
-								(containerItem.qty_dropped + containerItem.qty_destroyed),
-						0
-					)
+				? item.container_items.reduce((sum, containerItem) => sum + containerItem.value * (containerItem.qty_dropped + containerItem.qty_destroyed), 0)
 				: 0;
 			allItems.push({
 				...item,
@@ -65,9 +59,7 @@
 		groupedItems = Object.keys(slotTypes).map((slotType) => {
 			return {
 				slotType,
-				items: groupByQty(
-					allItems.filter((item) => slotTypes[slotType].includes(item.flag))
-				)
+				items: groupByQty(allItems.filter((item) => slotTypes[slotType].includes(item.flag)))
 			};
 		});
 
@@ -125,10 +117,7 @@
 	}
 </script>
 
-<link
-	rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
 <div class="w-full rounded-lg shadow-lg custom-space-x mt-4">
 	<div class="overflow-x-auto" role="table">
@@ -146,12 +135,8 @@
 			<tbody class="text-gray-300 text-sm">
 				<tr class="bg-gray-700 text-white bg-semi-transparent">
 					<td colspan="2" class="px-2 py-1"></td>
-					<td colspan="1" class="px-2 py-1"
-						>{formatNumber(itemDestroyedIsk(killmail.items), 0)}</td
-					>
-					<td colspan="1" class="px-2 py-1"
-						>{formatNumber(itemDroppedIsk(killmail.items), 0)}</td
-					>
+					<td colspan="1" class="px-2 py-1">{formatNumber(itemDestroyedIsk(killmail.items), 0)}</td>
+					<td colspan="1" class="px-2 py-1">{formatNumber(itemDroppedIsk(killmail.items), 0)}</td>
 					<td colspan="2" class="px-2 py-1">{formatNumber(killmail.total_value, 0)}</td>
 				</tr>
 				<tr id="item-header" class="bg-gray-700 text-white">
@@ -160,11 +145,7 @@
 				</tr>
 				<tr class="destroyed-items">
 					<td class="px-2 py-1">
-						<img
-							src={`https://images.evetech.net/types/${killmail.victim.ship_id}/icon?size=32`}
-							alt={killmail.victim.ship_name}
-							class="h-8 min-h-8 w-8 min-w-8 rounded-md"
-						/>
+						<img src={`https://images.evetech.net/types/${killmail.victim.ship_id}/icon?size=32`} alt={killmail.victim.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 					</td>
 					<td class="px-2 py-1">
 						<a href={`/item/${killmail.victim.ship_id}`} class="hover:underline">
@@ -173,29 +154,17 @@
 					</td>
 					<td class="px-2 py-1">1</td>
 					<td class="px-2 py-1">0</td>
-					<td class="px-2 py-1"
-						>{formatNumber(
-							killmail.total_value -
-								(itemDroppedIsk(killmail.items) + itemDestroyedIsk(killmail.items)),
-							0
-						)}</td
-					>
+					<td class="px-2 py-1">{formatNumber(killmail.total_value - (itemDroppedIsk(killmail.items) + itemDestroyedIsk(killmail.items)), 0)}</td>
 					<td></td>
 				</tr>
 				{#each groupedItems as group}
 					{#if group.items.length > 0}
-						<tr
-							id="item-header"
-							class="bg-gray-700 text-white cursor-pointer"
-							on:click={() => toggleCollapse(group.slotType)}
-						>
+						<tr id="item-header" class="bg-gray-700 text-white cursor-pointer" on:click={() => toggleCollapse(group.slotType)}>
 							<td></td>
 							<td colspan="3" class="px-2 py-1 font-bold">{group.slotType}</td>
 							<td class="px-2 py-1">{formatNumber(getTotalValue(group.items), 0)}</td>
 							<td class="px-2 py-1">
-								<i
-									class={`fas fa-${collapsibleSections[group.slotType] ? 'arrow-down' : 'arrow-right'}`}
-								></i>
+								<i class={`fas fa-${collapsibleSections[group.slotType] ? 'arrow-down' : 'arrow-right'}`}></i>
 							</td>
 						</tr>
 						{#if collapsibleSections[group.slotType]}
@@ -204,11 +173,7 @@
 									class={`border-b border-gray-700 hover:bg-gray-600 transition-colors duration-30 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
 								>
 									<td class="pl-2 py-1">
-										<img
-											src={`https://images.evetech.net/types/${item.type_id}/icon?size=32`}
-											alt={item.type_name}
-											class="h-8 min-h-8 w-8 min-w-8 rounded-md"
-										/>
+										<img src={`https://images.evetech.net/types/${item.type_id}/icon?size=32`} alt={item.type_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 									</td>
 									<td class="px-2 py-1">
 										<a href={`/item/${item.type_id}`} class="hover:underline">
@@ -219,18 +184,9 @@
 									<td class="px-2 py-1">{formatNumber(item.qty_dropped, 0)}</td>
 									<td class="px-2 py-1">
 										{#if item.isContainer && item.containerItemsValue > 0}
-											{formatNumber(
-												item.value *
-													(item.qty_destroyed + item.qty_dropped) +
-													item.containerItemsValue,
-												0
-											)}
+											{formatNumber(item.value * (item.qty_destroyed + item.qty_dropped) + item.containerItemsValue, 0)}
 										{:else}
-											{formatNumber(
-												item.value *
-													(item.qty_destroyed + item.qty_dropped),
-												0
-											)}
+											{formatNumber(item.value * (item.qty_destroyed + item.qty_dropped), 0)}
 										{/if}
 									</td>
 									<td></td>
@@ -248,22 +204,14 @@
 												/>
 											</td>
 											<td class="px-2 py-1">
-												<a
-													href={`/item/${containerItem.type_id}`}
-													class="hover:underline"
-												>
+												<a href={`/item/${containerItem.type_id}`} class="hover:underline">
 													{containerItem.type_name}
 												</a>
 											</td>
 											<td class="px-2 py-1">{containerItem.qty_destroyed}</td>
 											<td class="px-2 py-1">{containerItem.qty_dropped}</td>
 											<td class="px-2 py-1">
-												{formatNumber(
-													containerItem.value *
-														(containerItem.qty_destroyed +
-															containerItem.qty_dropped),
-													0
-												)}
+												{formatNumber(containerItem.value * (containerItem.qty_destroyed + containerItem.qty_dropped), 0)}
 											</td>
 											<td></td>
 										</tr>

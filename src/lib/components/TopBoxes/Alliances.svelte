@@ -22,15 +22,9 @@
 		</thead>
 		<tbody class="text-gray-300 text-sm">
 			{#each alliances as alliance (alliance.alliance_id)}
-				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-					on:click={(window.location.href = `/alliance/${alliance.alliance_id}`)}
-				>
+				<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={(window.location.href = `/alliance/${alliance.alliance_id}`)}>
 					<td class="px2 py-1">
-						<img
-							src="https://images.evetech.net/alliances/{alliance.alliance_id}/logo?size=32"
-							alt="Alliance: {alliance.name}"
-						/>
+						<img src="https://images.evetech.net/alliances/{alliance.alliance_id}/logo?size=32" alt="Alliance: {alliance.name}" />
 					</td>
 					<td class="px-2 py-1">
 						<div class="flex items-center">
@@ -45,9 +39,7 @@
 				</tr>
 			{/each}
 			<tr>
-				<td colspan="4" class="text-center py-2 text-gray-400"
-					>(Kills over last {days} days)</td
-				>
+				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last {days} days)</td>
 			</tr>
 		</tbody>
 	</table>

@@ -22,15 +22,9 @@
 		</thead>
 		<tbody class="text-gray-300 text-sm">
 			{#each characters as character (character.character_id)}
-				<tr
-					class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-					on:click={(window.location.href = `/character/${character.character_id}`)}
-				>
+				<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={(window.location.href = `/character/${character.character_id}`)}>
 					<td class="px2 py-1">
-						<img
-							src="https://images.evetech.net/characters/{character.character_id}/portrait?size=32"
-							alt="Character: {character.name}"
-						/>
+						<img src="https://images.evetech.net/characters/{character.character_id}/portrait?size=32" alt="Character: {character.name}" />
 					</td>
 					<td class="px-2 py-1">
 						<div class="flex items-center">
@@ -45,9 +39,7 @@
 				</tr>
 			{/each}
 			<tr>
-				<td colspan="4" class="text-center py-2 text-gray-400"
-					>(Kills over last {days} days)</td
-				>
+				<td colspan="4" class="text-center py-2 text-gray-400">(Kills over last {days} days)</td>
 			</tr>
 		</tbody>
 	</table>

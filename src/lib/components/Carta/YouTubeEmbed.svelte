@@ -10,13 +10,7 @@
 </script>
 
 <div class="video-container">
-	<iframe
-		title="YouTube video player"
-		src="https://www.youtube.com/embed/{videoId}"
-		frameborder="0"
-		allowfullscreen
-	>
-	</iframe>
+	<iframe title="YouTube video player" src="https://www.youtube.com/embed/{videoId}" frameborder="0" allowfullscreen> </iframe>
 </div>
 
 <style>

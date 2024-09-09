@@ -26,23 +26,12 @@
 </script>
 
 <!-- Button to toggle the shortcut panel -->
-<button class="text-gray-500 text-xs mt-2 text-right cursor-pointer" on:click={toggleShortcutPanel}>
-	?
-</button>
+<button class="text-gray-500 text-xs mt-2 text-right cursor-pointer" on:click={toggleShortcutPanel}> ? </button>
 
 <!-- Shortcut panel -->
 {#if isShortcutPanelOpen}
-	<div
-		class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-		aria-hidden="true"
-		on:click={closeShortcutPanel}
-	>
-		<div
-			name="helpbox"
-			class="bg-black text-white p-5 rounded shadow-lg"
-			on:click|stopPropagation
-			aria-hidden="true"
-		>
+	<div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" aria-hidden="true" on:click={closeShortcutPanel}>
+		<div name="helpbox" class="bg-black text-white p-5 rounded shadow-lg" on:click|stopPropagation aria-hidden="true">
 			<h2 class="text-lg font-bold mb-4">Keyboard Shortcuts</h2>
 			<h2>Global</h2>
 			<ul class="list-disc pl-5">

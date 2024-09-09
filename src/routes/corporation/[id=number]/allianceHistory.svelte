@@ -26,10 +26,7 @@
 			</thead>
 			<tbody class="text-gray-300 text-sm">
 				{#each allianceHistory as history}
-					<tr
-						class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300"
-						on:click={(window.location.href = `/alliance/${history.alliance_id}`)}
-					>
+					<tr class="border-b border-gray-700 hover:bg-gray-600 transition-colors duration-300" on:click={(window.location.href = `/alliance/${history.alliance_id}`)}>
 						<td class="px-2 py-1">{history.name}</td>
 						<td class="px-2 py-1">{history.join_date}</td>
 						<td class="px-2 py-1">
