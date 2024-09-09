@@ -58,6 +58,7 @@
 		"@sentry/sveltekit": "^8.28.0",
 		"@stomp/stompjs": "^7.0.0",
 		"@svelte-plugins/datepicker": "^1.0.9",
+		"bits-ui": "^0.21.13",
 		"carta-md": "^4.4.5",
 		"cookie": "^0.6.0",
 		"cors": "^2.8.5",
@@ -71,6 +72,7 @@
 		"set-cookie-parser": "^2.7.0",
 		"svelte-collapsible": "^0.3.0",
 		"svelte-highlight": "^7.7.0",
-		"svelte-preprocess-react": "^0.17.1"
+		"svelte-preprocess-react": "^0.17.1",
+		"svelte-radix": "^1.1.1"
 	}
 }
