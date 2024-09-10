@@ -59,17 +59,27 @@ export const useColors = () => {
 	};
 
 	const getSecurityColor = (securityStatus: number) => {
-		if (securityStatus >= 0.5) {
-			return '#00FF00';
-		} else if (securityStatus >= 0) {
-			return '#66FF00';
-		} else if (securityStatus >= -0.25) {
-			return '#FFFF00';
-		} else if (securityStatus >= -0.5) {
-			return '#FF6600';
-		} else {
-			return '#FF0000';
+		const colorMap: { [key: string]: string } = {
+			'1': '#2D75DC',
+			'0.9': '#48F0C0',
+			'0.8': '#00EF47',
+			'0.7': '#00F000',
+			'0.6': '#8FEF2F',
+			'0.5': '#EFEF00',
+			'0.4': '#D77700',
+			'0.3': '#F06000',
+			'0.2': '#F04800',
+			'0.1': '#D73000',
+			'0': '#F00000',
+			'-0.1': '#AD2072',
+		};
+
+		if(securityStatus < 0) {
+			return colorMap['-0.1'];
 		}
+
+		const rounded = Math.floor(securityStatus * 10) / 10;
+		return colorMap[rounded.toString()];
 	}
 
 	return {
