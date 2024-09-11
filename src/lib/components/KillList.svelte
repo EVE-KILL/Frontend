@@ -9,6 +9,7 @@
 	import { formatNumber } from '$lib/Helpers.ts';
 
 	import { useColors } from '$lib/models/useColors';
+	import KillListFilters from '$lib/components/KillListFilters.svelte';
 	const { getSecurityColor } = useColors();
 
 	export let url: string;
@@ -18,6 +19,7 @@
 	export let combinedKillsAndLosses: boolean = false;
 	export let combinedVictimType: string = 'character';
 	export let combinedVictimId: number;
+	export let withFilters: boolean = false;
 
 	let kills: Killmail[] = [];
 	let page: number = 1;
@@ -25,6 +27,7 @@
 	let isPaused: boolean = false;
 	let pauseTimeout: any;
 	let queuedKills: Killmail[] = [];
+	let showFilters: boolean = false;
 
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -147,23 +150,41 @@
 {/if}
 
 <!-- Pagination Control at the Top -->
-<div class="flex justify-between items-center mb-4">
-	<button
-		on:click={() => changePage(page - 1)}
-		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Previous
-	</button>
-	<span class="text-white">Page {page}</span>
-	<button
-		on:click={() => changePage(page + 1)}
-		disabled={loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Next
-	</button>
+<div class="flex mb-2">
+	{#if withFilters}
+		<button
+			on:click={() => (showFilters = !showFilters)}
+			class="px-2 py-1 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700"
+		>
+			{showFilters ? 'Hide Filters' : 'Show Filters'}
+		</button>
+	{/if}
+
+	<div class="flex-grow"></div>
+	<div class="flex items-center gap-2">
+		<button
+			on:click={() => changePage(page - 1)}
+			disabled={page === 1 || loading}
+			class="px-2 py-1 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
+		>
+			Previous
+		</button>
+		<span class="text-sm text-white">Page {page}</span>
+		<button
+			on:click={() => changePage(page + 1)}
+			disabled={loading}
+			class="px-2 py-1 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
+		>
+			Next
+		</button>
+	</div>
 </div>
+
+{#if withFilters}
+	<div style="display: {showFilters ? 'flex' : 'none'}">
+		<KillListFilters />
+	</div>
+{/if}
 
 <div class="overflow-x-auto" role="table">
 	<div class="grid grid-cols-8 bg-background-800 text-white uppercase text-xs py-1">
@@ -272,9 +293,3 @@
 		Next
 	</button>
 </div>
-
-<style>
-	.bg-darkred {
-		background-color: rgb(40, 0, 0);
-	}
-</style>

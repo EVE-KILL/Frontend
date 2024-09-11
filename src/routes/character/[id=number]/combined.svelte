@@ -10,4 +10,11 @@
 	let filter = { field: 'victim.character_id', value: character.character_id };
 </script>
 
-<KillList url={killlistUrl} {subscriptionTopic} {filter} combinedKillsAndLosses={true} combinedVictimType="character" combinedVictimId={character.character_id} />
+<KillList
+	url={killlistUrl}
+	{subscriptionTopic}
+	{filter}
+	combinedKillsAndLosses={true}
+	combinedVictimType="character"
+	combinedVictimId={character.character_id}
+/>

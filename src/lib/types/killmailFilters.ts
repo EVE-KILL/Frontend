@@ -33,6 +33,11 @@ export interface KillmailFilters {
 		shipIskValueLessThan: number | null;
 	};
 	misc: {
+		kills: boolean;
+		losses: boolean;
+		solo: boolean;
+		awox: boolean;
+		npc: boolean;
 		pointValueGreaterThan: number | null;
 		pointValueLessThan: number | null;
 		flags: string[];
