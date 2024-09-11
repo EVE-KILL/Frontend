@@ -29,6 +29,11 @@ export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, re
 		return new Response(await fetch('/static/favicon.png'));
 	}
 
+	// Handle health check request
+	if (event.url.pathname === '/health') {
+		return new Response('OK', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+	}
+
 	// Resolve the request and generate the response
 	const response = await resolve(event);
 
