@@ -5,60 +5,56 @@
 
 	export let categories: { name: string; url: string }[] = [];
 
-	let kills: Killmail[] = [];
-	let activeTab = 0;
+	let killsByCategory: { [key: string]: Killmail[] } = {};
+	let activeCategory = categories[0].name;
+	let loading = true;
 
-	// Fetch kills when the component mounts or when the active tab changes
-	$: if (categories.length > 0) {
-		onMount(fetchKills);
-	}
-
-	$: if (activeTab >= 0 && activeTab < categories.length) {
-		fetchKills();
-	}
+	// Fetch kills when the component mounts
+	onMount(() => fetchKills());
 
 	async function fetchKills() {
-		const response = await fetch(categories[activeTab].url);
-		kills = await response.json();
+		loading = true;
+		for (let i = 0; i < categories.length; i++) {
+			let response = await fetch(categories[i].url);
+			killsByCategory[categories[i].name] = await response.json();
+		}
+		loading = false;
 	}
 </script>
 
-<table class="table-auto min-w-full bg-semi-transparent rounded-lg shadow-lg">
-	<thead>
-		<tr class="bg-semi-transparent text-white uppercase text-xs leading-normal">
-			<th class="px-2 py-1 flex justify-center" scope="col" colspan={categories.length}>
-				{#each categories as category, index}
-					<button class="tab-btn" class:active-tab={activeTab === index} on:click={() => (activeTab = index)}>
-						{category.name}
-					</button>
-				{/each}
-			</th>
-		</tr>
-	</thead>
-	<tbody class="text-background-300 text-sm">
-		<tr class="flex items-center justify-center">
-			{#each kills as kill (kill.killmail_id)}
-				<td class="flex flex-col items-center justify-center p-6" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
+<div class="flex flex-col min-w-full bg-semi-transparent rounded-lg shadow-lg overflow-hidden">
+	<div class="flex justify-center bg-black">
+		{#each categories as category}
+			<button class="tab-btn text-xs" class:active-tab={activeCategory === category.name} on:click={() => (activeCategory = category.name)}>
+				{category.name}
+			</button>
+		{/each}
+	</div>
+
+	{#if loading}
+		<div class="flex justify-center items-center h-64">
+			<div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+		</div>
+	{:else}
+		<div class="flex gap-10 justify-center w-full py-2">
+			{#each killsByCategory[activeCategory] as kill}
+				<button class="flex flex-col items-center justify-center" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
 					<img src="{kill.victim.ship_image_url}?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
-					<div class="text-center">
+					<div class="text-center text-sm mt-1">
 						{kill.victim.ship_name}
-						<br />
+					</div>
+					<div class="text-center text-xs mt-1">
 						{formatNumber(kill.total_value)} ISK
 					</div>
-				</td>
+				</button>
 			{/each}
-		</tr>
-		<tr class="text-center py-2 text-background-400">
-			<td colspan={categories.length}>(Over last 7 days)</td>
-		</tr>
-	</tbody>
-</table>
+		</div>
+
+		<div class="text-sm text-center mt-2 text-background-400 pb-2"> (Over last 7 days) </div>
+	{/if}
+</div>
 
 <style>
-	.table-auto {
-		width: 100%;
-	}
-
 	.tab-btn {
 		cursor: pointer;
 		background-color: transparent;

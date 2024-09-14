@@ -31,6 +31,7 @@ const config = {
 				backgroundColor: {
 					'semi-transparent': 'rgba(0, 0, 0, 0.85)' // semi-transparent black
 				},
+				black: '#000',
 
 				border: 'hsl(var(--border) / <alpha-value>)',
 				input: 'hsl(var(--input) / <alpha-value>)',
