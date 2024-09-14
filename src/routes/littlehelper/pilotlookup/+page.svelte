@@ -131,7 +131,6 @@
 	}
 </script>
 
-}
 <div class="flex flex-col items-center min-h-screen bg-semi-transparent space-y-4 text-white">
 	<p class="text-right text-xs text-background-400"> * Copy the channel list into your pastebuffer, then press button below </p>
 	<div class="bg-semi-transparent shadow-md rounded mt-4">
