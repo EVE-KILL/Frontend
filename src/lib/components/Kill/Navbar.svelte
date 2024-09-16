@@ -4,6 +4,7 @@
 	import type { Killmail } from '$lib/types/Killmail';
 
 	export let killmail: Killmail;
+	export let sibling: Killmail | null = null;
 	let inBattle: boolean = false;
 	const upstreamUrl = getUpstreamUrl();
 
@@ -26,6 +27,10 @@
 		closeExternalDropdownTimeout = setTimeout(() => {
 			isExternalDropDownOpen = false;
 		}, 200);
+	}
+
+	function navigateTo(url: string) {
+		window.location.href = url;
 	}
 </script>
 
@@ -121,7 +126,13 @@
 			<!-- Right aligned items (Battle Info) -->
 			{#if inBattle}
 				<li class="ml-auto">
-					<a href="/battle/kill/{killmail.killmail_id}" class="text-white hover:text-background-400">Battle Info</a>
+					<a href="javascript:void(0)" on:click={() => navigateTo(`/battle/kill/${killmail.killmail_id}`)} class="text-white hover:text-background-400">Battle Info</a>
+				</li>
+			{/if}
+
+			{#if sibling}
+				<li class="ml-auto">
+					<a href="javascript:void(0)" on:click={() => navigateTo(`/kill/${sibling.killmail_id}`)} class="text-white hover:text-background-400">Related Kill</a>
 				</li>
 			{/if}
 		</ul>

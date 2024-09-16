@@ -11,6 +11,7 @@
 
 	export let data;
 	let killmail: Killmail = data.killmail;
+	let sibling: Killmail | null = data.sibling;
 
 	let activeTab = 1; // Set Attackers as the default tab
 	const tabs = [
@@ -26,14 +27,14 @@
 
 {#if killmail}
 	<!-- Navbar -->
-	<Navbar {killmail} />
+	<Navbar {killmail} {sibling} />
 
 	<div class="flex p-2 pt-4 gap-2">
 		<!-- Left Container -->
 		<div class="w-full text-white p-4 rounded-lg shadow-lg">
 			<div id="information-area" class="flex justify-around">
 				<!-- Fitting Wheel -->
-				<FittingWheel {killmail} />
+				<FittingWheel {killmail}/>
 
 				<!-- Kill Information -->
 				<div class="information-box ml-5">
