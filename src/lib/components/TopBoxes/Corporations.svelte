@@ -20,7 +20,7 @@
 {#each corporations as corporation (corporation.corporation_id)}
 	<button
 		class="grid grid-cols-2 items-center bg-semi-transparent border-b-2 border-background-800 w-full py-1"
-		on:click={() => (window.location.href = `/character/${corporation.corporation_id}`)}
+		on:click={() => (window.location.href = `/corporation/${corporation.corporation_id}`)}
 	>
 		<div class="flex items-center">
 			<img src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=64" alt="Character: {corporation.name}" class="w-7" />
