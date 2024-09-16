@@ -1,56 +1,68 @@
 <script lang="ts">
-	import moment from 'moment';
+    import moment from 'moment';
+    import { browser } from '$app/environment';
+    import type { Killmail } from '$lib/types/Killmail';
+    import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+    import { stompConnection } from '$lib/Stomp.ts';
+    import { fetchKillList } from '$lib/fetchKillList.ts';
+    import { formatNumber } from '$lib/Helpers.ts';
 
-	import type { Killmail } from '$lib/types/Killmail';
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation';
-	import { stompConnection } from '$lib/Stomp.ts';
-	import { fetchKillList } from '$lib/fetchKillList.ts';
-	import { formatNumber } from '$lib/Helpers.ts';
+    import { useColors } from '$lib/models/useColors';
+    const { getSecurityColor } = useColors();
 
-	import { useColors } from '$lib/models/useColors';
-	const { getSecurityColor } = useColors();
+    export let url: string;
+    export let title: string = '';
+    export let subscriptionTopic: string = 'all';
+    export let filter: { field: string; value: any } | null = null;
+    export let combinedKillsAndLosses: boolean = false;
+    export let combinedVictimType: string = 'character';
+    export let combinedVictimId: number | null = null;
 
-	export let url: string;
-	export let title: string = '';
-	export let subscriptionTopic: string = 'all';
-	export let filter: { field: string; value: any } | null = null;
-	export let combinedKillsAndLosses: boolean = false;
-	export let combinedVictimType: string = 'character';
-	export let combinedVictimId: number|null = null;
+    let kills: Killmail[] = [];
+    let page: number = 1;
+    let loading: boolean = false;
+    let isPaused: boolean = false;
+    let pauseTimeout: any;
+    let queuedKills: Killmail[] = [];
 
-	let kills: Killmail[] = [];
-	let page: number = 1;
-	let loading: boolean = false;
-	let isPaused: boolean = false;
-	let pauseTimeout: any;
-	let queuedKills: Killmail[] = [];
+    // **Add this line to track the previous URL**
+    let previousUrl = '';
 
-	onMount(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const pageParam = urlParams.get('killlistPage');
-		if (pageParam) {
-			page = parseInt(pageParam, 10);
-		}
-		loadKills();
-		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-		stompConnection(topic, handleIncomingMessage);
-	});
+    onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageParam = urlParams.get('killlistPage');
+        if (pageParam) {
+            page = parseInt(pageParam, 10);
+        }
+        loadKills();
+        let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
+        stompConnection(topic, handleIncomingMessage);
+    });
 
-	async function loadKills() {
-		if (loading) return;
-		loading = true;
-		const newKills: Killmail[] = await fetchKillList(url, page);
-		kills = newKills.slice(0, 100);
-		updateURL();
-		loading = false;
-	}
+    // **Modify the reactive statement to watch for changes in `url`**
+    $: if (url && url !== previousUrl) {
+        previousUrl = url;
+        page = 1; // Reset the page if necessary
+        loadKills();
+    }
 
-	function updateURL() {
-		const newUrl = new URL(window.location.href);
-		newUrl.searchParams.set('killlistPage', String(page));
-		goto(newUrl.toString(), { replaceState: true });
-	}
+    async function loadKills() {
+        if (loading) return;
+        loading = true;
+        const newKills: Killmail[] = await fetchKillList(url, page);
+        kills = newKills.slice(0, 100);
+        if (browser) {
+            updateURL();
+        }
+        loading = false;
+    }
+
+    function updateURL() {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('killlistPage', String(page));
+        goto(newUrl.toString(), { replaceState: true });
+    }
 
 	function handleIncomingMessage(message: Killmail) {
 		if (page !== 1) return;
