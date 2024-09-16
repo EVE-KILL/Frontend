@@ -20,6 +20,6 @@
 		<KillList
 			url={killListUrl}
 			title={upperCaseFirstLetter(type)}
-			subscriptionTopic="{type}"/>
+			subscriptionTopic="{type === 'latest' ? 'all' : type}"/>
 	</div>
 </div>

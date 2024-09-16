@@ -28,23 +28,28 @@
 
     // **Add this line to track the previous URL**
     let previousUrl = '';
+    let stompDisconnect;
 
-    onMount(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageParam = urlParams.get('killlistPage');
-        if (pageParam) {
-            page = parseInt(pageParam, 10);
-        }
-        loadKills();
-        let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-        stompConnection(topic, handleIncomingMessage);
-    });
+	onMount(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const pageParam = urlParams.get('killlistPage');
+		if (pageParam) {
+			page = parseInt(pageParam, 10);
+		}
+		loadKills();
+		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
+		stompDisconnect = stompConnection(topic, handleIncomingMessage); // Assign here
+	});
+
 
     // **Modify the reactive statement to watch for changes in `url`**
     $: if (url && url !== previousUrl) {
         previousUrl = url;
         page = 1; // Reset the page if necessary
         loadKills();
+		if (browser) {
+			reconnectStomp();
+		}
     }
 
     async function loadKills() {
@@ -151,6 +156,14 @@
 			}
 		}
 		return null;
+	}
+
+	function reconnectStomp() {
+		if (stompDisconnect) {
+			stompDisconnect();
+		}
+		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
+		stompDisconnect = stompConnection(topic, handleIncomingMessage); // Assign here
 	}
 </script>
 
