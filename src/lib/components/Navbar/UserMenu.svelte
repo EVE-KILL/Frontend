@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { session, logout } from '$lib/stores/Session.ts';
-	import { getEVEAuthLoginUrl } from '$lib/Auth.ts';
+	import { getEVEAuthLoginUrl, getEVEAuthLoginUrlNoScope } from '$lib/Auth.ts';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { onMount } from 'svelte';
 
@@ -8,6 +8,7 @@
 	let closeAccountDropdownTimeout = 0;
 	let user = null;
 	let eveSSOLoginUrl = '';
+	let eveSSOLoginUrlNoScope = '';
 	const upstreamUrl = getUpstreamUrl();
 
 	const REAUTH_INTERVAL = 30 * 60 * 1000; // 30 minutes in milliseconds
@@ -80,6 +81,7 @@
 
 	onMount(async () => {
 		eveSSOLoginUrl = await getEVEAuthLoginUrl();
+		eveSSOLoginUrlNoScope = await getEVEAuthLoginUrlNoScope();
 		if (user) {
 			checkAndReauth();
 			startReauthTimer();
@@ -132,6 +134,17 @@
 						- publicData
 					</div>
 				</li>
+				<!--<li class="p-2 mt-4">
+					<a href={eveSSOLoginUrlNoScope}>
+						<img src="/images/sso-dark-large.png" alt="Login" class="w-full" />
+					</a>
+				</li>
+				<li class="p-2 rounded-b-md">
+					<div class="text-background-500 text-xs mt-2 text-left">
+						Scopes:<br />
+						- publicData
+					</div>
+				</li>-->
 			{/if}
 		</ul>
 	{/if}
