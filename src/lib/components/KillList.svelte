@@ -17,7 +17,7 @@
 	export let filter: { field: string; value: any } | null = null;
 	export let combinedKillsAndLosses: boolean = false;
 	export let combinedVictimType: string = 'character';
-	export let combinedVictimId: number;
+	export let combinedVictimId: number|null = null;
 
 	let kills: Killmail[] = [];
 	let page: number = 1;
@@ -102,7 +102,7 @@
 		}, 2500);
 	}
 
-	function handleClick(event: MouseEvent, killmailId: string) {
+	function handleClick(event: MouseEvent, killmailId: number) {
 		if (event.ctrlKey || event.metaKey || event.button === 1) {
 			event.preventDefault();
 			window.open(`/kill/${killmailId}`, '_blank');
