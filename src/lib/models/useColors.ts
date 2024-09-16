@@ -82,9 +82,32 @@ export const useColors = () => {
 		return colorMap[rounded.toString()];
 	}
 
+	const characterSecurityColor = (securityStatus: number) => {
+		// Clamp the security status between -10 and 10
+		const clampedStatus = Math.max(-10, Math.min(10, securityStatus));
+
+		// Normalize the status to a range of 0 to 1
+		const normalizedStatus = (clampedStatus + 10) / 20;
+
+		let r, g, b;
+
+		if (normalizedStatus < 0.5) {
+			// Red to White
+			r = 255;
+			g = b = Math.round(normalizedStatus * 2 * 255);
+		} else {
+			// White to Green
+			g = 255;
+			r = b = Math.round((1 - normalizedStatus) * 2 * 255);
+		}
+
+		return rgbToHex(r, g, b);
+	}
+
 	return {
 		generateBackgroundColors,
 		generateColors,
-		getSecurityColor
+		getSecurityColor,
+		characterSecurityColor
 	};
 };

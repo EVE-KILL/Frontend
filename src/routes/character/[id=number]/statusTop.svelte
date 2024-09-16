@@ -3,11 +3,13 @@
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { formatNumber, convertIskToMillions, convertIskToBillions } from '$lib/Helpers.ts';
+	import { useColors } from '$lib/models/useColors';
 
 	export let character: Character;
 	let stats: any;
 	let upstreamUrl = getUpstreamUrl();
 	let loading = true;
+	let { characterSecurityColor } = useColors();
 
 	onMount(async () => {
 		try {
@@ -67,7 +69,7 @@
 				{#if character.faction_id}
 					<p class="text-background-400">{character.faction_name}</p>
 				{/if}
-				<p class="text-background-400">Sec. Status: {character.security_status.toFixed(3)}</p>
+				<p class="text-background-400">Sec. Status: <span style="color: {characterSecurityColor(character.security_status)}">{character.security_status.toFixed(3)}</span></p>
 				{#if !loading}
 					<p class="text-background-400">
 						Last Active: {new Date(stats.lastActive).toLocaleString()}
