@@ -123,7 +123,7 @@
 			{/if}
 			<tr>
 				<th class="p-1 text-right">Time:</th>
-				<td class="p-1">{killmail.kill_time}</td>
+				<td class="p-1">{new Date(killmail.kill_time * 1000).toISOString().slice(0, 19).replace('T', ' ')}</td>
 			</tr>
 			<tr>
 				<th class="p-1 text-right">Points:</th>

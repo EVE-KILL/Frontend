@@ -242,7 +242,7 @@
 			</div>
 
 			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
-				<div class="text-background-500">{moment(kill.kill_time).format('YYYY-MM-DD HH:mm')}</div>
+				<div class="text-background-500">{moment.unix(kill.kill_time).fromNow()}</div>
 				<div class="flex gap-1 items-center">
 					<span class="text-background-400">{kill.attackers.length}</span>
 					<img src="/images/involved.png" alt="{kill.attackers.length} Involved" />
