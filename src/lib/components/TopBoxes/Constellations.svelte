@@ -10,7 +10,6 @@
 	onMount(async () => {
 		const response = await fetch(url);
 		constellations = await response.json();
-		console.log(constellations);
 	});
 </script>
 

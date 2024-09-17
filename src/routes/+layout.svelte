@@ -13,8 +13,6 @@
 	import { useKillmails } from '$lib/models/useKillmails';
 	const { setup: setupKillmails } = useKillmails();
 
-	// setupKillmails();
-
 	let defaultKeywords = 'eve-online, eve, ccp, ccp games, kills, killmail, killmails, killboard, eve kill, eve-kill, eve-kill.net, eve-kill.com';
 	let combinedKeywords = $page.data.meta?.keywords ? `${defaultKeywords}, ${$page.data.meta.keywords}` : defaultKeywords;
 	let defaultTitle = 'EVE-KILL';
@@ -38,7 +36,7 @@
 	});
 
 	onMount(() => {
-		// setupKillmails();
+		setupKillmails();
 	});
 </script>
 

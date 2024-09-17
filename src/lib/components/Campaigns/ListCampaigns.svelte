@@ -17,8 +17,6 @@
 			const response = await fetch(`${upstreamUrl}/api/campaigns/${page}`);
 			const data = await response.json();
 			campaigns = data || [];
-
-			console.log(campaigns);
 		} catch (error) {
 			console.error('Error fetching campaigns:', error);
 		} finally {

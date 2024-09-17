@@ -13,7 +13,7 @@ export interface Killmail {
 	total_value: number;
 	is_npc: boolean;
 	is_solo: boolean;
-	kill_time: string;
+	kill_time: number;
 	last_modified: string;
 	near: string;
 	point_value: number;

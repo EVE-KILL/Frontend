@@ -19,3 +19,9 @@ body {
   border-radius: 10px;
   /* border: 2px solid #2c2c35; */
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -23,6 +23,6 @@
 
 <div class="container flex p-2 pt-4 gap-2">
 	<div class="w-full">
-		<KillList url={killListUrl} title={upperCaseFirstLetter(type)} enableWs={false} />
+		<KillList title={upperCaseFirstLetter(type)} />
 	</div>
 </div>

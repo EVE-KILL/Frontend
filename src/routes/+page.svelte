@@ -9,6 +9,10 @@
 	import Systems from '$lib/components/TopBoxes/Systems.svelte';
 	import Constellations from '$lib/components/TopBoxes/Constellations.svelte';
 	import Regions from '$lib/components/TopBoxes/Regions.svelte';
+	import { onMount } from 'svelte';
+
+	import { useKillmails } from '$lib/models/useKillmails';
+	const { setFilterPreset } = useKillmails();
 
 	const upstreamUrl = getUpstreamUrl();
 
@@ -23,6 +27,10 @@
 	const topSystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/10`;
 	const topConstellationsUrl = `${upstreamUrl}/api/stats/topconstellations/10`;
 	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/10`;
+
+	onMount(() => {
+		setFilterPreset('none');
+	});
 </script>
 
 <div class="flex w-full">
@@ -59,6 +67,6 @@
 		</div>
 	</div>
 	<div class="w-full">
-		<KillList url={killListUrl} />
+		<KillList withSubscription />
 	</div>
 </div>

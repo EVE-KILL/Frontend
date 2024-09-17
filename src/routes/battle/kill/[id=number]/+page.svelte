@@ -33,7 +33,6 @@
 		let battleUrl = `${upstreamUrl}/api/battles/killmail/${killmail_id}`;
 		const response = await fetch(battleUrl);
 		battle = await response.json();
-		console.log(battle);
 
 		// Fetch the killmails
 		killmails = await fetchKillmails(battle.start_time, battle.end_time, [battle.system_id]);

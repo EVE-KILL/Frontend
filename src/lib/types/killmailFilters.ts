@@ -1,45 +1,29 @@
 export interface KillmailFilters {
-	dateRange: {
-		start: string | null;
-		end: string | null;
+	killmail_id?: number;
+	war_id?: number;
+	is_npc?: boolean;
+	is_solo?: boolean;
+	region_id?: number;
+	system_id?: number;
+	system_security?: {
+		lowest?: number;
+		highest?: number;
 	};
-	victim: {
-		characterId: number | null;
-		corporationId: number | null;
-		allianceId: number | null;
-		factionId: number | null;
-		shipTypeId: number | null;
-		shipGroupId: number | null;
+	total_value?: {
+		lowest?: number;
+		highest?: number;
 	};
-	attacker: {
-		characterId: number | null;
-		corporationId: number | null;
-		allianceId: number | null;
-		factionId: number | null;
-		shipTypeId: number | null;
-		shipGroupId: number | null;
+	kill_time?: {
+		lowest?: string;
+		highest?: string;
 	};
-	location: {
-		regionId: number | null;
-		constellationId: number | null;
-		systemId: number | null;
-	};
-	killedShip: {
-		shipTypeId: number | null;
-		shipGroupId: number | null;
-		totalIskValueGreaterThan: number | null;
-		totalIskValueLessThan: number | null;
-		shipIskValueGreaterThan: number | null;
-		shipIskValueLessThan: number | null;
-	};
-	misc: {
-		kills: boolean;
-		losses: boolean;
-		solo: boolean;
-		awox: boolean;
-		npc: boolean;
-		pointValueGreaterThan: number | null;
-		pointValueLessThan: number | null;
-		flags: string[];
-	};
+	involved_entities?: {
+		entity_type?: string;
+		entity_id?: number;
+		entity_name?: string;
+		involved_as: string;
+		ship_id?: number;
+		ship_group_id?: number;
+		weapon_type_id?: number;
+	}[];
 }

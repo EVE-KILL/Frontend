@@ -8,13 +8,17 @@ const basePrimaryColor = '#0084ff';
 const baseSecondaryColor = '#ffb300';
 const overlayOpacity = 0.2;
 
+const baseGreen = '#00ff00';
+const baseRed = '#ff0000';
+
 /** @type {import('tailwindcss').Config} */
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		colors: {
 			slate: colors.slate,
-			red: colors.red,
+			red: generateColors(baseBackgroundColor, baseRed, 0.1),
+			green: generateColors(baseBackgroundColor, baseGreen, 0.1),
 			primary: generateColors(baseBackgroundColor, basePrimaryColor, overlayOpacity),
 			secondary: generateColors(baseBackgroundColor, baseSecondaryColor, overlayOpacity),
 			background: generateBackgroundColors(baseBackgroundColor),
@@ -74,7 +78,12 @@ const config = {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			}
-		}
+		},
+		safelist: [
+			{
+				pattern: /bg-(green|red)-.*/
+			}
+		]
 	},
 	plugins: [
 		function ({ addBase, theme }) {

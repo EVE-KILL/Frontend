@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { page } from '$app/stores';
 	import type { Corporation } from '$lib/types/Corporation.ts';
 	import Information from './information.svelte';
@@ -8,6 +8,9 @@
 	import Members from './members.svelte';
 	import AllianceHistory from './allianceHistory.svelte';
 	import Stats from './Stats.svelte';
+
+	import { useKillmails } from '$lib/models/useKillmails.js';
+	const { setFilterPreset } = useKillmails();
 
 	export let data;
 	let corporation: Corporation = data.corporation;
@@ -47,6 +50,10 @@
 		loadComponentFromHash($page.url.hash);
 		await tick(); // Ensure DOM updates
 	});
+
+	onMount(() => {
+		setFilterPreset('corporation', { id: corporation.corporation_id });
+	});
 </script>
 
 {#if corporation}
@@ -55,10 +62,22 @@
 		<div class="flex items-start bg-semi-transparent p-4">
 			<!-- Profile Image with Additional Images -->
 			<div class="flex items-center">
-				<img src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=256" alt="Corporation: {corporation.name}" class="rounded-full" />
+				<img
+					src="https://images.evetech.net/corporations/{corporation.corporation_id}/logo?size=256"
+					alt="Corporation: {corporation.name}"
+					class="rounded-full"
+				/>
 				<div class="flex flex-col space-x-2 space-y-2">
-					<img src="https://images.evetech.net/alliances/{corporation.alliance_id}/logo?size=64" alt="Alliance: {corporation.alliance_name}" class="rounded-full" />
-					<img src="https://images.evetech.net/corporations/{corporation.faction_id}/logo?size=64" alt="Faction: {corporation.faction_name}" class="rounded-full" />
+					<img
+						src="https://images.evetech.net/alliances/{corporation.alliance_id}/logo?size=64"
+						alt="Alliance: {corporation.alliance_name}"
+						class="rounded-full"
+					/>
+					<img
+						src="https://images.evetech.net/corporations/{corporation.faction_id}/logo?size=64"
+						alt="Faction: {corporation.faction_name}"
+						class="rounded-full"
+					/>
 				</div>
 			</div>
 
@@ -105,16 +124,40 @@
 			<nav class="bg-semi-transparent text-white py-2 px-4 rounded">
 				<ul class="flex space-x-4">
 					<li>
-						<a href="#info" class="hover:underline {currentHash === '#info' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Information, '#info')}> Info </a>
+						<a
+							href="#info"
+							class="hover:underline {currentHash === '#info' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Information, '#info')}
+						>
+							Info
+						</a>
 					</li>
 					<li>
-						<a href="#kills" class="hover:underline {currentHash === '#kills' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Kills, '#kills')}> Kills </a>
+						<a
+							href="#kills"
+							class="hover:underline {currentHash === '#kills' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Kills, '#kills')}
+						>
+							Kills
+						</a>
 					</li>
 					<li>
-						<a href="#losses" class="hover:underline {currentHash === '#losses' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Losses, '#losses')}> Losses </a>
+						<a
+							href="#losses"
+							class="hover:underline {currentHash === '#losses' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Losses, '#losses')}
+						>
+							Losses
+						</a>
 					</li>
 					<li>
-						<a href="#members" class="hover:underline {currentHash === '#members' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Members, '#members')}> Members </a>
+						<a
+							href="#members"
+							class="hover:underline {currentHash === '#members' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Members, '#members')}
+						>
+							Members
+						</a>
 					</li>
 					<li>
 						<a
@@ -126,7 +169,13 @@
 						</a>
 					</li>
 					<li>
-						<a href="#stats" class="hover:underline {currentHash === '#stats' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Stats, '#stats')}> Stats </a>
+						<a
+							href="#stats"
+							class="hover:underline {currentHash === '#stats' ? 'active' : ''}"
+							on:click|preventDefault={() => loadComponent(Stats, '#stats')}
+						>
+							Stats
+						</a>
 					</li>
 				</ul>
 			</nav>
