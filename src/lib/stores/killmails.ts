@@ -17,33 +17,3 @@ export const killmailFilters = writable<KillmailFilters>({
 });
 
 export const killmails = writable<KillmailData>();
-
-export const FILTER_PRESETS: { [key: string]: Function } = {
-	none: () => {
-		return {};
-	},
-	character: (params: { id: number; name: string }) => {
-		return {
-			involved_entities: [
-				{
-					entity_type: 'character',
-					entity_id: params.id,
-					entity_name: params.name,
-					involved_as: 'both'
-				}
-			]
-		};
-	},
-	corporation: (params: { id: number; name: string }) => {
-		return {
-			involved_entities: [
-				{
-					entity_type: 'corporation',
-					entity_id: params.id,
-					entity_name: params.name,
-					involved_as: 'both'
-				}
-			]
-		};
-	}
-};

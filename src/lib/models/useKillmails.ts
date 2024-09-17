@@ -1,6 +1,7 @@
 import type { KillmailFilters } from '$lib/types/killmailFilters';
 import type { Killmail } from '$lib/types/Killmail';
-import { killmailFilters, killmails, FILTER_PRESETS } from '$lib/stores/killmails';
+import { killmailFilters, killmails } from '$lib/stores/killmails';
+import { FILTER_PRESETS } from '$lib/models/useConstants';
 import { get } from 'svelte/store';
 import { stompConnection } from '$lib/Stomp.ts';
 
@@ -34,7 +35,7 @@ export const useKillmails = () => {
 	};
 
 	const setFilterPreset = (preset: string, params: any = {}) => {
-		const newFilters = FILTER_PRESETS[preset](params);
+		const newFilters = FILTER_PRESETS[preset].filter(params);
 
 		setFilters(newFilters);
 	};
