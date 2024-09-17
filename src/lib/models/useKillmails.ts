@@ -101,20 +101,6 @@ export const useKillmails = () => {
 		return true;
 	};
 
-	const assembleParams = (filters: KillmailFilters) => {
-		const params = {
-			type: 'simple',
-			filter: {
-				...filters
-			},
-			options: {
-				// TODO
-			}
-		};
-
-		return params;
-	};
-
 	const getPage = (page: number) => {
 		const currentPage = get(killmails).pagination.page;
 		const limit = get(killmails).pagination.limit;

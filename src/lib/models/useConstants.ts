@@ -30,7 +30,7 @@ export const FILTER_PRESET_KEYS = {
 	titans: 'titans'
 };
 
-export const FILTER_PRESETS: { [key: string]: { label: string; filter: Function } } = {
+export const FILTER_PRESETS: { [key: string]: { label: string; filter: (params?: any) => object } } = {
 	[FILTER_PRESET_KEYS.none]: {
 		label: 'None',
 		filter: () => {
