@@ -33,7 +33,6 @@
 		let battleUrl = `${upstreamUrl}/api/battles/killmail/${killmail_id}`;
 		const response = await fetch(battleUrl);
 		battle = await response.json();
-		console.log(battle);
 
 		// Fetch the killmails
 		killmails = await fetchKillmails(battle.start_time, battle.end_time, [battle.system_id]);
@@ -43,11 +42,33 @@
 	});
 
 	async function fetchKillmails(startTime: number, endTime: number, systemIds: number[]) {
-		let query = `${upstreamUrl}/api/query/between/${startTime}/${endTime}/`;
-		query += systemIds.map((id) => `system_id/${id}`).join('/');
+		let queryUrl = `${upstreamUrl}/api/query`;
+		let queryJson = JSON.stringify({
+			type: 'complex',
+			filter: {
+				kill_time: {
+					'$gte': startTime,
+					'$lte': endTime
+				},
+				system_id: {
+					'$in': systemIds
+				}
+			},
+			options: {
+				limit: 1000
+			}
+		});
 
-		const response = await fetch(query);
-		return await response.json();
+		// POST queryJson to queryUrl
+		const response = await fetch(queryUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: queryJson
+		});
+		let result = await response.json();
+		return result.killmails;
 	}
 
 	function truncateString(str: string, num: number) {
