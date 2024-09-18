@@ -67,8 +67,7 @@
 			},
 			body: queryJson
 		});
-		let result = await response.json();
-		return result.killmails;
+		return await response.json();
 	}
 
 	function truncateString(str: string, num: number) {
