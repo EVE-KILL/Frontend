@@ -55,7 +55,7 @@
 				}
 			},
 			options: {
-				limit: 1000
+				limit: 10000
 			}
 		});
 

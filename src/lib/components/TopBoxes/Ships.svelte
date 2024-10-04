@@ -23,7 +23,7 @@
 		on:click={() => (window.location.href = `/item/${ship.type_id}`)}
 	>
 		<div class="flex items-center">
-			<img src={`https://images.evetech.net/types/${ship.type_id}/render?size=64`} alt="Ship: {ship.name}" class="w-7" />
+			<img src={`https://images.eve-kill.com/types/${ship.type_id}/render?size=64`} alt="Ship: {ship.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{ship.name}</div>
 		</div>

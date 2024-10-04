@@ -168,7 +168,7 @@
 		<div class="comment bg-semi-transparent bg-background-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
 				<img
-					src={`https://images.evetech.net/characters/${comment.character.character_id}/portrait?size=64`}
+					src={`https://images.eve-kill.com/characters/${comment.character.character_id}/portrait?size=64`}
 					alt={comment.character.character_name}
 					class="h-16 w-16 rounded-md mr-4"
 				/>
@@ -193,7 +193,7 @@
 			<div class="flex items-start">
 				<div class="flex flex-col w-full">
 					<img
-						src={`https://images.evetech.net/characters/${user.character_id}/portrait?size=64`}
+						src={`https://images.eve-kill.com/characters/${user.character_id}/portrait?size=64`}
 						alt="User avatar"
 						class="h-16 w-16 rounded-md mr-4"
 					/>

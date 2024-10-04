@@ -18,7 +18,7 @@
 			<!-- Character and Corporation Info -->
 			<a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
 				<img
-					src={`https://images.evetech.net/characters/${killmail.victim.character_id}/portrait?size=128`}
+					src={`https://images.eve-kill.com/characters/${killmail.victim.character_id}/portrait?size=128`}
 					alt={killmail.victim.character_name}
 					class="h-32 w-32 rounded-md"
 				/>
@@ -26,7 +26,7 @@
 			<div class="flex flex-col justify-center">
 				<a href={`/corporation/${killmail.victim.corporation_id}/`}>
 					<img
-						src={`https://images.evetech.net/corporations/${killmail.victim.corporation_id}/logo?size=64`}
+						src={`https://images.eve-kill.com/corporations/${killmail.victim.corporation_id}/logo?size=64`}
 						alt={killmail.victim.corporation_name}
 						class="h-16 w-16 rounded-md"
 					/>
@@ -34,7 +34,7 @@
 				{#if killmail.victim.alliance_id > 0}
 					<a href={`/alliance/${killmail.victim.alliance_id}/`}>
 						<img
-							src={`https://images.evetech.net/alliances/${killmail.victim.alliance_id}/logo?size=64`}
+							src={`https://images.eve-kill.com/alliances/${killmail.victim.alliance_id}/logo?size=64`}
 							alt={killmail.victim.alliance_name}
 							class="h-16 w-16 rounded-md"
 						/>

@@ -11,7 +11,7 @@ export async function load({ params }) {
 		meta: {
 			title: `${character.name}`,
 			description: `Character: ${character.name} | Corporation: ${character.corporation_name} | Alliance: ${character.alliance_name}`,
-			image: `https://images.evetech.net/characters/${character.character_id}/portrait?size=128`
+			image: `https://images.eve-kill.com/characters/${character.character_id}/portrait?size=128`
 		}
 	};
 }

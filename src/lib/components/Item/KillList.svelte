@@ -38,21 +38,21 @@
 						<td class="flex items-center space-x-2">
 							<a href={`/kill/${kill.killmail_id}`}>
 								<img
-									src={`https://images.evetech.net/types/${kill.victim.ship_id}/render?size=64`}
+									src={`https://images.eve-kill.com/types/${kill.victim.ship_id}/render?size=64`}
 									class="rounded w-16 h-16 m-1"
 									alt={kill.victim.ship_name}
 								/>
 							</a>
 							<a href={`/character/${kill.victim.character_id}`}>
 								<img
-									src={`https://images.evetech.net/characters/${kill.victim.character_id}/portrait?size=64`}
+									src={`https://images.eve-kill.com/characters/${kill.victim.character_id}/portrait?size=64`}
 									class="rounded w-16 h-16 m-1"
 									alt={kill.victim.character_name}
 								/>
 							</a>
 							<a href={`/corporation/${kill.victim.corporation_id}`}>
 								<img
-									src={`https://images.evetech.net/corporations/${kill.victim.corporation_id}/logo?size=64`}
+									src={`https://images.eve-kill.com/corporations/${kill.victim.corporation_id}/logo?size=64`}
 									class="rounded w-16 h-16 m-1"
 									alt={kill.victim.corporation_name}
 								/>
@@ -60,7 +60,7 @@
 							{#if kill.victim.alliance_id}
 								<a href={`/alliance/${kill.victim.alliance_id}`}>
 									<img
-										src={`https://images.evetech.net/alliances/${kill.victim.alliance_id}/logo?size=64`}
+										src={`https://images.eve-kill.com/alliances/${kill.victim.alliance_id}/logo?size=64`}
 										class="rounded w-16 h-16 m-1"
 										alt={kill.victim.alliance_name}
 									/>

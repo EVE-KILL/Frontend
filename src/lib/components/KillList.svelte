@@ -211,7 +211,7 @@
 			on:focus={pauseAddingKills}
 		>
 			<div class="flex items-center col-span-2 mx-2 py-1 w-fit">
-				<img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
+				<img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1 whitespace-nowrap">
 					<span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
 					{#if kill.total_value > 50}
@@ -223,7 +223,7 @@
 			</div>
 
 			<div class="flex items-center col-span-2 px-2 py-1">
-				<img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+				<img src="https://images.eve-kill.com/characters/{kill.victim.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1">
 					<span class="text-sm">{kill.victim.character_name}</span>
 					<span class="text-background-400 text-xs whitespace-nowrap">
@@ -236,9 +236,9 @@
 				{#if Array.isArray(kill.attackers)}
 					{@const finalBlowAttacker = getFinalBlowAttacker(kill)}
 					{#if !kill.is_npc}
-						<img src="{finalBlowAttacker.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+						<img src="https://images.eve-kill.com/characters/{finalBlowAttacker.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
 					{:else}
-						<img src="https://images.evetech.net/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
+						<img src="https://images.eve-kill.com/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
 					{/if}
 
 					<div class="flex flex-col items-start ml-1">

@@ -24,7 +24,7 @@
 						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">
 								<img
-									src={`https://images.evetech.net/characters/${character.id}/portrait?size=64`}
+									src={`https://images.eve-kill.com/characters/${character.id}/portrait?size=64`}
 									alt="Character: {character.name}"
 									class="w-8 h-8 rounded-full"
 								/>
@@ -57,7 +57,7 @@
 						<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 							<td class="px-2 py-1">
 								<img
-									src={`https://images.evetech.net/characters/${character.id}/portrait?size=64`}
+									src={`https://images.eve-kill.com/characters/${character.id}/portrait?size=64`}
 									alt="Character: {character.name}"
 									class="w-8 h-8 rounded-full"
 								/>

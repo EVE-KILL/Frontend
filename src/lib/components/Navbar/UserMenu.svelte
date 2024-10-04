@@ -94,8 +94,8 @@
 		<a href={user ? `/character/${user.character_id}` : '#'}>
 			<img
 				src={user
-					? `https://images.evetech.net/characters/${user.character_id}/portrait?size=32`
-					: 'https://images.evetech.net/characters/1/portrait?size=32'}
+					? `https://images.eve-kill.com/characters/${user.character_id}/portrait?size=32`
+					: 'https://images.eve-kill.com/characters/1/portrait?size=32'}
 				alt="User avatar"
 				class="rounded"
 			/>

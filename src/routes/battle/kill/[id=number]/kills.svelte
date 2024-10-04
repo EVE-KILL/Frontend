@@ -33,7 +33,7 @@
 							on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}
 						>
 							<td class="px-2 py-1">
-								<img src="{kill.victim.ship_image_url}?size=64" alt="Ship: {kill.victim.ship_name}" class="w-10 rounded" />
+								<img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=64" alt="Ship: {kill.victim.ship_name}" class="w-10 rounded" />
 							</td>
 							<td class="px-2 py-1">
 								{truncateString(kill.victim.ship_name, 20)}<br />
@@ -42,7 +42,7 @@
 								{/if}
 							</td>
 							<td class="px-2 py-1">
-								<img src="{kill.victim.character_image_url}?size=64" alt="Character: {kill.victim.character_name}" class="w-10 rounded" />
+								<img src="https://images.eve-kill.com/characters/{kill.victim.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="w-10 rounded" />
 							</td>
 							<td class="px-2 py-1"
 								>{kill.victim.character_name}<br /><span class="text-background-400">{truncateString(kill.victim.corporation_name, 22)}</span></td

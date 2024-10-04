@@ -23,7 +23,7 @@
 		on:click={() => (window.location.href = `/character/${character.character_id}`)}
 	>
 		<div class="flex items-center">
-			<img src="https://images.evetech.net/characters/{character.character_id}/portrait?size=64" alt="Character: {character.name}" class="w-7" />
+			<img src="https://images.eve-kill.com/characters/{character.character_id}/portrait?size=64" alt="Character: {character.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{character.name}</div>
 		</div>

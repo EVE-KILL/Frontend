@@ -39,7 +39,7 @@
 		<div class="flex gap-10 justify-center w-full py-2">
 			{#each killsByCategory[activeCategory] as kill}
 				<button class="flex flex-col items-center justify-center" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
-					<img src="{kill.victim.ship_image_url}?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
+					<img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
 					<div class="text-center text-sm mt-1">
 						{kill.victim.ship_name}
 					</div>
