@@ -75,6 +75,6 @@
 		"svelte-highlight": "^7.7.0",
 		"svelte-preprocess-react": "^0.17.1",
 		"svelte-radix": "^1.1.1",
-		"tailwind-variants": "^0.2.1"
+		"tailwind-variants": "^0.3.0"
 	}
 }
