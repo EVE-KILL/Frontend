@@ -60,7 +60,7 @@
 		"@svelte-plugins/datepicker": "^1.0.9",
 		"bits-ui": "^0.21.13",
 		"carta-md": "^4.4.5",
-		"cookie": "^0.7.2",
+		"cookie": "^1.0.2",
 		"cors": "^2.8.5",
 		"date-picker-svelte": "^2.13.0",
 		"devalue": "^5.0.0",
