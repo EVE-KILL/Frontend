@@ -1,3 +1,4 @@
+import { backendFetch } from '$lib/backendFetcher.js';
 import { getUpstreamUrl } from '$lib/Config.ts';
 
 export async function load({ params }) {
@@ -6,7 +7,7 @@ export async function load({ params }) {
 
 	if (query && query.length > 2) {
 		try {
-			const response = await fetch(`${upstreamUrl}/api/search/${query}`);
+			const response = await backendFetch(`${upstreamUrl}/api/search/${query}`);
 			const results = await response.json();
 			return {
 				query,

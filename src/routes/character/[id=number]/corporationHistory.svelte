@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { backendFetch } from '$lib/backendFetcher.ts';
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Character } from '../../../types/Character.ts';
 	import { onMount } from 'svelte';
@@ -10,7 +11,7 @@
 	let corporationHistoryUrl = `${upstreamUrl}/api/characters/${character.character_id}/corporationhistory`;
 
 	onMount(async () => {
-		const response = await fetch(corporationHistoryUrl);
+		const response = await backendFetch(corporationHistoryUrl);
 		corporationHistory = await response.json();
 	});
 </script>

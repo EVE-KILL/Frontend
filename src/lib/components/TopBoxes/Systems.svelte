@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { System } from '$lib/types/Top/System';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +9,7 @@
 	let systems: System[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		systems = await response.json();
 	});
 </script>

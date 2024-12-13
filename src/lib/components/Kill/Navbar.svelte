@@ -2,6 +2,7 @@
 	import { getUpstreamUrl } from '$lib/Config';
 	import { onMount } from 'svelte';
 	import type { Killmail } from '$lib/types/Killmail';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let killmail: Killmail;
 	export let sibling: Killmail | null = null;
@@ -10,7 +11,7 @@
 
 	onMount(async () => {
 		let relatedCheckUrl = `${upstreamUrl}/api/killmail/${killmail.killmail_id}/inbattle`;
-		const response = await fetch(relatedCheckUrl);
+		const response = await backendFetch(relatedCheckUrl);
 		let json = await response.json();
 		inBattle = json.inBattle;
 	});
@@ -126,13 +127,13 @@
 			<!-- Right aligned items (Battle Info) -->
 			{#if inBattle}
 				<li class="ml-auto">
-					<a href="javascript:void(0)" on:click={() => navigateTo(`/battle/kill/${killmail.killmail_id}`)} class="text-white hover:text-background-400">Battle Info</a>
+					<a href="/battle/kill/${killmail.killmail_id}" class="text-white hover:text-background-400">Battle Info</a>
 				</li>
 			{/if}
 
 			{#if sibling}
 				<li class="ml-auto">
-					<a href="javascript:void(0)" on:click={() => navigateTo(`/kill/${sibling.killmail_id}`)} class="text-white hover:text-background-400">Related Kill</a>
+					<a href="/kill/{sibling.killmail_id}" class="text-white hover:text-background-400">Related Kill</a>
 				</li>
 			{/if}
 		</ul>

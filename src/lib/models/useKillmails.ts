@@ -1,6 +1,7 @@
 import type { KillmailFilters } from '$lib/types/killmailFilters';
 import type { Killmail } from '$lib/types/Killmail';
 import { killmailFilters, killmails } from '$lib/stores/killmails';
+import { backendFetch } from '$lib/backendFetcher';
 
 export const useKillmails = () => {
 	const setup = () => {
@@ -22,7 +23,7 @@ export const useKillmails = () => {
 		try {
 			const url = `https://eve-kill.com/api/killlist/latest/`;
 
-			const response = await fetch(url, {
+			const response = await backendFetch(url, {
 				method: 'POST',
 				body: JSON.stringify(currentFilters),
 				headers: {

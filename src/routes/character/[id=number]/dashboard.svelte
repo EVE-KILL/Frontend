@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { convertEveHtml, formatNumber } from '$lib/Helpers.js';
 	import { getUpstreamUrl } from '$lib/Config.js';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let data;
 	let character: Character = data.character;
@@ -59,7 +60,7 @@
 			} else {
 				url = `${upstreamUrl}/api/characters/${character.character_id}/stats/${period}`;
 			}
-			const response = await fetch(url);
+			const response = await backendFetch(url);
 			stats = await response.json();
 			activeTimezone = determineActiveTimezone(stats.heatMap); // Determine the active timezone
 		} catch (error) {
@@ -353,7 +354,6 @@
 		gap: 2rem;
 	}
 	.bio-section,
-	.recent-kills-section,
 	.stats-section {
 		background-color: rgba(255, 255, 255, 0.05);
 		border-radius: 0.5rem;

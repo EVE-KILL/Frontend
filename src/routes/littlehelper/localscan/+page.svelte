@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import { getUpstreamUrl } from '$lib/Config';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	let pasteText = '';
 	let namesArray = [];
@@ -38,7 +39,7 @@
 			namesArray = pasteText.split('\n').filter((name) => name.trim() !== '');
 
 			// Send the names array to the API
-			const response = await fetch(`${upstreamUrl}/api/lilhelper/localscan`, {
+			const response = await backendFetch(`${upstreamUrl}/api/lilhelper/localscan`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -64,7 +65,7 @@
 
 	const fetchDataByHash = async (hash) => {
 		try {
-			const response = await fetch(`${upstreamUrl}/api/lilhelper/localscan/${hash}`);
+			const response = await backendFetch(`${upstreamUrl}/api/lilhelper/localscan/${hash}`);
 			const result = await response.json();
 			const { alliances, corporations } = result;
 

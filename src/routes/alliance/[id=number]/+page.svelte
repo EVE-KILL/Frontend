@@ -7,6 +7,7 @@
 	import Corporations from './corporations.svelte';
 	import Members from './members.svelte';
 	import Stats from './Stats.svelte';
+	import { getUpstreamUrl } from '$lib/Config.js';
 
 	export let data;
 	let alliance: Alliance = data.alliance;
@@ -53,9 +54,9 @@
 		<div class="flex items-start bg-semi-transparent">
 			<!-- Profile Image with Additional Images -->
 			<div class="flex items-center">
-				<img src="https://images.eve-kill.com/alliances/{alliance.alliance_id}/logo?size=256" alt="Alliance: {alliance.name}" class="rounded-full" />
+				<img src="{getUpstreamUrl()}/images/alliances/{alliance.alliance_id}/logo?size=256" alt="Alliance: {alliance.name}" class="rounded-full" />
 				<div class="flex flex-col space-x-2 space-y-2">
-					<img src="https://images.eve-kill.com/corporations/{alliance.faction_id}/logo?size=64" alt="Faction: {alliance.faction_name}" class="rounded-full" />
+					<img src="{getUpstreamUrl()}/images/corporations/{alliance.faction_id}/logo?size=64" alt="Faction: {alliance.faction_name}" class="rounded-full" />
 				</div>
 			</div>
 

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Corporation } from '$lib/types/Top/Corporation';
+	import { backendFetch } from '$lib/backendFetcher';
+	import { getUpstreamUrl } from '$lib/Config';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +10,7 @@
 	let corporations: Corporation[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		corporations = await response.json();
 	});
 </script>
@@ -23,7 +25,7 @@
 		on:click={() => (window.location.href = `/corporation/${corporation.corporation_id}`)}
 	>
 		<div class="flex items-center">
-			<img src="https://images.eve-kill.com/corporations/{corporation.corporation_id}/logo?size=64" alt="Character: {corporation.name}" class="w-7" />
+			<img src="{getUpstreamUrl()}/images/corporations/{corporation.corporation_id}/logo?size=64" alt="Character: {corporation.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{corporation.name}</div>
 		</div>

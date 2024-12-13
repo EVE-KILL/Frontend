@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Alliance } from '$lib/types/Top/Alliance';
+	import { backendFetch } from '$lib/backendFetcher';
+	import { getUpstreamUrl } from '$lib/Config';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +10,7 @@
 	let alliances: Alliance[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		alliances = await response.json();
 	});
 </script>
@@ -23,7 +25,7 @@
 		on:click={() => (window.location.href = `/alliance/${alliance.alliance_id}`)}
 	>
 		<div class="flex items-center">
-			<img src={`https://images.eve-kill.com/alliances/${alliance.alliance_id}/logo?size=64`} alt="Alliance: {alliance.name}" class="w-7" />
+			<img src={`${getUpstreamUrl()}/images/alliances/${alliance.alliance_id}/logo?size=64`} alt="Alliance: {alliance.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{alliance.name}</div>
 		</div>

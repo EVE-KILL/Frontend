@@ -4,6 +4,7 @@
 	import { session, logout } from '$lib/stores/Session.ts';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { goto } from '$app/navigation';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	let hash: string | null = null;
 	let user: {
@@ -20,7 +21,7 @@
 		hash = queryParams.get('hash');
 		if (hash) {
 			try {
-				const response = await fetch(`${upstreamUrl}/api/auth/login/${hash}`);
+				const response = await backendFetch(`${upstreamUrl}/api/auth/login/${hash}`);
 				if (response.ok) {
 					const data = await response.json();
 					user = {

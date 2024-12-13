@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { getUpstreamUrl } from '$lib/Config';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	let campaigns = [];
 	let page = 1;
@@ -14,7 +15,7 @@
 		if (loading) return;
 		loading = true;
 		try {
-			const response = await fetch(`${upstreamUrl}/api/campaigns/${page}`);
+			const response = await backendFetch(`${upstreamUrl}/api/campaigns/${page}`);
 			const data = await response.json();
 			campaigns = data || [];
 

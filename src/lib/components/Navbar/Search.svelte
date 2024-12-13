@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 
 	import { useSearch } from '$lib/models/useSearch';
+	import { getUpstreamUrl } from '$lib/Config';
 	const { search } = useSearch();
 
 	let searchTerm = '';
@@ -116,17 +117,17 @@
 									<td class="h-16 w-16 rounded-md">
 										{#if result.type === 'character'}
 											<img
-												src={`https://images.eve-kill.com/characters/${result.id}/portrait?size=64`}
+												src={`${getUpstreamUrl()}/images/characters/${result.id}/portrait?size=64`}
 												alt={result.name}
 												class="h-16 w-16 rounded-md"
 											/>
 										{:else if result.type === 'corporation'}
-											<img src={`https://images.eve-kill.com/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
+											<img src={`${getUpstreamUrl()}/images/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'alliance'}
-											<img src={`https://images.eve-kill.com/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
+											<img src={`${getUpstreamUrl()}/images/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'item'}
 											<img
-												src={`https://images.eve-kill.com/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
+												src={`${getUpstreamUrl()}/images/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
 												alt={result.name}
 												class="h-16 w-16 rounded-md"
 											/>

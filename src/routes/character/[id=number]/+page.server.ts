@@ -1,9 +1,10 @@
+import { backendFetch } from '$lib/backendFetcher.js';
 import { getUpstreamUrl } from '$lib/Config';
 import type { Character } from '$lib/types/Character.js';
 const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {
-	const characterResponse = await fetch(`${upstreamUrl}/api/characters/${params.id}`);
+	const characterResponse = await backendFetch(`${upstreamUrl}/api/characters/${params.id}`);
 	let character: Character = await characterResponse.json();
 
 	return {
@@ -11,7 +12,7 @@ export async function load({ params }) {
 		meta: {
 			title: `${character.name}`,
 			description: `Character: ${character.name} | Corporation: ${character.corporation_name} | Alliance: ${character.alliance_name}`,
-			image: `https://images.eve-kill.com/characters/${character.character_id}/portrait?size=128`
+			image: `${getUpstreamUrl()}/images/characters/${character.character_id}/portrait?size=128`
 		}
 	};
 }

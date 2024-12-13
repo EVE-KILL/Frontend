@@ -7,9 +7,11 @@
 	export let killmail;
 	let fit: Fitting;
 
-	onMount(async () => {
-		fit = await generateEveShipFit(killmail);
-	});
+	$: if (killmail) {
+		generateEveShipFit(killmail).then((result) => {
+			fit = result;
+		})
+	}
 </script>
 
 {#if fit}

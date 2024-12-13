@@ -1,12 +1,13 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { getUpstreamUrl, getPublicDomain } from '$lib/Config';
+import { backendFetch } from '$lib/backendFetcher';
 
 export const GET: RequestHandler = async ({ params }) => {
 	const { id } = params;
 	const upstreamUrl = getUpstreamUrl();
 	const publicDomain = getPublicDomain();
 	const sitemapUrl = `${upstreamUrl}/api/sitemap/${id}`;
-	const response = await fetch(sitemapUrl);
+	const response = await backendFetch(sitemapUrl);
 	const data = await response.json();
 
 	const subSitemap = `<?xml version="1.0" encoding="UTF-8"?>

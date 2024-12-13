@@ -1,34 +1,28 @@
 <script lang="ts">
     import moment from 'moment';
     import { browser } from '$app/environment';
-    import type { Killmail } from '$lib/types/Killmail';
+	import type { KillList } from '$lib/types/KillList';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-    import { stompConnection } from '$lib/Stomp.ts';
     import { fetchKillList } from '$lib/fetchKillList.ts';
     import { formatNumber } from '$lib/Helpers.ts';
 
     import { useColors } from '$lib/models/useColors';
+	import { getUpstreamUrl } from '$lib/Config';
     const { getSecurityColor } = useColors();
 
     export let url: string;
     export let title: string = '';
-    export let subscriptionTopic: string = 'all';
-    export let filter: { field: string; value: any } | null = null;
     export let combinedKillsAndLosses: boolean = false;
     export let combinedVictimType: string = 'character';
     export let combinedVictimId: number | null = null;
 
-    let kills: Killmail[] = [];
+    let kills: KillList[] = [];
     let page: number = 1;
     let loading: boolean = false;
-    let isPaused: boolean = false;
-    let pauseTimeout: any;
-    let queuedKills: Killmail[] = [];
 
     // **Add this line to track the previous URL**
     let previousUrl = '';
-    let stompDisconnect;
 
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -37,8 +31,6 @@
 			page = parseInt(pageParam, 10);
 		}
 		loadKills();
-		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-		stompDisconnect = stompConnection(topic, handleIncomingMessage); // Assign here
 	});
 
 
@@ -46,17 +38,17 @@
     $: if (url && url !== previousUrl) {
         previousUrl = url;
         page = 1; // Reset the page if necessary
-        loadKills();
-		if (browser) {
-			reconnectStomp();
-		}
+        //loadKills();
     }
 
     async function loadKills() {
         if (loading) return;
         loading = true;
-        const newKills: Killmail[] = await fetchKillList(url, page);
-        kills = newKills.slice(0, 100);
+        const newKills: KillList[] = await fetchKillList(url, page);
+		if (!newKills.error) {
+			kills = newKills.slice(0, 100) || [];
+		}
+
         if (browser) {
             updateURL();
         }
@@ -69,56 +61,6 @@
         goto(newUrl.toString(), { replaceState: true });
     }
 
-	function handleIncomingMessage(message: Killmail) {
-		if (page !== 1) return;
-
-		if (filter && !matchesFilter(message, filter)) {
-			return;
-		}
-
-		if (isPaused) {
-			queuedKills.push(message);
-		} else {
-			addKillToList(message);
-		}
-	}
-
-	function matchesFilter(killmail: Killmail, filter: { field: string; value: any }): boolean {
-		const keys = filter.field.split('.');
-		let current: any = killmail;
-		for (const key of keys) {
-			if (Array.isArray(current)) {
-				return current.some((item) => item[key] === filter.value);
-			} else {
-				current = current[key];
-			}
-			if (current === undefined) {
-				return false;
-			}
-		}
-		return current === filter.value;
-	}
-
-	function addKillToList(message: Killmail) {
-		if (!kills.find((kill) => kill.killmail_id === message.killmail_id)) {
-			kills = [message, ...kills];
-		}
-		if (kills.length > 100) {
-			kills.pop();
-		}
-	}
-
-	function pauseAddingKills() {
-		clearTimeout(pauseTimeout);
-		isPaused = true;
-		pauseTimeout = setTimeout(() => {
-			isPaused = false;
-			while (queuedKills.length > 0) {
-				addKillToList(queuedKills.shift()!);
-			}
-		}, 2500);
-	}
-
 	function handleClick(event: MouseEvent, killmailId: number) {
 		if (event.ctrlKey || event.metaKey || event.button === 1) {
 			event.preventDefault();
@@ -129,7 +71,7 @@
 	}
 
 	// Helper function to check if the kill is a loss that should be highlighted
-	function isCombinedLoss(kill: Killmail): boolean {
+	function isCombinedLoss(kill: KillList): boolean {
 		if (combinedKillsAndLosses && kill.victim[`${combinedVictimType}_id`] === combinedVictimId) {
 			return true;
 		}
@@ -146,24 +88,6 @@
 			page = newPage;
 			loadKills();
 		}
-	}
-	function getFinalBlowAttacker(kill: Killmail) {
-		if (Array.isArray(kill.attackers)) {
-			for (const attacker of kill.attackers) {
-				if (attacker.final_blow) {
-					return attacker;
-				}
-			}
-		}
-		return null;
-	}
-
-	function reconnectStomp() {
-		if (stompDisconnect) {
-			stompDisconnect();
-		}
-		let topic = '/exchange/killmail_topic_exchange/' + subscriptionTopic;
-		stompDisconnect = stompConnection(topic, handleIncomingMessage); // Assign here
 	}
 </script>
 
@@ -201,17 +125,9 @@
 
 	{#each kills as kill (kill.killmail_id)}
 		<button
-			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(
-				kill
-			)
-				? 'bg-red-800'
-				: ''}"
-			on:click={(event) => handleClick(event, kill.killmail_id)}
-			on:mouseover={pauseAddingKills}
-			on:focus={pauseAddingKills}
-		>
+			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(kill) ? 'bg-red-800' : ''}" on:click={(event) => handleClick(event, kill.killmail_id)}>
 			<div class="flex items-center col-span-2 mx-2 py-1 w-fit">
-				<img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
+				<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=64" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1 whitespace-nowrap">
 					<span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
 					{#if kill.total_value > 50}
@@ -223,7 +139,7 @@
 			</div>
 
 			<div class="flex items-center col-span-2 px-2 py-1">
-				<img src="https://images.eve-kill.com/characters/{kill.victim.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+				<img src="{getUpstreamUrl()}/images/characters/{kill.victim.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1">
 					<span class="text-sm">{kill.victim.character_name}</span>
 					<span class="text-background-400 text-xs whitespace-nowrap">
@@ -233,27 +149,24 @@
 			</div>
 
 			<div class="flex items-center col-span-2 px-2 py-1 whitespace-nowrap">
-				{#if Array.isArray(kill.attackers)}
-					{@const finalBlowAttacker = getFinalBlowAttacker(kill)}
-					{#if !kill.is_npc}
-						<img src="https://images.eve-kill.com/characters/{finalBlowAttacker.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
-					{:else}
-						<img src="https://images.eve-kill.com/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
-					{/if}
-
-					<div class="flex flex-col items-start ml-1">
-						<span class="text-sm">
-							{#if kill.is_npc}
-								{finalBlowAttacker.faction_name}
-							{:else}
-								{finalBlowAttacker.character_name}
-							{/if}
-						</span>
-						<span class="text-background-400 text-xs">
-							{truncateString(finalBlowAttacker.ship_group_name, 22)}
-						</span>
-					</div>
+				{#if !kill.is_npc}
+					<img src="{getUpstreamUrl()}/images/characters/{kill.finalblow.character_id}/portrait?size=64" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
+				{:else}
+					<img src="{getUpstreamUrl()}/images/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
 				{/if}
+
+				<div class="flex flex-col items-start ml-1">
+					<span class="text-sm">
+						{#if kill.is_npc}
+							{kill.finalblow.faction_name}
+						{:else}
+							{kill.finalblow.character_name}
+						{/if}
+					</span>
+					<span class="text-background-400 text-xs">
+						{truncateString(kill.finalblow.ship_group_name, 22)}
+					</span>
+				</div>
 			</div>
 
 			<div class="flex flex-col items-start px-2 py-1 text-sm">
@@ -267,12 +180,12 @@
 			</div>
 
 			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
-				<div class="text-background-500">{moment.unix(kill.kill_time).fromNow()}</div>
+				<div class="text-background-500">{moment(kill.kill_time).fromNow()}</div>
 				<div class="flex gap-1 items-center">
-					<span class="text-background-400">{kill.attackers.length}</span>
-					<img src="/images/involved.png" alt="{kill.attackers.length} Involved" />
-					<span class="text-background-400">{kill.comment_count || 0}</span>
-					<img src="/images/comment.gif" alt="{kill.attackers.length} Involved" />
+					<span class="text-background-400">{kill.attackerCount}</span>
+					<img src="/images/involved.png" alt="{kill.attackerCount} Involved" />
+					<span class="text-background-400">{kill.commentCount || 0}</span>
+					<img src="/images/comment.gif" alt="{kill.attackerCount} Involved" />
 				</div>
 			</div>
 		</button>

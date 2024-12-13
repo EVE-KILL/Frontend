@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config';
 	import { formatNumber } from '$lib/Helpers.js';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let item;
 	let itemId = item.type_id;
@@ -10,7 +11,7 @@
 	let itemPriceUrl = `${upstreamUrl}/api/items/${itemId}/pricing/10000002/30`;
 
 	onMount(async () => {
-		const responsePrice = await fetch(itemPriceUrl);
+		const responsePrice = await backendFetch(itemPriceUrl);
 		prices = await responsePrice.json();
 	});
 </script>
