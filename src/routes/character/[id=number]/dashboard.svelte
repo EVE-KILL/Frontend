@@ -58,7 +58,7 @@
 			if (period === 'all') {
 				url = `${upstreamUrl}/api/characters/${character.character_id}/stats`;
 			} else {
-				url = `${upstreamUrl}/api/characters/${character.character_id}/stats/${period}`;
+				url = `${upstreamUrl}/api/characters/${character.character_id}/stats?days=${period}`;
 			}
 			const response = await backendFetch(url);
 			stats = await response.json();

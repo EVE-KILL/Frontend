@@ -102,10 +102,6 @@
 								<td class="font-bold p-1">ISK Lost:</td>
 								<td class="text-left pl-2">{convertIskToBillions(stats.iskLost, 2)}</td>
 							</tr>
-							<tr>
-								<td class="font-bold p-1">NPC Losses:</td>
-								<td class="text-left pl-2">{formatNumber(stats.npcLosses, 0)}</td>
-							</tr>
 						</tbody>
 					</table>
 
@@ -113,20 +109,16 @@
 					<table class="table-auto w-1/2 text-right">
 						<tbody>
 							<tr>
+								<td class="font-bold p-1">NPC Losses:</td>
+								<td class="text-left pl-2">{formatNumber(stats.npcLosses, 0)}</td>
+							</tr>
+							<tr>
 								<td class="font-bold p-1">Solo Kills:</td>
 								<td class="text-left pl-2">{formatNumber(stats.soloKills, 0)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold p-1">Solo Losses:</td>
 								<td class="text-left pl-2">{formatNumber(stats.soloLosses, 0)}</td>
-							</tr>
-							<tr>
-								<td class="font-bold p-1">Kill Points:</td>
-								<td class="text-left pl-2">{formatNumber(stats.killPoints, 0)}</td>
-							</tr>
-							<tr>
-								<td class="font-bold p-1">Loss Points:</td>
-								<td class="text-left pl-2">{formatNumber(stats.lossPoints, 0)}</td>
 							</tr>
 							<tr>
 								<td class="font-bold p-1">Last Active:</td>
