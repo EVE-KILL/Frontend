@@ -60,7 +60,7 @@
 		"bits-ui": "^0.21.16",
 		"caniuse-lite": "^1.0.30001700",
 		"carta-md": "^4.6.7",
-		"cookie": "^0.6.0",
+		"cookie": "^1.0.2",
 		"cors": "^2.8.5",
 		"date-picker-svelte": "^2.15.1",
 		"devalue": "^5.1.1",
