@@ -124,7 +124,7 @@
 			{:else}
 				<li class="p-2">
 					<a href={eveSSOLoginUrl}>
-						<img src="/images/sso-light-large.png" alt="Login" class="w-full" />
+						<img src="/img/sso-light-large.png" alt="Login" class="w-full" />
 					</a>
 				</li>
 				<li class="p-2 rounded-b-md">
@@ -137,7 +137,7 @@
 				</li>
 				<!--<li class="p-2 mt-4">
 					<a href={eveSSOLoginUrlNoScope}>
-						<img src="/images/sso-dark-large.png" alt="Login" class="w-full" />
+						<img src="/img/sso-dark-large.png" alt="Login" class="w-full" />
 					</a>
 				</li>
 				<li class="p-2 rounded-b-md">

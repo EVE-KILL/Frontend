@@ -3,16 +3,16 @@
 	import { writable } from 'svelte/store';
 
 	// Store the selected background image
-	const selectedBackground = writable('/images/bg1.jpg');
+	const selectedBackground = writable('/img/bg1.jpg');
 
 	// Background image options
-	const backgroundImages = [
-		{ src: '/images/bg1.jpg', name: 'bg1.jpg' },
-		{ src: '/images/bg2.png', name: 'bg2.png' },
-		{ src: '/images/bg3.png', name: 'bg3.png' },
-		{ src: '/images/bg4.png', name: 'bg4.png' },
-		{ src: '/images/bg5.png', name: 'bg5.png' },
-		{ src: '/images/bg6.png', name: 'bg6.png' }
+	const backgroundimg = [
+		{ src: '/img/bg1.jpg', name: 'bg1.jpg' },
+		{ src: '/img/bg2.png', name: 'bg2.png' },
+		{ src: '/img/bg3.png', name: 'bg3.png' },
+		{ src: '/img/bg4.png', name: 'bg4.png' },
+		{ src: '/img/bg5.png', name: 'bg5.png' },
+		{ src: '/img/bg6.png', name: 'bg6.png' }
 	];
 
 	// Local state for dropdown visibility

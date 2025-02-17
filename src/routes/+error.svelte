@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<div id="fourohfour" style="background: url(/images/404.png) no-repeat center center;" />
+<div id="fourohfour" style="background: url(/img/404.png) no-repeat center center;" />
 
 <style>
 	#fourohfour {

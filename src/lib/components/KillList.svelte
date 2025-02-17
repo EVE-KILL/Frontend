@@ -183,9 +183,9 @@
 				<div class="text-background-500">{moment(kill.kill_time).fromNow()}</div>
 				<div class="flex gap-1 items-center">
 					<span class="text-background-400">{kill.attackerCount}</span>
-					<img src="/images/involved.png" alt="{kill.attackerCount} Involved" />
+					<img src="/img/involved.png" alt="{kill.attackerCount} Involved" />
 					<span class="text-background-400">{kill.commentCount || 0}</span>
-					<img src="/images/comment.gif" alt="{kill.attackerCount} Involved" />
+					<img src="/img/comment.gif" alt="{kill.attackerCount} Involved" />
 				</div>
 			</div>
 		</button>
