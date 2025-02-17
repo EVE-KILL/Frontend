@@ -38,13 +38,22 @@
 	async function fetchKillmailData(id: number) {
 		try {
 			const response = await backendFetch(`${getUpstreamUrl()}/api/killmail/${id}`);
+			if (!response.ok) {
+				throw new Error(`Failed to fetch killmail data: ${response.status} ${response.statusText}`);
+			}
 			killmail = await response.json();
 
 			const siblingResponse = await backendFetch(`${getUpstreamUrl()}/api/killmail/${id}/sibling`);
+			if (!siblingResponse.ok) {
+				throw new Error(`Failed to fetch sibling data: ${siblingResponse.status} ${siblingResponse.statusText}`);
+			}
 			const siblingIds = await siblingResponse.json();
 
-			if (siblingIds.length === 1) {
+			if (Array.isArray(siblingIds) && siblingIds.length === 1) {
 				const siblingData = await backendFetch(`${getUpstreamUrl()}/api/killmail/${siblingIds[0]}`);
+				if (!siblingData.ok) {
+					throw new Error(`Failed to fetch sibling killmail: ${siblingData.status} ${siblingData.statusText}`);
+				}
 				sibling = await siblingData.json();
 			}
 
