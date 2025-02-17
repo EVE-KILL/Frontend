@@ -147,6 +147,7 @@
 					<td class="px-2 py-1">
 						<img
 							src={`${getUpstreamUrl()}/images/types/${killmail.victim.ship_id}/icon?size=32`}
+							loading="lazy"
 							alt={killmail.victim.ship_name}
 							class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 						/>
@@ -179,6 +180,7 @@
 									<td class="pl-2 py-1">
 										<img
 											src={`${getUpstreamUrl()}/images/types/${item.type_id}/icon?size=32`}
+											loading="lazy"
 											alt={item.type_name}
 											class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 										/>
@@ -207,6 +209,7 @@
 											<td class="px-2 py-1 pl-5">
 												<img
 													src={`${getUpstreamUrl()}/images/types/${containerItem.type_id}/icon?size=32`}
+													loading="lazy"
 													alt={containerItem.type_name}
 													class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 												/>

@@ -25,7 +25,7 @@
 		on:click={() => (window.location.href = `/alliance/${alliance.alliance_id}`)}
 	>
 		<div class="flex items-center">
-			<img src={`${getUpstreamUrl()}/images/alliances/${alliance.alliance_id}/logo?size=64`} alt="Alliance: {alliance.name}" class="w-7" />
+			<img src={`${getUpstreamUrl()}/images/alliances/${alliance.alliance_id}/logo?size=64`} loading="lazy" alt="Alliance: {alliance.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{alliance.name}</div>
 		</div>

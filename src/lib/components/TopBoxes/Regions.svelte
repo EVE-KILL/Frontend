@@ -24,7 +24,7 @@
 		on:click={() => (window.location.href = `/region/${region.region_id}`)}
 	>
 		<div class="flex items-center">
-			<img src={`/map.png`} alt="Region: {region.name}" class="w-7" />
+			<img src={`/map.png`} loading="lazy" alt="Region: {region.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{region.name}</div>
 		</div>

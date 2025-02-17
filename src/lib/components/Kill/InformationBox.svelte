@@ -20,6 +20,7 @@
 			<a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
 				<img
 					src={`${getUpstreamUrl()}/images/characters/${killmail.victim.character_id}/portrait?size=128`}
+					loading="lazy"
 					alt={killmail.victim.character_name}
 					class="h-32 w-32 rounded-md"
 				/>
@@ -28,6 +29,7 @@
 				<a href={`/corporation/${killmail.victim.corporation_id}/`}>
 					<img
 						src={`${getUpstreamUrl()}/images/corporations/${killmail.victim.corporation_id}/logo?size=64`}
+						loading="lazy"
 						alt={killmail.victim.corporation_name}
 						class="h-16 w-16 rounded-md"
 					/>
@@ -36,6 +38,7 @@
 					<a href={`/alliance/${killmail.victim.alliance_id}/`}>
 						<img
 							src={`${getUpstreamUrl()}/images/alliances/${killmail.victim.alliance_id}/logo?size=64`}
+							loading="lazy"
 							alt={killmail.victim.alliance_name}
 							class="h-16 w-16 rounded-md"
 						/>
