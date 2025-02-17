@@ -28,7 +28,7 @@
 	});
 
 	// Use reactivity to reload elements on the page when navigating between /kill/123 and /kill/456
-	$: id = parseInt($page.params.id);
+	$: id = parseInt($page.params.id, 10);
 	$: {
 		if (id && mounted) {
 			fetchKillmailData(id);
