@@ -3,6 +3,7 @@
 	import { getEVEAuthLoginUrl, getEVEAuthLoginUrlNoScope } from '$lib/Auth.ts';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { onMount } from 'svelte';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	let isAccountDropdownOpen = false;
 	let closeAccountDropdownTimeout = 0;
@@ -27,7 +28,7 @@
 	async function handleReauth() {
 		if (user) {
 			try {
-				const response = await fetch(`${upstreamUrl}/api/auth/reauth/${user.identifier}`);
+				const response = await backendFetch(`${upstreamUrl}/api/auth/reauth/${user.identifier}`);
 				if (response.ok) {
 					const data = await response.json();
 					user = {
@@ -94,8 +95,8 @@
 		<a href={user ? `/character/${user.character_id}` : '#'}>
 			<img
 				src={user
-					? `https://images.eve-kill.com/characters/${user.character_id}/portrait?size=32`
-					: 'https://images.eve-kill.com/characters/1/portrait?size=32'}
+					? `${getUpstreamUrl()}/images/characters/${user.character_id}/portrait?size=32`
+					: `${getUpstreamUrl()}/images/characters/1/portrait?size=32`}
 				alt="User avatar"
 				class="rounded"
 			/>

@@ -2,6 +2,7 @@
 	import { getUpstreamUrl } from '$lib/Config';
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	let pasteText = ''; // Store the clipboard text
 	let shipCounts: Record<string, number> = {}; // Store ship names and counts
@@ -31,7 +32,7 @@
 			const shipNames = parseDScan(pasteText);
 
 			// Send the ship names to the API
-			const response = await fetch(`${upstreamUrl}/api/lilhelper/dscan`, {
+			const response = await backendFetch(`${upstreamUrl}/api/lilhelper/dscan`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -57,7 +58,7 @@
 	// Fetch data by hash using the GET API
 	const fetchDataByHash = async (hash: string) => {
 		try {
-			const response = await fetch(`${upstreamUrl}/api/lilhelper/dscan/${hash}`);
+			const response = await backendFetch(`${upstreamUrl}/api/lilhelper/dscan/${hash}`);
 			const result = await response.json();
 			const { ships } = result;
 

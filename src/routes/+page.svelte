@@ -12,17 +12,17 @@
 
 	const upstreamUrl = getUpstreamUrl();
 
-	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/mostvaluablekills/7/7`;
-	const mostValuableShipKillsUrl = `${upstreamUrl}/api/stats/mostvaluableships/7/7`;
-	const mostValuableStructureKillsUrl = `${upstreamUrl}/api/stats/mostvaluablestructures/7/7`;
-	const killListUrl = `${upstreamUrl}/api/killlist/latest`;
-	const topCharactersUrl = `${upstreamUrl}/api/stats/topcharacters/10`;
-	const topCorporationsUrl = `${upstreamUrl}/api/stats/topcorporations/10`;
-	const topAlliancesUrl = `${upstreamUrl}/api/stats/topalliances/10`;
-	const topShipsUrl = `${upstreamUrl}/api/stats/topships/10`;
-	const topSystemsUrl = `${upstreamUrl}/api/stats/topsolarsystems/10`;
-	const topConstellationsUrl = `${upstreamUrl}/api/stats/topconstellations/10`;
-	const topRegionsUrl = `${upstreamUrl}/api/stats/topregions/10`;
+	const mostValuableKillsUrl = `${upstreamUrl}/api/stats/?type=most_valuable_kills&days=7&limit=7`;
+	const mostValuableShipKillsUrl = `${upstreamUrl}/api/stats/?type=most_valuable_ships&days=7&limit=7`;
+	const mostValuableStructureKillsUrl = `${upstreamUrl}/api/stats/?type=most_valuable_structures&days=7&limit=7`;
+	const killListUrl = `${upstreamUrl}/api/killlist?type=latest`;
+	const topCharactersUrl = `${upstreamUrl}/api/stats?type=characters&limit=10`;
+	const topCorporationsUrl = `${upstreamUrl}/api/stats/?type=corporations&limit=10`;
+	const topAlliancesUrl = `${upstreamUrl}/api/stats/?type=alliances&limit=10`;
+	const topShipsUrl = `${upstreamUrl}/api/stats/?type=ships&limit=10`;
+	const topSystemsUrl = `${upstreamUrl}/api/stats/?type=solarsystems&limit=10`;
+	const topConstellationsUrl = `${upstreamUrl}/api/stats/?type=constellations&limit=10`;
+	const topRegionsUrl = `${upstreamUrl}/api/stats/?type=regions&limit=10`;
 </script>
 
 <div class="flex w-full">
@@ -34,6 +34,7 @@
 		]}
 	/>
 </div>
+
 <div class="flex p-2 pt-4 gap-2">
 	<div class="w-1/4">
 		<div class="pb-5">

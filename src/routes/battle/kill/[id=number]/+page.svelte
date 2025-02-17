@@ -10,6 +10,7 @@
 	import Kills from './kills.svelte';
 	import Teams from './teams.svelte';
 	import Timeline from './timeline.svelte';
+	import { backendFetch } from '$lib/backendFetcher.js';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();
@@ -31,17 +32,17 @@
 
 	onMount(async () => {
 		let battleUrl = `${upstreamUrl}/api/battles/killmail/${killmail_id}`;
-		const response = await fetch(battleUrl);
+		const response = await backendFetch(battleUrl);
 		battle = await response.json();
 
 		// Fetch the killmails
-		killmails = await fetchKillmails(battle.start_time, battle.end_time, [battle.system_id]);
+		killmails = await killmailFetch(battle.start_time, battle.end_time, [battle.system_id]);
 
 		// Split the killmails into blue and red team
 		splitKillmailsToSides(killmails, battle);
 	});
 
-	async function fetchKillmails(startTime: number, endTime: number, systemIds: number[]) {
+	async function killmailFetch(startTime: number, endTime: number, systemIds: number[]) {
 		let queryUrl = `${upstreamUrl}/api/query`;
 		let queryJson = JSON.stringify({
 			type: 'complex',
@@ -60,7 +61,7 @@
 		});
 
 		// POST queryJson to queryUrl
-		const response = await fetch(queryUrl, {
+		const response = await backendFetch(queryUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

@@ -5,6 +5,7 @@
 	import KillList from '$lib/components/Item/KillList.svelte';
 	import PriceList from '$lib/components/Item/PriceList.svelte';
 	import Fittings from '$lib/components/Item/Fittings.svelte';
+	import { backendFetch } from '$lib/backendFetcher.js';
 
 	export let data;
 	const upstreamUrl = getUpstreamUrl();
@@ -12,7 +13,7 @@
 	let item;
 
 	onMount(async () => {
-		const response = await fetch(itemUrl);
+		const response = await backendFetch(itemUrl);
 		item = await response.json();
 	});
 </script>
@@ -24,7 +25,7 @@
 				<a href={`/item/${item.type_id}`} class="mr-2">
 					<img
 						class="rounded"
-						src={`https://images.eve-kill.com/types/${item.type_id}/${item.name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
+						src={`${getUpstreamUrl()}/images/types/${item.type_id}/${item.name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
 						style="height: 64px; width: 64px;"
 						alt={item.name}
 					/>

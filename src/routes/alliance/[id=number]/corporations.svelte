@@ -3,6 +3,7 @@
 	import type { Corporation } from '$lib/types/Corporation.ts';
 	import type { Alliance } from '$lib/types/Alliance.ts';
 	import { onMount } from 'svelte';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let alliance: Alliance;
 	export let members: Corporation[];
@@ -10,7 +11,7 @@
 	let url = `${upstreamUrl}/api/alliances/${alliance.alliance_id}/members/corporations`;
 
 	onMount(async () => {
-		const res = await fetch(url);
+		const res = await backendFetch(url);
 		members = await res.json();
 	});
 </script>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Region } from '$lib/types/Top/Region';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +9,7 @@
 	let regions: Region[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		regions = await response.json();
 	});
 </script>

@@ -2,6 +2,8 @@
 	import type { Killmail } from '$lib/types/Killmail';
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { onMount } from 'svelte';
+	import { backendFetch } from '$lib/backendFetcher';
+	import { getUpstreamUrl } from '$lib/Config';
 
 	export let categories: { name: string; url: string }[] = [];
 
@@ -15,7 +17,7 @@
 	async function fetchKills() {
 		loading = true;
 		for (let i = 0; i < categories.length; i++) {
-			let response = await fetch(categories[i].url);
+			let response = await backendFetch(categories[i].url);
 			killsByCategory[categories[i].name] = await response.json();
 		}
 		loading = false;
@@ -39,7 +41,7 @@
 		<div class="flex gap-10 justify-center w-full py-2">
 			{#each killsByCategory[activeCategory] as kill}
 				<button class="flex flex-col items-center justify-center" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
-					<img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
+					<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
 					<div class="text-center text-sm mt-1">
 						{kill.victim.ship_name}
 					</div>

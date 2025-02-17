@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Character } from '$lib/types/Top/Character';
+	import { backendFetch } from '$lib/backendFetcher';
+	import { getUpstreamUrl } from '$lib/Config';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +10,7 @@
 	let characters: Character[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		characters = await response.json();
 	});
 </script>
@@ -23,7 +25,7 @@
 		on:click={() => (window.location.href = `/character/${character.character_id}`)}
 	>
 		<div class="flex items-center">
-			<img src="https://images.eve-kill.com/characters/{character.character_id}/portrait?size=64" alt="Character: {character.name}" class="w-7" />
+			<img src="{getUpstreamUrl()}/images/characters/{character.character_id}/portrait?size=64" alt="Character: {character.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{character.name}</div>
 		</div>

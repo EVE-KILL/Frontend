@@ -2,6 +2,7 @@
 	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { DateInput } from 'date-picker-svelte';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let showModal;
 	let campaignName = '';
@@ -213,7 +214,7 @@
 		const searchTerm = entities[index].searchTerm;
 
 		if (searchTerm.length > 2 && ['character', 'corporation', 'alliance', 'ship_id'].includes(entities[index].type)) {
-			const response = await fetch(`${upstreamUrl}/api/search/${searchTerm}`);
+			const response = await backendFetch(`${upstreamUrl}/api/search/${searchTerm}`);
 			const results = await response.json();
 			const filteredResults = results.hits.filter((result) => result.type === (entities[index].type === 'ship_id' ? 'item' : entities[index].type));
 
@@ -231,7 +232,7 @@
 		const searchTerm = locations[index].searchTerm;
 
 		if (searchTerm.length > 2 && ['system', 'region'].includes(locations[index].type)) {
-			const response = await fetch(`${upstreamUrl}/api/search/${searchTerm}`);
+			const response = await backendFetch(`${upstreamUrl}/api/search/${searchTerm}`);
 			const results = await response.json();
 			const filteredResults = results.hits.filter((result) => result.type === locations[index].type);
 
@@ -252,13 +253,13 @@
 
 		// Set the image URL based on the entity type
 		if (selectedEntity.type === 'character') {
-			entities[index].imageUrl = `https://images.eve-kill.com/characters/${selectedEntity.id}/portrait?size=64`;
+			entities[index].imageUrl = `${getUpstreamUrl()}/images/characters/${selectedEntity.id}/portrait?size=64`;
 		} else if (selectedEntity.type === 'corporation') {
-			entities[index].imageUrl = `https://images.eve-kill.com/corporations/${selectedEntity.id}/logo?size=64`;
+			entities[index].imageUrl = `${getUpstreamUrl()}/images/corporations/${selectedEntity.id}/logo?size=64`;
 		} else if (selectedEntity.type === 'alliance') {
-			entities[index].imageUrl = `https://images.eve-kill.com/alliances/${selectedEntity.id}/logo?size=64`;
+			entities[index].imageUrl = `${getUpstreamUrl()}/images/alliances/${selectedEntity.id}/logo?size=64`;
 		} else if (selectedEntity.type === 'item') {
-			entities[index].imageUrl = `https://images.eve-kill.com/types/${selectedEntity.id}/icon?size=64`;
+			entities[index].imageUrl = `${getUpstreamUrl()}/images/types/${selectedEntity.id}/icon?size=64`;
 		}
 
 		entities[index].isDropdownOpen = false;
@@ -302,7 +303,7 @@
 	// Function to handle form submission (send the data to the backend)
 	const submitCampaign = async () => {
 		if (isFormValid && user) {
-			const response = await fetch(`${upstreamUrl}/api/campaigns`, {
+			const response = await backendFetch(`${upstreamUrl}/api/campaigns`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -419,13 +420,13 @@
 										>
 											<!-- Image based on type -->
 											{#if result.type === 'character'}
-												<img src={`https://images.eve-kill.com/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`${getUpstreamUrl()}/images/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'corporation'}
-												<img src={`https://images.eve-kill.com/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`${getUpstreamUrl()}/images/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'alliance'}
-												<img src={`https://images.eve-kill.com/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`${getUpstreamUrl()}/images/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'item'}
-												<img src={`https://images.eve-kill.com/types/${result.id}/icon?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`${getUpstreamUrl()}/images/types/${result.id}/icon?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{/if}
 											<span>{result.name}</span>
 										</li>

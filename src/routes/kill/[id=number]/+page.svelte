@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getUpstreamUrl } from '$lib/Config.js';
 	import type { Killmail } from '$lib/types/Killmail.ts';
 
 	import Attackers from '$lib/components/Kill/Attackers.svelte';
@@ -8,19 +8,66 @@
 	import Items from '$lib/components/Kill/Items.svelte';
 	import InformationBox from '$lib/components/Kill/InformationBox.svelte';
 	import Navbar from '$lib/components/Kill/Navbar.svelte';
+	import { page } from '$app/stores';
+	import { backendFetch } from '$lib/backendFetcher';
+	import { onMount } from 'svelte';
 
-	export let data;
-	let killmail: Killmail = data.killmail;
-	let sibling: Killmail | null = data.sibling;
-
-	let activeTab = 1; // Set Attackers as the default tab
-	const tabs = [
-		{ name: 'Comments', count: killmail.comment_count || 0 }, // Initialize comment count to 0
-		{ name: 'Attackers', count: killmail.attackers.length }
+	let id: number;
+	let killmail: Killmail | null = null;
+	let sibling: Killmail | null = null;
+	let activeTab = 1;
+	let tabs = [
+		{ name: 'Comments', count: 0 },
+		{ name: 'Attackers', count: 0 }
 	];
 
+	// Turn on reactivity after the component is mounted
+	let mounted = false;
+	onMount(() => {
+		mounted = true;
+	});
+
+	// Use reactivity to reload elements on the page when navigating between /kill/123 and /kill/456
+	$: id = parseInt($page.params.id, 10);
+	$: {
+		if (!isNaN(id) && mounted) {
+			fetchKillmailData(id);
+		}
+	}
+
+	async function fetchKillmailData(id: number) {
+		try {
+			const response = await backendFetch(`${getUpstreamUrl()}/api/killmail/${id}`);
+			if (!response.ok) {
+				throw new Error(`Failed to fetch killmail data: ${response.status} ${response.statusText}`);
+			}
+			killmail = await response.json();
+
+			const siblingResponse = await backendFetch(`${getUpstreamUrl()}/api/killmail/${id}/sibling`);
+			if (!siblingResponse.ok) {
+				throw new Error(`Failed to fetch sibling data: ${siblingResponse.status} ${siblingResponse.statusText}`);
+			}
+			const siblingIds = await siblingResponse.json();
+
+			if (Array.isArray(siblingIds) && siblingIds.length === 1) {
+				const siblingData = await backendFetch(`${getUpstreamUrl()}/api/killmail/${siblingIds[0]}`);
+				if (!siblingData.ok) {
+					throw new Error(`Failed to fetch sibling killmail: ${siblingData.status} ${siblingData.statusText}`);
+				}
+				sibling = await siblingData.json();
+			}
+
+			tabs = [
+				{ name: 'Comments', count: killmail.comment_count || 0 },
+				{ name: 'Attackers', count: killmail.attackers.length }
+			];
+		} catch (error) {
+			console.error('Error fetching killmail data:', error);
+		}
+	}
+
 	// Callback to receive the comment count from the Comments component
-	function updateCommentCount(count) {
+	function updateCommentCount(count: number) {
 		tabs[0].count = count; // Update the comment count in the tabs array
 	}
 </script>
@@ -34,7 +81,9 @@
 		<div class="w-full text-white p-4 rounded-lg shadow-lg">
 			<div id="information-area" class="flex justify-around">
 				<!-- Fitting Wheel -->
-				<FittingWheel {killmail}/>
+				{#key killmail}
+					<FittingWheel {killmail} />
+				{/key}
 
 				<!-- Kill Information -->
 				<div class="information-box ml-5">

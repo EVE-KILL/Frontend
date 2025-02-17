@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
 import { env } from '$env/dynamic/private';
+import { backendFetch } from '$lib/backendFetcher';
 
 if (env.SENTRY_DSN) {
 	Sentry.init({
@@ -26,7 +27,7 @@ export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, re
 
 	// Handle favicon request
 	if (event.url.pathname === '/favicon') {
-		return new Response(await fetch('/static/favicon.png'));
+		return new Response(await backendFetch('/static/favicon.png'));
 	}
 
 	// Handle health check request

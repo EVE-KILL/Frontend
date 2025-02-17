@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getUpstreamUrl } from '$lib/Config';
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
 
@@ -18,7 +19,7 @@
 			<!-- Character and Corporation Info -->
 			<a href={`/character/${killmail.victim.character_id}/`} class="mr-2">
 				<img
-					src={`https://images.eve-kill.com/characters/${killmail.victim.character_id}/portrait?size=128`}
+					src={`${getUpstreamUrl()}/images/characters/${killmail.victim.character_id}/portrait?size=128`}
 					alt={killmail.victim.character_name}
 					class="h-32 w-32 rounded-md"
 				/>
@@ -26,7 +27,7 @@
 			<div class="flex flex-col justify-center">
 				<a href={`/corporation/${killmail.victim.corporation_id}/`}>
 					<img
-						src={`https://images.eve-kill.com/corporations/${killmail.victim.corporation_id}/logo?size=64`}
+						src={`${getUpstreamUrl()}/images/corporations/${killmail.victim.corporation_id}/logo?size=64`}
 						alt={killmail.victim.corporation_name}
 						class="h-16 w-16 rounded-md"
 					/>
@@ -34,7 +35,7 @@
 				{#if killmail.victim.alliance_id > 0}
 					<a href={`/alliance/${killmail.victim.alliance_id}/`}>
 						<img
-							src={`https://images.eve-kill.com/alliances/${killmail.victim.alliance_id}/logo?size=64`}
+							src={`${getUpstreamUrl()}/images/alliances/${killmail.victim.alliance_id}/logo?size=64`}
 							alt={killmail.victim.alliance_name}
 							class="h-16 w-16 rounded-md"
 						/>
@@ -123,11 +124,7 @@
 			{/if}
 			<tr>
 				<th class="p-1 text-right">Time:</th>
-				<td class="p-1">{new Date(killmail.kill_time * 1000).toISOString().slice(0, 19).replace('T', ' ')}</td>
-			</tr>
-			<tr>
-				<th class="p-1 text-right">Points:</th>
-				<td class="p-1">{formatNumber(killmail.point_value, 0)}</td>
+				<td class="p-1">{killmail.kill_time.slice(0, 19).replace('T', ' ')}</td>
 			</tr>
 			<tr>
 				<th class="p-1 text-right">Damage:</th>

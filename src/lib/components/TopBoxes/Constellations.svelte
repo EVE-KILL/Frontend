@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Constellation } from '$lib/types/Top/Constellation';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let url: string;
 	export let count: number = 10;
@@ -8,7 +9,7 @@
 	let constellations: Constellation[] = [];
 
 	onMount(async () => {
-		const response = await fetch(url);
+		const response = await backendFetch(url);
 		constellations = await response.json();
 	});
 </script>

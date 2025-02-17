@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { backendFetch } from '$lib/backendFetcher';
 	import { getUpstreamUrl } from '$lib/Config';
 	import type { Character } from '$lib/types/Character.ts';
 	import type { Corporation } from '$lib/types/Corporation.ts';
@@ -10,7 +11,7 @@
 	let url = `${upstreamUrl}/api/corporations/${corporation.corporation_id}/members`;
 
 	onMount(async () => {
-		const res = await fetch(url);
+		const res = await backendFetch(url);
 		members = await res.json();
 	});
 </script>

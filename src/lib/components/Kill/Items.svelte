@@ -3,6 +3,7 @@
 	import { itemSlotTypes, itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
 	import { onMount } from 'svelte';
 	import type { Item } from '$lib/types/Killmail/Item';
+	import { getUpstreamUrl } from '$lib/Config';
 
 	export let killmail;
 	let groupedItems = [];
@@ -39,73 +40,69 @@
 		'Moon Material Bay': false
 	};
 
-	onMount(async () => {
-		const slotTypes = itemSlotTypes();
-		let allItems: Item[] = [];
+  // Reactively update groupedItems whenever killmail changes
+  $: if (killmail) {
+    const slotTypes = itemSlotTypes();
+    let allItems = [];
 
-		// Extract all items including items in containers
-		killmail.items.forEach((item) => {
-			const containerItemsValue = item.container_items
-				? item.container_items.reduce(
-						(sum, containerItem) => sum + containerItem.value * (containerItem.qty_dropped + containerItem.qty_destroyed),
-						0
-					)
-				: 0;
-			allItems.push({
-				...item,
-				isContainer: !!item.container_items,
-				container_items: item.container_items || [],
-				containerItemsValue
-			});
-		});
+    killmail.items.forEach((item) => {
+      const containerItemsValue = item.items
+        ? item.items.reduce(
+            (sum, containerItem) => sum + containerItem.value * (containerItem.qty_dropped + containerItem.qty_destroyed),
+            0
+          )
+        : 0;
 
-		groupedItems = Object.keys(slotTypes).map((slotType) => {
-			return {
-				slotType,
-				items: groupByQty(allItems.filter((item) => slotTypes[slotType].includes(item.flag)))
-			};
-		});
+      allItems.push({
+        ...item,
+        isContainer: !!item.items,
+        items: item.items || [],
+        containerItemsValue,
+      });
+    });
 
-		// Initialize collapsible sections with default states
-		groupedItems.forEach((group) => {
-			collapsibleSections[group.slotType] = defaultCollapsedState[group.slotType] ?? true; // Use default state if defined, otherwise default to true
-		});
-	});
+    groupedItems = Object.keys(slotTypes).map((slotType) => ({
+      slotType,
+      items: groupByQty(allItems.filter((item) => slotTypes[slotType].includes(item.flag))),
+    }));
 
-	function groupByQty(items: Item[]) {
-		const grouped = items.reduce((acc, item) => {
-			let key;
+    groupedItems.forEach((group) => {
+      collapsibleSections[group.slotType] = defaultCollapsedState[group.slotType] ?? true;
+    });
+  }
 
-			// Don't group plastic wraps (type_id 3468), treat each one individually
-			if (item.type_id === 3468) {
-				key = `${item.Itemid}_${item.type_id}_${Math.random()}`; // Ensures unique key for each Plastic Wrap
-			} else {
-				key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
-			}
+  function groupByQty(items: Item[]) {
+    const grouped = items.reduce((acc, item) => {
+      let key;
+      if (item.type_id === 3468) {
+        key = `${item.Itemid}_${item.type_id}_${Math.random()}`;
+      } else {
+        key = `${item.type_id}_${item.qty_dropped || 0}_${item.qty_destroyed || 0}`;
+      }
 
-			if (!acc[key]) {
-				acc[key] = {
-					...item,
-					qty_dropped: 0,
-					qty_destroyed: 0,
-					container_items: [],
-					containerItemsValue: 0
-				};
-			}
+      if (!acc[key]) {
+        acc[key] = {
+          ...item,
+          qty_dropped: 0,
+          qty_destroyed: 0,
+          items: [],
+          containerItemsValue: 0,
+        };
+      }
 
-			acc[key].qty_dropped += item.qty_dropped || 0;
-			acc[key].qty_destroyed += item.qty_destroyed || 0;
+      acc[key].qty_dropped += item.qty_dropped || 0;
+      acc[key].qty_destroyed += item.qty_destroyed || 0;
 
-			if (item.isContainer) {
-				acc[key].container_items = item.container_items;
-				acc[key].containerItemsValue = item.containerItemsValue;
-			}
+      if (item.isContainer) {
+        acc[key].items = item.items;
+        acc[key].containerItemsValue = item.containerItemsValue;
+      }
 
-			return acc;
-		}, {});
+      return acc;
+    }, {});
 
-		return Object.values(grouped);
-	}
+    return Object.values(grouped);
+  }
 
 	function toggleCollapse(slotType) {
 		collapsibleSections[slotType] = !collapsibleSections[slotType];
@@ -149,7 +146,7 @@
 				<tr class="destroyed-items">
 					<td class="px-2 py-1">
 						<img
-							src={`https://images.eve-kill.com/types/${killmail.victim.ship_id}/icon?size=32`}
+							src={`${getUpstreamUrl()}/images/types/${killmail.victim.ship_id}/icon?size=32`}
 							alt={killmail.victim.ship_name}
 							class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 						/>
@@ -181,7 +178,7 @@
 								>
 									<td class="pl-2 py-1">
 										<img
-											src={`https://images.eve-kill.com/types/${item.type_id}/icon?size=32`}
+											src={`${getUpstreamUrl()}/images/types/${item.type_id}/icon?size=32`}
 											alt={item.type_name}
 											class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 										/>
@@ -202,14 +199,14 @@
 									</td>
 									<td></td>
 								</tr>
-								{#if item.isContainer && item.container_items.length > 0}
-									{#each item.container_items as containerItem}
+								{#if item.isContainer && item.items.length > 0}
+									{#each item.items as containerItem}
 										<tr
 											class={`border-b border-background-700 hover:bg-background-600 transition-colors duration-30 pl-6 ${item.qty_dropped > 0 ? 'dropped-items' : item.qty_destroyed > 0 ? 'destroyed-items' : ''}`}
 										>
 											<td class="px-2 py-1 pl-5">
 												<img
-													src={`https://images.eve-kill.com/types/${containerItem.type_id}/icon?size=32`}
+													src={`${getUpstreamUrl()}/images/types/${containerItem.type_id}/icon?size=32`}
 													alt={containerItem.type_name}
 													class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 												/>

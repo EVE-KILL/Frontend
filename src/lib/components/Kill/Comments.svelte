@@ -12,6 +12,7 @@
 
 	import '$lib/styles/github.scss';
 	import '@cartamd/plugin-emoji/default.css';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let identifier: string;
 	let comments: any[] = [];
@@ -66,13 +67,13 @@
 	});
 
 	onMount(async () => {
-		await fetchComments();
+		await commentsFetch();
 		initializeComponents(mappedComponents, container);
 	});
 
-	async function fetchComments() {
+	async function commentsFetch() {
 		try {
-			let request = await fetch(`${upstreamUrl}/api/comments/${identifier}`);
+			let request = await backendFetch(`${upstreamUrl}/api/comments/${identifier}`);
 			if (request.ok) {
 				let fetchedComments = await request.json();
 
@@ -109,7 +110,7 @@
 		};
 
 		try {
-			let request = await fetch(`${upstreamUrl}/api/comments/${identifier}`, {
+			let request = await backendFetch(`${upstreamUrl}/api/comments/${identifier}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -168,7 +169,7 @@
 		<div class="comment bg-semi-transparent bg-background-800 rounded-lg shadow-lg p-4 mb-4">
 			<div class="flex items-start">
 				<img
-					src={`https://images.eve-kill.com/characters/${comment.character.character_id}/portrait?size=64`}
+					src={`${getUpstreamUrl()}/images/characters/${comment.character.character_id}/portrait?size=64`}
 					alt={comment.character.character_name}
 					class="h-16 w-16 rounded-md mr-4"
 				/>
@@ -193,7 +194,7 @@
 			<div class="flex items-start">
 				<div class="flex flex-col w-full">
 					<img
-						src={`https://images.eve-kill.com/characters/${user.character_id}/portrait?size=64`}
+						src={`${getUpstreamUrl()}/images/characters/${user.character_id}/portrait?size=64`}
 						alt="User avatar"
 						class="h-16 w-16 rounded-md mr-4"
 					/>

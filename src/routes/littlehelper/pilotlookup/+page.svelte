@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { backendFetch } from '$lib/backendFetcher';
+	import { getUpstreamUrl } from '$lib/Config';
 	import { formatNumber, convertIskToMillions, convertIskToBillions } from '$lib/Helpers';
 
 	// State variables
@@ -15,10 +17,10 @@
 		return sortedArray.length > 0 ? sortedArray[0].name : 'Unknown'; // Select the top element
 	};
 
-	const fetchCharacterData = async (name: string) => {
+	const characterDataFetch = async (name: string) => {
 		try {
 			// First API call to search for the character
-			const searchResponse = await fetch(`https://eve-kill.com/api/search/${name}`);
+			const searchResponse = await backendFetch(`https://eve-kill.com/api/search/${name}`);
 			const searchData = await searchResponse.json();
 
 			// Check if we have hits and pick the first character whose type is 'character'
@@ -28,7 +30,7 @@
 				const characterId = character.id;
 
 				// Second API call to fetch character info
-				const characterInfoResponse = await fetch(`https://eve-kill.com/api/characters/${characterId}`);
+				const characterInfoResponse = await backendFetch(`https://eve-kill.com/api/characters/${characterId}`);
 				const characterInfo = await characterInfoResponse.json();
 
 				// Build the URL for the stats API call based on the selected days
@@ -38,7 +40,7 @@
 				}
 
 				// Third API call to fetch character stats
-				const characterStatsResponse = await fetch(url);
+				const characterStatsResponse = await backendFetch(url);
 				const characterStats = await characterStatsResponse.json();
 
 				// Return the character info and stats
@@ -68,7 +70,7 @@
 
 			// Fetch each character data individually and update as they are loaded
 			for (const name of namesArray) {
-				const character = await fetchCharacterData(name);
+				const character = await characterDataFetch(name);
 				if (character) {
 					characterData = [...characterData, character]; // Add character as soon as it's loaded
 				}
@@ -157,7 +159,7 @@
 					<!-- Character image (128x128) fixed size -->
 					<img
 						class="w-40 h-40 rounded-full flex-shrink-0"
-						src={`https://images.eve-kill.com/characters/${character.id}/portrait?size=256`}
+						src={`${getUpstreamUrl()}/images/characters/${character.id}/portrait?size=256`}
 						alt="Character Image"
 					/>
 

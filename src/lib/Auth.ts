@@ -1,3 +1,4 @@
+import { backendFetch } from './backendFetcher.ts';
 import { getUpstreamUrl } from './Config.ts';
 
 export async function getEVEAuthLoginUrl() {
@@ -5,7 +6,7 @@ export async function getEVEAuthLoginUrl() {
 	const fetchUrl = `${baseUrl}/api/auth/eve/getloginurl`;
 
 	try {
-		const response = await fetch(fetchUrl);
+		const response = await backendFetch(fetchUrl);
 		let resp = await response.json();
 
 		return resp.url;
@@ -19,7 +20,7 @@ export async function getEVEAuthLoginUrlNoScope() {
 	const fetchUrl = `${baseUrl}/api/auth/eve/getloginurl?noscope=true	`;
 
 	try {
-		const response = await fetch(fetchUrl);
+		const response = await backendFetch(fetchUrl);
 		let resp = await response.json();
 
 		return resp.url;

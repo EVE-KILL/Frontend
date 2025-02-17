@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config';
+	import { backendFetch } from '$lib/backendFetcher';
 
 	export let item;
 	let itemId = item.type_id;
@@ -9,7 +10,7 @@
 	let fittingsUrl = `${upstreamUrl}/api/fitting/top10/${itemId}`;
 
 	onMount(async () => {
-		const response = await fetch(fittingsUrl);
+		const response = await backendFetch(fittingsUrl);
 		fittings = await response.json();
 	});
 

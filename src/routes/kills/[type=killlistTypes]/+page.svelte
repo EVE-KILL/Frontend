@@ -12,7 +12,7 @@
 	}
 
 	// Reactive statement to update killListUrl when data or type changes
-	$: killListUrl = `${data.upstreamUrl}/api/killlist/${type}`;
+	$: killListUrl = `${data.upstreamUrl}/api/killlist?type=${type}`;
 </script>
 
 <div class="container flex p-2 pt-4 gap-2">
@@ -20,6 +20,6 @@
 		<KillList
 			url={killListUrl}
 			title={upperCaseFirstLetter(type)}
-			subscriptionTopic="{type === 'latest' ? 'all' : type}"/>
+		/>
 	</div>
 </div>

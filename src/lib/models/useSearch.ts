@@ -1,3 +1,4 @@
+import { backendFetch } from '$lib/backendFetcher';
 import { getUpstreamUrl } from '$lib/Config.ts';
 
 export const useSearch = () => {
@@ -5,7 +6,7 @@ export const useSearch = () => {
     // Perform search
     const upstreamUrl = getUpstreamUrl();
 
-    const response = await fetch(`${upstreamUrl}/api/search/${searchTerm}`);
+    const response = await backendFetch(`${upstreamUrl}/api/search/${searchTerm}`);
     const results = await response.json();
 
     return results.hits;
