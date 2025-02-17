@@ -41,7 +41,7 @@
 		<div class="flex gap-10 justify-center w-full py-2">
 			{#each killsByCategory[activeCategory] as kill}
 				<button class="flex flex-col items-center justify-center" on:click={() => (window.location.href = `/kill/${kill.killmail_id}`)}>
-					<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=128" alt="Ship: {kill.victim.ship_name}" class="rounded" />
+					<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=128" loading="eager" alt="Ship: {kill.victim.ship_name}" class="rounded" />
 					<div class="text-center text-sm mt-1">
 						{kill.victim.ship_name}
 					</div>
