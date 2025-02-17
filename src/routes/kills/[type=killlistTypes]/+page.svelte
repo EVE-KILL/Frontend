@@ -17,9 +17,11 @@
 
 <div class="container flex p-2 pt-4 gap-2">
 	<div class="w-full">
+		{#key type}
 		<KillList
 			url={killListUrl}
 			title={upperCaseFirstLetter(type)}
 		/>
+		{/key}
 	</div>
 </div>

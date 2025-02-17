@@ -5,7 +5,11 @@ const upstreamUrl = getUpstreamUrl();
 
 export async function load({ params }) {
 	const characterResponse = await backendFetch(`${upstreamUrl}/api/characters/${params.id}`);
-	let character: Character = await characterResponse.json();
+	const character: Character = await characterResponse.json();
+	const corporationResponse = await backendFetch(`${upstreamUrl}/api/corporations/${character.corporation_id}`);
+	const allianceResponse = await backendFetch(`${upstreamUrl}/api/alliances/${character.alliance_id}`);
+	character.corporation_name = (await corporationResponse.json()).name;
+	character.alliance_name = (await allianceResponse.json()).name;
 
 	return {
 		character,
