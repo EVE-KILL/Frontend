@@ -96,7 +96,7 @@
 			<img
 				src={user
 					? `${getUpstreamUrl()}/images/characters/${user.character_id}/portrait?size=32`
-					: `${getUpstreamUrl()}/images/characters/1/portrait?size=32`}
+					: '/img/portrait.webp'}
 				alt="User avatar"
 				class="rounded"
 			/>
