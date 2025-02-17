@@ -1,5 +1,5 @@
 <script lang="ts">
-    import moment from 'moment';
+    import moment from 'moment-timezone';
     import { browser } from '$app/environment';
 	import type { KillList } from '$lib/types/KillList';
     import { onMount } from 'svelte';
@@ -180,7 +180,7 @@
 			</div>
 
 			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
-				<div class="text-background-500">{moment(kill.kill_time).fromNow()}</div>
+				<div class="text-background-500">{moment.utc(kill.kill_time).fromNow()}</div>
 				<div class="flex gap-1 items-center">
 					<span class="text-background-400">{kill.attackerCount}</span>
 					<img src="/img/involved.png" alt="{kill.attackerCount} Involved" />
