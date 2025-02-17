@@ -6,7 +6,7 @@
 	const selectedBackground = writable('/img/bg1.jpg');
 
 	// Background image options
-	const backgroundimg = [
+	const backgroundImages = [
 		{ src: '/img/bg1.jpg', name: 'bg1.jpg' },
 		{ src: '/img/bg2.png', name: 'bg2.png' },
 		{ src: '/img/bg3.png', name: 'bg3.png' },
