@@ -16,6 +16,8 @@
 
 		// Decode Unicode characters
 		sanitizedDescription = decodeUnicode(description);
+		// Add data-sveltekit-reload to the <a tag in sanitizedDescription
+		sanitizedDescription = sanitizedDescription.replace(/<a /g, '<a data-sveltekit-reload ');
 	});
 
 	function decodeUnicode(str: string): string {
