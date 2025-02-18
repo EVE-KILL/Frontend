@@ -3,6 +3,7 @@ export interface Attacker {
 	ship_name: string;
 	ship_image_url: string;
 	ship_group_id: number;
+	ship_group_name: string;
 	character_id: number;
 	character_name: string;
 	character_image_url: string;

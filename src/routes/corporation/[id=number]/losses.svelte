@@ -7,4 +7,4 @@
 	let killlistUrl = `${upstreamUrl}/api/killlist/losses/corporation/${corporation.corporation_id}`;
 </script>
 
-<KillList url={killlistUrl} />
+<KillList url={killlistUrl} wsFilter={`corporation.${corporation.corporation_id}`} />

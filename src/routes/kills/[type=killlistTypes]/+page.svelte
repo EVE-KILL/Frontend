@@ -21,6 +21,7 @@
 		<KillList
 			url={killListUrl}
 			title={upperCaseFirstLetter(type)}
+			wsFilter={type}
 		/>
 		{/key}
 	</div>

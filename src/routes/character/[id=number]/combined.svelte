@@ -8,4 +8,4 @@
 	let killlistUrl = `${upstreamUrl}/api/killlist/combined/character/${character.character_id}`;
 </script>
 
-<KillList url={killlistUrl} combinedKillsAndLosses={true} combinedVictimType="character" combinedVictimId={character.character_id} />
+<KillList url={killlistUrl} combinedKillsAndLosses={true} combinedVictimType="character" combinedVictimId={character.character_id} wsFilter={`character.${character.character_id}`} />
