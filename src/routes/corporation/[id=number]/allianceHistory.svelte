@@ -27,18 +27,20 @@
 			</thead>
 			<tbody class="text-background-300 text-sm">
 				{#each allianceHistory as history}
-					<tr
-						class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
-						on:click={(window.location.href = `/alliance/${history.alliance_id}`)}
-					>
-						<td class="px-2 py-1">{history.name}</td>
-						<td class="px-2 py-1">{history.join_date}</td>
-						<td class="px-2 py-1">
-							{#if history.leave_date}
-								{history.leave_date}
-							{/if}
-						</td>
-					</tr>
+					{#if history.alliance_id}
+						<tr
+							class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300"
+							on:click={(window.location.href = `/alliance/${history.alliance_id}`)}
+						>
+							<td class="px-2 py-1">{history.alliance_name}</td>
+							<td class="px-2 py-1">{history.start_date}</td>
+							<td class="px-2 py-1">
+								{#if history.end_date}
+									{history.end_date}
+								{/if}
+							</td>
+						</tr>
+					{/if}
 				{/each}
 			</tbody>
 		</table>

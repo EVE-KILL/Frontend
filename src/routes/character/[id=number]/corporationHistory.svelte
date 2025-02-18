@@ -33,15 +33,15 @@
 						on:click={() => (window.location.href = `/corporation/${history.corporation_id}`)}
 					>
 						<td class="px-2 py-1">
-							{history.name}
-							{#if history.alliance}
-								&nbsp;(<a href={`/alliance/${history.alliance.alliance_id}`} class="text-primary-400 hover:underline">{history.alliance.name}</a>)
+							{history.corporation_name}
+							{#if history.alliance_id}
+								&nbsp;(<a href={`/alliance/${history.alliance_id}`} class="text-primary-400 hover:underline">{history.alliance_name}</a>)
 							{/if}
 						</td>
-						<td class="px-2 py-1">{history.join_date}</td>
+						<td class="px-2 py-1">{history.start_date}</td>
 						<td class="px-2 py-1">
-							{#if history.leave_date}
-								{history.leave_date}
+							{#if history.end_date}
+								{history.end_date}
 							{/if}
 						</td>
 					</tr>
