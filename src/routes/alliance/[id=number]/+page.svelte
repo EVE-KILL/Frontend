@@ -4,6 +4,7 @@
 	import type { Alliance } from '$lib/types/Alliance.ts';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';
+	import Combined from './combined.svelte';
 	import Corporations from './corporations.svelte';
 	import Members from './members.svelte';
 	import Stats from './Stats.svelte';
@@ -18,6 +19,7 @@
 	const hashToComponent = {
 		'#kills': Kills,
 		'#losses': Losses,
+		'#combined': Combined,
 		'#corporations': Corporations,
 		'#members': Members,
 		'#stats': Stats
@@ -105,6 +107,9 @@
 						<a href="#losses" class="hover:underline {currentHash === '#losses' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Losses, '#losses')}> Losses </a>
 					</li>
 					<li>
+						<a href="#combined" class="hover:underline {currentHash === '#combined' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Combined, '#combined')}> Combined </a>
+					</li>
+					<li>
 						<a
 							href="#corporations"
 							class="hover:underline {currentHash === '#corporations' ? 'active' : ''}"
@@ -126,7 +131,7 @@
 		<!-- Main content -->
 		<div class="mt-4 rounded">
 			{#if activeComponent}
-				<svelte:component this={activeComponent} {alliance} />
+				<svelte:component this={activeComponent} alliance={alliance} />
 			{/if}
 		</div>
 	</div>

@@ -125,7 +125,7 @@
 
 	{#each kills as kill (kill.killmail_id)}
 		<button
-			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(kill) ? 'bg-red-800' : ''}" on:click={(event) => handleClick(event, kill.killmail_id)}>
+			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(kill) ? 'bg-darkred' : ''}" on:click={(event) => handleClick(event, kill.killmail_id)}>
 			<div class="flex items-center col-span-2 mx-2 py-1 w-fit">
 				<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=64" loading="lazy" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
 				<div class="flex flex-col items-start ml-1 whitespace-nowrap">

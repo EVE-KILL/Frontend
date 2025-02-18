@@ -4,9 +4,7 @@
 	import KillList from '$lib/components/KillList.svelte';
 	export let corporation: Corporation;
 	const upstreamUrl = getUpstreamUrl();
-	let killlistUrl = `${upstreamUrl}/api/killlist/attackers.corporation_id/${corporation.corporation_id}`;
-	let subscriptionTopic = `corporation.${corporation.corporation_id}`;
-	let filter = { field: 'attackers.corporation_id', value: corporation.corporation_id };
+	let killlistUrl = `${upstreamUrl}/api/killlist/attacker/corporation/${corporation.corporation_id}`;
 </script>
 
-<KillList url={killlistUrl} {subscriptionTopic} {filter} />
+<KillList url={killlistUrl} />

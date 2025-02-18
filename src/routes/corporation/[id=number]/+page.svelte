@@ -5,6 +5,7 @@
 	import Information from './information.svelte';
 	import Kills from './kills.svelte';
 	import Losses from './losses.svelte';
+	import Combined from './combined.svelte';
 	import Members from './members.svelte';
 	import AllianceHistory from './allianceHistory.svelte';
 	import Stats from './Stats.svelte';
@@ -20,6 +21,7 @@
 		'#info': Information,
 		'#kills': Kills,
 		'#losses': Losses,
+		'#combined': Combined,
 		'#alliance-history': AllianceHistory,
 		'#members': Members,
 		'#stats': Stats
@@ -115,6 +117,9 @@
 						<a href="#losses" class="hover:underline {currentHash === '#losses' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Losses, '#losses')}> Losses </a>
 					</li>
 					<li>
+						<a href="#combined" class="hover:underline {currentHash === '#combined' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Combined, '#combined')}> Combined </a>
+					</li>
+					<li>
 						<a href="#members" class="hover:underline {currentHash === '#members' ? 'active' : ''}" on:click|preventDefault={() => loadComponent(Members, '#members')}> Members </a>
 					</li>
 					<li>
@@ -136,7 +141,7 @@
 		<!-- Main content -->
 		<div class="mt-4 rounded">
 			{#if activeComponent}
-				<svelte:component this={activeComponent} {corporation} />
+				<svelte:component this={activeComponent} corporation={corporation} />
 			{/if}
 		</div>
 	</div>

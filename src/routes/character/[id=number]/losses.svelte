@@ -5,9 +5,7 @@
 	export let data: any;
 	let character: Character = data.character;
 	const upstreamUrl = getUpstreamUrl();
-	let killlistUrl = `${upstreamUrl}/api/killlist/victim.character_id/${character.character_id}`;
-	let subscriptionTopic = `character.${character.character_id}`;
-	let filter = { field: 'victim.character_id', value: character.character_id };
+	let killlistUrl = `${upstreamUrl}/api/killlist/losses/character/${character.character_id}`;
 </script>
 
-<KillList url={killlistUrl} {subscriptionTopic} {filter} />
+<KillList url={killlistUrl} />
