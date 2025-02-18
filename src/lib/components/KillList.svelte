@@ -1,120 +1,78 @@
 <script lang="ts">
-    import moment from 'moment-timezone';
-    import { browser } from '$app/environment';
+	import { onMount, onDestroy } from 'svelte';
+	import { backendFetch } from "$lib/backendFetcher";
+	import { browser } from '$app/environment';
 	import type { KillList } from '$lib/types/KillList';
-    import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
-    import { fetchKillList } from '$lib/fetchKillList.ts';
-    import { formatNumber } from '$lib/Helpers.ts';
+	import Row from './KillList/Row.svelte';
+	import NextPreviousButtons from './KillList/NextPreviousButtons.svelte';
 
-    import { useColors } from '$lib/models/useColors';
-	import { getUpstreamUrl } from '$lib/Config';
-    const { getSecurityColor } = useColors();
-
-    export let url: string;
-    export let title: string = '';
+	// Exports
+	export let url: string;
     export let combinedKillsAndLosses: boolean = false;
     export let combinedVictimType: string = 'character';
     export let combinedVictimId: number | null = null;
 
-    let kills: KillList[] = [];
-    let page: number = 1;
-    let loading: boolean = false;
+	let kills: KillList[] = [];
+	let page: number = 1;
+	let loading: boolean = false;
 
-    // **Add this line to track the previous URL**
-    let previousUrl = '';
-
-	onMount(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const pageParam = urlParams.get('killlistPage');
-		if (pageParam) {
-			page = parseInt(pageParam, 10);
-		}
-		loadKills();
-	});
-
-
-    // **Modify the reactive statement to watch for changes in `url`**
-    $: if (url && url !== previousUrl) {
-        previousUrl = url;
-        page = 1; // Reset the page if necessary
-        //loadKills();
-    }
-
-    async function loadKills() {
-        if (loading) return;
-        loading = true;
-        const newKills: KillList[] = await fetchKillList(url, page);
-		if (!newKills.error) {
-			kills = newKills.slice(0, 100) || [];
-		}
-
-        if (browser) {
-            updateURL();
-        }
-        loading = false;
-    }
-
-    function updateURL() {
-        const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set('killlistPage', String(page));
-        goto(newUrl.toString(), { replaceState: true });
-    }
-
-	function handleClick(event: MouseEvent, killmailId: number) {
-		if (event.ctrlKey || event.metaKey || event.button === 1) {
-			event.preventDefault();
-			window.open(`/kill/${killmailId}`, '_blank');
-		} else {
-			window.location.href = `/kill/${killmailId}`;
-		}
+	async function fetchKillList(url: string = 'https://eve-kill.com/api/killlist?type=latest', pageNumber: number = 1) {
+		const fetchUrl = url.includes('?') ? `${url}&page=${pageNumber}` : `${url}?page=${pageNumber}`;
+		let response = await backendFetch(fetchUrl);
+		return await response.json();
 	}
 
-	// Helper function to check if the kill is a loss that should be highlighted
-	function isCombinedLoss(kill: KillList): boolean {
-		if (combinedKillsAndLosses && kill.victim[`${combinedVictimType}_id`] === combinedVictimId) {
-			return true;
+	async function loadKills() {
+		if (loading) return;
+		loading = true;
+
+		const fetchedKills: KillList[] = await fetchKillList(url, page);
+		if (!fetchedKills.error) {
+			kills = fetchedKills.slice(0, 100) || [];
 		}
-		return false;
+		loading = false;
 	}
 
-	function truncateString(str: any, num: number) {
-		let stringifiedStr = String(str);
-		return stringifiedStr.length <= num ? stringifiedStr : stringifiedStr.slice(0, num) + '...';
-	}
-
-	function changePage(newPage: number) {
+	// Updated changePage function with a flag for updating history
+	function changePage(newPage: number, updateHistory: boolean = true) {
 		if (newPage > 0) {
 			page = newPage;
 			loadKills();
+
+			if(updateHistory){
+				const newUrl = new URL(window.location.href);
+				newUrl.searchParams.set('killlistPage', String(page));
+				history.pushState({}, '', newUrl.toString());
+			}
 		}
 	}
+
+	// Handle browser history navigation
+	function handlePopState() {
+		const currentUrl = new URL(window.location.href);
+		const newPage = parseInt(currentUrl.searchParams.get('killlistPage') || '1', 10);
+		// Avoid pushing history since this is a navigation event
+		changePage(newPage, false);
+	}
+
+	onMount(() => {
+		loadKills();
+		if (browser) {
+			window.addEventListener('popstate', handlePopState);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('popstate', handlePopState);
+		}
+	});
 </script>
 
-{#if title !== undefined}
-	<h1 class="text-white">{title}</h1>
-{/if}
+<!-- Add Next/Prev buttons at the top of the killlist -->
+<NextPreviousButtons page={page} loading={loading} changePage={changePage} />
 
-<!-- Pagination Control at the Top -->
-<div class="flex justify-between items-center mb-4">
-	<button
-		on:click={() => changePage(page - 1)}
-		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Previous
-	</button>
-	<span class="text-white">Page {page}</span>
-	<button
-		on:click={() => changePage(page + 1)}
-		disabled={loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Next
-	</button>
-</div>
-
-<div class="overflow-x-auto" role="table">
+<div class="overflow-x-auto mt-2 mb-2" role="table">
 	<div class="grid grid-cols-8 bg-background-800 text-white uppercase text-xs py-1">
 		<div class="pl-2 col-span-2">Ship</div>
 		<div class="pl-2 col-span-2">Victim</div>
@@ -123,96 +81,11 @@
 		<div class="text-right pr-2">Details</div>
 	</div>
 
+	<!-- For each kill generate a row for it -->
 	{#each kills as kill (kill.killmail_id)}
-		<button
-			class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(kill) ? 'bg-darkred' : ''}" on:click={(event) => handleClick(event, kill.killmail_id)}>
-			<div class="flex items-center col-span-2 mx-2 py-1 w-fit">
-				<img src="{getUpstreamUrl()}/images/types/{kill.victim.ship_id}/render?size=64" loading="lazy" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
-				<div class="flex flex-col items-start ml-1 whitespace-nowrap">
-					<span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
-					{#if kill.total_value > 50}
-						<span class="text-background-400 text-xs">
-							{formatNumber(kill.total_value)} ISK
-						</span>
-					{/if}
-				</div>
-			</div>
-
-			<div class="flex items-center col-span-2 px-2 py-1">
-				<img src="{getUpstreamUrl()}/images/characters/{kill.victim.character_id}/portrait?size=64" loading="lazy" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
-				<div class="flex flex-col items-start ml-1">
-					<span class="text-sm">{kill.victim.character_name}</span>
-					<span class="text-background-400 text-xs whitespace-nowrap">
-						{truncateString(kill.victim.corporation_name, 22)}
-					</span>
-				</div>
-			</div>
-
-			<div class="flex items-center col-span-2 px-2 py-1 whitespace-nowrap">
-				{#if !kill.is_npc}
-					<img src="{getUpstreamUrl()}/images/characters/{kill.finalblow.character_id}/portrait?size=64" loading="lazy" alt="Character: {kill.victim.character_name}" class="rounded w-10" />
-				{:else}
-					<img src="{getUpstreamUrl()}/images/characters/0/portrait?size=128" alt="Unknown" class="rounded w-10" />
-				{/if}
-
-				<div class="flex flex-col items-start ml-1">
-					<span class="text-sm">
-						{#if kill.is_npc}
-							{kill.finalblow.faction_name}
-						{:else}
-							{kill.finalblow.character_name}
-						{/if}
-					</span>
-					<span class="text-background-400 text-xs">
-						{truncateString(kill.finalblow.ship_group_name, 22)}
-					</span>
-				</div>
-			</div>
-
-			<div class="flex flex-col items-start px-2 py-1 text-sm">
-				<div class="flex flex-col items-start">
-					<span class="text-sm whitespace-nowrap">{kill.region_name}</span>
-					<div class="text-background-400 text-xs whitespace-nowrap">
-						<span>{kill.system_name}</span>
-						(<span style="color: {getSecurityColor(kill.system_security)}">{formatNumber(kill.system_security)}</span>)
-					</div>
-				</div>
-			</div>
-
-			<div class="flex flex-col items-end px-2 py-1 text-sm whitespace-nowrap">
-				<div class="text-background-500">{moment.utc(kill.kill_time).fromNow()}</div>
-				<div class="flex gap-1 items-center">
-					<span class="text-background-400">{kill.attackerCount}</span>
-					<img src="/img/involved.png" alt="{kill.attackerCount} Involved" />
-					<span class="text-background-400">{kill.commentCount || 0}</span>
-					<img src="/img/comment.gif" alt="{kill.attackerCount} Involved" />
-				</div>
-			</div>
-		</button>
+		<Row kill={kill} combinedKillsAndLosses={combinedKillsAndLosses} combinedVictimType={combinedVictimType} combinedVictimId={combinedVictimId} />
 	{/each}
 </div>
 
-<!-- Pagination Control at the Bottom -->
-<div class="flex justify-between items-center mt-4">
-	<button
-		on:click={() => changePage(page - 1)}
-		disabled={page === 1 || loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Previous
-	</button>
-	<span class="text-white">Page {page}</span>
-	<button
-		on:click={() => changePage(page + 1)}
-		disabled={loading}
-		class="px-4 py-2 text-sm font-medium text-white bg-background-800 rounded-md hover:bg-background-700 disabled:opacity-50"
-	>
-		Next
-	</button>
-</div>
-
-<style>
-	.bg-darkred {
-		background-color: rgb(40, 0, 0);
-	}
-</style>
+<!-- Add Next/Prev buttons at the bottom of the killlist -->
+<NextPreviousButtons page={page} loading={loading} changePage={changePage} />
