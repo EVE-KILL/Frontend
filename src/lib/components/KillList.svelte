@@ -129,8 +129,8 @@
 		});
 	}
 
-	onMount(() => {
-		loadKills();
+	onMount(async () => {
+		await loadKills();
 		if (browser) {
 			window.addEventListener('popstate', handlePopState);
 			// Initialize websocket connection
