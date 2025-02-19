@@ -8,9 +8,9 @@
 	export let data: any;
 	let character: Character = data.character;
 	const upstreamUrl = getUpstreamUrl();
-	const top10ShipsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top/ships`;
-	const top10SystemsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top/systems`;
-	const top10RegionsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top/regions`;
+	const top10ShipsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top?type=ships`;
+	const top10SystemsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top?type=systems`;
+	const top10RegionsUrl = `${upstreamUrl}/api/characters/${character.character_id}/top?type=regions`;
 </script>
 
 <div class="container flex p-2 pt-4 gap-2">
