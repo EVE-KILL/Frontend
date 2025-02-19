@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { Character } from '$lib/types/Character.ts';
 	import Dashboard from './dashboard.svelte';
 	import Kills from './kills.svelte';
@@ -9,6 +9,8 @@
 	import CorporationHistory from './corporationHistory.svelte';
 	import Stats from './Stats.svelte';
 	import StatusTop from './statusTop.svelte'; // Import the new component
+	import { onMount, onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
 
 	export let data;
 	let character: Character = data.character;
@@ -36,14 +38,36 @@
 	}
 
 	function loadComponent(component, hash) {
+		if (window.location.hash === hash) return;
+		history.pushState(null, '', hash);
 		activeComponent = component;
-		window.location.hash = hash;
 		currentHash = hash;
 	}
 
-	page.subscribe(async ($page) => {
-		loadComponentFromHash($page.url.hash);
-		await tick();
+	// Handle popstate for navigation
+	const popstateHandler = () => {
+		loadComponentFromHash(window.location.hash);
+	};
+
+	// Use onMount for browser-only code
+	onMount(() => {
+		if (browser) {
+			// Initial hash check
+			const hash = window.location.hash;
+			if (!hash || hash === '#') {
+				history.replaceState(null, '', '#dashboard');
+				loadComponentFromHash('#dashboard');
+			} else {
+				loadComponentFromHash(hash);
+			}
+			window.addEventListener('popstate', popstateHandler);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			window.removeEventListener('popstate', popstateHandler);
+		}
 	});
 </script>
 
