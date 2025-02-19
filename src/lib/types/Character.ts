@@ -17,4 +17,5 @@ export interface Character {
 	points: number;
 	race_id: number;
 	security_status: number;
+	title: string;
 }

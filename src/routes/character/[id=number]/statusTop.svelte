@@ -34,24 +34,34 @@
 				style="min-width: 256px; min-height: 256px;"
 			/>
 			<div class="flex flex-col space-x-2 space-y-2 ml-4">
+				<a href="/corporation/{character.corporation_id}">
 				<img
 					src="{getUpstreamUrl()}/images/corporations/{character.corporation_id}/logo?size=64"
 					alt="Corporation: {character.corporation_name}"
 					class="rounded-full"
 					style="min-width: 64px; min-height: 64px;"
 				/>
-				<img
-					src="{getUpstreamUrl()}/images/alliances/{character.alliance_id}/logo?size=64"
-					alt="Alliance: {character.alliance_name}"
-					class="rounded-full"
-					style="min-width: 64px; min-height: 64px;"
-				/>
-				<img
-					src="{getUpstreamUrl()}/images/corporations/{character.faction_id}/logo?size=64"
-					alt="Faction: {character.faction_name}"
-					class="rounded-full"
-					style="min-width: 64px; min-height: 64px;"
-				/>
+				</a>
+				{#if character.alliance_id}
+					<a href="/alliance/{character.alliance_id}">
+						<img
+							src="{getUpstreamUrl()}/images/alliances/{character.alliance_id}/logo?size=64"
+							alt="Alliance: {character.alliance_name}"
+							class="rounded-full"
+							style="min-width: 64px; min-height: 64px;"
+						/>
+					</a>
+				{/if}
+				{#if character.faction_id}
+					<a href="/corporation/{character.faction_id}">
+						<img
+							src="{getUpstreamUrl()}/images/corporations/{character.faction_id}/logo?size=64"
+							alt="Faction: {character.faction_name}"
+							class="rounded-full"
+							style="min-width: 64px; min-height: 64px;"
+						/>
+					</a>
+				{/if}
 			</div>
 		</div>
 
@@ -60,15 +70,21 @@
 			<!-- Character Info -->
 			<div>
 				<h1 class="text-2xl font-bold">{character.name}</h1>
-				<p class="text-background-400">{character.corporation_name}</p>
+				<a href="/corporation/{character.corporation_id}" class="hover:underline">
+					<p class="text-background-400">{character.corporation_name}</p>
+				</a>
 				{#if character.title}
 					<p class="text-background-400">{character.title}</p>
 				{/if}
 				{#if character.alliance_id}
-					<p class="text-background-400">{character.alliance_name}</p>
+					<a href="/alliance/{character.alliance_id}" class="hover:underline">
+						<p class="text-background-400">{character.alliance_name}</p>
+					</a>
 				{/if}
 				{#if character.faction_id}
-					<p class="text-background-400">{character.faction_name}</p>
+					<a href="/corporation/{character.faction_id}" class="hover:underline">
+						<p class="text-background-400">{character.faction_name}</p>
+					</a>
 				{/if}
 				<p class="text-background-400">Sec. Status: <span style="color: {characterSecurityColor(character.security_status)}">{character.security_status.toFixed(3)}</span></p>
 				{#if !loading}

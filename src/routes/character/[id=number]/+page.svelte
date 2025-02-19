@@ -24,8 +24,8 @@
 		'#stats': Stats
 	};
 
-	function loadComponentFromHash(hash) {
-		if (!hash || hash === '#') {
+	function loadComponentFromHash(hash: keyof typeof hashToComponent) {
+		if (!hash) {
 			activeComponent = Dashboard;
 			currentHash = '#dashboard';
 		} else {
@@ -35,7 +35,7 @@
 		}
 	}
 
-	function loadComponent(component, hash) {
+	function loadComponent(component, hash: string) {
 		if (window.location.hash === hash) return;
 		history.pushState(null, '', hash);
 		activeComponent = component;
