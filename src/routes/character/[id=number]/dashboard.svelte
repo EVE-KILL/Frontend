@@ -81,7 +81,6 @@
 		// Add data-sveltekit-reload to the <a tag in sanitizedDescription
 		sanitizedDescription = sanitizedDescription.replace(/<a /g, '<a data-sveltekit-reload ');
 
-
 		fetchStats(activePeriod); // Fetch 90d stats by default
 	});
 

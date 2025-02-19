@@ -84,9 +84,11 @@ export function convertEveHtml(html: string): string {
 		return `<span style="color:${color}">`;
 	});
 
-	// Replace showinfo links for items, characters, corporations, etc.
-	html = html.replace(/<a href="(showinfo:[^"]+)">/g, (_, href) => {
-		return `<a href="${renderEveHref(href)}">`;
+	// For all links that aren't showinfo, add target="_blank"
+	html = html.replace(/<a href="([^"]+)">/g, (_, href) => {
+		// Replace showinfo links for items, characters, corporations, etc.
+		if (href.startsWith('showinfo:')) return `<a href="${renderEveHref(href)}">`;
+		return `<a href="${href}" target="_blank">`;
 	});
 
 	// Replace killreport links and retain the original text
