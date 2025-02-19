@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { tick } from 'svelte';
-	import { page } from '$app/state';
 	import type { Character } from '$lib/types/Character.ts';
 	import Dashboard from './dashboard.svelte';
 	import Kills from './kills.svelte';
