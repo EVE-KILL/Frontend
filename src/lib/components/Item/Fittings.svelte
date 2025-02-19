@@ -12,8 +12,6 @@
 	onMount(async () => {
 		const response = await backendFetch(fittingsUrl);
 		fittings = await response.json();
-
-		console.log(fittings);
 	});
 
 	function generateEveShipFitUrl(killmailId, killmailHash) {
