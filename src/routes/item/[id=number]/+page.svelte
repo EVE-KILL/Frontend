@@ -25,12 +25,12 @@
 				<a href={`/item/${item.type_id}`} class="mr-2">
 					<img
 						class="rounded"
-						src={`${getUpstreamUrl()}/images/types/${item.type_id}/${item.name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
+						src={`${getUpstreamUrl()}/images/types/${item.type_id}/${item.type_name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
 						style="height: 64px; width: 64px;"
-						alt={item.name}
+						alt={item.type_name}
 					/>
 				</a>
-				{item.name}
+				{item.type_name}
 			</h2>
 			<div class="border-b border-background-600 mb-4">
 				<ul class="flex space-x-4">

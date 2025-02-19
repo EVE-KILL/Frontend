@@ -8,20 +8,11 @@
 	let itemId = item.type_id;
 	let killmails: Killmail[] = [];
 	const upstreamUrl = getUpstreamUrl();
-	let itemKillmailsUrl = `${upstreamUrl}/api/items/${itemId}/killmails/20`;
-	let killmailsUrl = `${upstreamUrl}/api/killmail/`;
+	let itemKillmailsUrl = `${upstreamUrl}/api/items/${itemId}/killmails?limit=20`;
 
 	onMount(async () => {
-		const responseKillmails = await backendFetch(itemKillmailsUrl);
-		let killmailsIds: number[] = await responseKillmails.json();
-		const postKillmails = await backendFetch(killmailsUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(killmailsIds)
-		});
-		killmails = await postKillmails.json();
+		let request = await backendFetch(itemKillmailsUrl);
+		killmails = await request.json();
 	});
 
 	function handleKillmailClick(killmailId: number) {

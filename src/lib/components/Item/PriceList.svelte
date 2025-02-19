@@ -1,4 +1,5 @@
 <script lang="ts">
+	import moment from 'moment';
 	import { onMount } from 'svelte';
 	import { getUpstreamUrl } from '$lib/Config';
 	import { formatNumber } from '$lib/Helpers.js';
@@ -8,7 +9,7 @@
 	let itemId = item.type_id;
 	let prices = [];
 	const upstreamUrl = getUpstreamUrl();
-	let itemPriceUrl = `${upstreamUrl}/api/items/${itemId}/pricing/10000002/30`;
+	let itemPriceUrl = `${upstreamUrl}/api/items/${itemId}/pricing?regionId=10000002&days=30`;
 
 	onMount(async () => {
 		const responsePrice = await backendFetch(itemPriceUrl);
@@ -31,7 +32,7 @@
 			<tbody class="text-background-300 text-sm">
 				{#each prices as price}
 					<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
-						<td class="px-2 py-1">{price.date}</td>
+						<td class="px-2 py-1">{moment(price.date).format('YYYY-MM-DD')}</td>
 						<td class="px-2 py-1 text-right">{formatNumber(price.lowest)} ISK</td>
 						<td class="px-2 py-1 text-right">{formatNumber(price.average)} ISK</td>
 						<td class="px-2 py-1 text-right">{formatNumber(price.highest)} ISK</td>
