@@ -72,7 +72,8 @@
 	}
 </script>
 
-{#if killmail}
+<div class="min-h-screen">
+	{#if killmail}
 	<!-- Navbar -->
 	<Navbar {killmail} {sibling} />
 
@@ -116,7 +117,8 @@
 			{/if}
 		</div>
 	</div>
-{/if}
+	{/if}
+</div>
 
 <style>
 	.tab-container {
