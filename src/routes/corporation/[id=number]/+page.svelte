@@ -52,6 +52,7 @@
 	});
 </script>
 
+<div class="min-h-screen">
 {#if corporation}
 	<div class="mx-auto p-4 text-white">
 		<!-- Profile Section -->
@@ -146,6 +147,7 @@
 		</div>
 	</div>
 {/if}
+</div>
 
 <style>
 	.active {

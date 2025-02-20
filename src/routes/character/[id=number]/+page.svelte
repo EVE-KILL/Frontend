@@ -69,6 +69,7 @@
 	});
 </script>
 
+<div class="min-h-screen">
 {#if character}
 	<div class="mx-auto p-4 text-white">
 		<!-- Character Profile Component -->
@@ -144,6 +145,7 @@
 		</div>
 	</div>
 {/if}
+</div>
 
 <style>
 	.active {
