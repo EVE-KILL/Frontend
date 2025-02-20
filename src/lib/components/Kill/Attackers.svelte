@@ -44,7 +44,7 @@
 					</td>
 					<td>
 						<div class="flex flex-col items-center">
-							<a href={`/ship/${attacker.ship_id}`}>
+							<a href={`/item/${attacker.ship_id}`}>
 								<img src="{getUpstreamUrl()}/images/types/{attacker.ship_id}/render?size=32" loading="lazy" alt={attacker.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 							</a>
 							<a href={`/item/${attacker.weapon_type_id}`}>
@@ -66,7 +66,7 @@
 									<a href={`/character/${attacker.character_id}`} class="text-lime-400 hover:underline">
 										{attacker.character_name}
 									</a>
-									<span> (<a class="text-background-400" href={`/ship/${attacker.ship_id}`}>{attacker.ship_name}</a>)</span>
+									<span> (<a class="text-background-400" href={`/item/${attacker.ship_id}`}>{attacker.ship_name}</a>)</span>
 								</div>
 							{/if}
 							{#if attacker.corporation_id}
