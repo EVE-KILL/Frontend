@@ -4,7 +4,6 @@
 	import Menu from './Navbar/Menu.svelte';
 	import Search from './Navbar/Search.svelte';
 	import UserMenu from './Navbar/UserMenu.svelte';
-	import BackgroundSelector from './Navbar/BackgroundSelector.svelte';
 </script>
 
 <nav class="bg-transparent p-2 relative">
@@ -22,9 +21,6 @@
 				</li>
 				<li>
 					<Information />
-				</li>
-				<li>
-					<BackgroundSelector />
 				</li>
 				<li>
 					<HelpBox />

@@ -112,6 +112,14 @@
 				</td>
 			</tr>
 			<tr>
+				<th class="p-1 text-right">Constellation:</th>
+				<td class="p-1">
+					<a href={`/constellation/${killmail.constellation_id}/`}>
+						{killmail.system_name}
+					</a>
+				</td>
+			</tr>
+			<tr>
 				<th class="p-1 text-right">Region:</th>
 				<td class="p-1">
 					<a href={`/region/${killmail.region_id}/`}>

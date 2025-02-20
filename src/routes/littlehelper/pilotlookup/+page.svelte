@@ -36,7 +36,7 @@
 				// Build the URL for the stats API call based on the selected days
 				let url = `https://eve-kill.com/api/characters/${characterId}/stats`;
 				if (selectedDays !== 'all') {
-					url = `https://eve-kill.com/api/characters/${characterId}/stats/${selectedDays}`;
+					url = `https://eve-kill.com/api/characters/${characterId}/stats?days=${selectedDays}`;
 				}
 
 				// Third API call to fetch character stats
