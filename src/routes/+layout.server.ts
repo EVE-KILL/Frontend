@@ -8,7 +8,7 @@ export const load: LayoutServerLoad = async () => {
 		'publicData'
 	];
 	let state = 'state';
-	let callbackUrl = 'http://localhost:3001/auth/callback';
+	let callbackUrl: string = process.env.EVE_CLIENT_REDIRECT || 'http://localhost:3001/auth/callback';
     let eveLoginUrl = await getAuthUrl(callbackUrl, scopes, state);
 
     return {
