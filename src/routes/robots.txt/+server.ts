@@ -5,7 +5,7 @@ export const GET: RequestHandler = async () => {
 	const publicDomain = getPublicDomain();
 	const robotsTxt = `
 User-agent: *
-Sitemap: ${publicDomain}/sitemap.xml
+Allow: /
 `;
 
 	return new Response(robotsTxt.trim(), {
