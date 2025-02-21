@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { logout } from '$lib/stores/Session.ts';
+	import { browser } from '$app/environment';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { onMount } from 'svelte';
 
@@ -19,16 +19,30 @@
 		}, 200);
 	}
 
+	function logout() {
+		if (browser) {
+			localStorage.removeItem('authentication');
+			user = null;
+		}
+	}
+
 	onMount(async () => {
+		if (browser) {
+			// Is there a key in local storage called authentication?
+			if (localStorage.getItem('authentication')) {
+				// If so, parse it and set user
+				user = JSON.parse(localStorage.getItem('authentication'));
+			}
+		}
 	});
 </script>
 
 <div class="relative">
 	<button class="text-white hover:text-background-400 focus:outline-none" on:mouseenter={openAccountDropdown} on:mouseleave={closeAccountDropdown}>
-		<a href={user ? `/character/${user.character_id}` : '#'}>
+		<a href={user ? `/character/${user.characterId}` : '#'}>
 			<img
 				src={user
-					? `${getUpstreamUrl()}/images/characters/${user.character_id}/portrait?size=32`
+					? `${getUpstreamUrl()}/images/characters/${user.characterId}/portrait?size=32`
 					: '/img/portrait.webp'}
 				alt="User avatar"
 				class="rounded"
