@@ -4,6 +4,8 @@
 	import Menu from './Navbar/Menu.svelte';
 	import Search from './Navbar/Search.svelte';
 	import UserMenu from './Navbar/UserMenu.svelte';
+
+	export let eveLoginUrl = '';
 </script>
 
 <nav class="bg-transparent p-2 relative">
@@ -17,7 +19,7 @@
 		<div class="flex items-right justify-center">
 			<ul class="flex items-center space-x-4">
 				<li class="mt-1">
-					<UserMenu />
+					<UserMenu eveLoginUrl={eveLoginUrl} />
 				</li>
 				<li>
 					<Information />

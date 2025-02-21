@@ -1,73 +1,12 @@
 <script lang="ts">
-	import { session, logout } from '$lib/stores/Session.ts';
-	import { getEVEAuthLoginUrl, getEVEAuthLoginUrlNoScope } from '$lib/Auth.ts';
+	import { logout } from '$lib/stores/Session.ts';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { onMount } from 'svelte';
-	import { backendFetch } from '$lib/backendFetcher';
 
 	let isAccountDropdownOpen = false;
 	let closeAccountDropdownTimeout = 0;
 	let user = null;
-	let eveSSOLoginUrl = '';
-	let eveSSOLoginUrlNoScope = '';
-	const upstreamUrl = getUpstreamUrl();
-
-	const REAUTH_INTERVAL = 30 * 60 * 1000; // 30 minutes in milliseconds
-	let reauthIntervalId = null; // Store the interval ID
-
-	$: session.subscribe((value) => {
-		user = value.user;
-
-		// If the user logs out, clear the reauth interval
-		if (!user && reauthIntervalId) {
-			clearInterval(reauthIntervalId);
-			reauthIntervalId = null;
-		}
-	});
-
-	async function handleReauth() {
-		if (user) {
-			try {
-				const response = await backendFetch(`${upstreamUrl}/api/auth/reauth/${user.identifier}`);
-				if (response.ok) {
-					const data = await response.json();
-					user = {
-						character_name: data.character_name,
-						character_id: data.character_id,
-						expiration: data.expiration,
-						identifier: data.identifier
-					};
-					session.set({ user });
-					localStorage.setItem('lastReauthTime', Date.now().toString());
-				} else if (response.status === 401) {
-					console.warn('Reauthentication failed, logging out.');
-					logout();
-				} else {
-					console.error('Failed to reauthenticate');
-				}
-			} catch (error) {
-				console.error('Error reauthenticating:', error);
-				logout();
-			}
-		}
-	}
-
-	function checkAndReauth() {
-		const lastReauthTime = parseInt(localStorage.getItem('lastReauthTime') || '0');
-		const currentTime = Date.now();
-
-		if (currentTime - lastReauthTime > REAUTH_INTERVAL) {
-			handleReauth();
-		}
-	}
-
-	function startReauthTimer() {
-		if (user) {
-			reauthIntervalId = setInterval(() => {
-				handleReauth();
-			}, REAUTH_INTERVAL);
-		}
-	}
+	export let eveLoginUrl = '';
 
 	function openAccountDropdown() {
 		clearTimeout(closeAccountDropdownTimeout);
@@ -81,12 +20,6 @@
 	}
 
 	onMount(async () => {
-		eveSSOLoginUrl = await getEVEAuthLoginUrl();
-		eveSSOLoginUrlNoScope = await getEVEAuthLoginUrlNoScope();
-		if (user) {
-			checkAndReauth();
-			startReauthTimer();
-		}
 	});
 </script>
 
@@ -123,7 +56,7 @@
 				</li>
 			{:else}
 				<li class="p-2">
-					<a href={eveSSOLoginUrl}>
+					<a href='{eveLoginUrl}'>
 						<img src="/img/sso-light-large.png" alt="Login" class="w-full" />
 					</a>
 				</li>
@@ -135,17 +68,6 @@
 						- publicData
 					</div>
 				</li>
-				<!--<li class="p-2 mt-4">
-					<a href={eveSSOLoginUrlNoScope}>
-						<img src="/img/sso-dark-large.png" alt="Login" class="w-full" />
-					</a>
-				</li>
-				<li class="p-2 rounded-b-md">
-					<div class="text-background-500 text-xs mt-2 text-left">
-						Scopes:<br />
-						- publicData
-					</div>
-				</li>-->
 			{/if}
 		</ul>
 	{/if}

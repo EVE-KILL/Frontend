@@ -5,6 +5,9 @@
 	import { get } from 'svelte/store';
 	import { onMount } from 'svelte';
 
+	export let data;
+	let eveLoginUrl = data.eveLoginUrl || '';
+
 	import '../app.css';
 	import '../global.css';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -72,7 +75,7 @@
 
 <div id="content" class="content flex flex-col mx-auto">
 	<div id="inner-content" class="inner-content">
-		<Navbar />
+		<Navbar eveLoginUrl={eveLoginUrl} />
 		<slot />
 	</div>
 </div>
