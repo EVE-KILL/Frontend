@@ -1,15 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { session } from '$lib/stores/Session';
 	import Modal from '$lib/components/Campaigns/Modal.svelte';
 	import ListCampaigns from '$lib/components/Campaigns/ListCampaigns.svelte';
 
 	let user: any = null;
 	let showModal = false;
-	// Subscribe to the session to get the user data
-	$: session.subscribe((value) => {
-		user = value.user;
-	});
 </script>
 
 <div class="mt-4">

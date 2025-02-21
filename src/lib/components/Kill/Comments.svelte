@@ -2,7 +2,6 @@
 	import YouTubeEmbed from '../Carta/YouTubeEmbed.svelte';
 	import ImageEmbed from '../Carta/ImageEmbed.svelte';
 	import { onMount } from 'svelte';
-	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import { emoji } from '@cartamd/plugin-emoji';
@@ -154,13 +153,6 @@
 	}
 
 	$: charactersRemaining = commentLimit - comment.length;
-
-	$: session.subscribe((value) => {
-		user = value.user;
-		if (user) {
-			fetchComments();
-		}
-	});
 </script>
 
 <!-- Comments Section -->

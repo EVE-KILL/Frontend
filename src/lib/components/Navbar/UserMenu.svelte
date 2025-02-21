@@ -31,7 +31,10 @@
 			// Is there a key in local storage called authentication?
 			if (localStorage.getItem('authentication')) {
 				// If so, parse it and set user
-				user = JSON.parse(localStorage.getItem('authentication'));
+				const authData = localStorage.getItem('authentication');
+				if (authData) {
+					user = JSON.parse(authData);
+				}
 			}
 		}
 	});

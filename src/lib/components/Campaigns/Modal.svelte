@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { session } from '$lib/stores/Session';
 	import { getUpstreamUrl } from '$lib/Config.ts';
 	import { DateInput } from 'date-picker-svelte';
 	import { backendFetch } from '$lib/backendFetcher';
@@ -16,11 +15,6 @@
 	// Set the max date to be today + 10 years
 	let maxDate = new Date();
 	maxDate.setFullYear(maxDate.getFullYear() + 10);
-
-	// Subscribe to the session to get the user data
-	$: session.subscribe((value) => {
-		user = value.user;
-	});
 
 	// Entity types with display names, values, and descriptions
 	const entityTypes = [
