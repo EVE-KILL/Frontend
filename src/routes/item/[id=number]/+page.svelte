@@ -25,7 +25,7 @@
 				<a href={`/item/${item.type_id}`} class="mr-2">
 					<img
 						class="rounded"
-						src={`${getUpstreamUrl()}/images/types/${item.type_id}/${item.type_name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
+						src={`https://images.eve-kill.com/types/${item.type_id}/${item.type_name.includes('Blueprint') ? 'bp' : 'icon'}?size=64`}
 						style="height: 64px; width: 64px;"
 						alt={item.type_name}
 					/>

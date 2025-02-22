@@ -13,7 +13,7 @@ export async function load({ params }) {
 			// ShipName | VictimName | SystemName | RegionName | EVE-KILL
 			title: `${corporation.name}`,
 			description: `Corporation: ${corporation.name} | Alliance: ${corporation.alliance_name}`,
-			image: `${getUpstreamUrl()}/images/corporations/${corporation.corporation_id}/logo?size=128`
+			image: `https://images.eve-kill.com/corporations/${corporation.corporation_id}/logo?size=128`
 		}
 	};
 }

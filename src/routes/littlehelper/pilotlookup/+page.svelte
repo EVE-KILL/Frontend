@@ -159,7 +159,7 @@
 					<!-- Character image (128x128) fixed size -->
 					<img
 						class="w-40 h-40 rounded-full flex-shrink-0"
-						src={`${getUpstreamUrl()}/images/characters/${character.id}/portrait?size=256`}
+						src={`https://images.eve-kill.com/characters/${character.id}/portrait?size=256`}
 						alt="Character Image"
 					/>
 

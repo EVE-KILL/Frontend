@@ -39,19 +39,19 @@
 				<tr class="border-b border-background-700 hover:bg-background-600 transition-colors duration-300">
 					<td>
 						<a href={`/character/${attacker.character_id}`}>
-							<img src="{getUpstreamUrl()}/images/characters/{attacker.character_id}/portrait?size=128" loading="lazy" alt={attacker.character_name} class="h-16 min-h-16 w-16 min-w-16 rounded-md" />
+							<img src="https://images.eve-kill.com/characters/{attacker.character_id}/portrait?size=128" loading="lazy" alt={attacker.character_name} class="h-16 min-h-16 w-16 min-w-16 rounded-md" />
 						</a>
 					</td>
 					<td>
 						<div class="flex flex-col items-center">
 							<a href={`/item/${attacker.ship_id}`}>
-								<img src="{getUpstreamUrl()}/images/types/{attacker.ship_id}/render?size=32" loading="lazy" alt={attacker.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
+								<img src="https://images.eve-kill.com/types/{attacker.ship_id}/render?size=32" loading="lazy" alt={attacker.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 							</a>
 							<a href={`/item/${attacker.weapon_type_id}`}>
 								<img
 									src={attacker.weapon_type_id === 0
-										? `${getUpstreamUrl()}/images/types/${attacker.ship_id}/icon?size=64`
-										: `${getUpstreamUrl()}/images/types/${attacker.weapon_type_id}/icon?size=64`}
+										? `https://images.eve-kill.com/types/${attacker.ship_id}/icon?size=64`
+										: `https://images.eve-kill.com/types/${attacker.weapon_type_id}/icon?size=64`}
 									loading="lazy"
 									alt={attacker.weapon_type_name}
 									class="h-8 min-h-8 w-8 min-w-8 rounded-md"
@@ -101,7 +101,7 @@
 							{#if attacker.corporation_id}
 								<a href={`/corporation/${attacker.corporation_id}`}>
 									<img
-										src={`${getUpstreamUrl()}/images/corporations/${attacker.corporation_id}/logo?size=64`}
+										src={`https://images.eve-kill.com/corporations/${attacker.corporation_id}/logo?size=64`}
 										loading="lazy"
 										alt={attacker.corporation_name}
 										class="h-8 w-8 rounded-md"
@@ -111,7 +111,7 @@
 							{#if attacker.alliance_id}
 								<a class="ml-1" href={`/alliance/${attacker.alliance_id}`}>
 									<img
-										src={`${getUpstreamUrl()}/images/alliances/${attacker.alliance_id}/logo?size=64`}
+										src={`https://images.eve-kill.com/alliances/${attacker.alliance_id}/logo?size=64`}
 										loading="lazy"
 										alt={attacker.alliance_name}
 										class="h-8 min-h-8 w-8 min-w-8 rounded-md"

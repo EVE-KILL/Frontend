@@ -28,7 +28,7 @@
 		<!-- Profile Image with Additional Images -->
 		<div class="flex-shrink-0 flex items-center min-w-[256px] min-h-[256px]">
 			<img
-				src="{getUpstreamUrl()}/images/characters/{character.character_id}/portrait?size=256"
+				src="https://images.eve-kill.com/characters/{character.character_id}/portrait?size=256"
 				alt="Character: {character.name}"
 				class="rounded-full"
 				style="min-width: 256px; min-height: 256px;"
@@ -36,7 +36,7 @@
 			<div class="flex flex-col space-x-2 space-y-2 ml-4">
 				<a href="/corporation/{character.corporation_id}">
 				<img
-					src="{getUpstreamUrl()}/images/corporations/{character.corporation_id}/logo?size=64"
+					src="https://images.eve-kill.com/corporations/{character.corporation_id}/logo?size=64"
 					alt="Corporation: {character.corporation_name}"
 					class="rounded-full"
 					style="min-width: 64px; min-height: 64px;"
@@ -45,7 +45,7 @@
 				{#if character.alliance_id}
 					<a href="/alliance/{character.alliance_id}">
 						<img
-							src="{getUpstreamUrl()}/images/alliances/{character.alliance_id}/logo?size=64"
+							src="https://images.eve-kill.com/alliances/{character.alliance_id}/logo?size=64"
 							alt="Alliance: {character.alliance_name}"
 							class="rounded-full"
 							style="min-width: 64px; min-height: 64px;"
@@ -55,7 +55,7 @@
 				{#if character.faction_id}
 					<a href="/corporation/{character.faction_id}">
 						<img
-							src="{getUpstreamUrl()}/images/corporations/{character.faction_id}/logo?size=64"
+							src="https://images.eve-kill.com/corporations/{character.faction_id}/logo?size=64"
 							alt="Faction: {character.faction_name}"
 							class="rounded-full"
 							style="min-width: 64px; min-height: 64px;"

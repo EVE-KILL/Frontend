@@ -117,17 +117,17 @@
 									<td class="h-16 w-16 rounded-md">
 										{#if result.type === 'character'}
 											<img
-												src={`${getUpstreamUrl()}/images/characters/${result.id}/portrait?size=64`}
+												src={`https://images.eve-kill.com/characters/${result.id}/portrait?size=64`}
 												alt={result.name}
 												class="h-16 w-16 rounded-md"
 											/>
 										{:else if result.type === 'corporation'}
-											<img src={`${getUpstreamUrl()}/images/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
+											<img src={`https://images.eve-kill.com/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'alliance'}
-											<img src={`${getUpstreamUrl()}/images/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
+											<img src={`https://images.eve-kill.com/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-16 w-16 rounded-md" />
 										{:else if result.type === 'item'}
 											<img
-												src={`${getUpstreamUrl()}/images/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
+												src={`https://images.eve-kill.com/types/${result.id}/${result.name.includes('Blueprint') ? 'bp' : 'icon'}`}
 												alt={result.name}
 												class="h-16 w-16 rounded-md"
 											/>

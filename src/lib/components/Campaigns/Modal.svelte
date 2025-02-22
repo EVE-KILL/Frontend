@@ -247,13 +247,13 @@
 
 		// Set the image URL based on the entity type
 		if (selectedEntity.type === 'character') {
-			entities[index].imageUrl = `${getUpstreamUrl()}/images/characters/${selectedEntity.id}/portrait?size=64`;
+			entities[index].imageUrl = `https://images.eve-kill.com/characters/${selectedEntity.id}/portrait?size=64`;
 		} else if (selectedEntity.type === 'corporation') {
-			entities[index].imageUrl = `${getUpstreamUrl()}/images/corporations/${selectedEntity.id}/logo?size=64`;
+			entities[index].imageUrl = `https://images.eve-kill.com/corporations/${selectedEntity.id}/logo?size=64`;
 		} else if (selectedEntity.type === 'alliance') {
-			entities[index].imageUrl = `${getUpstreamUrl()}/images/alliances/${selectedEntity.id}/logo?size=64`;
+			entities[index].imageUrl = `https://images.eve-kill.com/alliances/${selectedEntity.id}/logo?size=64`;
 		} else if (selectedEntity.type === 'item') {
-			entities[index].imageUrl = `${getUpstreamUrl()}/images/types/${selectedEntity.id}/icon?size=64`;
+			entities[index].imageUrl = `https://images.eve-kill.com/types/${selectedEntity.id}/icon?size=64`;
 		}
 
 		entities[index].isDropdownOpen = false;
@@ -414,13 +414,13 @@
 										>
 											<!-- Image based on type -->
 											{#if result.type === 'character'}
-												<img src={`${getUpstreamUrl()}/images/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`https://images.eve-kill.com/characters/${result.id}/portrait?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'corporation'}
-												<img src={`${getUpstreamUrl()}/images/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`https://images.eve-kill.com/corporations/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'alliance'}
-												<img src={`${getUpstreamUrl()}/images/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`https://images.eve-kill.com/alliances/${result.id}/logo?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{:else if result.type === 'item'}
-												<img src={`${getUpstreamUrl()}/images/types/${result.id}/icon?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
+												<img src={`https://images.eve-kill.com/types/${result.id}/icon?size=64`} alt={result.name} class="h-8 w-8 mr-2" />
 											{/if}
 											<span>{result.name}</span>
 										</li>

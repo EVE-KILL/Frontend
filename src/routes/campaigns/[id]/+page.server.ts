@@ -13,7 +13,7 @@ export async function load({ params }) {
 			// ShipName | VictimName | SystemName | RegionName | EVE-KILL
 			//title: `${killmail.victim.ship_name} | ${killmail.victim.character_name} | ${killmail.system_name} | ${killmail.region_name}`,
 			//description: generateDescription(killmail),
-			//image: `${getUpstreamUrl()}/images/types/${killmail.victim.ship_id}/render?size=128`
+			//image: `https://images.eve-kill.com/types/${killmail.victim.ship_id}/render?size=128`
 		}
 	};
 }

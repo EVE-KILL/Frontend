@@ -45,7 +45,7 @@
 		<a href={user ? `/character/${user.characterId}` : '#'}>
 			<img
 				src={user
-					? `${getUpstreamUrl()}/images/characters/${user.characterId}/portrait?size=32`
+					? `https://images.eve-kill.com/characters/${user.characterId}/portrait?size=32`
 					: '/img/portrait.webp'}
 				alt="User avatar"
 				class="rounded"

@@ -62,7 +62,7 @@
 									<div class="flex flex-col items-start">
 										<div class="flex flex-row items-center">
 											<div class="text-xs mr-4">{kill.kill_time}</div>
-											<img src={`${getUpstreamUrl()}/images/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
+											<img src={`https://images.eve-kill.com/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
 										</div>
 									</div>
 								</div>
@@ -80,7 +80,7 @@
 									<!-- Kill Time & Image -->
 									<div class="flex flex-col items-start mr-4">
 										<div class="flex flex-row items-center">
-											<img src={`${getUpstreamUrl()}/images/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
+											<img src={`https://images.eve-kill.com/types/${kill.victim.ship_id}/icon`} alt={kill.victim.ship_type} class="h-12 w-12" />
 											<div class="text-xs ml-4">{kill.kill_time}</div>
 										</div>
 									</div>

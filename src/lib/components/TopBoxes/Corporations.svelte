@@ -25,7 +25,7 @@
 		on:click={() => (window.location.href = `/corporation/${corporation.corporation_id}`)}
 	>
 		<div class="flex items-center">
-			<img src="{getUpstreamUrl()}/images/corporations/{corporation.corporation_id}/logo?size=64" loading="lazy" alt="Character: {corporation.name}" class="w-7" />
+			<img src="https://images.eve-kill.com/corporations/{corporation.corporation_id}/logo?size=64" loading="lazy" alt="Character: {corporation.name}" class="w-7" />
 
 			<div class="text-sm text-left text-primary-400 whitespace-nowrap ml-2">{corporation.name}</div>
 		</div>

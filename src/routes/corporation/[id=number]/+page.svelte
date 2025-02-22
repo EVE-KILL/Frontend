@@ -59,10 +59,10 @@
 		<div class="flex items-start bg-semi-transparent p-4">
 			<!-- Profile Image with Additional Images -->
 			<div class="flex items-center">
-				<img src="{getUpstreamUrl()}/images/corporations/{corporation.corporation_id}/logo?size=256" alt="Corporation: {corporation.name}" class="rounded-full" />
+				<img src="https://images.eve-kill.com/corporations/{corporation.corporation_id}/logo?size=256" alt="Corporation: {corporation.name}" class="rounded-full" />
 				<div class="flex flex-col space-x-2 space-y-2">
-					<img src="{getUpstreamUrl()}/images/alliances/{corporation.alliance_id}/logo?size=64" alt="Alliance: {corporation.alliance_name}" class="rounded-full" />
-					<img src="{getUpstreamUrl()}/images/corporations/{corporation.faction_id}/logo?size=64" alt="Faction: {corporation.faction_name}" class="rounded-full" />
+					<img src="https://images.eve-kill.com/alliances/{corporation.alliance_id}/logo?size=64" alt="Alliance: {corporation.alliance_name}" class="rounded-full" />
+					<img src="https://images.eve-kill.com/corporations/{corporation.faction_id}/logo?size=64" alt="Faction: {corporation.faction_name}" class="rounded-full" />
 				</div>
 			</div>
 
