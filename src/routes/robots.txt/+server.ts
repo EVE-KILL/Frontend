@@ -6,6 +6,10 @@ export const GET: RequestHandler = async () => {
 	const robotsTxt = `
 User-agent: *
 Allow: /
+
+User-agent: *
+Disallow: /api/
+Disallow: /images/
 `;
 
 	return new Response(robotsTxt.trim(), {
