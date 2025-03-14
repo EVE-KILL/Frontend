@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { formatNumber } from '$lib/Helpers.ts';
 	import { itemSlotTypes, itemDestroyedIsk, itemDroppedIsk } from '$lib/Killmail.ts';
-	import { onMount } from 'svelte';
 	import type { Item } from '$lib/types/Killmail/Item';
-	import { getUpstreamUrl } from '$lib/Config';
 
 	export let killmail;
 	let groupedItems = [];
@@ -148,13 +146,13 @@
 						<img
 							src={`https://images.eve-kill.com/types/${killmail.victim.ship_id}/icon?size=32`}
 							loading="lazy"
-							alt={killmail.victim.ship_name}
+							alt={killmail.victim.ship_name.en}
 							class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 						/>
 					</td>
 					<td class="px-2 py-1">
 						<a href={`/item/${killmail.victim.ship_id}`} class="hover:underline">
-							{killmail.victim.ship_name}
+							{killmail.victim.ship_name.en}
 						</a>
 					</td>
 					<td class="px-2 py-1">1</td>
@@ -181,13 +179,13 @@
 										<img
 											src={`https://images.eve-kill.com/types/${item.type_id}/icon?size=32`}
 											loading="lazy"
-											alt={item.type_name}
+											alt={item.name.en}
 											class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 										/>
 									</td>
 									<td class="px-2 py-1">
 										<a href={`/item/${item.type_id}`} class="hover:underline">
-											{item.type_name}
+											{item.name.en}
 										</a>
 									</td>
 									<td class="px-2 py-1">{formatNumber(item.qty_destroyed, 0)}</td>

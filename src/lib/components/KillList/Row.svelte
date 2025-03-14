@@ -6,13 +6,13 @@
     const { getSecurityColor } = useColors();
 
     export let kill;
-    export let combinedKillsAndLosses: boolean = false;
-    export let combinedVictimType: string = 'character';
-    export let combinedVictimId: number | null = null;
+    export const combinedKillsAndLosses: boolean = false;
+    export const combinedVictimType: string = 'character';
+    export const combinedVictimId: number | null = null;
 
 	function truncateString(str: any, num: number) {
-		let stringifiedStr = String(str);
-		return stringifiedStr.length <= num ? stringifiedStr : stringifiedStr.slice(0, num) + '...';
+		const stringifiedStr = String(str);
+		return stringifiedStr.length <= num ? stringifiedStr : `${stringifiedStr.slice(0, num)}...`;
 	}
 
 	function isCombinedLoss(kill: KillList): boolean {
@@ -35,9 +35,9 @@
 <button
     class="grid grid-cols-8 items-center border-b bg-semi-transparent border-background-700 hover:bg-background-800 transition-colors duration-300 cursor-pointer w-full {isCombinedLoss(kill) ? 'bg-darkred' : ''}" on:click={(event) => handleClick(event, kill.killmail_id)}>
     <div class="flex items-center col-span-2 mx-2 py-1 w-fit">
-        <img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=64" loading="lazy" alt="Ship: {kill.victim.ship_name}" class="rounded w-10" />
+        <img src="https://images.eve-kill.com/types/{kill.victim.ship_id}/render?size=64" loading="lazy" alt="Ship: {kill.victim.ship_name.en}" class="rounded w-10" />
         <div class="flex flex-col items-start ml-1 whitespace-nowrap">
-            <span class="text-sm">{truncateString(kill.victim.ship_name, 20)}</span>
+            <span class="text-sm">{truncateString(kill.victim.ship_name.en, 20)}</span>
             {#if kill.total_value > 50}
                 <span class="text-background-400 text-xs">
                     {formatNumber(kill.total_value)} ISK
@@ -72,14 +72,14 @@
                 {/if}
             </span>
             <span class="text-background-400 text-xs">
-                {truncateString(kill.finalblow.ship_group_name, 22)}
+                {truncateString(kill.finalblow.ship_group_name.en, 22)}
             </span>
         </div>
     </div>
 
     <div class="flex flex-col items-start px-2 py-1 text-sm">
         <div class="flex flex-col items-start">
-            <span class="text-sm whitespace-nowrap">{kill.region_name}</span>
+            <span class="text-sm whitespace-nowrap">{kill.region_name.en}</span>
             <div class="text-background-400 text-xs whitespace-nowrap">
                 <span>{kill.system_name}</span>
                 (<span style="color: {getSecurityColor(kill.system_security)}">{formatNumber(kill.system_security)}</span>)

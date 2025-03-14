@@ -45,7 +45,7 @@
 					<td>
 						<div class="flex flex-col items-center">
 							<a href={`/item/${attacker.ship_id}`}>
-								<img src="https://images.eve-kill.com/types/{attacker.ship_id}/render?size=32" loading="lazy" alt={attacker.ship_name} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
+								<img src="https://images.eve-kill.com/types/{attacker.ship_id}/render?size=32" loading="lazy" alt={attacker.ship_name.en} class="h-8 min-h-8 w-8 min-w-8 rounded-md" />
 							</a>
 							<a href={`/item/${attacker.weapon_type_id}`}>
 								<img
@@ -53,7 +53,7 @@
 										? `https://images.eve-kill.com/types/${attacker.ship_id}/icon?size=64`
 										: `https://images.eve-kill.com/types/${attacker.weapon_type_id}/icon?size=64`}
 									loading="lazy"
-									alt={attacker.weapon_type_name}
+									alt={attacker.weapon_type_name.en}
 									class="h-8 min-h-8 w-8 min-w-8 rounded-md"
 								/>
 							</a>
@@ -66,7 +66,7 @@
 									<a href={`/character/${attacker.character_id}`} class="text-lime-400 hover:underline">
 										{attacker.character_name}
 									</a>
-									<span> (<a class="text-background-400" href={`/item/${attacker.ship_id}`}>{attacker.ship_name}</a>)</span>
+									<span> (<a class="text-background-400" href={`/item/${attacker.ship_id}`}>{attacker.ship_name.en}</a>)</span>
 								</div>
 							{/if}
 							{#if attacker.corporation_id}
